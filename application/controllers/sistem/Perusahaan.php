@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User extends CI_Controller
+class Perusahaan extends CI_Controller
 {
 
     /**
@@ -22,59 +22,34 @@ class User extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('sistem/UserModel');
+        $this->load->model('sistem/PerusahaanModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
 
     public function index()
     {
-        $this->load->model('sistem/PerusahaanModel');
-
         $data['menu'] = $this->LoginModel->menu();
-        $data['perusahaan'] = $this->PerusahaanModel->list();
         $this->load->view('_template/header', $data);
-        $this->load->view('sistem/v_user');
+        $this->load->view('sistem/v_perusahaan');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $data = $this->UserModel->list();
+        $data = $this->PerusahaanModel->list();
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->UserModel->add();
+        $data = $this->PerusahaanModel->add();
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->UserModel->hapus($id);
-        echo json_encode($data);
-    }
-
-    public function akses()
-    {
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
-        $this->load->view('sistem/v_akses_user');
-        $this->load->view('_template/footer');
-    }
-
-    public function menu_list()
-    {
-        $data = $this->UserModel->menu_list();
-        echo json_encode($data);
-    }
-
-    public function akses_menu()
-    {
-        $user = $this->uri->segment('4');
-        $menu_id = $this->uri->segment('5');
-        $data = $this->UserModel->akses_menu($user, $menu_id);
+        $data = $this->PerusahaanModel->hapus($id);
         echo json_encode($data);
     }
 }

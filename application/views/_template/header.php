@@ -101,7 +101,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Brand Logo -->
       <a href="<?php echo base_url(); ?>" class="brand-link">
         <img src="<?php echo base_url(); ?>assets/header.png" alt="AdminLTE Logo" class="brand-image">
-        <span class="brand-text font-weight-light">Golden Island</span>
+        <span class="brand-text font-weight-light"><b>Golden Island</b></span>
       </a>
 
       <!-- Sidebar -->
