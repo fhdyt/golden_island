@@ -115,6 +115,7 @@
     }
 
     $('#submit').submit(function(e) {
+        e.preventDefault();
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/master/jenis_barang/add',
             type: "post",

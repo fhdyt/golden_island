@@ -81,7 +81,7 @@ class Jenis_barangModel extends CI_Model
 
             $data = array(
                 'MASTER_JENIS_BARANG_ID' => $id,
-                'MASTER_JENIS_BARANG_ID' => $this->input->post('id'),
+                'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('id'),
                 'MASTER_JENIS_BARANG_DETAIL_KAPASITAS' => $this->input->post('kapasitas'),
                 'MASTER_JENIS_BARANG_DETAIL_SATUAN' => $this->input->post('satuan'),
 

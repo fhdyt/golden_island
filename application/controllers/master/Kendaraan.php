@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Relasi extends CI_Controller
+class Kendaraan extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Relasi extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('master/RelasiModel');
+        $this->load->model('master/KendaraanModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -31,49 +31,32 @@ class Relasi extends CI_Controller
     {
         $data['menu'] = $this->LoginModel->menu();
         $this->load->view('_template/header', $data);
-        $this->load->view('master/v_relasi');
+        $this->load->view('master/v_kendaraan');
         $this->load->view('_template/footer');
     }
-
-    public function harga_relasi()
-    {
-        $data['menu'] = $this->LoginModel->menu();
-        $data['relasi'] = $this->RelasiModel->detail($this->uri->segment('4'));
-        $this->load->view('_template/header', $data);
-        $this->load->view('master/v_harga_relasi', $data);
-        $this->load->view('_template/footer');
-    }
-
 
     public function list()
     {
-        $data = $this->RelasiModel->list();
+        $data = $this->KendaraanModel->list();
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->RelasiModel->add();
+        $data = $this->KendaraanModel->add();
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->RelasiModel->hapus($id);
+        $data = $this->KendaraanModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->RelasiModel->detail($id);
-        echo json_encode($data);
-    }
-
-    public function harga_list()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->RelasiModel->harga_list($id);
+        $data = $this->KendaraanModel->detail($id);
         echo json_encode($data);
     }
 }

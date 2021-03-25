@@ -90,6 +90,7 @@
 <!-- /.content-wrapper -->
 <script>
     $(".btn_menu").on("click", function() {
+        $("#submit").trigger("reset");
         $("#menuModal").modal("show")
         aplikasi_list()
     })
@@ -147,6 +148,7 @@
     }
 
     $('#submit').submit(function(e) {
+        e.preventDefault();
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/sistem/menu/add',
             type: "post",

@@ -123,7 +123,8 @@
                             "<td>" + data[i].MASTER_RELASI_HP + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_NPWP + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-edit'></i></a> " +
+                            "<a class='btn btn-primary btn-sm' href='<?php echo base_url(); ?>master/relasi/harga_relasi/" + data[i].MASTER_RELASI_ID + "'><i class='fas fa-tag'></i> Harga</a></td>" +
                             "</tr>");
                     }
                 }
@@ -134,7 +135,13 @@
         });
     }
 
+    // $("form#submit").on("submit", function(e) {
+
+    //     console.log($(this).serialize())
+    // })
+
     $('#submit').submit(function(e) {
+        e.preventDefault();
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/master/relasi/add',
             type: "post",

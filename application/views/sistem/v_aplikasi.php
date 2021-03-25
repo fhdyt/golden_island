@@ -83,6 +83,7 @@
 <!-- /.content-wrapper -->
 <script>
     $(".btn_aplikasi").on("click", function() {
+        $("#submit").trigger("reset");
         $("#aplikasiModal").modal("show")
     })
     $(function() {
@@ -118,6 +119,7 @@
     }
 
     $('#submit').submit(function(e) {
+        e.preventDefault();
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/sistem/aplikasi/add',
             type: "post",

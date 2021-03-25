@@ -88,6 +88,7 @@
 <!-- /.content-wrapper -->
 <script>
     $(".btn_user").on("click", function() {
+        $("#submit").trigger("reset");
         $("#userModal").modal("show")
     })
     $(function() {
@@ -122,27 +123,10 @@
         });
     }
 
-    // function aplikasi_list() {
-    //     $.ajax({
-    //         type: 'ajax',
-    //         url: "<?php echo base_url() ?>index.php/sistem/aplikasi/list",
-    //         async: false,
-    //         dataType: 'json',
-    //         success: function(data) {
-    //             $("#aplikasi").empty();
-    //             if (data.length === 0) {} else {
-    //                 for (i = 0; i < data.length; i++) {
-    //                     $("#aplikasi").append("<option value='" + data[i].APLIKASI_LINK + "'>" + data[i].APLIKASI_NAMA + "</option>");
-    //                 }
-    //             }
-    //         },
-    //         error: function(x, e) {
-    //             console.log("Gagal")
-    //         }
-    //     });
-    // }
+
 
     $('#submit').submit(function(e) {
+        e.preventDefault();
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/sistem/user/add',
             type: "post",

@@ -48,7 +48,7 @@ class UserModel extends CI_Model
         AND A.RECORD_STATUS="AKTIF" 
         ORDER BY A.APLIKASI_LINK ASC ')->result();
         foreach ($hasil as $row) {
-            $status = $this->db->query('SELECT RECORD_STATUS as STATUS FROM USER_AKSES WHERE MENU_ID="' . $row->MENU_ID . '" AND RECORD_STATUS="AKTIF"');
+            $status = $this->db->query('SELECT RECORD_STATUS as STATUS FROM USER_AKSES WHERE MENU_ID="' . $row->MENU_ID . '" AND USER_ID="' . $this->uri->segment('4') . '" AND RECORD_STATUS="AKTIF"');
             if ($status->num_rows() > 0) {
                 $row->STATUS = "AKTIF";
             } else {

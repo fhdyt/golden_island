@@ -48,6 +48,7 @@
 <!-- /.content-wrapper -->
 <script>
     $(".btn_user").on("click", function() {
+        $("#submit").trigger("reset");
         $("#userModal").modal("show")
     })
     $(function() {
@@ -108,6 +109,7 @@
     // }
 
     $('#submit').submit(function(e) {
+        e.preventDefault();
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/sistem/user/add',
             type: "post",

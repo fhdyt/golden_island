@@ -123,6 +123,7 @@
     }
 
     $('#submit').submit(function(e) {
+        e.preventDefault();
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/master/jenis_barang/add_detail/<?= $detail[0]->MASTER_JENIS_BARANG_ID; ?>',
             type: "post",
@@ -215,7 +216,7 @@
                     async: false,
                     dataType: 'json',
                     success: function(data) {
-                        $(".id").val(data[0].MASTER_JENIS_BARANG_ID)
+                        $(".id").val(data[0].MASTER_JENIS_BARANG_DETAIL_ID)
                         $(".kapasitas").val(data[0].MASTER_JENIS_BARANG_DETAIL_KAPASITAS)
                         $(".satuan").val(data[0].MASTER_JENIS_BARANG_DETAIL_SATUAN)
 

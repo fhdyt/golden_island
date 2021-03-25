@@ -72,4 +72,14 @@ class RelasiModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
+
+    public function harga_list()
+    {
+        $hasil = $this->db->query('SELECT * FROM MASTER_JENIS_BARANG WHERE RECORD_STATUS="AKTIF" ORDER BY MASTER_JENIS_BARANG_NAMA ASC ')->result();
+        foreach ($hasil as $row) {
+            $detail = $this->db->query('SELECT * FROM MASTER_JENIS_BARANG_DETAIL WHERE MASTER_JENIS_BARANG_ID="' . $row->MASTER_JENIS_BARANG_ID . '" AND RECORD_STATUS="AKTIF"')->result();
+            $row->DETAIL = $detail;
+        }
+        return $hasil;
+    }
 }
