@@ -43,7 +43,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0"><?= $detail[0]->MASTER_JENIS_BARANG_NAMA; ?></h1>
+                    <h1 class="m-0">Detail Barang <br><b><?= $detail[0]->MASTER_JENIS_BARANG_NAMA; ?></b></h1>
+                    <hr>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->

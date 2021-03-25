@@ -70,6 +70,13 @@ class Relasi extends CI_Controller
         echo json_encode($data);
     }
 
+    public function add_harga()
+    {
+        $user = $this->uri->segment('4');
+        $data = $this->RelasiModel->add_harga($user);
+        echo json_encode($data);
+    }
+
     public function harga_list()
     {
         $id = $this->uri->segment('4');

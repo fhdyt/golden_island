@@ -1,3 +1,33 @@
+<div class="modal fade" id="hargaModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Harga</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control id_detail" name="id_detail" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Harga</label>
+                        <input type="text" class="form-control harga" name="harga" autocomplete="off">
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -5,7 +35,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0"><?= $relasi[0]->MASTER_RELASI_NAMA; ?></h1>
+                    <h1 class="m-0">Harga Relasi <br><b><?= $relasi[0]->MASTER_RELASI_NAMA; ?></b></h1>
+                    <hr>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -21,6 +52,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>Jenis Barang</th>
                                 <th>Kapasitas</th>
                                 <th>Satuan</th>
                                 <th>Harga</th>
@@ -47,6 +79,9 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
+        $(".harga").mask("#.##0", {
+            reverse: true
+        });
         harga_relasi_list();
     });
 
@@ -68,13 +103,18 @@
                         var rowspan = 0;
                         var detailLength = data[i].DETAIL.length;
                         rowspan += detailLength;
-                        tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].MASTER_JENIS_BARANG_NAMA + "</td></tr>";
+                        tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td><td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].MASTER_JENIS_BARANG_NAMA + "</td></tr>";
                         console.log(detailLength)
                         var relasiLength = 0;
                         for (var j = 0; j < detailLength; j++) {
+                            if (data[i].DETAIL[j].HARGA[0].MASTER_HARGA_HARGA == undefined) {
+                                var harga = 0
+                            } else {
+                                var harga = number_format(data[i].DETAIL[j].HARGA[0].MASTER_HARGA_HARGA)
+                            }
                             tableContent += "<tr><td rowspan=" + parseInt(1 + relasiLength) + ">" +
                                 data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_KAPASITAS + "</td><td rowspan=" + parseInt(1 + relasiLength) + ">" +
-                                data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_SATUAN + "</td><td></td><td><a class='btn btn-success btn-sm' onclick='detail(\"" + data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_ID + "\")'><i class='fas fa-tag'></i> Tambah Harga</a></td></tr>";
+                                data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_SATUAN + "</td><td>" + harga + "</td><td><a class='btn btn-success btn-sm addHarga-btn' detail_id='" + data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_ID + "'><i class='fas fa-tag'></i> Tambah Harga</a></td></tr>";
                         }
                     }
                     $("tbody#zone_data").append(tableContent);
@@ -85,4 +125,28 @@
             }
         });
     }
+
+    $("tbody#zone_data").on("click", "a.addHarga-btn", function() {
+        $("#submit").trigger("reset");
+        $(".id_detail").val($(this).attr("detail_id"))
+        $("#hargaModal").modal("show")
+    })
+
+    $('#submit').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/master/relasi/add_harga/<?= $relasi[0]->MASTER_RELASI_ID; ?>',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            async: false,
+            success: function(data) {
+                harga_relasi_list();
+                Swal.fire('Berhasil', 'Harga berhasil ditambahkan', 'success')
+                $("#hargaModal").modal("hide")
+            }
+        });
+    })
 </script>

@@ -34,6 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="<?php echo base_url(); ?>assets/theme/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/theme/plugins/inputmask/jquery.inputmask.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/sweetalert.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/jquery.mask.min.js" charset="utf-8"></script>
   <!-- <style>
     [class*=sidebar-dark-] {
       background-color: #000000;
@@ -43,6 +44,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
       border-bottom: 1px solid #000000;
     }
   </style> -->
+  <style>
+    #loader-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      background-color: #FFFFFF;
+      /* background-color: #000000; */
+
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 0 0px;
+
+    }
+  </style>
 </head>
 
 <body class="hold-transition sidebar-mini ">
