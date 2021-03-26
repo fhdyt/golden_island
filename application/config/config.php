@@ -24,7 +24,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/golden_island';
-//$config['base_url'] = 'https://admin.mengundang.co.id/';
+//$config['base_url'] = 'https://goldenisland.site/';
 
 /*
 |--------------------------------------------------------------------------
