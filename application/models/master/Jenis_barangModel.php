@@ -131,4 +131,13 @@ class Jenis_barangModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM MASTER_JENIS_BARANG_DETAIL WHERE MASTER_JENIS_BARANG_DETAIL_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
+
+    public function detail_jenis_barang()
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        MASTER_JENIS_BARANG_DETAIL AS BD LEFT JOIN MASTER_JENIS_BARANG AS B
+        ON BD.MASTER_JENIS_BARANG_ID=B.MASTER_JENIS_BARANG_ID
+        WHERE BD.RECORD_STATUS="AKTIF" AND B.RECORD_STATUS="AKTIF" ORDER BY B.MASTER_JENIS_BARANG_NAMA')->result();
+        return $hasil;
+    }
 }

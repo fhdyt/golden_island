@@ -22,12 +22,11 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>Tanggal</th>
                                 <th>Nomor SJ</th>
                                 <th>Nama</th>
                                 <th>Nama Driver</th>
                                 <th>Nama Kendaraan</th>
-                                <th>Jumlah Pemesanan</th>
-                                <th>Total</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -95,12 +94,11 @@
 
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "" + jenis_sj + "</td>" +
                             "<td>" + nama + "</td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + kendaraan + "</td>" +
-                            "<td>" + number_format(data[i].SURAT_JALAN_JUMLAH) + "</td>" +
-                            "<td>" + number_format(data[i].SURAT_JALAN_TOTAL) + "</td>" +
                             "<td><a target='_blank' class='btn btn-primary btn-sm' href='<?= base_url(); ?>distribusi/surat_jalan/form_sj/" + data[i].SURAT_JALAN_ID + "'>Lihat</a></td>" +
                             "</tr>");
                     }

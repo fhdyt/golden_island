@@ -45,7 +45,7 @@ class Surat_jalan extends CI_Controller
         $data['relasi'] = $this->RelasiModel->list();
         $data['driver'] = $this->DriverModel->list();
         $data['kendaraan'] = $this->KendaraanModel->list();
-        $data['jenis_barang'] = $this->Jenis_barangModel->list();
+        $data['jenis_barang'] = $this->Jenis_barangModel->detail_jenis_barang();
 
         $data['menu'] = $this->LoginModel->menu();
         $this->load->view('_template/header', $data);
@@ -58,10 +58,18 @@ class Surat_jalan extends CI_Controller
         $data = $this->Surat_jalanModel->list();
         echo json_encode($data);
     }
+
     public function barang_list()
     {
         $id = $this->uri->segment('4');
         $data = $this->Surat_jalanModel->barang_list($id);
+        echo json_encode($data);
+    }
+
+    public function ttbk_list()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->Surat_jalanModel->ttbk_list($id);
         echo json_encode($data);
     }
 
@@ -89,6 +97,11 @@ class Surat_jalan extends CI_Controller
         $data = $this->Surat_jalanModel->add_barang();
     }
 
+    public function add_ttbk()
+    {
+        $data = $this->Surat_jalanModel->add_ttbk();
+    }
+
     public function hapus()
     {
         $id = $this->uri->segment('4');
@@ -99,6 +112,12 @@ class Surat_jalan extends CI_Controller
     {
         $id = $this->uri->segment('4');
         $data = $this->Surat_jalanModel->hapus_barang($id);
+        echo json_encode($data);
+    }
+    public function hapus_ttbk()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->Surat_jalanModel->hapus_ttbk($id);
         echo json_encode($data);
     }
 

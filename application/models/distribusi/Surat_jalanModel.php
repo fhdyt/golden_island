@@ -9,6 +9,7 @@ class Surat_jalanModel extends CI_Model
         foreach ($hasil as $row) {
             $nama_relasi = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '"')->result();
             $row->RELASI = $nama_relasi;
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
         }
 
         foreach ($hasil as $row) {
@@ -34,6 +35,29 @@ class Surat_jalanModel extends CI_Model
             $detail = $this->db->query('SELECT *
             FROM 
         SURAT_JALAN_BARANG AS SJB LEFT JOIN MASTER_JENIS_BARANG_DETAIL AS JBD
+        ON SJB.MASTER_JENIS_BARANG_DETAIL_ID=JBD.MASTER_JENIS_BARANG_DETAIL_ID
+        WHERE (SJB.RECORD_STATUS="AKTIF" OR SJB.RECORD_STATUS="DRAFT") 
+        AND JBD.RECORD_STATUS="AKTIF"
+        AND SJB.MASTER_JENIS_BARANG_ID="' . $row->MASTER_JENIS_BARANG_ID . '"
+        AND SJB.SURAT_JALAN_ID="' . $id . '"')->result();
+            $row->DETAIL = $detail;
+        }
+        return $hasil;
+    }
+
+    public function ttbk_list($id)
+    {
+        $hasil = $this->db->query('SELECT JB.MASTER_JENIS_BARANG_NAMA,JB.MASTER_JENIS_BARANG_ID FROM 
+        TTBK AS SJB LEFT JOIN MASTER_JENIS_BARANG AS JB
+        ON SJB.MASTER_JENIS_BARANG_ID=JB.MASTER_JENIS_BARANG_ID
+        WHERE (SJB.RECORD_STATUS="AKTIF" OR SJB.RECORD_STATUS="DRAFT") 
+        AND JB.RECORD_STATUS="AKTIF" 
+        AND SJB.SURAT_JALAN_ID="' . $id . '" 
+        GROUP BY JB.MASTER_JENIS_BARANG_NAMA,JB.MASTER_JENIS_BARANG_ID')->result();
+        foreach ($hasil as $row) {
+            $detail = $this->db->query('SELECT *
+            FROM 
+        TTBK AS SJB LEFT JOIN MASTER_JENIS_BARANG_DETAIL AS JBD
         ON SJB.MASTER_JENIS_BARANG_DETAIL_ID=JBD.MASTER_JENIS_BARANG_DETAIL_ID
         WHERE (SJB.RECORD_STATUS="AKTIF" OR SJB.RECORD_STATUS="DRAFT") 
         AND JBD.RECORD_STATUS="AKTIF"
@@ -73,6 +97,14 @@ class Surat_jalanModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'DRAFT');
         $edit_aktif = $this->db->update('SURAT_JALAN_BARANG', $data_edit_aktif);
 
+        $data_edit_aktif_ttbk = array(
+            'RECORD_STATUS' => "AKTIF",
+        );
+
+        $this->db->where('SURAT_JALAN_ID', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'DRAFT');
+        $edit_aktif_ttbk = $this->db->update('TTBK', $data_edit_aktif_ttbk);
+
         $data_edit = array(
             'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
@@ -86,6 +118,7 @@ class Surat_jalanModel extends CI_Model
             'SURAT_JALAN_JENIS' => $this->input->post('jenis_sj'),
             'SURAT_JALAN_ID' => $this->input->post('id'),
             'SURAT_JALAN_NOMOR' => $this->input->post('nomor'),
+            'SURAT_JALAN_TTBK' => $this->input->post('nomor_ttbk'),
             'SURAT_JALAN_TANGGAL' => $this->input->post('tanggal'),
             'MASTER_RELASI_ID' => $this->input->post('relasi'),
             'SURAT_JALAN_NAMA_PELANGGAN' => $this->input->post('pelanggan'),
@@ -93,6 +126,7 @@ class Surat_jalanModel extends CI_Model
             'MASTER_KENDARAAN_ID' => $this->input->post('kendaraan'),
             'SURAT_JALAN_JUMLAH' => $jumlah[0]->QTY,
             'SURAT_JALAN_TOTAL' => $jumlah[0]->TOTAL,
+            'SURAT_JALAN_KETERANGAN' => $this->input->post('keterangan'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -125,6 +159,24 @@ class Surat_jalanModel extends CI_Model
         return $result;
     }
 
+    public function add_ttbk()
+    {
+        $data = array(
+            'TTBK_ID' => create_id(),
+            'SURAT_JALAN_ID' => $this->input->post('id'),
+            'MASTER_JENIS_BARANG_ID' => $this->input->post('jenis_barang'),
+            'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('detail_barang'),
+            'TTBK_QTY' => $this->input->post('qty'),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DRAFT",
+        );
+
+        $result = $this->db->insert('TTBK', $data);
+        return $result;
+    }
+
     public function hapus($id)
     {
         $data = array(
@@ -148,6 +200,18 @@ class Surat_jalanModel extends CI_Model
 
         $this->db->where('SURAT_JALAN_BARANG_ID', $id);
         $result = $this->db->update('SURAT_JALAN_BARANG', $data);
+        return $result;
+    }
+    public function hapus_ttbk($id)
+    {
+        $data = array(
+            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+        );
+
+        $this->db->where('TTBK_ID', $id);
+        $result = $this->db->update('TTBK', $data);
         return $result;
     }
 

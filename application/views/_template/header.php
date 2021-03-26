@@ -45,27 +45,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
     }
   </style> -->
   <style>
-    #loader-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1000;
-      background-color: #FFFFFF;
-      /* background-color: #000000; */
+    .loader {
+      border: 10px solid #f3f3f3;
+      border-radius: 80%;
+      border-top: 10px solid #343A40;
+      border-bottom: 10px solid #343A40;
+      width: 80px;
+      height: 80px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
 
-      bottom: 0;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      padding: 0 0px;
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
 
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -109,7 +117,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item mb-2">
+            <li class="nav-item">
               <a href="<?php echo base_url(); ?>dashboard" class="nav-link <?php if ($this->uri->segment(1) == "dashboard") {
                                                                               echo "active";
                                                                             } ?>">
@@ -128,35 +136,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $nav = "";
               }
             ?>
-              <li class="nav-item <?= $nav; ?> mb-2">
+              <li class="nav-header"><?php echo $row->APLIKASI_NAMA; ?></li>
+              <!-- <li class="nav-item <?= $nav; ?> mb-2">
                 <a href="#" class="nav-link">
                   <i class="nav-icon <?php echo $row->APLIKASI_ICON; ?>"></i>
                   <p>
                     <?php echo $row->APLIKASI_NAMA; ?>
                     <i class="right fas fa-angle-left"></i>
                   </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <?php foreach ($row->MENU as $menu) {
-                    if ($menu->MENU_LINK == $this->uri->segment('2')) {
-                      $active = "active";
-                    } else {
-                      $active = "";
-                    }
-                  ?>
+                </a> -->
+              <!-- <ul class="nav nav-treeview"> -->
+              <?php foreach ($row->MENU as $menu) {
+                if ($menu->MENU_LINK == $this->uri->segment('2')) {
+                  $active = "active";
+                } else {
+                  $active = "";
+                }
+              ?>
 
-                    <li class="nav-item">
-                      <a href="<?php echo base_url(); ?><?php echo $row->APLIKASI_LINK; ?>/<?php echo $menu->MENU_LINK; ?>" class="nav-link <?= $active; ?>">
-                        <i class="<?php echo $menu->MENU_ICON; ?>"></i>
-                        <p><?php echo $menu->MENU_NAMA; ?></p>
-                      </a>
-                    </li>
-                  <?php
-                  }
-                  ?>
-                </ul>
+                <li class="nav-item">
+                  <a href="<?php echo base_url(); ?><?php echo $row->APLIKASI_LINK; ?>/<?php echo $menu->MENU_LINK; ?>" class="nav-link <?= $active; ?>">
+                    <i class="<?php echo $menu->MENU_ICON; ?>"></i>
+                    <p><?php echo $menu->MENU_NAMA; ?></p>
+                  </a>
+                </li>
+              <?php
+              }
+              ?>
+              <!-- </ul> -->
 
-              </li>
+              <!-- </li> -->
 
             <?php } ?>
           </ul>
