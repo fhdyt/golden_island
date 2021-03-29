@@ -78,6 +78,7 @@
 <script>
     $(".btn_jenis_barang").on("click", function() {
         $("#submit").trigger("reset");
+        $(".id").val("")
         $("#jenis_barangModal").modal("show")
     })
     $(function() {

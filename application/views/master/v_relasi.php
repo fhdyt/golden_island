@@ -96,6 +96,7 @@
 <script>
     $(".btn_relasi").on("click", function() {
         $("#submit").trigger("reset");
+        $(".id").val("")
         $("#relasiModal").modal("show")
     })
     $(function() {

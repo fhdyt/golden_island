@@ -98,6 +98,7 @@
 <script>
     $(".btn_kendaraan").on("click", function() {
         $("#submit").trigger("reset");
+        $(".id").val("")
         $("#kendaraanModal").modal("show")
     })
     $(function() {

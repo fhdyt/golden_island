@@ -53,6 +53,24 @@ class Surat_jalan extends CI_Controller
         $this->load->view('_template/footer');
     }
 
+    public function form_cash()
+    {
+        $this->load->model('master/RelasiModel');
+        $this->load->model('master/DriverModel');
+        $this->load->model('master/KendaraanModel');
+        $this->load->model('master/Jenis_barangModel');
+
+        $data['relasi'] = $this->RelasiModel->list();
+        $data['driver'] = $this->DriverModel->list();
+        $data['kendaraan'] = $this->KendaraanModel->list();
+        $data['jenis_barang'] = $this->Jenis_barangModel->detail_jenis_barang();
+
+        $data['menu'] = $this->LoginModel->menu();
+        $this->load->view('_template/header', $data);
+        $this->load->view('distribusi/v_form_cash');
+        $this->load->view('_template/footer');
+    }
+
     public function list()
     {
         $data = $this->Surat_jalanModel->list();
@@ -95,11 +113,13 @@ class Surat_jalan extends CI_Controller
     public function add_barang()
     {
         $data = $this->Surat_jalanModel->add_barang();
+        echo json_encode($data);
     }
 
     public function add_ttbk()
     {
         $data = $this->Surat_jalanModel->add_ttbk();
+        echo json_encode($data);
     }
 
     public function hapus()

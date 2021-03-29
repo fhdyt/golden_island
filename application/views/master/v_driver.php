@@ -96,6 +96,7 @@
 <script>
     $(".btn_driver").on("click", function() {
         $("#submit").trigger("reset");
+        $(".id").val("")
         $("#driverModal").modal("show")
     })
     $(function() {

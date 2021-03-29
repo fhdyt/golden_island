@@ -42,6 +42,7 @@ class Surat_jalanModel extends CI_Model
         AND SJB.SURAT_JALAN_ID="' . $id . '"')->result();
             $row->DETAIL = $detail;
         }
+
         return $hasil;
     }
 
@@ -115,6 +116,7 @@ class Surat_jalanModel extends CI_Model
         $edit = $this->db->update('SURAT_JALAN', $data_edit);
 
         $data = array(
+
             'SURAT_JALAN_JENIS' => $this->input->post('jenis_sj'),
             'SURAT_JALAN_ID' => $this->input->post('id'),
             'SURAT_JALAN_NOMOR' => $this->input->post('nomor'),
@@ -127,6 +129,7 @@ class Surat_jalanModel extends CI_Model
             'SURAT_JALAN_JUMLAH' => $jumlah[0]->QTY,
             'SURAT_JALAN_TOTAL' => $jumlah[0]->TOTAL,
             'SURAT_JALAN_KETERANGAN' => $this->input->post('keterangan'),
+            'SURAT_JALAN_PPN' => $this->input->post('ppn'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -147,8 +150,11 @@ class Surat_jalanModel extends CI_Model
             'MASTER_JENIS_BARANG_ID' => $this->input->post('jenis_barang'),
             'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('detail_barang'),
             'SURAT_JALAN_BARANG_QTY' => $this->input->post('qty'),
+            'SURAT_JALAN_BARANG_QTY_KOSONG' => $this->input->post('qty_kosong'),
+            'SURAT_JALAN_BARANG_QTY_KLAIM' => $this->input->post('qty_klaim'),
             'SURAT_JALAN_BARANG_HARGA' => $this->input->post('harga'),
             'SURAT_JALAN_BARANG_TOTAL' => $total,
+            'SURAT_JALAN_BARANG_KEPEMILIKAN' => $this->input->post('kepemilikan'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -166,7 +172,9 @@ class Surat_jalanModel extends CI_Model
             'SURAT_JALAN_ID' => $this->input->post('id'),
             'MASTER_JENIS_BARANG_ID' => $this->input->post('jenis_barang'),
             'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('detail_barang'),
-            'TTBK_QTY' => $this->input->post('qty'),
+            'TTBK_QTY_KOSONG' => $this->input->post('qty_kosong'),
+            'TTBK_QTY_KLAIM' => $this->input->post('qty_klaim'),
+            'TTBK_KEPEMILIKAN' => $this->input->post('kepemilikan'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

@@ -1,3 +1,24 @@
+<div class="modal fade" id="formModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="<?= base_url(); ?>distribusi/surat_jalan/form_piutang" type="button" class="btn btn-secondary mb-2 btn-block">Piutang</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="<?= base_url(); ?>distribusi/surat_jalan/form_cash" type="button" class="btn btn-secondary mb-2 btn-block">Cash</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</div>
+<!-- /.modal -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -17,7 +38,8 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>distribusi/surat_jalan/form_sj" type="button" class="btn btn-secondary mb-2">Tambah Surat Jalan</a>
+                    <a type="button" class="btn btn-secondary mb-2 btn-form">Tambah Surat Jalan</a>
+                    <!-- <a href="<?= base_url(); ?>distribusi/surat_jalan/form_sj" type="button" class="btn btn-secondary mb-2">Tambah Surat Jalan</a> -->
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -49,6 +71,9 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
+    $(".btn-form").on("click", function() {
+        $("#formModal").modal("show")
+    })
     $(function() {
         sj_list();
     });
@@ -85,10 +110,12 @@
                             var kendaraan = data[i].KENDARAAN[0].MASTER_KENDARAAN_NOMOR
                         }
 
-                        if (data[i].SURAT_JALAN_JENIS == "langsung") {
-                            var jenis_sj = "<br><small class='text-muted'>Langsung</small>"
+                        if (data[i].SURAT_JALAN_JENIS == "cash") {
+                            var jenis_sj = "<br><small class='text-muted'>Cash</small>"
+                            var link = "form_cash"
                         } else if (data[i].SURAT_JALAN_JENIS == "kirim") {
-                            var jenis_sj = "<br><small class='text-muted'>Dikirim</small>"
+                            var jenis_sj = "<br><small class='text-muted'>Piutang</small>"
+                            var link = "form_piutang"
                         }
 
 
@@ -99,7 +126,7 @@
                             "<td>" + nama + "</td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + kendaraan + "</td>" +
-                            "<td><a target='_blank' class='btn btn-primary btn-sm' href='<?= base_url(); ?>distribusi/surat_jalan/form_sj/" + data[i].SURAT_JALAN_ID + "'>Lihat</a></td>" +
+                            "<td><a target='_blank' class='btn btn-primary btn-sm' href='<?= base_url(); ?>distribusi/surat_jalan/" + link + "/" + data[i].SURAT_JALAN_ID + "'>Lihat</a></td>" +
                             "</tr>");
                     }
                 }
