@@ -208,7 +208,6 @@ if (empty($this->uri->segment('4'))) {
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="tab_2">
-                                    <button type="button" class="btn btn-secondary btn_ttbk mb-2 btn-sm">Tambah Tabung Kosong</button>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
