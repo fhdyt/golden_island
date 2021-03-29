@@ -516,6 +516,7 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 barang_list();
                 Swal.fire('Berhasil', 'Surat Jalan berhasil ditambahkan', 'success')
+                window.location.href = "<?= base_url(); ?>/<?= $this->uri->segment('1'); ?>/<?= $this->uri->segment('2'); ?>/<?= $this->uri->segment('3'); ?>/<?= $id; ?>";
             }
         });
     })
