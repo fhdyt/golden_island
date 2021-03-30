@@ -229,19 +229,7 @@ if (empty($this->uri->segment('4'))) {
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
-                                    <label for="exampleInputEmail1"></label>
-                                    <div class="form-group">
-                                        <div class="form-group clearfix">
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" id="ppn" name="ppn">
-                                                <label for="ppn">
-                                                    PPN
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
 
 
@@ -402,21 +390,34 @@ if (empty($this->uri->segment('4'))) {
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <label for="exampleInputEmail1"></label>
+                            <div class="form-group">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary">
+                                        <input type="checkbox" id="ppn" name="ppn">
+                                        <label for="ppn">
+                                            PPN
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Total Rupiah</label>
                                 <input type="text" class="form-control total_rupiah" name="total_rupiah" autocomplete="off" readonly>
                                 <small class="form-text text-muted">Diproses oleh sistem.</small>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">PPN</label>
                                 <input type="text" class="form-control total_ppn" name="total_ppn" autocomplete="off" readonly>
                                 <small class="form-text text-muted">Diproses oleh sistem.</small>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Total + PPN</label>
                                 <input type="text" class="form-control total_dan_ppn" name="total_dan_ppn" autocomplete="off" readonly>
@@ -425,14 +426,14 @@ if (empty($this->uri->segment('4'))) {
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Uang Terima</label>
-                                <input type="text" class="form-control uang_terima" name="uang_terima" autocomplete="off" onkeyup="kalkulasi_terima_uang()">
+                                <label for="exampleInputEmail1">Total Bayar</label>
+                                <input type="text" class="form-control total_bayar" name="total_bayar" autocomplete="off" onkeyup="kalkulasi_terima_uang()">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Kembalian</label>
-                                <input type="text" class="form-control kembalian" name="kembalian" autocomplete="off" readonly>
+                                <label for="exampleInputEmail1">Sisa Bayar</label>
+                                <input type="text" class="form-control sisa_bayar" name="sisa_bayar" autocomplete="off" readonly>
                                 <small class="form-text text-muted">Diproses oleh sistem.</small>
                             </div>
                         </div>
@@ -491,14 +492,14 @@ if (empty($this->uri->segment('4'))) {
 
                     $(".total_rupiah").val(total_rupiah)
                     $(".total_ppn").val(data[0].SURAT_JALAN_TOTAL_PPN)
-                    $(".uang_terima").val(data[0].SURAT_JALAN_TERIMA_UANG)
+                    $(".total_bayar").val(data[0].SURAT_JALAN_TOTAL_BAYAR)
+                    $(".sisa_bayar").val(data[0].SURAT_JALAN_SISA_BAYAR)
 
                     if (data[0].SURAT_JALAN_PPN == "on") {
                         $('#ppn').prop('checked', true);
                     }
                     kalkulasi_ppn()
                     relasi_lainnya()
-                    kalkulasi_terima_uang()
                 }
 
 
@@ -774,15 +775,15 @@ if (empty($this->uri->segment('4'))) {
     function kalkulasi_terima_uang() {
         var total = parseInt($('.total_rupiah').val());
         var ppn = parseInt($('.total_ppn').val());
-        var uang_terima = parseInt($('.uang_terima').val());
-        var kembalian = uang_terima - total + ppn
+        var total_bayar = parseInt($('.total_bayar').val());
+        var sisa_bayar = total_bayar - total + ppn
         $(".total_dan_ppn").val(total + ppn)
-        if (kembalian == "NaN") {
-            var kkembalian = "0"
+        if (sisa_bayar == "NaN") {
+            var ksisa_bayar = "0"
         } else {
-            var kkembalian = kembalian
+            var ksisa_bayar = sisa_bayar
         }
-        $('.kembalian').val(kkembalian)
+        $('.sisa_bayar').val(ksisa_bayar)
     }
 
     function hapus(id) {

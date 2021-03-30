@@ -137,7 +137,8 @@ class Surat_jalanModel extends CI_Model
             'SURAT_JALAN_TOTAL_ppn' => $jumlah[0]->TOTAL * 0.1,
             'SURAT_JALAN_KETERANGAN' => $this->input->post('keterangan'),
             'SURAT_JALAN_PPN' => $this->input->post('ppn'),
-            'SURAT_JALAN_TERIMA_UANG' => $this->input->post('uang_terima'),
+            'SURAT_JALAN_TOTAL_BAYAR' => $this->input->post('total_bayar'),
+            'SURAT_JALAN_SISA_BAYAR' => $this->input->post('sisa_bayar'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

@@ -127,7 +127,7 @@
                             "<td><b>" + nama + "</b></td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + kendaraan + "</td>" +
-                            "<td><a target='_blank' class='btn btn-primary btn-sm' href='<?= base_url(); ?>distribusi/surat_jalan/" + link + "/" + data[i].SURAT_JALAN_ID + "'>Lihat</a></td>" +
+                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>distribusi/surat_jalan/" + link + "/" + data[i].SURAT_JALAN_ID + "'>Lihat</a></td>" +
                             "</tr>");
                     }
                 }
