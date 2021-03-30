@@ -39,13 +39,13 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <a type="button" class="btn btn-secondary mb-2 btn-form">Tambah Surat Jalan</a>
-                    <!-- <a href="<?= base_url(); ?>distribusi/surat_jalan/form_sj" type="button" class="btn btn-secondary mb-2">Tambah Surat Jalan</a> -->
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th>Tanggal</th>
                                 <th>Nomor SJ</th>
+                                <th>Nomor TTBK</th>
                                 <th>Nama</th>
                                 <th>Nama Driver</th>
                                 <th>Nama Kendaraan</th>
@@ -123,7 +123,8 @@
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "" + jenis_sj + "</td>" +
-                            "<td>" + nama + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_TTBK + "</td>" +
+                            "<td><b>" + nama + "</b></td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + kendaraan + "</td>" +
                             "<td><a target='_blank' class='btn btn-primary btn-sm' href='<?= base_url(); ?>distribusi/surat_jalan/" + link + "/" + data[i].SURAT_JALAN_ID + "'>Lihat</a></td>" +

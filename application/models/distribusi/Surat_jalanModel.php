@@ -68,6 +68,12 @@ class Surat_jalanModel extends CI_Model
         }
         return $hasil;
     }
+    public function detail_tabung_list()
+    {
+        $hasil = $this->db->query('SELECT * FROM DETAIL_TABUNG WHERE GRUP_ID="' . $this->input->post('id') . '" AND DETAIL_TABUNG_JENIS="' . $this->input->post('jenis') . '" AND RECORD_STATUS="AKTIF"')->result();
+
+        return $hasil;
+    }
 
     public function detail_jenis_barang($id)
     {
@@ -128,8 +134,10 @@ class Surat_jalanModel extends CI_Model
             'MASTER_KENDARAAN_ID' => $this->input->post('kendaraan'),
             'SURAT_JALAN_JUMLAH' => $jumlah[0]->QTY,
             'SURAT_JALAN_TOTAL' => $jumlah[0]->TOTAL,
+            'SURAT_JALAN_TOTAL_ppn' => $jumlah[0]->TOTAL * 0.1,
             'SURAT_JALAN_KETERANGAN' => $this->input->post('keterangan'),
             'SURAT_JALAN_PPN' => $this->input->post('ppn'),
+            'SURAT_JALAN_TERIMA_UANG' => $this->input->post('uang_terima'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -142,46 +150,85 @@ class Surat_jalanModel extends CI_Model
 
     public function add_barang()
     {
+        if ($this->input->post('id_klaim') == "") {
+            $total = $this->input->post('qty') * $this->input->post('harga');
+            $data = array(
+                'SURAT_JALAN_BARANG_ID' => create_id(),
+                'SURAT_JALAN_ID' => $this->input->post('id'),
+                'MASTER_JENIS_BARANG_ID' => $this->input->post('jenis_barang'),
+                'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('detail_barang'),
+                'SURAT_JALAN_BARANG_QTY' => $this->input->post('qty'),
+                'SURAT_JALAN_BARANG_QTY_KOSONG' => $this->input->post('qty_kosong'),
+                'SURAT_JALAN_BARANG_QTY_KLAIM' => $this->input->post('qty_klaim'),
+                'SURAT_JALAN_BARANG_HARGA' => $this->input->post('harga'),
+                'SURAT_JALAN_BARANG_TOTAL' => $total,
+                'SURAT_JALAN_BARANG_KEPEMILIKAN' => $this->input->post('kepemilikan'),
 
-        $total = $this->input->post('qty') * $this->input->post('harga');
-        $data = array(
-            'SURAT_JALAN_BARANG_ID' => create_id(),
-            'SURAT_JALAN_ID' => $this->input->post('id'),
-            'MASTER_JENIS_BARANG_ID' => $this->input->post('jenis_barang'),
-            'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('detail_barang'),
-            'SURAT_JALAN_BARANG_QTY' => $this->input->post('qty'),
-            'SURAT_JALAN_BARANG_QTY_KOSONG' => $this->input->post('qty_kosong'),
-            'SURAT_JALAN_BARANG_QTY_KLAIM' => $this->input->post('qty_klaim'),
-            'SURAT_JALAN_BARANG_HARGA' => $this->input->post('harga'),
-            'SURAT_JALAN_BARANG_TOTAL' => $total,
-            'SURAT_JALAN_BARANG_KEPEMILIKAN' => $this->input->post('kepemilikan'),
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "DRAFT",
+            );
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-            'ENTRI_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "DRAFT",
-        );
+            $result = $this->db->insert('SURAT_JALAN_BARANG', $data);
+            return $result;
+        } else {
+            $data_edit = array(
+                'SURAT_JALAN_BARANG_QTY_KLAIM' => $this->input->post('klaim_qty_klaim'),
+                'SURAT_JALAN_BARANG_KLAIM_TANGGAL' => $this->input->post('klaim_tanggal'),
+                'SURAT_JALAN_BARANG_KLAIM_KETERANGAN' => $this->input->post('klaim_keterangan'),
+            );
 
-        $result = $this->db->insert('SURAT_JALAN_BARANG', $data);
-        return $result;
+            $this->db->where('SURAT_JALAN_BARANG_ID', $this->input->post('id_klaim'));
+            $edit = $this->db->update('SURAT_JALAN_BARANG', $data_edit);
+            return $edit;
+        }
     }
 
     public function add_ttbk()
     {
+        if ($this->input->post('id_klaim_ttbk') == "") {
+            $data = array(
+                'TTBK_ID' => create_id(),
+                'SURAT_JALAN_ID' => $this->input->post('id'),
+                'MASTER_JENIS_BARANG_ID' => $this->input->post('jenis_barang'),
+                'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('detail_barang'),
+                'TTBK_QTY_KOSONG' => $this->input->post('qty_kosong'),
+                'TTBK_QTY_KLAIM' => $this->input->post('qty_klaim'),
+                'TTBK_KEPEMILIKAN' => $this->input->post('kepemilikan'),
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "DRAFT",
+            );
+
+            $result = $this->db->insert('TTBK', $data);
+            return $result;
+        } else {
+            $data_edit = array(
+                'TTBK_QTY_KLAIM' => $this->input->post('klaim_qty_klaim_ttbk'),
+                'TTBK_KLAIM_TANGGAL' => $this->input->post('klaim_tanggal_ttbk'),
+                'TTBK_KLAIM_KETERANGAN' => $this->input->post('klaim_keterangan_ttbk'),
+            );
+
+            $this->db->where('TTBK_ID', $this->input->post('id_klaim_ttbk'));
+            $edit = $this->db->update('TTBK', $data_edit);
+            return $edit;
+        }
+    }
+    public function add_detail_tabung()
+    {
         $data = array(
-            'TTBK_ID' => create_id(),
-            'SURAT_JALAN_ID' => $this->input->post('id'),
-            'MASTER_JENIS_BARANG_ID' => $this->input->post('jenis_barang'),
-            'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('detail_barang'),
-            'TTBK_QTY_KOSONG' => $this->input->post('qty_kosong'),
-            'TTBK_QTY_KLAIM' => $this->input->post('qty_klaim'),
-            'TTBK_KEPEMILIKAN' => $this->input->post('kepemilikan'),
+            'DETAIL_TABUNG_ID' => create_id(),
+            'GRUP_ID' => $this->input->post('id_grup_barang'),
+            'DETAIL_TABUNG_JENIS' => $this->input->post('jenis_detail'),
+            'DETAIL_TABUNG_NOMOR' => $this->input->post('nomor_tabung'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "DRAFT",
+            'RECORD_STATUS' => "AKTIF",
         );
 
-        $result = $this->db->insert('TTBK', $data);
+        $result = $this->db->insert('DETAIL_TABUNG', $data);
         return $result;
     }
 
@@ -220,6 +267,18 @@ class Surat_jalanModel extends CI_Model
 
         $this->db->where('TTBK_ID', $id);
         $result = $this->db->update('TTBK', $data);
+        return $result;
+    }
+    public function hapus_detail_tabung($id)
+    {
+        $data = array(
+            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+        );
+
+        $this->db->where('DETAIL_TABUNG_ID', $id);
+        $result = $this->db->update('DETAIL_TABUNG', $data);
         return $result;
     }
 

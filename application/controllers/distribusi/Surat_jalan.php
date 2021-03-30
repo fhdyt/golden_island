@@ -90,6 +90,11 @@ class Surat_jalan extends CI_Controller
         $data = $this->Surat_jalanModel->ttbk_list($id);
         echo json_encode($data);
     }
+    public function detail_tabung_list()
+    {
+        $data = $this->Surat_jalanModel->detail_tabung_list();
+        echo json_encode($data);
+    }
 
     public function detail_jenis_barang()
     {
@@ -115,6 +120,11 @@ class Surat_jalan extends CI_Controller
         $data = $this->Surat_jalanModel->add_barang();
         echo json_encode($data);
     }
+    public function add_detail_tabung()
+    {
+        $data = $this->Surat_jalanModel->add_detail_tabung();
+        echo json_encode($data);
+    }
 
     public function add_ttbk()
     {
@@ -138,6 +148,12 @@ class Surat_jalan extends CI_Controller
     {
         $id = $this->uri->segment('4');
         $data = $this->Surat_jalanModel->hapus_ttbk($id);
+        echo json_encode($data);
+    }
+    public function hapus_detail_tabung()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->Surat_jalanModel->hapus_detail_tabung($id);
         echo json_encode($data);
     }
 
