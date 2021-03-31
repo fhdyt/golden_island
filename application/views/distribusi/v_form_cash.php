@@ -775,9 +775,13 @@ if (empty($this->uri->segment('4'))) {
     function kalkulasi_terima_uang() {
         var total = parseInt($('.total_rupiah').val());
         var ppn = parseInt($('.total_ppn').val());
+
+
+        $(".total_dan_ppn").val(total + ppn)
+        $(".total_bayar").val(total + ppn)
+
         var total_bayar = parseInt($('.total_bayar').val());
         var sisa_bayar = total_bayar - total + ppn
-        $(".total_dan_ppn").val(total + ppn)
         if (sisa_bayar == "NaN") {
             var ksisa_bayar = "0"
         } else {
