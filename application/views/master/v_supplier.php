@@ -1,8 +1,8 @@
-<div class="modal fade" id="menuModal">
+<div class="modal fade" id="supplierModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Menu</h4>
+                <h4 class="modal-title">Tambah Supplier</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -10,22 +10,23 @@
             <div class="modal-body">
                 <form id="submit">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Aplikasi</label>
-                        <select name="aplikasi" id="aplikasi" class="form-control">
-
-                        </select>
+                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" class="form-control" name="nama" value="" autocomplete="off">
+                        <input type="text" class="form-control nama" name="nama" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Link</label>
-                        <input type="text" class="form-control" name="link" value="" autocomplete="off">
+                        <label for="exampleInputEmail1">Alamat</label>
+                        <input type="text" class="form-control alamat" name="alamat" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Icon</label>
-                        <input type="text" class="form-control" name="icon" value="" autocomplete="off">
+                        <label for="exampleInputEmail1">No. HP</label>
+                        <input type="text" class="form-control hp" name="hp" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">NPWP</label>
+                        <input type="text" class="form-control npwp" name="npwp" autocomplete="off">
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -46,7 +47,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Menu</h1>
+                    <h1 class="m-0">Supplier</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -58,15 +59,15 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_menu mb-2">Tambah Menu</button>
-                    <table class="table table-bordered table-striped">
+                    <button type="button" class="btn btn-secondary btn_supplier mb-2">Tambah Supplier</button>
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Aplikasi</th>
                                 <th>Nama</th>
-                                <th>Link</th>
-                                <th>Icon</th>
+                                <th>Alamat</th>
+                                <th>No. HP</th>
+                                <th>NPWP</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -89,34 +90,37 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-    $(".btn_menu").on("click", function() {
+    $(".btn_supplier").on("click", function() {
         $("#submit").trigger("reset");
-        $("#menuModal").modal("show")
-        aplikasi_list()
+        $(".id").val("")
+        $("#supplierModal").modal("show")
     })
     $(function() {
-        menu_list();
+        supplier_list();
     });
 
-    function menu_list() {
+    function supplier_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/sistem/menu/list",
+            url: "<?php echo base_url() ?>index.php/master/supplier/list",
             async: false,
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
                 console.log(data)
-                if (data.length === 0) {} else {
+                if (data.length === 0) {
+                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].APLIKASI_NAMA + "</td>" +
-                            "<td>" + data[i].MENU_NAMA + "</td>" +
-                            "<td>" + data[i].MENU_LINK + "</td>" +
-                            "<td>" + data[i].MENU_ICON + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MENU_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            "<td>" + data[i].MASTER_SUPPLIER_NAMA + "</td>" +
+                            "<td>" + data[i].MASTER_SUPPLIER_ALAMAT + "</td>" +
+                            "<td>" + data[i].MASTER_SUPPLIER_HP + "</td>" +
+                            "<td>" + data[i].MASTER_SUPPLIER_NPWP + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_SUPPLIER_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_SUPPLIER_ID + "\")'><i class='fas fa-edit'></i></a> " +
                             "</tr>");
                     }
                 }
@@ -127,30 +131,15 @@
         });
     }
 
-    function aplikasi_list() {
-        $.ajax({
-            type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/sistem/aplikasi/list",
-            async: false,
-            dataType: 'json',
-            success: function(data) {
-                $("#aplikasi").empty();
-                if (data.length === 0) {} else {
-                    for (i = 0; i < data.length; i++) {
-                        $("#aplikasi").append("<option value='" + data[i].APLIKASI_ID + "'>" + data[i].APLIKASI_NAMA + "</option>");
-                    }
-                }
-            },
-            error: function(x, e) {
-                console.log("Gagal")
-            }
-        });
-    }
+    // $("form#submit").on("submit", function(e) {
+
+    //     console.log($(this).serialize())
+    // })
 
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/sistem/menu/add',
+            url: '<?php echo base_url(); ?>index.php/master/supplier/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -158,9 +147,9 @@
             cache: false,
             async: false,
             success: function(data) {
-                menu_list();
-                Swal.fire('Berhasil', 'Menu berhasil ditambahkan', 'success')
-                $("#menuModal").modal("hide")
+                supplier_list();
+                Swal.fire('Berhasil', 'Supplier berhasil ditambahkan', 'success')
+                $("#supplierModal").modal("hide")
             }
         });
     })
@@ -177,13 +166,13 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/sistem/menu/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/master/supplier/hapus/' + id,
                     async: false,
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            menu_list();
-                            Swal.fire('Berhasil', 'Menu Berhasil dihapus', 'success')
+                            supplier_list();
+                            Swal.fire('Berhasil', 'Supplier Berhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {
@@ -193,6 +182,36 @@
                             text: 'Proses Gagal'
                         })
                     } //end error
+                });
+
+            }
+        })
+    }
+
+    function detail(id) {
+        Swal.fire({
+            title: 'Edit ?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `Edit`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'ajax',
+                    url: '<?php echo base_url() ?>index.php/master/supplier/detail/' + id,
+                    async: false,
+                    dataType: 'json',
+                    success: function(data) {
+                        $(".id").val(data[0].MASTER_SUPPLIER_ID)
+                        $(".nama").val(data[0].MASTER_SUPPLIER_NAMA)
+                        $(".alamat").val(data[0].MASTER_SUPPLIER_ALAMAT)
+                        $(".hp").val(data[0].MASTER_SUPPLIER_HP)
+                        $(".npwp").val(data[0].MASTER_SUPPLIER_NPWP)
+
+                        $("#supplierModal").modal("show")
+                    },
+                    error: function(x, e) {} //end error
                 });
 
             }
