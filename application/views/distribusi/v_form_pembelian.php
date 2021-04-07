@@ -61,6 +61,7 @@ if (empty($this->uri->segment('4'))) {
                                         <option value="liquid">Liquid</option>
                                         <option value="tabung">Tabung</option>
                                         <option value="non">Non</option>
+                                        <option value="tangki">Tangki</option>
                                     </select>
                                 </div>
                             </div>
