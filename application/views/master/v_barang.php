@@ -1,8 +1,8 @@
-<div class="modal fade" id="jenis_barangModal">
+<div class="modal fade" id="barangModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Detail Barang</h4>
+                <h4 class="modal-title">Tambah Jenis Barang</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,15 +13,28 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Kapasitas</label>
-                        <input type="text" class="form-control kapasitas" name="kapasitas" autocomplete="off">
+                        <label for="exampleInputEmail1">Jenis</label>
+                        <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;">
+                            <option value="">--Jenis Barang--</option>
+
+                            <?php
+                            foreach (jenis_barang() as $value => $text) {
+                            ?>
+                                <option value="<?= $value; ?>"><?= $text; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*Wajib diisi.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Satuan</label>
-                        <select name="satuan" class="form-control satuan">
-                            <option value="m³">m³</option>
-                            <option value="kg">Kg</option>
-                        </select>
+                        <label for="exampleInputEmail1">Nama</label>
+                        <input type="text" class="form-control nama" name="nama" autocomplete="off">
+                        <small class="text-muted">*Wajib diisi.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Keterangan</label>
+                        <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
                     </div>
 
             </div>
@@ -43,8 +56,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Detail Barang <br><b><?= $detail[0]->MASTER_JENIS_BARANG_NAMA; ?></b></h1>
-                    <hr>
+                    <h1 class="m-0">Barang</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -56,13 +68,33 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_jenis_barang mb-2">Tambah Detail Barang</button>
-                    <table class="table table-bordered">
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="button" class="btn btn-secondary btn_barang mb-2">Tambah Barang</button>
+                        </div>
+                        <div class="col-6">
+                            <select name="jenis_filter" id="jenis_filter" class="form-control jenis_filter select2" style="width: 100%;">
+                                <option value="">Semua</option>
+
+                                <?php
+                                foreach (jenis_barang() as $value => $text) {
+                                ?>
+                                    <option value="<?= $value; ?>"><?= $text; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <small class="text-muted">Jenis Barang</small>
+                        </div>
+                    </div>
+                    <hr>
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Kapasitas</th>
-                                <th>Satuan</th>
+                                <th>Nama</th>
+                                <th>Jenis</th>
+                                <th>Keterangan</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -85,19 +117,19 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-    $(".btn_jenis_barang").on("click", function() {
+    $(".btn_barang").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
-        $("#jenis_barangModal").modal("show")
+        $("#barangModal").modal("show")
     })
     $(function() {
-        jenis_barang_list();
+        barang_list();
     });
 
-    function jenis_barang_list() {
+    function barang_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/master/jenis_barang/list_detail/<?= $detail[0]->MASTER_JENIS_BARANG_ID; ?>",
+            url: "<?php echo base_url() ?>index.php/master/barang/list?jenis=" + $(".jenis_filter").val(),
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -110,10 +142,11 @@
                     for (i = 0; i < data.length; i++) {
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_JENIS_BARANG_DETAIL_KAPASITAS + "</td>" +
-                            "<td>" + data[i].MASTER_JENIS_BARANG_DETAIL_SATUAN + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_JENIS_BARANG_DETAIL_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_JENIS_BARANG_DETAIL_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].MASTER_BARANG_JENIS + "</td>" +
+                            "<td>" + data[i].MASTER_BARANG_KETERANGAN + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-edit'></i></a> " +
                             "</tr>");
                     }
                 }
@@ -127,7 +160,7 @@
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/master/jenis_barang/add_detail/<?= $detail[0]->MASTER_JENIS_BARANG_ID; ?>',
+            url: '<?php echo base_url(); ?>index.php/master/barang/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -135,9 +168,9 @@
             cache: false,
             async: false,
             success: function(data) {
-                jenis_barang_list();
+                barang_list();
                 Swal.fire('Berhasil', 'Jenis Barang berhasil ditambahkan', 'success')
-                $("#jenis_barangModal").modal("hide")
+                $("#barangModal").modal("hide")
             }
         });
     })
@@ -154,12 +187,12 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/jenis_barang/hapus_detail/' + id,
+                    url: '<?php echo base_url() ?>index.php/master/barang/hapus/' + id,
                     async: false,
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            jenis_barang_list();
+                            barang_list();
                             Swal.fire('Berhasil', 'Jenis Barang Berhasil dihapus', 'success')
                         }
                     },
@@ -187,14 +220,14 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/jenis_barang/detail/' + id,
+                    url: '<?php echo base_url() ?>index.php/master/barang/detail/' + id,
                     async: false,
                     dataType: 'json',
                     success: function(data) {
-                        $(".id").val(data[0].MASTER_JENIS_BARANG_ID)
-                        $(".nama").val(data[0].MASTER_JENIS_BARANG_NAMA)
+                        $(".id").val(data[0].MASTER_barang_ID)
+                        $(".nama").val(data[0].MASTER_barang_NAMA)
 
-                        $("#jenis_barangModal").modal("show")
+                        $("#barangModal").modal("show")
                     },
                     error: function(x, e) {} //end error
                 });
@@ -203,31 +236,8 @@
         })
     }
 
-    function detail(id) {
-        Swal.fire({
-            title: 'Edit ?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: `Edit`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/jenis_barang/detail_detail/' + id,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        $(".id").val(data[0].MASTER_JENIS_BARANG_DETAIL_ID)
-                        $(".kapasitas").val(data[0].MASTER_JENIS_BARANG_DETAIL_KAPASITAS)
-                        $(".satuan").val(data[0].MASTER_JENIS_BARANG_DETAIL_SATUAN)
+    $('#jenis_filter').change(function() {
+        barang_list()
 
-                        $("#jenis_barangModal").modal("show")
-                    },
-                    error: function(x, e) {} //end error
-                });
-
-            }
-        })
-    }
+    });
 </script>

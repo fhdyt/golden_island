@@ -36,7 +36,6 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1 class="m-0">Harga Relasi <br><b><?= $relasi[0]->MASTER_RELASI_NAMA; ?></b></h1>
-                    <hr>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -48,13 +47,11 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Jenis Barang</th>
-                                <th>Kapasitas</th>
-                                <th>Satuan</th>
+                                <th>Nama Barang</th>
                                 <th>Harga</th>
                                 <th></th>
                             </tr>
@@ -97,27 +94,42 @@
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
                 } else {
-                    var tableContent = "";
+                    // var tableContent = "";
+                    // var no = 1
+                    // for (i = 0; i < data.length; i++) {
+                    //     var rowspan = 0;
+                    //     var detailLength = data[i].DETAIL.length;
+                    //     rowspan += detailLength;
+                    //     tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td><td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].MASTER_JENIS_BARANG_NAMA + "</td></tr>";
+                    //     console.log(detailLength)
+                    //     var relasiLength = 0;
+                    //     for (var j = 0; j < detailLength; j++) {
+                    //         if (data[i].DETAIL[j].HARGA[0].MASTER_HARGA_HARGA == undefined) {
+                    //             var harga = 0
+                    //         } else {
+                    //             var harga = number_format(data[i].DETAIL[j].HARGA[0].MASTER_HARGA_HARGA)
+                    //         }
+                    //         tableContent += "<tr><td rowspan=" + parseInt(1 + relasiLength) + ">" +
+                    //             data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_KAPASITAS + "</td><td rowspan=" + parseInt(1 + relasiLength) + ">" +
+                    //             data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_SATUAN + "</td><td>" + harga + "</td><td><a class='btn btn-success btn-sm addHarga-btn' detail_id='" + data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_ID + "'><i class='fas fa-tag'></i> Tambah Harga</a></td></tr>";
+                    //     }
+                    // }
+                    // $("tbody#zone_data").append(tableContent);
+
                     var no = 1
                     for (i = 0; i < data.length; i++) {
-                        var rowspan = 0;
-                        var detailLength = data[i].DETAIL.length;
-                        rowspan += detailLength;
-                        tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td><td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].MASTER_JENIS_BARANG_NAMA + "</td></tr>";
-                        console.log(detailLength)
-                        var relasiLength = 0;
-                        for (var j = 0; j < detailLength; j++) {
-                            if (data[i].DETAIL[j].HARGA[0].MASTER_HARGA_HARGA == undefined) {
-                                var harga = 0
-                            } else {
-                                var harga = number_format(data[i].DETAIL[j].HARGA[0].MASTER_HARGA_HARGA)
-                            }
-                            tableContent += "<tr><td rowspan=" + parseInt(1 + relasiLength) + ">" +
-                                data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_KAPASITAS + "</td><td rowspan=" + parseInt(1 + relasiLength) + ">" +
-                                data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_SATUAN + "</td><td>" + harga + "</td><td><a class='btn btn-success btn-sm addHarga-btn' detail_id='" + data[i].DETAIL[j].MASTER_JENIS_BARANG_DETAIL_ID + "'><i class='fas fa-tag'></i> Tambah Harga</a></td></tr>";
+                        if (data[i].HARGA[0].MASTER_HARGA_HARGA == undefined) {
+                            var harga = 0
+                        } else {
+                            var harga = number_format(data[i].HARGA[0].MASTER_HARGA_HARGA)
                         }
+                        $("tbody#zone_data").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + harga + "</td>" +
+                            "<td> <a class = 'btn btn-success btn-sm addHarga-btn' detail_id = '" + data[i].MASTER_BARANG_ID + "' > <i class = 'fas fa-tag'> </i> Tambah Harga</a> </td>" +
+                            "</tr>");
                     }
-                    $("tbody#zone_data").append(tableContent);
                 }
             },
             error: function(x, e) {

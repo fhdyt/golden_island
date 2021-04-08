@@ -94,3 +94,32 @@ if (!function_exists('create_id')) {
     return $time . rand(1, 1000000000) . rand(1, 1000000000) . rand(1, 1000000000);
   }
 }
+
+if (!function_exists('jenis_barang')) {
+  function jenis_barang()
+  {
+    $jenis_barang = array(
+      'gas' => 'Gas',
+      'liquid' => 'Liquid',
+      'tangki' => 'Tangki',
+      'sparepart' => 'Sparepart',
+      'aset' => 'Aset',
+    );
+    return $jenis_barang;
+  }
+}
+
+if (!function_exists('satuan')) {
+  function satuan()
+  {
+    $satuan = array(
+      'M3' => 'M3',
+      'Kg' => 'Kg',
+      'Cyl' => 'Cyl',
+      'Pcs' => 'Pcs',
+      'Inc' => 'Inc',
+      'Btg' => 'Btg',
+    );
+    return $satuan;
+  }
+}

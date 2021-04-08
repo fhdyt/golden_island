@@ -15,6 +15,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nomor</label>
                         <input type="text" class="form-control nomor" name="nomor" autocomplete="off">
+                        <small class="text-muted">*Wajib diisi.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Surat</label>
@@ -65,7 +66,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <button type="button" class="btn btn-secondary btn_kendaraan mb-2">Tambah Kendaraan</button>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>

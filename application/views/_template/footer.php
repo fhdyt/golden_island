@@ -1,3 +1,35 @@
+<div class="modal fade" id="uploadModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Upload</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit">
+                    <div class="row">
+                        <div class="col-md-10 mb-2">
+                            <input type="hidden" class="form-control nama_input">
+                            <input type="file" name="userfile" class="form-control" accept="image/png, image/jpeg, image/jpg">
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <button type="submit" class="btn btn-primary btn-block upload_gambar">Upload</button>
+                        </div>
+                        <div class="col-md-12">
+                            <ul>
+                                <li>Format Gambar .jpg, .jpeg, dan .png</li>
+                                <li>Maksimal ukuran 700kb</li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal-content -->
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -23,6 +55,21 @@
 
 </body>
 <script>
+    $(".btn_upload").on("click", function() {
+        $(".nama_input").val($(this).attr("nama_input"))
+        $("#uploadModal").modal("show")
+    })
+
+    $(function() {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    })
+
     function number_format(number, decimals, dec_point, thousands_sep) {
         number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
         var n = !isFinite(+number) ? 0 : +number,
@@ -44,6 +91,26 @@
         }
         return s.join(dec);
     }
+
+    $('#submitUpload').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/upload/simpan',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            async: false,
+            success: function(data) {
+                Swal.fire({
+                    title: 'Berhasil',
+                    icon: 'success',
+                })
+                console.log(data)
+            }
+        });
+    })
 </script>
 
 </html>

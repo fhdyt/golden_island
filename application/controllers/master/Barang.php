@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Jenis_barang extends CI_Controller
+class Barang extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Jenis_barang extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('master/Jenis_barangModel');
+        $this->load->model('master/BarangModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -31,45 +31,36 @@ class Jenis_barang extends CI_Controller
     {
         $data['menu'] = $this->LoginModel->menu();
         $this->load->view('_template/header', $data);
-        $this->load->view('master/v_jenis_barang');
-        $this->load->view('_template/footer');
-    }
-
-    public function detail_barang()
-    {
-        $data['menu'] = $this->LoginModel->menu();
-        $data['detail'] = $this->Jenis_barangModel->detail($this->uri->segment('4'));
-        $this->load->view('_template/header', $data);
-        $this->load->view('master/v_detail_barang', $data);
+        $this->load->view('master/v_barang');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $data = $this->Jenis_barangModel->list();
+        $data = $this->BarangModel->list();
         echo json_encode($data);
     }
 
     public function list_detail()
     {
-        $data = $this->Jenis_barangModel->list_detail($this->uri->segment('4'));
+        $data = $this->BarangModel->list_detail($this->uri->segment('4'));
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->Jenis_barangModel->add();
+        $data = $this->BarangModel->add();
     }
 
     public function add_detail()
     {
-        $data = $this->Jenis_barangModel->add_detail($this->uri->segment('4'));
+        $data = $this->BarangModel->add_detail($this->uri->segment('4'));
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Jenis_barangModel->hapus($id);
+        $data = $this->BarangModel->hapus($id);
         echo json_encode($data);
     }
     public function hapus_detail()

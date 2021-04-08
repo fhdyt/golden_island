@@ -17,7 +17,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-</div>
 <!-- /.modal -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -46,9 +45,8 @@
                                 <th>Tanggal</th>
                                 <th>Nomor Surat</th>
                                 <th>Jenis Pembelian</th>
-                                <th>Harga</th>
-                                <th>Quantity</th>
-                                <th>Total Bayar</th>
+                                <th>Supplier</th>
+                                <th>Keterangan</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -94,9 +92,8 @@
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].PEMBELIAN_NOMOR_SURAT + "</td>" +
                             "<td>" + data[i].PEMBELIAN_JENIS + "</td>" +
-                            "<td>" + data[i].PEMBELIAN_HARGA + "</td>" +
-                            "<td>" + data[i].PEMBELIAN_QUANTITY + "</td>" +
-                            "<td>" + data[i].PEMBELIAN_TOTAL + "</td>" +
+                            "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
+                            "<td>" + data[i].PEMBELIAN_KETERANGAN + "</td>" +
                             "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>distribusi/pembelian/form_pembelian/" + data[i].PEMBELIAN_ID + "'>Lihat</a></td>" +
                             "</tr>");
                     }

@@ -15,14 +15,17 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nama</label>
                         <input type="text" class="form-control nama" name="nama" autocomplete="off">
+                        <small class="text-muted">*Wajib diisi.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Alamat</label>
                         <input type="text" class="form-control alamat" name="alamat" autocomplete="off">
+                        <small class="text-muted">*Wajib diisi.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">No. HP</label>
                         <input type="text" class="form-control hp" name="hp" autocomplete="off">
+                        <small class="text-muted">*Wajib diisi.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">NPWP</label>
@@ -64,7 +67,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <button type="button" class="btn btn-secondary btn_relasi mb-2">Tambah Relasi</button>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>

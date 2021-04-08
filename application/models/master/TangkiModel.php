@@ -5,6 +5,13 @@ class TangkiModel extends CI_Model
     public function list()
     {
         $hasil = $this->db->query('SELECT * FROM MASTER_TANGKI WHERE RECORD_STATUS="AKTIF" ORDER BY MASTER_TANGKI_INDEX DESC ')->result();
+        foreach ($hasil as $row) {
+            $jenis_barang = $this->db->query('SELECT * FROM 
+            MASTER_JENIS_BARANG_DETAIL AS BD LEFT JOIN MASTER_JENIS_BARANG AS B 
+            ON BD.MASTER_JENIS_BARANG_ID=B.MASTER_JENIS_BARANG_ID 
+            WHERE BD.MASTER_JENIS_BARANG_DETAIL_ID="' . $row->MASTER_JENIS_BARANG_DETAIL_ID . '" AND BD.RECORD_STATUS="AKTIF" AND B.RECORD_STATUS="AKTIF"')->result();
+            $row->JENIS = $jenis_barang;
+        }
         return $hasil;
     }
     public function pembelian_jenis_gas()

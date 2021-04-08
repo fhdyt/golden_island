@@ -56,6 +56,11 @@ class Pembelian extends CI_Controller
     {
         $data = $this->PembelianModel->add();
     }
+    public function add_barang()
+    {
+        $data = $this->PembelianModel->add_barang();
+        echo json_encode($data);
+    }
 
     public function hapus()
     {
@@ -68,6 +73,19 @@ class Pembelian extends CI_Controller
     {
         $id = $this->uri->segment('4');
         $data = $this->PembelianModel->detail($id);
+        echo json_encode($data);
+    }
+    public function detail_jenis_barang()
+    {
+        $jenis = $_GET['jenis'];
+        $data = $this->PembelianModel->detail_jenis_barang($jenis);
+        echo json_encode($data);
+    }
+
+    public function list_barang()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->PembelianModel->list_barang($id);
         echo json_encode($data);
     }
 }

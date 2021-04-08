@@ -1,10 +1,15 @@
 <?php
-class Jenis_barangModel extends CI_Model
+class BarangModel extends CI_Model
 {
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_JENIS_BARANG WHERE RECORD_STATUS="AKTIF" ORDER BY MASTER_JENIS_BARANG_INDEX DESC ')->result();
+        if (empty($_GET['jenis'])) {
+            $filter = '';
+        } else {
+            $filter = 'AND MASTER_BARANG_JENIS="' . $_GET['jenis'] . '"';
+        }
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE RECORD_STATUS="AKTIF" ' . $filter . '  ')->result();
         return $hasil;
     }
 
@@ -18,15 +23,17 @@ class Jenis_barangModel extends CI_Model
     {
         if ($this->input->post('id') == "") {
             $data = array(
-                'MASTER_JENIS_BARANG_ID' => create_id(),
-                'MASTER_JENIS_BARANG_NAMA' => $this->input->post('nama'),
+                'MASTER_BARANG_ID' => create_id(),
+                'MASTER_BARANG_NAMA' => $this->input->post('nama'),
+                'MASTER_BARANG_JENIS' => $this->input->post('jenis'),
+                'MASTER_BARANG_KETERANGAN' => $this->input->post('keterangan'),
 
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
             );
 
-            $result = $this->db->insert('MASTER_JENIS_BARANG', $data);
+            $result = $this->db->insert('MASTER_BARANG', $data);
             return $result;
         } else {
             $data_edit = array(
@@ -35,19 +42,21 @@ class Jenis_barangModel extends CI_Model
                 'RECORD_STATUS' => "EDIT",
             );
 
-            $this->db->where('MASTER_JENIS_BARANG_ID', $this->input->post('id'));
-            $edit = $this->db->update('MASTER_JENIS_BARANG', $data_edit);
+            $this->db->where('MASTER_BARANG_ID', $this->input->post('id'));
+            $edit = $this->db->update('MASTER_BARANG', $data_edit);
 
             $data = array(
-                'MASTER_JENIS_BARANG_ID' => $this->input->post('id'),
-                'MASTER_JENIS_BARANG_NAMA' => $this->input->post('nama'),
+                'MASTER_BARANG_ID' => $this->input->post('id'),
+                'MASTER_BARANG_NAMA' => $this->input->post('nama'),
+                'MASTER_BARANG_JENIS' => $this->input->post('jenis'),
+                'MASTER_BARANG_KETERANGAN' => $this->input->post('keterangan'),
 
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
             );
 
-            $result = $this->db->insert('MASTER_JENIS_BARANG', $data);
+            $result = $this->db->insert('MASTER_BARANG', $data);
             return $result;
         }
     }
@@ -103,23 +112,11 @@ class Jenis_barangModel extends CI_Model
             'RECORD_STATUS' => "DELETE",
         );
 
-        $this->db->where('MASTER_JENIS_BARANG_ID', $id);
-        $result = $this->db->update('MASTER_JENIS_BARANG', $data);
+        $this->db->where('MASTER_BARANG_ID', $id);
+        $result = $this->db->update('MASTER_BARANG', $data);
         return $result;
     }
 
-    public function hapus_detail($id)
-    {
-        $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
-            'DELETE_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "DELETE",
-        );
-
-        $this->db->where('MASTER_JENIS_BARANG_DETAIL_ID', $id);
-        $result = $this->db->update('MASTER_JENIS_BARANG_DETAIL', $data);
-        return $result;
-    }
 
     public function detail($id)
     {

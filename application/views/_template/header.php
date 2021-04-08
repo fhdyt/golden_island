@@ -21,14 +21,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/dist/css/adminlte.min.css">
-
   <!-- jQuery -->
   <script src="<?php echo base_url(); ?>assets/theme/plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="<?php echo base_url(); ?>assets/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="<?php echo base_url(); ?>assets/theme/dist/js/adminlte.min.js"></script>
-
+  <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <script src="<?php echo base_url(); ?>assets/theme/plugins/select2/js/select2.full.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/theme/plugins/summernote/summernote-bs4.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/theme/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>

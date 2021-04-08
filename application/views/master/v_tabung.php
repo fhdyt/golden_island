@@ -34,7 +34,7 @@
                             <option value="">--Pilih Jenis Barang--</option>
                             <?php foreach ($jenis_barang as $row) {
                             ?>
-                                <option value="<?= $row->MASTER_JENIS_BARANG_ID; ?>" detail_id="<?= $row->MASTER_JENIS_BARANG_DETAIL_ID; ?>"><?= $row->MASTER_JENIS_BARANG_NAMA; ?> - <?= $row->MASTER_JENIS_BARANG_DETAIL_KAPASITAS; ?> <?= $row->MASTER_JENIS_BARANG_DETAIL_SATUAN; ?></option>
+                                <option value="<?= $row->MASTER_JENIS_BARANG_DETAIL_ID; ?>"><?= $row->MASTER_JENIS_BARANG_NAMA; ?> - <?= $row->MASTER_JENIS_BARANG_DETAIL_KAPASITAS; ?> <?= $row->MASTER_JENIS_BARANG_DETAIL_SATUAN; ?></option>
                             <?php
                             }
                             ?>
@@ -140,7 +140,7 @@
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_TABUNG_KODE + "</td>" +
                             "<td>" + data[i].PEMBELIAN_NOMOR_SURAT + "</td>" +
-                            "<td></td>" +
+                            "<td>" + data[i].JENIS[0].MASTER_JENIS_BARANG_NAMA + " (" + data[i].JENIS[0].MASTER_JENIS_BARANG_DETAIL_KAPASITAS + " " + data[i].JENIS[0].MASTER_JENIS_BARANG_DETAIL_SATUAN + ")</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");

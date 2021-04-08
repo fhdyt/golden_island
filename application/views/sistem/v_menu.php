@@ -11,7 +11,7 @@
                 <form id="submit">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Aplikasi</label>
-                        <select name="aplikasi" id="aplikasi" class="form-control">
+                        <select name="aplikasi" id="aplikasi" class="form-control select2" style="width: 100%;">
 
                         </select>
                     </div>
