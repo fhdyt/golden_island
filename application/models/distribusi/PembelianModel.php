@@ -33,12 +33,15 @@ class PembelianModel extends CI_Model
             'PEMBELIAN_KETERANGAN' => $this->input->post('keterangan'),
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
             'PEMBELIAN_PPN' => $this->input->post('ppn_check'),
-            'PEMBELIAN_PPN_RUPIAH' => $this->input->post('ppn_rupiah'),
-            'PEMBELIAN_POTONGAN' => $this->input->post('potongan'),
-            'PEMBELIAN_TOTAL' => $this->input->post('total'),
-            'PEMBELIAN_GRAND_TOTAL' => $this->input->post('grand_total'),
-            'PEMBELIAN_BAYAR' => $this->input->post('bayar'),
-            'PEMBELIAN_SISA_BAYAR' => $this->input->post('sisa_bayar'),
+
+            'PEMBELIAN_PPN_RUPIAH' => str_replace(".", "", $this->input->post('ppn_rupiah')),
+            'PEMBELIAN_POTONGAN' => str_replace(".", "", $this->input->post('potongan')),
+            'PEMBELIAN_TOTAL' => str_replace(".", "", $this->input->post('total')),
+            'PEMBELIAN_SUB_TOTAL' => str_replace(".", "", $this->input->post('sub_total')),
+            'PEMBELIAN_BIAYA_TAMBAHAN' => str_replace(".", "", $this->input->post('biaya_tambahan')),
+            'PEMBELIAN_GRAND_TOTAL' => str_replace(".", "", $this->input->post('grand_total')),
+            'PEMBELIAN_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
+            'PEMBELIAN_SISA_BAYAR' => str_replace(".", "", $this->input->post('sisa_bayar')),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -66,12 +69,12 @@ class PembelianModel extends CI_Model
     {
         $hasil = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         foreach ($hasil as $row) {
-            $grand_total = $this->db->query('SELECT SUM(PEMBELIAN_BARANG_TOTAL) AS TOTAL FROM 
+            $sub_total = $this->db->query('SELECT SUM(PEMBELIAN_BARANG_TOTAL) AS TOTAL FROM 
         PEMBELIAN_BARANG 
         WHERE 
         RECORD_STATUS="AKTIF" AND 
         PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '"')->result();
-            $row->GRAND_TOTAL = $grand_total;
+            $row->SUB_TOTAL = $sub_total;
         }
         return $hasil;
     }

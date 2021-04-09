@@ -213,6 +213,30 @@ if (empty($this->uri->segment('4'))) {
                             </div>
 
                             <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Sub Total</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control sub_total" name="sub_total" readonly>
+                                    </div>
+                                    <small class="text-muted">Total Pembelian + PPN - Potongan.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Biaya Tambahan</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control biaya_tambahan" name="biaya_tambahan" value="0" onkeyup="kalkulasi_seluruh()">
+                                    </div>
+                                    <small class="text-muted">Biaya tambahan termasuk Ongkos Kirim dll.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Grand Total</label>
                                 <div class="col-sm-10">
                                     <div class="input-group mb-3">
@@ -221,7 +245,6 @@ if (empty($this->uri->segment('4'))) {
                                         </div>
                                         <input type="text" class="form-control grand_total" name="grand_total" readonly>
                                     </div>
-                                    <small class="text-muted">Total Pembelian + PPN - Potongan.</small>
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -231,7 +254,7 @@ if (empty($this->uri->segment('4'))) {
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
                                         </div>
-                                        <input type="text" class="form-control bayar" name="bayar" onkeyup="kalkulasi_seluruh()" autocomplete="off" value="0">
+                                        <input type="text" class="form-control bayar" name="bayar" autocomplete="off" value="0">
                                     </div>
                                 </div>
                             </div>
@@ -271,6 +294,17 @@ if (empty($this->uri->segment('4'))) {
 
 <script>
     $(function() {
+        $(".potongan").mask("#.##0", {
+            reverse: true
+        });
+
+        $(".biaya_tambahan").mask("#.##0", {
+            reverse: true
+        });
+
+        $(".bayar").mask("#.##0", {
+            reverse: true
+        });
         detail()
     });
 
@@ -310,12 +344,13 @@ if (empty($this->uri->segment('4'))) {
                     if (data[0].PEMBELIAN_PPN == "on") {
                         $('.ppn_check').prop('checked', true);
                     }
-                    $(".ppn_rupiah").val(data[0].PEMBELIAN_PPN_RUPIAH)
-                    $(".grand_total").val(parseInt(data[0].GRAND_TOTAL[0].TOTAL) + parseInt(data[0].PEMBELIAN_PPN_RUPIAH))
-                    $(".potongan").val(data[0].PEMBELIAN_POTONGAN)
-                    $(".bayar").val(data[0].PEMBELIAN_BAYAR)
-                    $(".sisa_bayar").val(data[0].PEMBELIAN_SISA_BAYAR)
-                    $(".grand_total").val(parseInt(data[0].GRAND_TOTAL[0].TOTAL) + parseInt(data[0].PEMBELIAN_PPN_RUPIAH))
+                    $(".ppn_rupiah").val(number_format(data[0].PEMBELIAN_PPN_RUPIAH))
+                    $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].PEMBELIAN_PPN_RUPIAH)))
+                    $(".potongan").val(number_format(data[0].PEMBELIAN_POTONGAN))
+                    $(".biaya_tambahan").val(number_format(data[0].PEMBELIAN_BIAYA_TAMBAHAN))
+                    $(".bayar").val(number_format(data[0].PEMBELIAN_BAYAR))
+                    $(".sisa_bayar").val(number_format(data[0].PEMBELIAN_SISA_BAYAR))
+                    $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].PEMBELIAN_PPN_RUPIAH)))
 
                     detail_jenis_barang()
                     barang_list()
@@ -377,6 +412,7 @@ if (empty($this->uri->segment('4'))) {
                 $('.harga_barang').val("0")
                 $('.quantity_barang').val("0")
                 $('.total_rupiah_barang').val("0")
+                kalkulasi_seluruh()
             }
         });
     })
@@ -416,7 +452,7 @@ if (empty($this->uri->segment('4'))) {
                             "</tr>");
                     }
                     $("tfoot#total_data").append("<tr><td colspan='5' align='right'><b>Total</b></td><td align='right'>" + number_format(total) + "</td></tr>")
-                    $(".total").val(total)
+                    $(".total").val(number_format(total))
                 }
             },
             error: function(x, e) {
@@ -444,6 +480,7 @@ if (empty($this->uri->segment('4'))) {
                         if (data.length === 0) {} else {
                             detail();
                             Swal.fire('Berhasil', 'Jenis Barang Berhasil dihapus', 'success')
+                            kalkulasi_seluruh()
                         }
                     },
                     error: function(x, e) {
@@ -464,8 +501,9 @@ if (empty($this->uri->segment('4'))) {
     });
 
     function kalkulasi_seluruh() {
-        var potongan = parseInt($(".potongan").val())
-        var total = parseInt($(".total").val())
+        console.log("Kalkulasi Seluruh")
+        var potongan = parseInt($(".potongan").val().split('.').join(""))
+        var total = parseInt($(".total").val().split('.').join(""))
 
         if ($(".ppn_check").is(':checked')) {
             var ppn = (total - potongan) * 0.1
@@ -473,13 +511,17 @@ if (empty($this->uri->segment('4'))) {
             var ppn = 0
         }
 
-        $(".ppn_rupiah").val(ppn)
+        $(".ppn_rupiah").val(number_format(ppn))
 
-        var total = parseInt($(".total").val())
-        var grand_total = total - potongan + ppn
-        $(".grand_total").val(grand_total)
-        var bayar = parseInt($(".bayar").val())
+        var total = parseInt($(".total").val().split('.').join(""))
+        var sub_total = total - potongan + ppn
+        $(".sub_total").val(number_format(sub_total))
+        var biaya_tambahan = parseInt($(".biaya_tambahan").val().split('.').join(""))
+        var grand_total = biaya_tambahan + sub_total
+
+        var bayar = parseInt($(".bayar").val().split('.').join(""))
         var sisa_bayar = grand_total - bayar
-        $(".sisa_bayar").val(sisa_bayar)
+        $(".grand_total").val(number_format(grand_total))
+        $(".sisa_bayar").val(number_format(sisa_bayar))
     }
 </script>
