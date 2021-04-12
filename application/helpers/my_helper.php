@@ -91,7 +91,7 @@ if (!function_exists('create_id')) {
   function create_id()
   {
     $time = date("Ymdhi");
-    return random_string('sha1', 20) . $time;
+    return random_string('sha1', 5) . $time;
   }
 }
 

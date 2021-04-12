@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pembelian extends CI_Controller
+class Po extends CI_Controller
 {
 
     /**
@@ -23,7 +23,7 @@ class Pembelian extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('distribusi/PembelianModel');
+        $this->load->model('pembelian/PoModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -33,68 +33,50 @@ class Pembelian extends CI_Controller
 
         $data['menu'] = $this->LoginModel->menu();
         $this->load->view('_template/header', $data);
-        $this->load->view('distribusi/pembelian/v_pembelian');
+        $this->load->view('pembelian/po/v_po');
         $this->load->view('_template/footer');
     }
-    public function form_pembelian()
+    public function form_po()
     {
         $this->load->model('master/SupplierModel');
 
         $data['menu'] = $this->LoginModel->menu();
         $data['supplier'] = $this->SupplierModel->list();
         $this->load->view('_template/header', $data);
-        $this->load->view('distribusi/pembelian/v_form_pembelian');
+        $this->load->view('pembelian/po/v_form_po');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $data = $this->PembelianModel->list();
+        $data = $this->PoModel->list();
         echo json_encode($data);
     }
 
     public function add()
     {
         $config['name']                    = random_string('sha1', 40);
-        $config['upload_path']          = './uploads/pembelian';
+        $config['upload_path']          = './uploads/po';
         $config['allowed_types']        = '*';
         $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
         $config['size_gambar'] = $_FILES["userfile"]["size"];
 
         $this->load->library('upload', $config);
         $this->upload->do_upload('userfile');
-        $this->PembelianModel->add($config);
-    }
-    public function add_barang()
-    {
-        $data = $this->PembelianModel->add_barang();
-        echo json_encode($data);
+        $this->PoModel->add($config);
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PembelianModel->hapus($id);
+        $data = $this->PoModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PembelianModel->detail($id);
-        echo json_encode($data);
-    }
-    public function detail_jenis_barang()
-    {
-        $jenis = $_GET['jenis'];
-        $data = $this->PembelianModel->detail_jenis_barang($jenis);
-        echo json_encode($data);
-    }
-
-    public function list_barang()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->PembelianModel->list_barang($id);
+        $data = $this->PoModel->detail($id);
         echo json_encode($data);
     }
 }

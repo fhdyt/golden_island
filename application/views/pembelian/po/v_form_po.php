@@ -12,7 +12,7 @@ if (empty($this->uri->segment('4'))) {
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Form Pembelian</h1>
+                    <h1 class="m-0">Form Purchasing Order</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -170,7 +170,7 @@ if (empty($this->uri->segment('4'))) {
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" hidden>
                 <div class="col-md-12">
                     <div class="card card-default color-palette-box">
                         <div class="card-body">
@@ -312,7 +312,7 @@ if (empty($this->uri->segment('4'))) {
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/distribusi/pembelian/add',
+            url: '<?php echo base_url(); ?>index.php/pembelian/po/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -329,7 +329,7 @@ if (empty($this->uri->segment('4'))) {
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/distribusi/pembelian/detail/<?= $id; ?>',
+            url: '<?php echo base_url() ?>index.php/pembelian/po/detail/<?= $id; ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -338,27 +338,27 @@ if (empty($this->uri->segment('4'))) {
                     barang_list()
                 } else {
                     console.log(data)
-                    $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
-                    $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
+                    $(".nomor_surat").val(data[0].PO_NOMOR_SURAT)
+                    $(".tanggal").val(data[0].PO_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
-                    $(".jenis").val(data[0].PEMBELIAN_JENIS)
-                    $(".keterangan").val(data[0].PEMBELIAN_KETERANGAN)
-                    if (data[0].PEMBELIAN_FILE == "") {
+                    $(".jenis").val(data[0].PO_JENIS)
+                    $(".keterangan").val(data[0].PO_KETERANGAN)
+                    if (data[0].PO_FILE == "") {
 
                     } else {
                         $("a.link_dokument").html("Lihat Dokumen")
-                        $("a.link_dokument").prop("href", "<?= base_url(); ?>uploads/pembelian/" + data[0].PEMBELIAN_FILE + "")
+                        $("a.link_dokument").prop("href", "<?= base_url(); ?>uploads/po/" + data[0].PO_FILE + "")
                     }
                     if (data[0].TRANSAKSI_PEMBELIAN_PPN == "on") {
                         $('.ppn_check').prop('checked', true);
                     }
-                    $(".ppn_rupiah").val(number_format(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH))
-                    $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH)))
-                    $(".potongan").val(number_format(data[0].TRANSAKSI_PEMBELIAN_POTONGAN))
-                    $(".biaya_tambahan").val(number_format(data[0].TRANSAKSI_PEMBELIAN_BIAYA_TAMBAHAN))
-                    $(".bayar").val(number_format(data[0].TRANSAKSI_PEMBELIAN_BAYAR))
-                    $(".sisa_bayar").val(number_format(data[0].TRANSAKSI_PEMBELIAN_SISA_BAYAR))
-                    $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH)))
+                    // $(".ppn_rupiah").val(number_format(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH))
+                    // $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH)))
+                    // $(".potongan").val(number_format(data[0].TRANSAKSI_PEMBELIAN_POTONGAN))
+                    // $(".biaya_tambahan").val(number_format(data[0].TRANSAKSI_PEMBELIAN_BIAYA_TAMBAHAN))
+                    // $(".bayar").val(number_format(data[0].TRANSAKSI_PEMBELIAN_BAYAR))
+                    // $(".sisa_bayar").val(number_format(data[0].TRANSAKSI_PEMBELIAN_SISA_BAYAR))
+                    // $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH)))
 
                     detail_jenis_barang()
                     barang_list()
@@ -384,7 +384,7 @@ if (empty($this->uri->segment('4'))) {
     function detail_jenis_barang() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/pembelian/detail_jenis_barang?jenis=" + $(".jenis").val(),
+            url: "<?php echo base_url() ?>index.php/pembelian/pembelian/detail_jenis_barang?jenis=" + $(".jenis").val(),
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -406,7 +406,7 @@ if (empty($this->uri->segment('4'))) {
     $('.btn-add-barang').on("click", function(e) {
         $.ajax({
             type: "POST",
-            url: '<?php echo base_url(); ?>index.php/distribusi/pembelian/add_barang',
+            url: '<?php echo base_url(); ?>index.php/pembelian/pembelian/add_barang',
             dataType: "JSON",
             data: {
                 id: "<?= $id; ?>",
@@ -435,7 +435,7 @@ if (empty($this->uri->segment('4'))) {
     function barang_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/pembelian/list_barang/<?= $id; ?>",
+            url: "<?php echo base_url() ?>index.php/pembelian/pembelian/list_barang/<?= $id; ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -481,7 +481,7 @@ if (empty($this->uri->segment('4'))) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/distribusi/pembelian/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/pembelian/pembelian/hapus/' + id,
                     async: false,
                     dataType: 'json',
                     success: function(data) {

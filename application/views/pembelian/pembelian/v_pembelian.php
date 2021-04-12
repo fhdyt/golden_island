@@ -1,23 +1,3 @@
-<div class="modal fade" id="formModal">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <a href="<?= base_url(); ?>distribusi/surat_jalan/form_piutang" type="button" class="btn btn-secondary mb-2 btn-block">Piutang</a>
-                    </div>
-                    <div class="col-md-6">
-                        <a href="<?= base_url(); ?>distribusi/surat_jalan/form_cash" type="button" class="btn btn-secondary mb-2 btn-block">Cash</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-<!-- /.modal -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -37,7 +17,7 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>distribusi/pembelian/form_pembelian" class="btn btn-secondary mb-2 btn-form">Tambah Pembelian</a>
+                    <a href="<?= base_url(); ?>pembelian/pembelian/form_pembelian" class="btn btn-secondary mb-2 btn-form">Tambah Pembelian</a>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -76,7 +56,7 @@
     function pembelian_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/pembelian/list",
+            url: "<?php echo base_url() ?>index.php/pembelian/pembelian/list",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -94,7 +74,7 @@
                             "<td>" + data[i].PEMBELIAN_JENIS + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
                             "<td>" + data[i].PEMBELIAN_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>distribusi/pembelian/form_pembelian/" + data[i].PEMBELIAN_ID + "'>Lihat</a></td>" +
+                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>pembelian/pembelian/form_pembelian/" + data[i].PEMBELIAN_ID + "'>Lihat</a></td>" +
                             "</tr>");
                     }
                 }

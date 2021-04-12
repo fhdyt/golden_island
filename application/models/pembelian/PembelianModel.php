@@ -59,6 +59,7 @@ class PembelianModel extends CI_Model
 
         $data = array(
             'PEMBELIAN_ID' => $this->input->post('id'),
+            'PO_ID' => $this->input->post('po'),
             'PEMBELIAN_JENIS' => $this->input->post('jenis'),
             'PEMBELIAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
             'PEMBELIAN_TANGGAL' => $this->input->post('tanggal'),
@@ -86,6 +87,28 @@ class PembelianModel extends CI_Model
         $this->db->where('PEMBELIAN_BARANG_ID', $id);
         $result = $this->db->update('PEMBELIAN_BARANG', $data);
         return $result;
+    }
+
+    public function pilih_po_barang($id, $id_pembelian)
+    {
+        $hasil = $this->db->query('SELECT * FROM PEMBELIAN_BARANG WHERE PEMBELIAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF"')->result();
+        foreach ($hasil as $row) {
+            $data = array(
+                'PEMBELIAN_BARANG_ID' => create_id(),
+                'PEMBELIAN_ID' => $id_pembelian,
+                'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
+                'PEMBELIAN_BARANG_SATUAN' => $row->PEMBELIAN_BARANG_SATUAN,
+                'PEMBELIAN_BARANG_HARGA' => $row->PEMBELIAN_BARANG_HARGA,
+                'PEMBELIAN_BARANG_QUANTITY' => $row->PEMBELIAN_BARANG_QUANTITY,
+                'PEMBELIAN_BARANG_TOTAL' => $row->PEMBELIAN_BARANG_TOTAL,
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+            );
+            $this->db->insert('PEMBELIAN_BARANG', $data);
+        }
+        return $hasil;
     }
 
     public function detail($id)
@@ -117,6 +140,7 @@ class PembelianModel extends CI_Model
         $data = array(
             'PEMBELIAN_BARANG_ID' => create_id(),
             'PEMBELIAN_ID' => $this->input->post('id'),
+
             'MASTER_BARANG_ID' => $this->input->post('barang'),
             'PEMBELIAN_BARANG_SATUAN' => $this->input->post('satuan'),
             'PEMBELIAN_BARANG_HARGA' => $this->input->post('harga_barang'),
