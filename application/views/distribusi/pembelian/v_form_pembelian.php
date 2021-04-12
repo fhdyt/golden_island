@@ -31,29 +31,22 @@ if (empty($this->uri->segment('4'))) {
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Nomor Pembelian</label>
-                                            <input type="text" class="form-control nomor_pembelian" name="nomor_pembelian" autocomplete="off">
-                                            <small class="text-muted">Nomor Pembelian akan dibuat otomatis.</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
                                             <label for="exampleInputEmail1">Nomor Surat</label>
-                                            <input type="text" class="form-control nomor_surat" name="nomor_surat" autocomplete="off">
+                                            <input type="text" class="form-control nomor_surat" name="nomor_surat" autocomplete="off" required>
                                             <small class="text-muted">*Wajib diisi.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Tanggal</label>
-                                            <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off">
+                                            <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required>
                                             <small class="text-muted">*Wajib diisi.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Supplier</label>
-                                            <select name="supplier" id="supplier" class="form-control supplier select2" style="width: 100%;">
+                                            <select name="supplier" id="supplier" class="form-control supplier select2" style="width: 100%;" required>
                                                 <option value="">-- Pilih Supplier --</option>
                                                 <?php foreach ($supplier as $row) {
                                                 ?>
@@ -80,6 +73,14 @@ if (empty($this->uri->segment('4'))) {
                                                 ?>
                                             </select>
                                             <small class="text-muted">*Wajib diisi.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Dokumen Terkait</label>
+                                            <input type="file" name="userfile" class="form-control">
+                                            <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
+
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -254,7 +255,7 @@ if (empty($this->uri->segment('4'))) {
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
                                         </div>
-                                        <input type="text" class="form-control bayar" name="bayar" autocomplete="off" value="0">
+                                        <input type="text" class="form-control bayar" name="bayar" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
                                     </div>
                                 </div>
                             </div>
@@ -320,6 +321,7 @@ if (empty($this->uri->segment('4'))) {
             async: false,
             success: function(data) {
                 Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
+                detail()
             }
         });
     })
@@ -341,16 +343,22 @@ if (empty($this->uri->segment('4'))) {
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
                     $(".jenis").val(data[0].PEMBELIAN_JENIS)
                     $(".keterangan").val(data[0].PEMBELIAN_KETERANGAN)
-                    if (data[0].PEMBELIAN_PPN == "on") {
+                    if (data[0].PEMBELIAN_FILE == "") {
+
+                    } else {
+                        $("a.link_dokument").html("Lihat Dokumen")
+                        $("a.link_dokument").prop("href", "<?= base_url(); ?>uploads/pembelian/" + data[0].PEMBELIAN_FILE + "")
+                    }
+                    if (data[0].TRANSAKSI_PEMBELIAN_PPN == "on") {
                         $('.ppn_check').prop('checked', true);
                     }
-                    $(".ppn_rupiah").val(number_format(data[0].PEMBELIAN_PPN_RUPIAH))
-                    $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].PEMBELIAN_PPN_RUPIAH)))
-                    $(".potongan").val(number_format(data[0].PEMBELIAN_POTONGAN))
-                    $(".biaya_tambahan").val(number_format(data[0].PEMBELIAN_BIAYA_TAMBAHAN))
-                    $(".bayar").val(number_format(data[0].PEMBELIAN_BAYAR))
-                    $(".sisa_bayar").val(number_format(data[0].PEMBELIAN_SISA_BAYAR))
-                    $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].PEMBELIAN_PPN_RUPIAH)))
+                    $(".ppn_rupiah").val(number_format(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH))
+                    $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH)))
+                    $(".potongan").val(number_format(data[0].TRANSAKSI_PEMBELIAN_POTONGAN))
+                    $(".biaya_tambahan").val(number_format(data[0].TRANSAKSI_PEMBELIAN_BIAYA_TAMBAHAN))
+                    $(".bayar").val(number_format(data[0].TRANSAKSI_PEMBELIAN_BAYAR))
+                    $(".sisa_bayar").val(number_format(data[0].TRANSAKSI_PEMBELIAN_SISA_BAYAR))
+                    $(".sub_total").val(number_format(parseInt(data[0].SUB_TOTAL[0].TOTAL) + parseInt(data[0].TRANSAKSI_PEMBELIAN_PPN_RUPIAH)))
 
                     detail_jenis_barang()
                     barang_list()

@@ -19,6 +19,7 @@ class Pembelian extends CI_Controller
      * map to /index.php/welcome/<method_name>
      * @see https://codeigniter.com/user_guide/general/urls.html
      */
+
     function __construct()
     {
         parent::__construct();
@@ -32,7 +33,7 @@ class Pembelian extends CI_Controller
 
         $data['menu'] = $this->LoginModel->menu();
         $this->load->view('_template/header', $data);
-        $this->load->view('distribusi/v_pembelian');
+        $this->load->view('distribusi/pembelian/v_pembelian');
         $this->load->view('_template/footer');
     }
     public function form_pembelian()
@@ -42,7 +43,7 @@ class Pembelian extends CI_Controller
         $data['menu'] = $this->LoginModel->menu();
         $data['supplier'] = $this->SupplierModel->list();
         $this->load->view('_template/header', $data);
-        $this->load->view('distribusi/v_form_pembelian');
+        $this->load->view('distribusi/pembelian/v_form_pembelian');
         $this->load->view('_template/footer');
     }
 
@@ -54,7 +55,15 @@ class Pembelian extends CI_Controller
 
     public function add()
     {
-        $data = $this->PembelianModel->add();
+        $config['name']                    = random_string('sha1', 40);
+        $config['upload_path']          = './uploads/pembelian';
+        $config['allowed_types']        = '*';
+        $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
+        $config['size_gambar'] = $_FILES["userfile"]["size"];
+
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('userfile');
+        $this->PembelianModel->add($config);
     }
     public function add_barang()
     {

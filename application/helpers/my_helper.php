@@ -91,7 +91,7 @@ if (!function_exists('create_id')) {
   function create_id()
   {
     $time = date("Ymdhi");
-    return $time . rand(1, 1000000000) . rand(1, 1000000000) . rand(1, 1000000000);
+    return random_string('sha1', 20) . $time;
   }
 }
 
@@ -100,10 +100,12 @@ if (!function_exists('jenis_barang')) {
   {
     $jenis_barang = array(
       'gas' => 'Gas',
+      'tabung' => 'Tabung',
       'liquid' => 'Liquid',
       'tangki' => 'Tangki',
       'sparepart' => 'Sparepart',
       'aset' => 'Aset',
+      'transporter' => 'Transporter',
     );
     return $jenis_barang;
   }
@@ -121,5 +123,42 @@ if (!function_exists('satuan')) {
       'Btg' => 'Btg',
     );
     return $satuan;
+  }
+}
+
+if (!function_exists('bulan')) {
+  function bulan()
+  {
+    $bulan = array(
+      '01' => 'Januari',
+      '02' => 'Februari',
+      '03' => 'Maret',
+      '04' => 'April',
+      '05' => 'Mei',
+      '06' => 'Juni',
+      '07' => 'Juli',
+      '08' => 'Agustus',
+      '09' => 'September',
+      '10' => 'Oktober',
+      '11' => 'November',
+      '12' => 'Desember',
+    );
+    return $bulan;
+  }
+}
+
+if (!function_exists('tahun')) {
+  function tahun()
+  {
+    $tahun = array(
+      '2018' => '2018',
+      '2019' => '2019',
+      '2020' => '2020',
+      '2021' => '2021',
+      '2022' => '2022',
+      '2023' => '2023',
+      '2024' => '2024',
+    );
+    return $tahun;
   }
 }
