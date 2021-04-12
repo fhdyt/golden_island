@@ -18,6 +18,21 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <select name="menu_filter" id="menu_filter" class="form-control menu_filter select2" style="width: 100%;">
+                                <option value="">Semua</option>
+
+                                <?php
+                                foreach ($aplikasi as $row) {
+                                ?>
+                                    <option value="<?= $row->APLIKASI_ID; ?>"><?= $row->APLIKASI_NAMA; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -30,11 +45,6 @@
                         </thead>
                         <tbody id="zone_data">
                             <tr>
-                                <td colspan="9">
-                                    <center>
-                                        <div class="loader"></div>
-                                    </center>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -58,11 +68,12 @@
     function menu_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/sistem/user/menu_list/<?php echo $this->uri->segment('4'); ?>",
+            url: "<?php echo base_url() ?>index.php/sistem/user/menu_list/<?php echo $this->uri->segment('4'); ?>?menu_filter=" + $(".menu_filter").val(),
             async: false,
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
+                memuat()
                 console.log(data)
                 if (data.length === 0) {} else {
                     var no = 1
@@ -160,4 +171,8 @@
             }
         })
     }
+
+    $('#menu_filter').change(function() {
+        menu_list()
+    });
 </script>

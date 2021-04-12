@@ -120,7 +120,7 @@ class BarangModel extends CI_Model
 
     public function detail($id)
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_JENIS_BARANG WHERE MASTER_JENIS_BARANG_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
     public function detail_detail($id)

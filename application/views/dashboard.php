@@ -30,3 +30,9 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<script>
+  $(function() {
+    memuat()
+  })
+</script>

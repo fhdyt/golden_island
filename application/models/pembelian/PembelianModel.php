@@ -91,6 +91,7 @@ class PembelianModel extends CI_Model
 
     public function pilih_po_barang($id, $id_pembelian)
     {
+        $detail_po = $this->db->query('SELECT * FROM PO WHERE PO_ID="' . $id . '" AND RECORD_STATUS="AKTIF"')->result();
         $hasil = $this->db->query('SELECT * FROM PEMBELIAN_BARANG WHERE PEMBELIAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF"')->result();
         foreach ($hasil as $row) {
             $data = array(
@@ -108,7 +109,7 @@ class PembelianModel extends CI_Model
             );
             $this->db->insert('PEMBELIAN_BARANG', $data);
         }
-        return $hasil;
+        return $detail_po;
     }
 
     public function detail($id)

@@ -58,7 +58,26 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_menu mb-2">Tambah Menu</button>
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="button" class="btn btn-secondary btn_menu mb-2">Tambah Menu</button>
+                        </div>
+                        <div class="col-6">
+                            <select name="menu_filter" id="menu_filter" class="form-control menu_filter select2" style="width: 100%;">
+                                <option value="">Semua</option>
+
+                                <?php
+                                foreach ($aplikasi as $row) {
+                                ?>
+                                    <option value="<?= $row->APLIKASI_ID; ?>"><?= $row->APLIKASI_NAMA; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <small class="text-muted"></small>
+                        </div>
+                    </div>
+
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -72,11 +91,6 @@
                         </thead>
                         <tbody id="zone_data">
                             <tr>
-                                <td colspan="9">
-                                    <center>
-                                        <div class="loader"></div>
-                                    </center>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -101,11 +115,12 @@
     function menu_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/sistem/menu/list",
+            url: "<?php echo base_url() ?>index.php/sistem/menu/list?menu_filter=" + $(".menu_filter").val(),
             async: false,
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
+                memuat()
                 console.log(data)
                 if (data.length === 0) {} else {
                     var no = 1
@@ -198,4 +213,8 @@
             }
         })
     }
+
+    $('#menu_filter').change(function() {
+        menu_list()
+    });
 </script>

@@ -75,11 +75,6 @@
                         </thead>
                         <tbody id="zone_data">
                             <tr>
-                                <td colspan="9">
-                                    <center>
-                                        <div class="loader"></div>
-                                    </center>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -108,6 +103,7 @@
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
+                memuat()
                 console.log(data)
                 if (data.length === 0) {} else {
                     var no = 1

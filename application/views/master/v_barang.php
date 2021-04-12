@@ -15,7 +15,6 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jenis</label>
                         <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;">
-                            <option value="">--Jenis Barang--</option>
 
                             <?php
                             foreach (jenis_barang() as $value => $text) {
@@ -101,18 +100,19 @@
                         <tbody id="zone_data">
                             <tr>
                                 <td colspan="9">
-                                    <center>
-                                        <div class="loader"></div>
-                                    </center>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <!-- /.card-body -->
+                <!-- <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i>
+                </div> -->
             </div>
+
         </div><!-- /.container-fluid -->
     </div>
+
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
@@ -133,6 +133,7 @@
             async: false,
             dataType: 'json',
             success: function(data) {
+                memuat()
                 $("tbody#zone_data").empty();
                 console.log(data)
                 if (data.length === 0) {
@@ -166,7 +167,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 barang_list();
                 Swal.fire('Berhasil', 'Jenis Barang berhasil ditambahkan', 'success')
@@ -224,10 +227,12 @@
                     async: false,
                     dataType: 'json',
                     success: function(data) {
-                        $(".id").val(data[0].MASTER_barang_ID)
-                        $(".nama").val(data[0].MASTER_barang_NAMA)
-
                         $("#barangModal").modal("show")
+                        $(".jenis").val(data[0].MASTER_BARANG_JENIS).trigger('change')
+                        $(".id").val(data[0].MASTER_BARANG_ID)
+                        $(".nama").val(data[0].MASTER_BARANG_NAMA)
+
+
                     },
                     error: function(x, e) {} //end error
                 });
@@ -238,6 +243,5 @@
 
     $('#jenis_filter').change(function() {
         barang_list()
-
     });
 </script>

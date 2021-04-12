@@ -63,24 +63,24 @@ class Barang extends CI_Controller
         $data = $this->BarangModel->hapus($id);
         echo json_encode($data);
     }
-    public function hapus_detail()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Jenis_barangModel->hapus_detail($id);
-        echo json_encode($data);
-    }
+    // public function hapus_detail()
+    // {
+    //     $id = $this->uri->segment('4');
+    //     $data = $this->Jenis_barangModel->hapus_detail($id);
+    //     echo json_encode($data);
+    // }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Jenis_barangModel->detail($id);
+        $data = $this->BarangModel->detail($id);
         echo json_encode($data);
     }
 
-    public function detail_detail()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Jenis_barangModel->detail_detail($id);
-        echo json_encode($data);
-    }
+    // public function detail_detail()
+    // {
+    //     $id = $this->uri->segment('4');
+    //     $data = $this->Jenis_barangModel->detail_detail($id);
+    //     echo json_encode($data);
+    // }
 }

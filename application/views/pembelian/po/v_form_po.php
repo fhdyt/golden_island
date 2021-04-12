@@ -155,11 +155,6 @@ if (empty($this->uri->segment('4'))) {
                                 </tbody>
                                 <tbody id="zone_data">
                                     <tr>
-                                        <td colspan="9">
-                                            <center>
-                                                <div class="loader"></div>
-                                            </center>
-                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot id="total_data">
@@ -318,7 +313,9 @@ if (empty($this->uri->segment('4'))) {
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
                 detail()
@@ -333,6 +330,7 @@ if (empty($this->uri->segment('4'))) {
             async: false,
             dataType: 'json',
             success: function(data) {
+                memuat()
                 if (data.length == 0) {
                     detail_jenis_barang()
                     barang_list()

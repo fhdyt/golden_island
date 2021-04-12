@@ -75,12 +75,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
         transform: rotate(360deg);
       }
     }
+
+    #loader-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      background-color: rgba(255, 255, 255, 0.8);
+
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 0 0px;
+
+    }
   </style>
 </head>
 
 <body class="hold-transition sidebar-mini ">
+  <div id="loader-wrapper">
+    <h2><i class="fas fa-3x fa-sync-alt fa-spin"></i></h2>
+  </div>
   <div class="wrapper">
-
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <ul class="navbar-nav">
@@ -136,36 +160,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $nav = "";
               }
             ?>
-              <li class="nav-header"><?php echo $row->APLIKASI_NAMA; ?></li>
-              <!-- <li class="nav-item <?= $nav; ?> mb-2">
+              <!-- <li class="nav-header"><?php echo $row->APLIKASI_NAMA; ?></li> -->
+              <li class="nav-item <?= $nav; ?> mb-2">
                 <a href="#" class="nav-link">
                   <i class="nav-icon <?php echo $row->APLIKASI_ICON; ?>"></i>
                   <p>
                     <?php echo $row->APLIKASI_NAMA; ?>
                     <i class="right fas fa-angle-left"></i>
                   </p>
-                </a> -->
-              <!-- <ul class="nav nav-treeview"> -->
-              <?php foreach ($row->MENU as $menu) {
-                if ($menu->MENU_LINK == $this->uri->segment('2')) {
-                  $active = "active";
-                } else {
-                  $active = "";
-                }
-              ?>
+                </a>
+                <ul class="nav nav-treeview">
+                  <?php foreach ($row->MENU as $menu) {
+                    if ($menu->MENU_LINK == $this->uri->segment('2')) {
+                      $active = "active";
+                    } else {
+                      $active = "";
+                    }
+                  ?>
 
-                <li class="nav-item">
-                  <a href="<?php echo base_url(); ?><?php echo $row->APLIKASI_LINK; ?>/<?php echo $menu->MENU_LINK; ?>" class="nav-link <?= $active; ?>">
-                    <i class="<?php echo $menu->MENU_ICON; ?>"></i>
-                    <p><?php echo $menu->MENU_NAMA; ?></p>
-                  </a>
-                </li>
-              <?php
-              }
-              ?>
-              <!-- </ul> -->
+                    <li class="nav-item">
+                      <a href="<?php echo base_url(); ?><?php echo $row->APLIKASI_LINK; ?>/<?php echo $menu->MENU_LINK; ?>" class="nav-link <?= $active; ?>">
+                        <i class="far fa-circle"></i>
+                        <!-- <i class="<?php echo $menu->MENU_ICON; ?>"></i> -->
+                        <p><?php echo $menu->MENU_NAMA; ?></p>
+                      </a>
+                    </li>
+                  <?php
+                  }
+                  ?>
+                </ul>
 
-              <!-- </li> -->
+              </li>
 
             <?php } ?>
           </ul>

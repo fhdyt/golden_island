@@ -58,7 +58,10 @@ class User extends CI_Controller
 
     public function akses()
     {
+        $this->load->model('sistem/AplikasiModel');
+
         $data['menu'] = $this->LoginModel->menu();
+        $data['aplikasi'] = $this->AplikasiModel->list();
         $this->load->view('_template/header', $data);
         $this->load->view('sistem/v_akses_user');
         $this->load->view('_template/footer');

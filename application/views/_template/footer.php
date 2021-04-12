@@ -111,6 +111,10 @@
             }
         });
     })
+
+    function memuat() {
+        $('div#loader-wrapper').fadeToggle()
+    }
 </script>
 
 </html>

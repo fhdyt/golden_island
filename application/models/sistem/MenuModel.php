@@ -4,9 +4,15 @@ class MenuModel extends CI_Model
 
     public function list()
     {
+        if (empty($_GET['menu_filter'])) {
+            $filter = '';
+        } else {
+            $filter = 'AND M.APLIKASI_ID="' . $_GET['menu_filter'] . '"';
+        }
+
         $hasil = $this->db->query('SELECT * FROM MENU AS M 
         LEFT JOIN APLIKASI AS A ON M.APLIKASI_ID=A.APLIKASI_ID
-        WHERE M.RECORD_STATUS="AKTIF" AND A.RECORD_STATUS="AKTIF" ORDER BY A.APLIKASI_LINK ASC ')->result();
+        WHERE M.RECORD_STATUS="AKTIF" AND A.RECORD_STATUS="AKTIF" ' . $filter . ' ORDER BY A.APLIKASI_LINK ASC ')->result();
         return $hasil;
     }
 

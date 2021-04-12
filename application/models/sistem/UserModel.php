@@ -41,11 +41,18 @@ class UserModel extends CI_Model
 
     public function menu_list()
     {
+        if (empty($_GET['menu_filter'])) {
+            $filter = '';
+        } else {
+            $filter = 'AND M.APLIKASI_ID="' . $_GET['menu_filter'] . '"';
+        }
+
         $hasil = $this->db->query('SELECT * FROM MENU AS M 
         LEFT JOIN APLIKASI AS A ON M.APLIKASI_ID=A.APLIKASI_ID
         WHERE 
         M.RECORD_STATUS="AKTIF" 
         AND A.RECORD_STATUS="AKTIF" 
+        ' . $filter . '
         ORDER BY A.APLIKASI_LINK ASC ')->result();
         foreach ($hasil as $row) {
             $status = $this->db->query('SELECT RECORD_STATUS as STATUS FROM USER_AKSES WHERE MENU_ID="' . $row->MENU_ID . '" AND USER_ID="' . $this->uri->segment('4') . '" AND RECORD_STATUS="AKTIF"');

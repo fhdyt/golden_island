@@ -30,12 +30,12 @@ class Po extends CI_Controller
 
     public function index()
     {
-
         $data['menu'] = $this->LoginModel->menu();
         $this->load->view('_template/header', $data);
         $this->load->view('pembelian/po/v_po');
         $this->load->view('_template/footer');
     }
+
     public function form_po()
     {
         $this->load->model('master/SupplierModel');

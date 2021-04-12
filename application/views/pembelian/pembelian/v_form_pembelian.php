@@ -170,11 +170,6 @@ if (empty($this->uri->segment('4'))) {
                                 </tbody>
                                 <tbody id="zone_data">
                                     <tr>
-                                        <td colspan="9">
-                                            <center>
-                                                <div class="loader"></div>
-                                            </center>
-                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot id="total_data">
@@ -324,6 +319,7 @@ if (empty($this->uri->segment('4'))) {
         detail()
     });
 
+
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -333,7 +329,9 @@ if (empty($this->uri->segment('4'))) {
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
                 detail()
@@ -348,11 +346,11 @@ if (empty($this->uri->segment('4'))) {
             async: false,
             dataType: 'json',
             success: function(data) {
+                memuat()
                 if (data.length == 0) {
                     detail_jenis_barang()
                     barang_list()
                 } else {
-                    console.log(data)
                     $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
@@ -405,7 +403,6 @@ if (empty($this->uri->segment('4'))) {
             dataType: 'json',
             success: function(data) {
                 $("select#barang").empty();
-                console.log(data)
                 if (data.length === 0) {} else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
@@ -457,7 +454,6 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
                 } else {
@@ -486,7 +482,6 @@ if (empty($this->uri->segment('4'))) {
     }
 
     function hapus(id) {
-        console.log(id)
         Swal.fire({
             title: 'Hapus ?',
             icon: 'question',
@@ -525,7 +520,6 @@ if (empty($this->uri->segment('4'))) {
     });
 
     function kalkulasi_seluruh() {
-        console.log("Kalkulasi Seluruh")
         var potongan = parseInt($(".potongan").val().split('.').join(""))
         var total = parseInt($(".total").val().split('.').join(""))
 
@@ -564,6 +558,10 @@ if (empty($this->uri->segment('4'))) {
                 if (data.length === 0) {} else {
                     detail();
                     Swal.fire('Berhasil', 'Berhasil ditambah', 'success')
+                    $(".tanggal").val(data[0].PO_TANGGAL)
+                    $(".supplier").val(data[0].MASTER_SUPPLIER_ID).trigger('change')
+                    $(".jenis").val(data[0].PO_JENIS).trigger('change')
+                    $(".keterangan").val(data[0].PO_KETERANGAN)
                     kalkulasi_seluruh()
                 }
             },

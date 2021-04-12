@@ -29,7 +29,10 @@ class Menu extends CI_Controller
 
     public function index()
     {
+        $this->load->model('sistem/AplikasiModel');
+
         $data['menu'] = $this->LoginModel->menu();
+        $data['aplikasi'] = $this->AplikasiModel->list();
         $this->load->view('_template/header', $data);
         $this->load->view('sistem/v_menu');
         $this->load->view('_template/footer');
