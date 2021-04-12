@@ -29,8 +29,7 @@ class Barang extends CI_Controller
 
     public function index()
     {
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
+        $this->load->view('_template/header');
         $this->load->view('master/v_barang');
         $this->load->view('_template/footer');
     }

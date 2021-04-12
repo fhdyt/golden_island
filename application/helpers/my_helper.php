@@ -114,15 +114,19 @@ if (!function_exists('jenis_barang')) {
 if (!function_exists('satuan')) {
   function satuan()
   {
-    $satuan = array(
-      'M3' => 'M3',
-      'Kg' => 'Kg',
-      'Cyl' => 'Cyl',
-      'Pcs' => 'Pcs',
-      'Inc' => 'Inc',
-      'Btg' => 'Btg',
-    );
-    return $satuan;
+    // $satuan = array(
+    //   'M3' => 'M3',
+    //   'Kg' => 'Kg',
+    //   'Cyl' => 'Cyl',
+    //   'Pcs' => 'Pcs',
+    //   'Inc' => 'Inc',
+    //   'Btg' => 'Btg',
+    // );
+    // return $satuan;
+
+    $CI = &get_instance();
+    $CI->load->model('konfigurasi/SatuanModel');
+    return $CI->SatuanModel->list();
   }
 }
 
@@ -160,5 +164,23 @@ if (!function_exists('tahun')) {
       '2024' => '2024',
     );
     return $tahun;
+  }
+}
+
+if (!function_exists('menu_list')) {
+  function menu_list()
+  {
+    $CI = &get_instance();
+    $CI->load->model('LoginModel');
+    return $CI->LoginModel->menu();
+  }
+}
+
+if (!function_exists('pajak')) {
+  function pajak()
+  {
+    $CI = &get_instance();
+    $CI->load->model('PajakModel');
+    return $CI->LoginModel->menu();
   }
 }

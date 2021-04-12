@@ -121,7 +121,6 @@
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
-                console.log(data)
                 if (data.length === 0) {} else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
@@ -171,7 +170,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 menu_list();
                 Swal.fire('Berhasil', 'Menu berhasil ditambahkan', 'success')
@@ -193,7 +194,9 @@
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/sistem/menu/hapus/' + id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -215,6 +218,7 @@
     }
 
     $('#menu_filter').change(function() {
+        memuat()
         menu_list()
     });
 </script>

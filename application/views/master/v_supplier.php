@@ -144,7 +144,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 supplier_list();
                 Swal.fire('Berhasil', 'Supplier berhasil ditambahkan', 'success')
@@ -166,7 +168,9 @@
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/master/supplier/hapus/' + id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -188,32 +192,24 @@
     }
 
     function detail(id) {
-        Swal.fire({
-            title: 'Edit ?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: `Edit`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/supplier/detail/' + id,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        $(".id").val(data[0].MASTER_SUPPLIER_ID)
-                        $(".nama").val(data[0].MASTER_SUPPLIER_NAMA)
-                        $(".alamat").val(data[0].MASTER_SUPPLIER_ALAMAT)
-                        $(".hp").val(data[0].MASTER_SUPPLIER_HP)
-                        $(".npwp").val(data[0].MASTER_SUPPLIER_NPWP)
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/master/supplier/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".id").val(data[0].MASTER_SUPPLIER_ID)
+                $(".nama").val(data[0].MASTER_SUPPLIER_NAMA)
+                $(".alamat").val(data[0].MASTER_SUPPLIER_ALAMAT)
+                $(".hp").val(data[0].MASTER_SUPPLIER_HP)
+                $(".npwp").val(data[0].MASTER_SUPPLIER_NPWP)
 
-                        $("#supplierModal").modal("show")
-                    },
-                    error: function(x, e) {} //end error
-                });
-
-            }
-        })
+                $("#supplierModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>

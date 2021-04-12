@@ -30,9 +30,7 @@ class Pembelian extends CI_Controller
 
     public function index()
     {
-
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
+        $this->load->view('_template/header');
         $this->load->view('pembelian/pembelian/v_pembelian');
         $this->load->view('_template/footer');
     }
@@ -42,12 +40,11 @@ class Pembelian extends CI_Controller
         $this->load->model('master/SupplierModel');
         $this->load->model('pembelian/PoModel');
 
-        $data['menu'] = $this->LoginModel->menu();
         $data['supplier'] = $this->SupplierModel->list();
         $data['po'] = $this->PoModel->list();
 
-        $this->load->view('_template/header', $data);
-        $this->load->view('pembelian/pembelian/v_form_pembelian');
+        $this->load->view('_template/header');
+        $this->load->view('pembelian/pembelian/v_form_pembelian', $data);
         $this->load->view('_template/footer');
     }
 

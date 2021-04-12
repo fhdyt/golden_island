@@ -30,8 +30,7 @@ class Po extends CI_Controller
 
     public function index()
     {
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
+        $this->load->view('_template/header');
         $this->load->view('pembelian/po/v_po');
         $this->load->view('_template/footer');
     }
@@ -39,11 +38,10 @@ class Po extends CI_Controller
     public function form_po()
     {
         $this->load->model('master/SupplierModel');
-
-        $data['menu'] = $this->LoginModel->menu();
         $data['supplier'] = $this->SupplierModel->list();
-        $this->load->view('_template/header', $data);
-        $this->load->view('pembelian/po/v_form_po');
+
+        $this->load->view('_template/header');
+        $this->load->view('pembelian/po/v_form_po', $data);
         $this->load->view('_template/footer');
     }
 
@@ -55,15 +53,7 @@ class Po extends CI_Controller
 
     public function add()
     {
-        $config['name']                    = random_string('sha1', 40);
-        $config['upload_path']          = './uploads/po';
-        $config['allowed_types']        = '*';
-        $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
-        $config['size_gambar'] = $_FILES["userfile"]["size"];
-
-        $this->load->library('upload', $config);
-        $this->upload->do_upload('userfile');
-        $this->PoModel->add($config);
+        $this->PoModel->add();
     }
 
     public function hapus()

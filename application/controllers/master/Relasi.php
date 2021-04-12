@@ -29,17 +29,15 @@ class Relasi extends CI_Controller
 
     public function index()
     {
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
+        $this->load->view('_template/header');
         $this->load->view('master/v_relasi');
         $this->load->view('_template/footer');
     }
 
     public function harga_relasi()
     {
-        $data['menu'] = $this->LoginModel->menu();
         $data['relasi'] = $this->RelasiModel->detail($this->uri->segment('4'));
-        $this->load->view('_template/header', $data);
+        $this->load->view('_template/header');
         $this->load->view('master/v_harga_relasi', $data);
         $this->load->view('_template/footer');
     }

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kendaraan extends CI_Controller
+class Pajak extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Kendaraan extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('master/KendaraanModel');
+        $this->load->model('konfigurasi/PajakModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,32 +30,32 @@ class Kendaraan extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('master/v_kendaraan');
+        $this->load->view('konfigurasi/v_pajak');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $data = $this->KendaraanModel->list();
+        $data = $this->PajakModel->list();
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->KendaraanModel->add();
+        $data = $this->PajakModel->add();
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->KendaraanModel->hapus($id);
+        $data = $this->PajakModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->KendaraanModel->detail($id);
+        $data = $this->PajakModel->detail($id);
         echo json_encode($data);
     }
 }

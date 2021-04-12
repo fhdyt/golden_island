@@ -153,7 +153,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
 
             <?php
-            foreach ($menu as $row) {
+            foreach (menu_list() as $row) {
               if ($row->APLIKASI_LINK == $this->uri->segment('1')) {
                 $nav = "menu-open";
               } else {

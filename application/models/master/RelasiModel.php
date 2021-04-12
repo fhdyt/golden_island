@@ -119,7 +119,7 @@ class RelasiModel extends CI_Model
             $data = array(
                 'MASTER_HARGA_ID' => create_id(),
                 'MASTER_RELASI_ID' => $user,
-                'MASTER_JENIS_BARANG_DETAIL_ID' => $this->input->post('id_detail'),
+                'MASTER_BARANG_ID' => $this->input->post('id_detail'),
                 'MASTER_HARGA_HARGA' => str_replace(".", "", $this->input->post('harga')),
 
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),

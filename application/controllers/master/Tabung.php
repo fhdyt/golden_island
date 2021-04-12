@@ -33,8 +33,7 @@ class Tabung extends CI_Controller
 
         $data['jenis_barang'] = $this->Jenis_barangModel->detail_jenis_barang();
         $data['pembelian_jenis_gas'] = $this->TabungModel->pembelian_jenis_gas();
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
+        $this->load->view('_template/header');
         $this->load->view('master/v_tabung');
         $this->load->view('_template/footer');
     }

@@ -13,7 +13,7 @@ class PoModel extends CI_Model
         return $hasil;
     }
 
-    public function add($config)
+    public function add()
     {
         $data_edit_aktif = array(
             'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
@@ -33,7 +33,6 @@ class PoModel extends CI_Model
             'PO_TANGGAL' => $this->input->post('tanggal'),
             'PO_KETERANGAN' => $this->input->post('keterangan'),
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
-            'PO_FILE' => $config['file_name'],
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

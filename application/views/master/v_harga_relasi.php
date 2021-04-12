@@ -14,7 +14,13 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Harga</label>
-                        <input type="text" class="form-control harga" name="harga" autocomplete="off">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp.</span>
+                            </div>
+                            <input type="text" class="form-control harga" name="harga" autocomplete="off">
+                        </div>
+
                     </div>
 
             </div>
@@ -149,7 +155,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 harga_relasi_list();
                 Swal.fire('Berhasil', 'Harga berhasil ditambahkan', 'success')

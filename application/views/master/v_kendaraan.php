@@ -144,7 +144,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 kendaraan_list();
                 Swal.fire('Berhasil', 'Kendaraan berhasil ditambahkan', 'success')
@@ -166,7 +168,9 @@
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/master/kendaraan/hapus/' + id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -188,33 +192,25 @@
     }
 
     function detail(id) {
-        Swal.fire({
-            title: 'Edit ?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: `Edit`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/kendaraan/detail/' + id,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        $(".id").val(data[0].MASTER_KENDARAAN_ID)
-                        $(".nomor").val(data[0].MASTER_KENDARAAN_NOMOR)
-                        $(".surat").val(data[0].MASTER_KENDARAAN_SURAT)
-                        $(".produsen").val(data[0].MASTER_KENDARAAN_PRODUSEN)
-                        $(".jenis").val(data[0].MASTER_KENDARAAN_JENIS)
-                        $(".tahun").val(data[0].MASTER_KENDARAAN_TAHUN)
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/master/kendaraan/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".id").val(data[0].MASTER_KENDARAAN_ID)
+                $(".nomor").val(data[0].MASTER_KENDARAAN_NOMOR)
+                $(".surat").val(data[0].MASTER_KENDARAAN_SURAT)
+                $(".produsen").val(data[0].MASTER_KENDARAAN_PRODUSEN)
+                $(".jenis").val(data[0].MASTER_KENDARAAN_JENIS)
+                $(".tahun").val(data[0].MASTER_KENDARAAN_TAHUN)
 
-                        $("#kendaraanModal").modal("show")
-                    },
-                    error: function(x, e) {} //end error
-                });
-
-            }
-        })
+                $("#kendaraanModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>

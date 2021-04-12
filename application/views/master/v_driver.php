@@ -143,7 +143,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 driver_list();
                 Swal.fire('Berhasil', 'Driver berhasil ditambahkan', 'success')
@@ -165,7 +167,9 @@
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/master/driver/hapus/' + id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -187,33 +191,25 @@
     }
 
     function detail(id) {
-        Swal.fire({
-            title: 'Edit ?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: `Edit`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/driver/detail/' + id,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        $(".id").val(data[0].MASTER_DRIVER_ID)
-                        $(".nama").val(data[0].MASTER_DRIVER_NAMA)
-                        $(".alamat").val(data[0].MASTER_DRIVER_ALAMAT)
-                        $(".hp").val(data[0].MASTER_DRIVER_HP)
-                        $(".sim").val(data[0].MASTER_DRIVER_SIM)
-                        $(".ktp").val(data[0].MASTER_DRIVER_KTP)
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/master/driver/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".id").val(data[0].MASTER_DRIVER_ID)
+                $(".nama").val(data[0].MASTER_DRIVER_NAMA)
+                $(".alamat").val(data[0].MASTER_DRIVER_ALAMAT)
+                $(".hp").val(data[0].MASTER_DRIVER_HP)
+                $(".sim").val(data[0].MASTER_DRIVER_SIM)
+                $(".ktp").val(data[0].MASTER_DRIVER_KTP)
 
-                        $("#driverModal").modal("show")
-                    },
-                    error: function(x, e) {} //end error
-                });
-
-            }
-        })
+                $("#driverModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>

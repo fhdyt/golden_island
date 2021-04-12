@@ -67,7 +67,7 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row mb-2">
                         <div class="col-6">
                             <button type="button" class="btn btn-secondary btn_barang mb-2">Tambah Barang</button>
                         </div>
@@ -86,7 +86,6 @@
                             <small class="text-muted">Jenis Barang</small>
                         </div>
                     </div>
-                    <hr>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -191,7 +190,9 @@
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/master/barang/hapus/' + id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -213,35 +214,28 @@
     }
 
     function detail(id) {
-        Swal.fire({
-            title: 'Edit ?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: `Edit`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/barang/detail/' + id,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        $("#barangModal").modal("show")
-                        $(".jenis").val(data[0].MASTER_BARANG_JENIS).trigger('change')
-                        $(".id").val(data[0].MASTER_BARANG_ID)
-                        $(".nama").val(data[0].MASTER_BARANG_NAMA)
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/master/barang/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $("#barangModal").modal("show")
+                $(".jenis").val(data[0].MASTER_BARANG_JENIS).trigger('change')
+                $(".id").val(data[0].MASTER_BARANG_ID)
+                $(".nama").val(data[0].MASTER_BARANG_NAMA)
 
 
-                    },
-                    error: function(x, e) {} //end error
-                });
-
-            }
-        })
+            },
+            error: function(x, e) {} //end error
+        });
     }
 
     $('#jenis_filter').change(function() {
+        memuat()
         barang_list()
     });
 </script>

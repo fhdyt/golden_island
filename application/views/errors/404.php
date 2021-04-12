@@ -26,51 +26,7 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-  function copyToClipboard(elem) {
-    var $temp = $("<input>");
-    //alert("Copied");
-    $("body").append($temp);
-    $temp.val(elem).select();
-    document.execCommand("copy");
-    $temp.remove();
-  }
-
-  $(".copy").on("click", function() {
-    var elem = $(".link_undangan").val()
-    Swal.fire('Berhasil', 'Link berhasil disalin', 'success')
-    copyToClipboard(elem)
+  $(function() {
+    memuat()
   })
-</script>
-
-<script type="text/javascript">
-  var qrcode = new QRCode(document.getElementById("qrcode"), {
-    width: 200,
-    height: 200,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-  });
-
-  function makeCode() {
-    var elText = document.getElementById("link_undangan");
-
-    if (!elText.value) {
-      alert("Input a text");
-      elText.focus();
-      return;
-    }
-
-    qrcode.makeCode(elText.value);
-  }
-
-  makeCode();
-
-  $("#link_undangan").
-  on("blur", function() {
-    makeCode();
-  }).
-  on("keydown", function(e) {
-    if (e.keyCode == 13) {
-      makeCode();
-    }
-  });
 </script>

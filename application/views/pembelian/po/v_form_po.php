@@ -75,15 +75,7 @@ if (empty($this->uri->segment('4'))) {
                                             <small class="text-muted">*Wajib diisi.</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Dokumen Terkait</label>
-                                            <input type="file" name="userfile" class="form-control">
-                                            <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Keterangan</label>
                                             <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
@@ -119,7 +111,7 @@ if (empty($this->uri->segment('4'))) {
                                     </tr>
                                 </thead>
                                 <tbody id="form_tt">
-                                    <tr class="table-warning">
+                                    <tr class="table-secondary">
                                         <td>#</td>
                                         <td>
                                             <select name="barang" id="barang" class="form-control form-control-sm barang select2" style="width: 100%;" required>
@@ -136,10 +128,9 @@ if (empty($this->uri->segment('4'))) {
                                         <td>
                                             <select name="satuan" id="satuan" class="form-control form-control-sm satuan select2" style="width: 100%;">
                                                 <option value="">-- Satuan --</option>
-                                                <?php
-                                                foreach (satuan() as $value => $text) {
+                                                <?php foreach (satuan() as $row) {
                                                 ?>
-                                                    <option value="<?= $value; ?>"><?= $text; ?></option>
+                                                    <option value="<?= $row->SATUAN_NAMA; ?>"><?= $row->SATUAN_NAMA; ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -341,12 +332,6 @@ if (empty($this->uri->segment('4'))) {
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
                     $(".jenis").val(data[0].PO_JENIS)
                     $(".keterangan").val(data[0].PO_KETERANGAN)
-                    if (data[0].PO_FILE == "") {
-
-                    } else {
-                        $("a.link_dokument").html("Lihat Dokumen")
-                        $("a.link_dokument").prop("href", "<?= base_url(); ?>uploads/po/" + data[0].PO_FILE + "")
-                    }
                     if (data[0].TRANSAKSI_PEMBELIAN_PPN == "on") {
                         $('.ppn_check').prop('checked', true);
                     }
@@ -406,6 +391,9 @@ if (empty($this->uri->segment('4'))) {
             type: "POST",
             url: '<?php echo base_url(); ?>index.php/pembelian/pembelian/add_barang',
             dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
             data: {
                 id: "<?= $id; ?>",
                 barang: $('.barang').val(),
@@ -480,7 +468,9 @@ if (empty($this->uri->segment('4'))) {
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/pembelian/pembelian/hapus/' + id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {

@@ -128,7 +128,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 menu_list();
                 Swal.fire('Berhasil', 'User berhasil ditambahkan', 'success')
@@ -150,7 +152,9 @@
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/sistem/user/akses_menu/<?php echo $this->uri->segment('4'); ?>/' + menu_id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -173,6 +177,7 @@
     }
 
     $('#menu_filter').change(function() {
+        memuat()
         menu_list()
     });
 </script>

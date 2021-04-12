@@ -28,8 +28,7 @@ class Supplier extends CI_Controller
 
     public function index()
     {
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
+        $this->load->view('_template/header');
         $this->load->view('master/v_supplier');
         $this->load->view('_template/footer');
     }

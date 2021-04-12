@@ -29,8 +29,7 @@ class Kas_kecil extends CI_Controller
 
     public function index()
     {
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
+        $this->load->view('_template/header');
         $this->load->view('akuntansi/v_kas_kecil');
         $this->load->view('_template/footer');
     }
