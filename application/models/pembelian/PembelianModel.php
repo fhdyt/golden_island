@@ -4,9 +4,9 @@ class PembelianModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM PEMBELIAN WHERE RECORD_STATUS="AKTIF" ORDER BY PEMBELIAN_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM PEMBELIAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PEMBELIAN_INDEX DESC ')->result();
         foreach ($hasil as $row) {
-            $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF"')->result();
+            $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TANGGAL = tanggal($row->PEMBELIAN_TANGGAL);
             $row->SUPPLIER = $supplier;
         }
@@ -19,6 +19,7 @@ class PembelianModel extends CI_Model
             'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $this->db->where('PEMBELIAN_ID', $this->input->post('id'));
@@ -29,6 +30,7 @@ class PembelianModel extends CI_Model
             'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $this->db->where('PEMBELIAN_ID', $this->input->post('id'));
@@ -53,6 +55,7 @@ class PembelianModel extends CI_Model
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $this->db->insert('TRANSAKSI_PEMBELIAN', $data_transaksi);
@@ -70,6 +73,7 @@ class PembelianModel extends CI_Model
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $result = $this->db->insert('PEMBELIAN', $data);
@@ -82,6 +86,7 @@ class PembelianModel extends CI_Model
             'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $this->db->where('PEMBELIAN_BARANG_ID', $id);
@@ -91,21 +96,22 @@ class PembelianModel extends CI_Model
 
     public function pilih_po_barang($id, $id_pembelian)
     {
-        $detail_po = $this->db->query('SELECT * FROM PO WHERE PO_ID="' . $id . '" AND RECORD_STATUS="AKTIF"')->result();
-        $hasil = $this->db->query('SELECT * FROM PEMBELIAN_BARANG WHERE PEMBELIAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF"')->result();
+        $detail_po = $this->db->query('SELECT * FROM PO WHERE PO_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        $hasil = $this->db->query('SELECT * FROM PO_BARANG WHERE PO_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         foreach ($hasil as $row) {
             $data = array(
                 'PEMBELIAN_BARANG_ID' => create_id(),
                 'PEMBELIAN_ID' => $id_pembelian,
                 'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
-                'PEMBELIAN_BARANG_SATUAN' => $row->PEMBELIAN_BARANG_SATUAN,
-                'PEMBELIAN_BARANG_HARGA' => $row->PEMBELIAN_BARANG_HARGA,
-                'PEMBELIAN_BARANG_QUANTITY' => $row->PEMBELIAN_BARANG_QUANTITY,
-                'PEMBELIAN_BARANG_TOTAL' => $row->PEMBELIAN_BARANG_TOTAL,
+                'PEMBELIAN_BARANG_SATUAN' => $row->PO_BARANG_SATUAN,
+                'PEMBELIAN_BARANG_HARGA' => $row->PO_BARANG_HARGA,
+                'PEMBELIAN_BARANG_QUANTITY' => $row->PO_BARANG_QUANTITY,
+                'PEMBELIAN_BARANG_TOTAL' => $row->PO_BARANG_TOTAL,
 
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
             $this->db->insert('PEMBELIAN_BARANG', $data);
         }
@@ -117,13 +123,13 @@ class PembelianModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM 
         PEMBELIAN AS P LEFT JOIN TRANSAKSI_PEMBELIAN AS TP
         ON P.PEMBELIAN_ID=TP.PEMBELIAN_ID
-        WHERE P.PEMBELIAN_ID="' . $id . '" AND P.RECORD_STATUS="AKTIF" AND TP.RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        WHERE P.PEMBELIAN_ID="' . $id . '" AND P.RECORD_STATUS="AKTIF" AND TP.RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         foreach ($hasil as $row) {
             $sub_total = $this->db->query('SELECT SUM(PEMBELIAN_BARANG_TOTAL) AS TOTAL FROM 
         PEMBELIAN_BARANG 
         WHERE 
         RECORD_STATUS="AKTIF" AND 
-        PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '"')->result();
+        PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->SUB_TOTAL = $sub_total;
         }
         return $hasil;
@@ -131,7 +137,7 @@ class PembelianModel extends CI_Model
 
     public function detail_jenis_barang($jenis)
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="' . $jenis . '" AND RECORD_STATUS="AKTIF"')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="' . $jenis . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         return $hasil;
     }
 
@@ -151,6 +157,7 @@ class PembelianModel extends CI_Model
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $result = $this->db->insert('PEMBELIAN_BARANG', $data);
@@ -165,7 +172,7 @@ class PembelianModel extends CI_Model
         WHERE 
         P.RECORD_STATUS="AKTIF" AND 
         B.RECORD_STATUS="AKTIF" AND 
-        P.PEMBELIAN_ID="' . $id . '" ORDER BY P.PEMBELIAN_BARANG_INDEX DESC ')->result();
+        P.PEMBELIAN_ID="' . $id . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY P.PEMBELIAN_BARANG_INDEX DESC ')->result();
         return $hasil;
     }
 }

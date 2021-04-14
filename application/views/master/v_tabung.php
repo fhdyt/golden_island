@@ -13,32 +13,21 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Jenis Tabung</label>
+                        <select name="tabung" id="tabung" class="form-control tabung select2" style="width: 100%;">
+                            <option value="">-- Nama Tabung --</option>
+                            <?php foreach (tabung() as $row) {
+                            ?>
+                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*Wajib diisi.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Kode Tabung</label>
                         <input type="text" class="form-control kode" name="kode" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nomor Surat Pembelian</label>
-                        <select name="surat" id="surat" class="form-control surat">
-                            <option value="">--Pilih Nomor Surat--</option>
-                            <?php foreach ($pembelian_jenis_gas as $row) {
-                            ?>
-                                <option value="<?= $row->PEMBELIAN_NOMOR_SURAT; ?>"><?= $row->PEMBELIAN_NOMOR_SURAT; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Jenis</label>
-                        <select name="jenis_barang" id="jenis_barang" class="form-control jenis_barang">
-                            <option value="">--Pilih Jenis Barang--</option>
-                            <?php foreach ($jenis_barang as $row) {
-                            ?>
-                                <option value="<?= $row->MASTER_JENIS_BARANG_DETAIL_ID; ?>"><?= $row->MASTER_JENIS_BARANG_NAMA; ?> - <?= $row->MASTER_JENIS_BARANG_DETAIL_KAPASITAS; ?> <?= $row->MASTER_JENIS_BARANG_DETAIL_SATUAN; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
                     </div>
                     <div class="form-group">
                         <div class="form-group clearfix">
@@ -50,7 +39,6 @@
                             </div>
                         </div>
                     </div>
-
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
@@ -87,19 +75,13 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Kode Tabung</th>
-                                <th>Surat Nomor</th>
+                                <th>Kode</th>
                                 <th>Jenis Barang</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
                             <tr>
-                                <td colspan="9">
-                                    <center>
-                                        <div class="loader"></div>
-                                    </center>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -117,7 +99,6 @@
         $(".id").val("")
         $("#tabungModal").modal("show")
     })
-
     $(function() {
         tabung_list();
     });
@@ -130,6 +111,7 @@
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
+                memuat()
                 console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
@@ -139,8 +121,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_TABUNG_KODE + "</td>" +
-                            "<td>" + data[i].PEMBELIAN_NOMOR_SURAT + "</td>" +
-                            "<td>" + data[i].JENIS[0].MASTER_JENIS_BARANG_NAMA + " (" + data[i].JENIS[0].MASTER_JENIS_BARANG_DETAIL_KAPASITAS + " " + data[i].JENIS[0].MASTER_JENIS_BARANG_DETAIL_SATUAN + ")</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
@@ -162,7 +143,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 tabung_list();
                 Swal.fire('Berhasil', 'Tabung berhasil ditambahkan', 'success')
@@ -184,12 +167,14 @@
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/master/tabung/hapus/' + id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
                             tabung_list();
-                            Swal.fire('Berhasil', 'Kendaraan Berhasil dihapus', 'success')
+                            Swal.fire('Berhasil', 'Tabung Berhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {
@@ -206,31 +191,22 @@
     }
 
     function detail(id) {
-        Swal.fire({
-            title: 'Edit ?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: `Edit`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/tabung/detail/' + id,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        $(".id").val(data[0].MASTER_TABUNG_ID)
-                        $(".kode").val(data[0].MASTER_TABUNG_KODE)
-                        $(".surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
-                        $(".jenis_barang").val(data[0].MASTER_JENIS_BARANG_DETAIL_ID)
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/master/tabung/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".id").val(data[0].MASTER_TABUNG_ID)
+                $(".kode").val(data[0].MASTER_TABUNG_KODE)
+                $(".tabung").val(data[0].MASTER_BARANG_ID).trigger('change')
 
-                        $("#tabungModal").modal("show")
-                    },
-                    error: function(x, e) {} //end error
-                });
-
-            }
-        })
+                $("#tabungModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>

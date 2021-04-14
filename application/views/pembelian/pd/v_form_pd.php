@@ -12,7 +12,7 @@ if (empty($this->uri->segment('4'))) {
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Form Pemesanan</h1>
+                    <h1 class="m-0">Form Pengiriman</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -29,6 +29,21 @@ if (empty($this->uri->segment('4'))) {
                             <form id="submit">
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
                                 <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">No Pemesanan</label>
+                                            <select name="po" id="po" class="form-control po select2" style="width: 100%;">
+                                                <option value="">-- Pilih PO --</option>
+                                                <?php foreach ($po as $row) {
+                                                ?>
+                                                    <option value="<?= $row->PO_ID; ?>"><?= $row->PO_NOMOR_SURAT; ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                            <small class="text-muted">Nomor Purchasing Order.</small>
+                                        </div>
+                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Nomor Surat</label>
@@ -238,7 +253,7 @@ if (empty($this->uri->segment('4'))) {
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/pembelian/po/add',
+            url: '<?php echo base_url(); ?>index.php/pembelian/pd/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -257,7 +272,7 @@ if (empty($this->uri->segment('4'))) {
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/pembelian/po/detail/<?= $id; ?>',
+            url: '<?php echo base_url() ?>index.php/pembelian/pd/detail/<?= $id; ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -267,13 +282,13 @@ if (empty($this->uri->segment('4'))) {
                     barang_list()
                 } else {
                     console.log(data)
-                    $(".nomor_surat").val(data[0].PO_NOMOR_SURAT)
-                    $(".tanggal").val(data[0].PO_TANGGAL)
+                    $(".nomor_surat").val(data[0].PD_NOMOR_SURAT)
+                    $(".tanggal").val(data[0].PD_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
-                    $(".jenis").val(data[0].PO_JENIS)
-                    $(".keterangan").val(data[0].PO_KETERANGAN)
-                    $(".total").val(number_format(data[0].PO_TOTAL))
-                    $(".bayar").val(number_format(data[0].PO_BAYAR))
+                    $(".jenis").val(data[0].PD_JENIS)
+                    $(".keterangan").val(data[0].PD_KETERANGAN)
+                    $(".total").val(number_format(data[0].PD_TOTAL))
+                    $(".bayar").val(number_format(data[0].PD_BAYAR))
                     detail_jenis_barang()
                 }
 
@@ -318,7 +333,7 @@ if (empty($this->uri->segment('4'))) {
     $('.btn-add-barang').on("click", function(e) {
         $.ajax({
             type: "POST",
-            url: '<?php echo base_url(); ?>index.php/pembelian/po/add_barang',
+            url: '<?php echo base_url(); ?>index.php/pembelian/pd/add_barang',
             dataType: "JSON",
             beforeSend: function() {
                 memuat()
@@ -351,7 +366,7 @@ if (empty($this->uri->segment('4'))) {
     function barang_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/pembelian/po/list_barang/<?= $id; ?>",
+            url: "<?php echo base_url() ?>index.php/pembelian/pd/list_barang/<?= $id; ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -365,15 +380,15 @@ if (empty($this->uri->segment('4'))) {
                     var no = 1
                     var total = 0
                     for (i = 0; i < data.length; i++) {
-                        total += parseInt(data[i].PO_BARANG_TOTAL);
+                        total += parseInt(data[i].PD_BARANG_TOTAL);
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + number_format(data[i].PO_BARANG_HARGA) + "</td>" +
-                            "<td>" + number_format(data[i].PO_BARANG_QUANTITY) + "</td>" +
-                            "<td>" + data[i].PO_BARANG_SATUAN + "</td>" +
-                            "<td align='right'>" + number_format(data[i].PO_BARANG_TOTAL) + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PO_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            "<td>" + number_format(data[i].PD_BARANG_HARGA) + "</td>" +
+                            "<td>" + number_format(data[i].PD_BARANG_QUANTITY) + "</td>" +
+                            "<td>" + data[i].PD_BARANG_SATUAN + "</td>" +
+                            "<td align='right'>" + number_format(data[i].PD_BARANG_TOTAL) + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PD_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
                             "</tr>");
                     }
                     $("tfoot#total_data").append("<tr><td colspan='5' align='right'><b>Total</b></td><td align='right'>" + number_format(total) + "</td></tr>")
@@ -398,7 +413,7 @@ if (empty($this->uri->segment('4'))) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/pembelian/po/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/pembelian/pd/hapus/' + id,
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -429,5 +444,39 @@ if (empty($this->uri->segment('4'))) {
         var bayar = parseInt($(".bayar").val().split('.').join(""))
         var sisa_bayar = total - bayar
         $(".sisa_bayar").val(number_format(sisa_bayar))
+    }
+
+    $('.po').change(function() {
+        var id = $(this).val()
+        pilih_po_barang(id)
+    });
+
+    function pilih_po_barang(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/pembelian/pd/pilih_po_barang/' + id + "/<?= $id; ?>",
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                if (data.length === 0) {} else {
+                    detail();
+                    Swal.fire('Berhasil', 'Berhasil ditambah', 'success')
+                    $(".tanggal").val(data[0].PD_TANGGAL)
+                    $(".supplier").val(data[0].MASTER_SUPPLIER_ID).trigger('change')
+                    $(".jenis").val(data[0].PD_JENIS).trigger('change')
+                    $(".keterangan").val(data[0].PD_KETERANGAN)
+                    kalkulasi_seluruh()
+                }
+            },
+            error: function(x, e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Proses Gagal'
+                })
+            }
+        });
     }
 </script>

@@ -13,44 +13,38 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Jenis Tangki</label>
+                        <select name="tangki" id="tangki" class="form-control tangki select2" style="width: 100%;">
+                            <option value="">-- Nama Tangki --</option>
+                            <?php foreach (tangki() as $row) {
+                            ?>
+                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*Wajib diisi.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Kode Tangki</label>
                         <input type="text" class="form-control kode" name="kode" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nomor Surat Pembelian</label>
-                        <select name="surat" id="surat" class="form-control surat">
-                            <option value="">--Pilih Nomor Surat--</option>
-                            <?php foreach ($pembelian_jenis_gas as $row) {
+                        <label for="exampleInputEmail1">Satuan</label>
+                        <select name="satuan" id="satuan" class="form-control satuan select2" style="width: 100%;">
+                            <option value="">-- Satuan --</option>
+                            <?php foreach (satuan() as $row) {
                             ?>
-                                <option value="<?= $row->PEMBELIAN_NOMOR_SURAT; ?>"><?= $row->PEMBELIAN_NOMOR_SURAT; ?></option>
+                                <option value="<?= $row->SATUAN_NAMA; ?>"><?= $row->SATUAN_NAMA; ?></option>
                             <?php
                             }
                             ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Jenis</label>
-                        <select name="jenis_barang" id="jenis_barang" class="form-control jenis_barang">
-                            <option value="">--Pilih Jenis Barang--</option>
-                            <?php foreach ($jenis_barang as $row) {
-                            ?>
-                                <option value="<?= $row->MASTER_JENIS_BARANG_DETAIL_ID; ?>" detail_id="<?= $row->MASTER_JENIS_BARANG_DETAIL_ID; ?>"><?= $row->MASTER_JENIS_BARANG_NAMA; ?> - <?= $row->MASTER_JENIS_BARANG_DETAIL_KAPASITAS; ?> <?= $row->MASTER_JENIS_BARANG_DETAIL_SATUAN; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
+                        <label for="exampleInputEmail1">Lokasi</label>
+                        <input type="text" class="form-control lokasi" name="lokasi" autocomplete="off">
                     </div>
-                    <div class="form-group">
-                        <div class="form-group clearfix">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="isi" name="isi">
-                                <label for="isi">
-                                    ISI
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
@@ -87,19 +81,14 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Kode Tangki</th>
-                                <th>Surat Nomor</th>
+                                <th>Kode</th>
                                 <th>Jenis Barang</th>
+                                <th>Lokasi</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
                             <tr>
-                                <td colspan="9">
-                                    <center>
-                                        <div class="loader"></div>
-                                    </center>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -117,7 +106,6 @@
         $(".id").val("")
         $("#tangkiModal").modal("show")
     })
-
     $(function() {
         tangki_list();
     });
@@ -130,6 +118,7 @@
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
+                memuat()
                 console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
@@ -139,8 +128,9 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_TANGKI_KODE + "</td>" +
-                            "<td>" + data[i].PEMBELIAN_NOMOR_SURAT + "</td>" +
-                            "<td>" + data[i].JENIS[0].MASTER_JENIS_BARANG_NAMA + " (" + data[i].JENIS[0].MASTER_JENIS_BARANG_DETAIL_KAPASITAS + " " + data[i].JENIS[0].MASTER_JENIS_BARANG_DETAIL_SATUAN + ")</td>" + "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TANGKI_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].MASTER_TANGKI_LOKASI + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TANGKI_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TANGKI_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
                     }
@@ -161,7 +151,9 @@
             processData: false,
             contentType: false,
             cache: false,
-            async: false,
+            beforeSend: function() {
+                memuat()
+            },
             success: function(data) {
                 tangki_list();
                 Swal.fire('Berhasil', 'Tangki berhasil ditambahkan', 'success')
@@ -183,12 +175,14 @@
                 $.ajax({
                     type: 'ajax',
                     url: '<?php echo base_url() ?>index.php/master/tangki/hapus/' + id,
-                    async: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
                             tangki_list();
-                            Swal.fire('Berhasil', 'Kendaraan Berhasil dihapus', 'success')
+                            Swal.fire('Berhasil', 'Tangki Berhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {
@@ -205,31 +199,23 @@
     }
 
     function detail(id) {
-        Swal.fire({
-            title: 'Edit ?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: `Edit`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/tangki/detail/' + id,
-                    async: false,
-                    dataType: 'json',
-                    success: function(data) {
-                        $(".id").val(data[0].MASTER_TANGKI_ID)
-                        $(".kode").val(data[0].MASTER_TANGKI_KODE)
-                        $(".surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
-                        $(".jenis_barang").val(data[0].MASTER_JENIS_BARANG_DETAIL_ID)
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/master/tangki/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".id").val(data[0].MASTER_TANGKI_ID)
+                $(".kode").val(data[0].MASTER_TANGKI_KODE)
+                $(".lokasi").val(data[0].MASTER_TANGKI_LOKASI)
+                $(".tangki").val(data[0].MASTER_BARANG_ID).trigger('change')
 
-                        $("#tangkiModal").modal("show")
-                    },
-                    error: function(x, e) {} //end error
-                });
-
-            }
-        })
+                $("#tangkiModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>

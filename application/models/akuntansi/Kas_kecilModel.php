@@ -6,8 +6,8 @@ class Kas_kecilModel extends CI_Model
     {
         $bulan = $_GET['bulan'];
         $tahun = $_GET['tahun'];
-        $hasil['saldo_awal'] = $this->db->query('SELECT SUM(KAS_KECIL_RUPIAH) AS SALDO_AWAL FROM KAS_KECIL WHERE RECORD_STATUS="AKTIF" AND KAS_KECIL_TANGGAL < "' . $tahun . '-' . $bulan . '-01" ')->result();
-        $hasil['kas_kecil'] = $this->db->query('SELECT * FROM KAS_KECIL WHERE RECORD_STATUS="AKTIF" ORDER BY KAS_KECIL_TANGGAL ASC ')->result();
+        $hasil['saldo_awal'] = $this->db->query('SELECT SUM(KAS_KECIL_RUPIAH) AS SALDO_AWAL FROM KAS_KECIL WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND KAS_KECIL_TANGGAL < "' . $tahun . '-' . $bulan . '-01" ')->result();
+        $hasil['kas_kecil'] = $this->db->query('SELECT * FROM KAS_KECIL WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY KAS_KECIL_TANGGAL ASC ')->result();
         return $hasil;
     }
 
@@ -24,6 +24,7 @@ class Kas_kecilModel extends CI_Model
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $result = $this->db->insert('KAS_KECIL', $data);
@@ -33,6 +34,7 @@ class Kas_kecilModel extends CI_Model
                 'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $this->db->where('KAS_KECIL_ID', $this->input->post('id'));
@@ -48,6 +50,7 @@ class Kas_kecilModel extends CI_Model
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $result = $this->db->insert('KAS_KECIL', $data);
@@ -61,6 +64,7 @@ class Kas_kecilModel extends CI_Model
             'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $this->db->where('KAS_KECIL_ID', $id);
@@ -70,7 +74,7 @@ class Kas_kecilModel extends CI_Model
 
     public function detail($id)
     {
-        $hasil = $this->db->query('SELECT * FROM KAS_KECIL WHERE KAS_KECIL_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil = $this->db->query('SELECT * FROM KAS_KECIL WHERE KAS_KECIL_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         return $hasil;
     }
 }

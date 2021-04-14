@@ -29,10 +29,6 @@ class Tangki extends CI_Controller
 
     public function index()
     {
-        $this->load->model('master/Jenis_barangModel');
-
-        $data['jenis_barang'] = $this->Jenis_barangModel->detail_jenis_barang();
-        $data['pembelian_jenis_gas'] = $this->TangkiModel->pembelian_jenis_gas();
         $this->load->view('_template/header');
         $this->load->view('master/v_tangki');
         $this->load->view('_template/footer');

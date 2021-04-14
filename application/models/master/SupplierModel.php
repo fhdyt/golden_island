@@ -4,7 +4,7 @@ class SupplierModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE RECORD_STATUS="AKTIF" ORDER BY MASTER_SUPPLIER_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_SUPPLIER_INDEX DESC ')->result();
         return $hasil;
     }
 
@@ -21,6 +21,7 @@ class SupplierModel extends CI_Model
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $result = $this->db->insert('MASTER_SUPPLIER', $data);
@@ -30,6 +31,7 @@ class SupplierModel extends CI_Model
                 'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $this->db->where('MASTER_SUPPLIER_ID', $this->input->post('id'));
@@ -45,6 +47,7 @@ class SupplierModel extends CI_Model
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $result = $this->db->insert('MASTER_SUPPLIER', $data);
@@ -58,6 +61,7 @@ class SupplierModel extends CI_Model
             'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $this->db->where('MASTER_SUPPLIER_ID', $id);
@@ -67,7 +71,7 @@ class SupplierModel extends CI_Model
 
     public function detail($id)
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         return $hasil;
     }
 }

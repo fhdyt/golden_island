@@ -1,8 +1,8 @@
-<div class="modal fade" id="driverModal">
+<div class="modal fade" id="karyawanModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Driver</h4>
+                <h4 class="modal-title">Tambah Karyawan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,6 +18,20 @@
                         <small class="text-muted">*Wajib diisi.</small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Jabatan</label>
+                        <select name="jabatan" id="jabatan" class="form-control jabatan select2" style="width: 100%;">
+
+                            <?php
+                            foreach (jabatan() as $value => $text) {
+                            ?>
+                                <option value="<?= $value; ?>"><?= $text; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*Wajib diisi.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Alamat</label>
                         <input type="text" class="form-control alamat" name="alamat" autocomplete="off">
                         <small class="text-muted">*Wajib diisi.</small>
@@ -26,10 +40,6 @@
                         <label for="exampleInputEmail1">No. HP</label>
                         <input type="text" class="form-control hp" name="hp" autocomplete="off">
                         <small class="text-muted">*Wajib diisi.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">SIM</label>
-                        <input type="text" class="form-control sim" name="sim" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">KTP</label>
@@ -54,7 +64,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Driver</h1>
+                    <h1 class="m-0">Karyawan</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -66,15 +76,16 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_driver mb-2">Tambah Driver</button>
+                    <button type="button" class="btn btn-secondary btn_karyawan mb-2">Tambah Karyawan</button>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th>Nama</th>
+                                <th>Jabatan</th>
                                 <th>Alamat</th>
                                 <th>No. HP</th>
-                                <th>SIM</th>
+                                <th>KTP</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -92,19 +103,19 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-    $(".btn_driver").on("click", function() {
+    $(".btn_karyawan").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
-        $("#driverModal").modal("show")
+        $("#karyawanModal").modal("show")
     })
     $(function() {
-        driver_list();
+        karyawan_list();
     });
 
-    function driver_list() {
+    function karyawan_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/master/driver/list",
+            url: "<?php echo base_url() ?>index.php/master/karyawan/list",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -118,12 +129,13 @@
                     for (i = 0; i < data.length; i++) {
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_DRIVER_NAMA + "</td>" +
-                            "<td>" + data[i].MASTER_DRIVER_ALAMAT + "</td>" +
-                            "<td>" + data[i].MASTER_DRIVER_HP + "</td>" +
-                            "<td>" + data[i].MASTER_DRIVER_SIM + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_DRIVER_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_DRIVER_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
+                            "<td>" + data[i].MASTER_KARYAWAN_NAMA + "</td>" +
+                            "<td>" + data[i].MASTER_KARYAWAN_JABATAN + "</td>" +
+                            "<td>" + data[i].MASTER_KARYAWAN_ALAMAT + "</td>" +
+                            "<td>" + data[i].MASTER_KARYAWAN_HP + "</td>" +
+                            "<td>" + data[i].MASTER_KARYAWAN_KTP + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_KARYAWAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_KARYAWAN_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
                     }
                 }
@@ -137,7 +149,7 @@
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/master/driver/add',
+            url: '<?php echo base_url(); ?>index.php/master/karyawan/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -147,9 +159,9 @@
                 memuat()
             },
             success: function(data) {
-                driver_list();
-                Swal.fire('Berhasil', 'Driver berhasil ditambahkan', 'success')
-                $("#driverModal").modal("hide")
+                karyawan_list();
+                Swal.fire('Berhasil', 'Karyawan berhasil ditambahkan', 'success')
+                $("#karyawanModal").modal("hide")
             }
         });
     })
@@ -166,15 +178,15 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/driver/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/master/karyawan/hapus/' + id,
                     beforeSend: function() {
                         memuat()
                     },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            driver_list();
-                            Swal.fire('Berhasil', 'Driver Berhasil dihapus', 'success')
+                            karyawan_list();
+                            Swal.fire('Berhasil', 'Karyawan Berhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {
@@ -193,21 +205,21 @@
     function detail(id) {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/master/driver/detail/' + id,
+            url: '<?php echo base_url() ?>index.php/master/karyawan/detail/' + id,
             beforeSend: function() {
                 memuat()
             },
             dataType: 'json',
             success: function(data) {
                 memuat()
-                $(".id").val(data[0].MASTER_DRIVER_ID)
-                $(".nama").val(data[0].MASTER_DRIVER_NAMA)
-                $(".alamat").val(data[0].MASTER_DRIVER_ALAMAT)
-                $(".hp").val(data[0].MASTER_DRIVER_HP)
-                $(".sim").val(data[0].MASTER_DRIVER_SIM)
-                $(".ktp").val(data[0].MASTER_DRIVER_KTP)
+                $(".id").val(data[0].MASTER_KARYAWAN_ID)
+                $(".nama").val(data[0].MASTER_KARYAWAN_NAMA)
+                $(".jabatan").val(data[0].MASTER_KARYAWAN_JABATAN)
+                $(".alamat").val(data[0].MASTER_KARYAWAN_ALAMAT)
+                $(".hp").val(data[0].MASTER_KARYAWAN_HP)
+                $(".ktp").val(data[0].MASTER_KARYAWAN_KTP)
 
-                $("#driverModal").modal("show")
+                $("#karyawanModal").modal("show")
             },
             error: function(x, e) {} //end error
         });

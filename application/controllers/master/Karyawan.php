@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Driver extends CI_Controller
+class Karyawan extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Driver extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('master/DriverModel');
+        $this->load->model('master/KaryawanModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,32 +30,32 @@ class Driver extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('master/v_driver');
+        $this->load->view('master/v_karyawan');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $data = $this->DriverModel->list();
+        $data = $this->KaryawanModel->list();
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->DriverModel->add();
+        $data = $this->KaryawanModel->add();
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->DriverModel->hapus($id);
+        $data = $this->KaryawanModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->DriverModel->detail($id);
+        $data = $this->KaryawanModel->detail($id);
         echo json_encode($data);
     }
 }

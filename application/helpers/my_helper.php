@@ -114,16 +114,6 @@ if (!function_exists('jenis_barang')) {
 if (!function_exists('satuan')) {
   function satuan()
   {
-    // $satuan = array(
-    //   'M3' => 'M3',
-    //   'Kg' => 'Kg',
-    //   'Cyl' => 'Cyl',
-    //   'Pcs' => 'Pcs',
-    //   'Inc' => 'Inc',
-    //   'Btg' => 'Btg',
-    // );
-    // return $satuan;
-
     $CI = &get_instance();
     $CI->load->model('konfigurasi/SatuanModel');
     return $CI->SatuanModel->list();
@@ -182,5 +172,49 @@ if (!function_exists('pajak')) {
     $CI = &get_instance();
     $CI->load->model('PajakModel');
     return $CI->LoginModel->menu();
+  }
+}
+
+if (!function_exists('jabatan')) {
+  function jabatan()
+  {
+    $jabatan = array(
+      'Driver' => 'Driver',
+      'Operator' => 'Operator',
+      'Produksi' => 'Produksi',
+      'Admin' => 'Admin',
+      'Kasir' => 'Kasir',
+      'Akuntansi' => 'Akuntansi',
+    );
+    return $jabatan;
+  }
+}
+
+if (!function_exists('driver')) {
+  function driver()
+  {
+    $CI = &get_instance();
+    $CI->load->model('KaryawanModel');
+    return $CI->KaryawanModel->list_driver();
+  }
+}
+
+if (!function_exists('tabung')) {
+  function tabung()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="tabung" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
+
+if (!function_exists('tangki')) {
+  function tangki()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="tangki" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
   }
 }

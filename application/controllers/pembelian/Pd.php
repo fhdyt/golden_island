@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Po extends CI_Controller
+class Pd extends CI_Controller
 {
 
     /**
@@ -23,7 +23,7 @@ class Po extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('pembelian/PoModel');
+        $this->load->model('pembelian/PdModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -31,55 +31,71 @@ class Po extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('pembelian/po/v_po');
+        $this->load->view('pembelian/pd/v_pd');
         $this->load->view('_template/footer');
     }
 
-    public function form_po()
+    public function form_pd()
     {
         $this->load->model('master/SupplierModel');
+        $this->load->model('pembelian/PoModel');
+
         $data['supplier'] = $this->SupplierModel->list();
+        $data['po'] = $this->PoModel->list();
 
         $this->load->view('_template/header');
-        $this->load->view('pembelian/po/v_form_po', $data);
+        $this->load->view('pembelian/pd/v_form_pd', $data);
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $data = $this->PoModel->list();
+        $data = $this->PdModel->list();
         echo json_encode($data);
     }
 
     public function add()
     {
-        $this->PoModel->add();
+        $this->PdModel->add();
+    }
+    public function add_barang()
+    {
+        $data = $this->PdModel->add_barang();
+        echo json_encode($data);
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PoModel->hapus($id);
+        $data = $this->PdModel->hapus($id);
+        echo json_encode($data);
+    }
+
+    public function pilih_po_barang()
+    {
+        $id = $this->uri->segment('4');
+        $id_pd = $this->uri->segment('5');
+        $data = $this->PdModel->pilih_po_barang($id, $id_pd);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PoModel->detail($id);
+        $data = $this->PdModel->detail($id);
         echo json_encode($data);
     }
-
-    public function add_barang()
+    public function detail_jenis_barang()
     {
-        $data = $this->PoModel->add_barang();
+        $jenis = $_GET['jenis'];
+        $data = $this->PdModel->detail_jenis_barang($jenis);
         echo json_encode($data);
     }
 
     public function list_barang()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PoModel->list_barang($id);
+        $data = $this->PdModel->list_barang($id);
         echo json_encode($data);
     }
 }

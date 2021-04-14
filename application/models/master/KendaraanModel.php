@@ -4,7 +4,7 @@ class KendaraanModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_KENDARAAN WHERE RECORD_STATUS="AKTIF" ORDER BY MASTER_KENDARAAN_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_KENDARAAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_KENDARAAN_INDEX DESC ')->result();
         return $hasil;
     }
 
@@ -22,6 +22,7 @@ class KendaraanModel extends CI_Model
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $result = $this->db->insert('MASTER_KENDARAAN', $data);
@@ -31,6 +32,7 @@ class KendaraanModel extends CI_Model
                 'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $this->db->where('MASTER_KENDARAAN_ID', $this->input->post('id'));
@@ -47,6 +49,7 @@ class KendaraanModel extends CI_Model
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $result = $this->db->insert('MASTER_KENDARAAN', $data);
@@ -60,6 +63,7 @@ class KendaraanModel extends CI_Model
             'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $this->db->where('MASTER_KENDARAAN_ID', $id);
@@ -69,7 +73,7 @@ class KendaraanModel extends CI_Model
 
     public function detail($id)
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_KENDARAAN WHERE MASTER_KENDARAAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_KENDARAAN WHERE MASTER_KENDARAAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         return $hasil;
     }
 }

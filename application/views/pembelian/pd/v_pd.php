@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Pemesanan</h1>
+                    <h1 class="m-0">Pengiriman</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>pembelian/po/form_po" class="btn btn-secondary mb-2 btn-form">Tambah Purchasing Order</a>
+                    <a href="<?= base_url(); ?>pembelian/pd/form_pd" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -45,13 +45,13 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
-        po_list();
+        pd_list();
     });
 
-    function po_list() {
+    function pd_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/pembelian/po/list",
+            url: "<?php echo base_url() ?>index.php/pembelian/pd/list",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -66,11 +66,11 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].PO_NOMOR_SURAT + "</td>" +
-                            "<td>" + data[i].PO_JENIS + "</td>" +
+                            "<td>" + data[i].PD_NOMOR_SURAT + "</td>" +
+                            "<td>" + data[i].PD_JENIS + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
-                            "<td>" + data[i].PO_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO_ID + "'>Lihat</a></td>" +
+                            "<td>" + data[i].PD_KETERANGAN + "</td>" +
+                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>pembelian/pd/form_pd/" + data[i].PD_ID + "'>Lihat</a></td>" +
                             "</tr>");
                     }
                 }

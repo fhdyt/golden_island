@@ -42,9 +42,39 @@ class Relasi extends CI_Controller
         $this->load->view('_template/footer');
     }
 
+    public function kontrol_tabung()
+    {
+        $data['relasi'] = $this->RelasiModel->detail($this->uri->segment('4'));
+        $this->load->view('_template/header');
+        $this->load->view('master/v_kontrol_tabung', $data);
+        $this->load->view('_template/footer');
+    }
+
+    public function kontrol_tabung_list()
+    {
+        $id = $this->uri->segment('4');
+        $tabung = $_GET['tabung'];
+        $status = $_GET['status'];
+        $data = $this->RelasiModel->kontrol_tabung_list($id, $tabung, $status);
+        echo json_encode($data);
+    }
+
+    public function add_kontrol_tabung()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->RelasiModel->add_kontrol_tabung($id);
+        echo json_encode($data);
+    }
+    public function hapus_kontrol_tabung()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->RelasiModel->hapus_kontrol_tabung($id);
+        echo json_encode($data);
+    }
 
     public function list()
     {
+
         $data = $this->RelasiModel->list();
         echo json_encode($data);
     }

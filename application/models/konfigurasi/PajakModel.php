@@ -4,7 +4,7 @@ class PajakModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM PAJAK WHERE RECORD_STATUS="AKTIF" ORDER BY PAJAK_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM PAJAK WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PAJAK_INDEX DESC ')->result();
         return $hasil;
     }
 
@@ -19,6 +19,7 @@ class PajakModel extends CI_Model
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $result = $this->db->insert('PAJAK', $data);
@@ -28,6 +29,7 @@ class PajakModel extends CI_Model
                 'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $this->db->where('PAJAK_ID', $this->input->post('id'));
@@ -41,6 +43,7 @@ class PajakModel extends CI_Model
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
             $result = $this->db->insert('PAJAK', $data);
@@ -54,6 +57,7 @@ class PajakModel extends CI_Model
             'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
         $this->db->where('PAJAK_ID', $id);
