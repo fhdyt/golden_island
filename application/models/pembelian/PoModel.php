@@ -107,7 +107,7 @@ class PoModel extends CI_Model
         WHERE 
         P.RECORD_STATUS="AKTIF" AND 
         B.RECORD_STATUS="AKTIF" AND 
-        P.PO_ID="' . $id . '" AND p.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY P.PO_BARANG_INDEX DESC')->result();
+        P.PO_ID="' . $id . '" AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY P.PO_BARANG_INDEX DESC')->result();
         return $hasil;
     }
 }

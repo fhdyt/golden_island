@@ -1,8 +1,8 @@
-<div class="modal fade" id="relasiModal">
+<div class="modal fade" id="akunModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Relasi</h4>
+                <h4 class="modal-title">Tambah Akun</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,22 +18,18 @@
                         <small class="text-muted">*Wajib diisi.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Alamat</label>
-                        <input type="text" class="form-control alamat" name="alamat" autocomplete="off">
+                        <label for="exampleInputEmail1">Kategori</label>
+                        <select name="kategori" id="kategori" class="form-control kategori select2" style="width: 100%;">
+
+                            <?php
+                            foreach (kategori_akun() as $value => $text) {
+                            ?>
+                                <option value="<?= $value; ?>"><?= $text; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                         <small class="text-muted">*Wajib diisi.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">No. HP</label>
-                        <input type="text" class="form-control hp" name="hp" autocomplete="off">
-                        <small class="text-muted">*Wajib diisi.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">NPWP</label>
-                        <input type="text" class="form-control npwp" name="npwp" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">KTP</label>
-                        <input type="text" class="form-control ktp" name="ktp" autocomplete="off">
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -54,7 +50,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Relasi</h1>
+                    <h1 class="m-0">Akun</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -66,15 +62,13 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_relasi mb-2">Tambah Relasi</button>
+                    <button type="button" class="btn btn-secondary btn_akun mb-2">Tambah Akun</button>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th>Nama</th>
-                                <th>Alamat</th>
-                                <th>No. HP</th>
-                                <th>NPWP</th>
+                                <th>Kategori</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -92,19 +86,19 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-    $(".btn_relasi").on("click", function() {
+    $(".btn_akun").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
-        $("#relasiModal").modal("show")
+        $("#akunModal").modal("show")
     })
     $(function() {
-        relasi_list();
+        akun_list();
     });
 
-    function relasi_list() {
+    function akun_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/master/relasi/list",
+            url: "<?php echo base_url() ?>index.php/akuntansi/akun/list",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -118,14 +112,10 @@
                     for (i = 0; i < data.length; i++) {
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NAMA + "</td>" +
-                            "<td>" + data[i].MASTER_RELASI_ALAMAT + "</td>" +
-                            "<td>" + data[i].MASTER_RELASI_HP + "</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NPWP + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm mb-2' onclick='hapus(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm mb-2' onclick='detail(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-edit'></i></a> " +
-                            "<a class='btn btn-primary btn-sm mb-2' href='<?php echo base_url(); ?>master/relasi/harga_relasi/" + data[i].MASTER_RELASI_ID + "'><i class='fas fa-tag'></i> Harga</a> " +
-                            "<a class='btn btn-secondary btn-sm mb-2' href='<?php echo base_url(); ?>master/relasi/kontrol_tabung/" + data[i].MASTER_RELASI_ID + "'><i class='fas fa-vial'></i> Tabung</a></td>" +
+                            "<td>" + data[i].AKUN_NAMA + "</td>" +
+                            "<td>" + data[i].AKUN_KATEGORI + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].AKUN_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].AKUN_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
                     }
                 }
@@ -136,15 +126,10 @@
         });
     }
 
-    // $("form#submit").on("submit", function(e) {
-
-    //     console.log($(this).serialize())
-    // })
-
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/master/relasi/add',
+            url: '<?php echo base_url(); ?>index.php/akuntansi/akun/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -154,9 +139,9 @@
                 memuat()
             },
             success: function(data) {
-                relasi_list();
-                Swal.fire('Berhasil', 'Relasi berhasil ditambahkan', 'success')
-                $("#relasiModal").modal("hide")
+                akun_list();
+                Swal.fire('Berhasil', 'Akun berhasil ditambahkan', 'success')
+                $("#akunModal").modal("hide")
             }
         });
     })
@@ -173,15 +158,15 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/relasi/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/akuntansi/akun/hapus/' + id,
                     beforeSend: function() {
                         memuat()
                     },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            relasi_list();
-                            Swal.fire('Berhasil', 'Relasi Berhasil dihapus', 'success')
+                            akun_list();
+                            Swal.fire('Berhasil', 'Akun Berhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {
@@ -200,21 +185,18 @@
     function detail(id) {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/master/relasi/detail/' + id,
+            url: '<?php echo base_url() ?>index.php/akuntansi/akun/detail/' + id,
             beforeSend: function() {
                 memuat()
             },
             dataType: 'json',
             success: function(data) {
                 memuat()
-                $(".id").val(data[0].MASTER_RELASI_ID)
-                $(".nama").val(data[0].MASTER_RELASI_NAMA)
-                $(".alamat").val(data[0].MASTER_RELASI_ALAMAT)
-                $(".hp").val(data[0].MASTER_RELASI_HP)
-                $(".npwp").val(data[0].MASTER_RELASI_NPWP)
-                $(".ktp").val(data[0].MASTER_RELASI_KTP)
+                $(".id").val(data[0].AKUN_ID)
+                $(".nama").val(data[0].AKUN_NAMA)
+                $(".akun").val(data[0].AKUN_KATEGORI)
 
-                $("#relasiModal").modal("show")
+                $("#akunModal").modal("show")
             },
             error: function(x, e) {} //end error
         });

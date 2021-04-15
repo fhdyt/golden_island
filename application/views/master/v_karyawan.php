@@ -14,13 +14,13 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" class="form-control nama" name="nama" autocomplete="off">
+                        <input type="text" class="form-control nama" name="nama" autocomplete="off" required>
                         <small class="text-muted">*Wajib diisi.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jabatan</label>
-                        <select name="jabatan" id="jabatan" class="form-control jabatan select2" style="width: 100%;">
-
+                        <select name="jabatan" id="jabatan" class="form-control jabatan select2" style="width: 100%;" required>
+                            <option value="">-- Pilih Jabatan --</option>
                             <?php
                             foreach (jabatan() as $value => $text) {
                             ?>

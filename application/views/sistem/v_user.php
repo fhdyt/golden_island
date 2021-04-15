@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Perusahaan</label>
-                        <select name="perusahaan" id="perusahaan" class="form-control">
+                        <select name="perusahaan" id="perusahaan" class="form-control select2" style="width: 100%;">
                             <?php foreach ($perusahaan as $row) {
                             ?>
                                 <option value="<?= $row->PERUSAHAAN_KODE; ?>"><?= $row->PERUSAHAAN_NAMA; ?></option>

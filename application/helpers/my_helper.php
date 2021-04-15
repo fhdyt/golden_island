@@ -180,11 +180,12 @@ if (!function_exists('jabatan')) {
   {
     $jabatan = array(
       'Driver' => 'Driver',
-      'Operator' => 'Operator',
+      'Distribusi' => 'Distribusi',
       'Produksi' => 'Produksi',
-      'Admin' => 'Admin',
-      'Kasir' => 'Kasir',
+      'Cylinder Control' => 'Cylinder Control',
+      'Marketing' => 'Marketing',
       'Akuntansi' => 'Akuntansi',
+      'Direktur' => 'Direktur',
     );
     return $jabatan;
   }
@@ -216,5 +217,24 @@ if (!function_exists('tangki')) {
     $CI->load->database();
     $hasil = $CI->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="tangki" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
     return $hasil;
+  }
+}
+if (!function_exists('akun_list')) {
+  function akun_list()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
+
+if (!function_exists('kategori_akun')) {
+  function kategori_akun()
+  {
+    $kategori_akun = array(
+      'Kas dan Bank' => 'Kas dan Bank',
+    );
+    return $kategori_akun;
   }
 }
