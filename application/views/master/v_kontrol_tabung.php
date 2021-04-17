@@ -110,8 +110,8 @@
                                 <th>Tanggal</th>
                                 <th>Kirim</th>
                                 <th>Kembali</th>
-                                <th>Keterangan</th>
                                 <th>Saldo</th>
+                                <th>Keterangan</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -168,13 +168,13 @@
                             "<td>" + data[i].TANGGAL + "<br><small>" + data[i].JURNAL_TABUNG_STATUS + "</small></td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KIRIM + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KEMBALI + "</td>" +
-                            "<td>" + data[i].JURNAL_TABUNG_KETERANGAN + "</td>" +
                             "<td>" + data[i].TOTAL + "</td>" +
+                            "<td>" + data[i].JURNAL_TABUNG_KETERANGAN + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "</td>" +
                             "</tr>");
                     }
-                    $("tbody#zone_data").append("<tr><td colspan='5' align='right'><b>Total</b></td><td colspan='2'><b>" + total + "</b></td></tr>")
+                    $("tbody#zone_data").append("<tr><td colspan='4' align='right'><b>Total</b></td><td colspan='3'><b>" + total + "</b></td></tr>")
 
                 }
             },
