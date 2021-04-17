@@ -22,6 +22,7 @@ class RelasiModel extends CI_Model
             $row->TANGGAL = tanggal($row->JURNAL_TABUNG_TANGGAL);
             $row->TOTAL = $row->JURNAL_TABUNG_KIRIM - $row->JURNAL_TABUNG_KEMBALI;
         }
+
         return $hasil;
     }
     public function add_kontrol_tabung($user)

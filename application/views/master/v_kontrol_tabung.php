@@ -168,7 +168,7 @@
                             "<td>" + data[i].TANGGAL + "<br><small>" + data[i].JURNAL_TABUNG_STATUS + "</small></td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KIRIM + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KEMBALI + "</td>" +
-                            "<td>" + data[i].TOTAL + "</td>" +
+                            "<td>" + total + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KETERANGAN + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "</td>" +
