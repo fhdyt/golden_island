@@ -166,15 +166,6 @@ if (!function_exists('menu_list')) {
   }
 }
 
-if (!function_exists('pajak')) {
-  function pajak()
-  {
-    $CI = &get_instance();
-    $CI->load->model('PajakModel');
-    return $CI->LoginModel->menu();
-  }
-}
-
 if (!function_exists('jabatan')) {
   function jabatan()
   {
@@ -195,8 +186,19 @@ if (!function_exists('driver')) {
   function driver()
   {
     $CI = &get_instance();
-    $CI->load->model('KaryawanModel');
-    return $CI->KaryawanModel->list_driver();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_JABATAN="Driver" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
+
+if (!function_exists('detail_perusahaan')) {
+  function detail_perusahaan()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM PERUSAHAAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
   }
 }
 
@@ -219,12 +221,23 @@ if (!function_exists('tangki')) {
     return $hasil;
   }
 }
+
 if (!function_exists('akun_list')) {
   function akun_list()
   {
     $CI = &get_instance();
     $CI->load->database();
     $hasil = $CI->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
+
+if (!function_exists('pajak_list')) {
+  function pajak_list()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM PAJAK WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
     return $hasil;
   }
 }
@@ -236,5 +249,27 @@ if (!function_exists('kategori_akun')) {
       'Kas dan Bank' => 'Kas dan Bank',
     );
     return $kategori_akun;
+  }
+}
+
+
+if (!function_exists('nomor_pembelian')) {
+  function nomor_pembelian($pembelian, $tanggal)
+  {
+    $CI = &get_instance();
+
+    $bulan = date("m", strtotime($tanggal));
+    $tahun = date("y", strtotime($tanggal));
+    $nomor = "" . $pembelian . "/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PEMBELIAN_NOMOR DESC ')->result();
+    if (empty($hasil)) {
+      return "0001/" . $pembelian . "/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    } else {
+      $nomor = explode("/", $hasil[0]->PEMBELIAN_NOMOR);
+      $nomorbaru = $nomor[0] + 1;
+      return sprintf("%04d", $nomorbaru) . "/" . $pembelian . "/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    }
   }
 }

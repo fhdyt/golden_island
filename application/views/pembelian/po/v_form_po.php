@@ -4,6 +4,12 @@ if (empty($this->uri->segment('4'))) {
 } else {
     $id = $this->uri->segment('4');
 }
+
+if (empty($this->uri->segment('5'))) {
+    $id_pembelian = create_id();
+} else {
+    $id_pembelian = $this->uri->segment('5');
+}
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -28,14 +34,8 @@ if (empty($this->uri->segment('4'))) {
                         <div class="col-md-12">
                             <form id="submit">
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
+                                <input type="hidden" class="form-control id_pembelian" name="id_pembelian" value="<?= $id_pembelian; ?>" autocomplete="off">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nomor Surat</label>
-                                            <input type="text" class="form-control nomor_surat" name="nomor_surat" autocomplete="off" required>
-                                            <small class="text-muted">*Wajib diisi.</small>
-                                        </div>
-                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Tanggal</label>
@@ -75,7 +75,7 @@ if (empty($this->uri->segment('4'))) {
                                             <small class="text-muted">*Wajib diisi.</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Keterangan</label>
                                             <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
@@ -171,10 +171,62 @@ if (empty($this->uri->segment('4'))) {
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Potongan</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control potongan" name="potongan" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Bayar</label>
+                                <label class="col-sm-2 col-form-label text-right">Pajak</label>
                                 <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <select name="pajak" id="pajak" class="form-control pajak select2" style="width: 100%;">
+                                                <option value="0">0</option>
+                                                <?php foreach (pajak_list() as $row) {
+                                                ?>
+                                                    <option value="<?= $row->PAJAK_NILAI; ?>"><?= $row->PAJAK_NAMA; ?> - <?= $row->PAJAK_NILAI; ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <input type="text" class="form-control pajak_rupiah" name="pajak_rupiah" autocomplete="off" value="0" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Total Bayar</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control total_bayar" name="total_bayar" autocomplete="off" value="0" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Bayar</label>
+                                <div class="col-sm-3">
+                                    <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;">
+                                        <option value="">-- Akun --</option>
+                                        <?php foreach (akun_list() as $row) {
+                                        ?>
+                                            <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-7">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
@@ -257,7 +309,7 @@ if (empty($this->uri->segment('4'))) {
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/pembelian/po/detail/<?= $id; ?>',
+            url: '<?php echo base_url() ?>index.php/pembelian/po/detail/<?= $id; ?>/<?= $id_pembelian; ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -267,13 +319,15 @@ if (empty($this->uri->segment('4'))) {
                     barang_list()
                 } else {
                     console.log(data)
-                    $(".nomor_surat").val(data[0].PO_NOMOR_SURAT)
-                    $(".tanggal").val(data[0].PO_TANGGAL)
+                    $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
+                    $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
-                    $(".jenis").val(data[0].PO_JENIS)
-                    $(".keterangan").val(data[0].PO_KETERANGAN)
-                    $(".total").val(number_format(data[0].PO_TOTAL))
-                    $(".bayar").val(number_format(data[0].PO_BAYAR))
+                    $(".jenis").val(data[0].PEMBELIAN_BARANG)
+                    $(".akun").val(data[0].AKUN_ID)
+                    $(".keterangan").val(data[0].PEMBELIAN_KETERANGAN)
+                    $(".pajak").val(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_PAJAK)
+                    $(".potongan").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_POTONGAN))
+                    $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
                     detail_jenis_barang()
                 }
 
@@ -325,6 +379,7 @@ if (empty($this->uri->segment('4'))) {
             },
             data: {
                 id: "<?= $id; ?>",
+                id_pembelian: "<?= $id_pembelian; ?>",
                 barang: $('.barang').val(),
                 satuan: $('.satuan').val(),
                 harga_barang: $('.harga_barang').val(),
@@ -342,6 +397,7 @@ if (empty($this->uri->segment('4'))) {
     })
 
     function kalkulasi_total_rupiah_barang() {
+
         var quantity = $(".quantity_barang").val()
         var harga = $(".harga_barang").val()
         var total = quantity * harga
@@ -351,7 +407,7 @@ if (empty($this->uri->segment('4'))) {
     function barang_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/pembelian/po/list_barang/<?= $id; ?>",
+            url: "<?php echo base_url() ?>index.php/pembelian/po/list_barang/<?= $id; ?>/<?= $id_pembelian; ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -365,15 +421,15 @@ if (empty($this->uri->segment('4'))) {
                     var no = 1
                     var total = 0
                     for (i = 0; i < data.length; i++) {
-                        total += parseInt(data[i].PO_BARANG_TOTAL);
+                        total += parseInt(data[i].PEMBELIAN_BARANG_TOTAL);
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + number_format(data[i].PO_BARANG_HARGA) + "</td>" +
-                            "<td>" + number_format(data[i].PO_BARANG_QUANTITY) + "</td>" +
-                            "<td>" + data[i].PO_BARANG_SATUAN + "</td>" +
-                            "<td align='right'>" + number_format(data[i].PO_BARANG_TOTAL) + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PO_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
+                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
+                            "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
                             "</tr>");
                     }
                     $("tfoot#total_data").append("<tr><td colspan='5' align='right'><b>Total</b></td><td align='right'>" + number_format(total) + "</td></tr>")
@@ -420,14 +476,21 @@ if (empty($this->uri->segment('4'))) {
         })
     }
 
-    $('.ppn_check').change(function() {
+    $('.pajak').change(function() {
         kalkulasi_seluruh()
     });
 
     function kalkulasi_seluruh() {
+        var pajak = parseInt($(".pajak").val())
+        var potongan = parseInt($(".potongan").val().split('.').join(""))
+
         var total = parseInt($(".total").val().split('.').join(""))
         var bayar = parseInt($(".bayar").val().split('.').join(""))
-        var sisa_bayar = total - bayar
+        var pajak_rupiah = (total - potongan) * (pajak / 100)
+        $(".pajak_rupiah").val(number_format(pajak_rupiah))
+        var total_bayar = (total - potongan) + pajak_rupiah
+        var sisa_bayar = total_bayar - bayar
+        $(".total_bayar").val(number_format(total_bayar))
         $(".sisa_bayar").val(number_format(sisa_bayar))
     }
 </script>

@@ -22,6 +22,7 @@ class Pdf extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('PdfModel');
 		$this->load->model('LoginModel');
 		$this->LoginModel->cek_login();
 	}
@@ -32,6 +33,18 @@ class Pdf extends CI_Controller
 		// sudo chmod -R 777 vendor
 		$mpdf = new \Mpdf\Mpdf();
 		$html = $this->load->view('pdf', $data, true);
+		$mpdf->WriteHTML($html);
+		$mpdf->Output();
+	}
+	public function cetak_po()
+	{
+		$id = $this->uri->segment('3');
+		$id_pembelian = $this->uri->segment('4');
+
+		$data = $this->PdfModel->cetak_po($id, $id_pembelian);
+
+		$mpdf = new \Mpdf\Mpdf();
+		$html = $this->load->view('pdf/cetak_po', $data, true);
 		$mpdf->WriteHTML($html);
 		$mpdf->Output();
 	}

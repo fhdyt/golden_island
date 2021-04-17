@@ -23,7 +23,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Tanggal</th>
-                                <th>Nomor Surat</th>
+                                <th>Nomor Pemesanan</th>
                                 <th>Jenis Pembelian</th>
                                 <th>Supplier</th>
                                 <th>Keterangan</th>
@@ -66,11 +66,12 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].PO_NOMOR_SURAT + "</td>" +
-                            "<td>" + data[i].PO_JENIS + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_NOMOR + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
-                            "<td>" + data[i].PO_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO_ID + "'>Lihat</a></td>" +
+                            "<td>" + data[i].PEMBELIAN_KETERANGAN + "</td>" +
+                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
+                            "<a class='btn btn-primary btn-sm' href='<?= base_url(); ?>pdf/cetak_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'>Cetak</a></td>" +
                             "</tr>");
                     }
                 }
