@@ -9,7 +9,7 @@ class BarangModel extends CI_Model
         } else {
             $filter = 'AND MASTER_BARANG_JENIS="' . $_GET['jenis'] . '"';
         }
-        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ' . $filter . '  ')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ' . $filter . '  ORDER BY MASTER_BARANG_NAMA ASC')->result();
         return $hasil;
     }
 
