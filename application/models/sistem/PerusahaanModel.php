@@ -10,21 +10,48 @@ class PerusahaanModel extends CI_Model
 
     public function add()
     {
-        $data = array(
-            'PERUSAHAAN_ID' => create_id(),
-            'PERUSAHAAN_KODE' => $this->input->post('kode'),
-            'PERUSAHAAN_NAMA' => $this->input->post('nama'),
-            'PERUSAHAAN_ALAMAT' => $this->input->post('alamat'),
-            'PERUSAHAAN_TELP' => $this->input->post('telp'),
-            'PERUSAHAAN_LOGO' => "",
+        if ($this->input->post('id') == "") {
+            $data = array(
+                'PERUSAHAAN_ID' => create_id(),
+                'PERUSAHAAN_KODE' => $this->input->post('kode'),
+                'PERUSAHAAN_NAMA' => $this->input->post('nama'),
+                'PERUSAHAAN_ALAMAT' => $this->input->post('alamat'),
+                'PERUSAHAAN_TELP' => $this->input->post('telp'),
+                'PERUSAHAAN_LOGO' => "",
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-            'ENTRI_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "AKTIF",
-        );
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+            );
 
-        $result = $this->db->insert('PERUSAHAAN', $data);
-        return $result;
+            $result = $this->db->insert('PERUSAHAAN', $data);
+            return $result;
+        } else {
+            $data_edit = array(
+                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+                'EDIT_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "EDIT",
+            );
+
+            $this->db->where('PERUSAHAAN_ID', $this->input->post('id'));
+            $edit = $this->db->update('PERUSAHAAN', $data_edit);
+
+            $data = array(
+                'PERUSAHAAN_ID' => $this->input->post('id'),
+                'PERUSAHAAN_KODE' => $this->input->post('kode'),
+                'PERUSAHAAN_NAMA' => $this->input->post('nama'),
+                'PERUSAHAAN_ALAMAT' => $this->input->post('alamat'),
+                'PERUSAHAAN_TELP' => $this->input->post('telp'),
+                'PERUSAHAAN_LOGO' => "",
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+            );
+
+            $result = $this->db->insert('PERUSAHAAN', $data);
+            return $result;
+        }
     }
 
     public function hapus($id)
@@ -38,5 +65,11 @@ class PerusahaanModel extends CI_Model
         $this->db->where('PERUSAHAAN_ID', $id);
         $result = $this->db->update('PERUSAHAAN', $data);
         return $result;
+    }
+
+    public function detail($id)
+    {
+        $hasil = $this->db->query('SELECT * FROM PERUSAHAAN WHERE PERUSAHAAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
     }
 }

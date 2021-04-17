@@ -10,20 +10,23 @@
             <div class="modal-body">
                 <form id="submit">
                     <div class="form-group">
+                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Kode</label>
-                        <input type="text" class="form-control" name="kode" value="" autocomplete="off">
+                        <input type="text" class="form-control kode" name="kode" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" class="form-control" name="nama" value="" autocomplete="off">
+                        <input type="text" class="form-control nama" name="nama" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Alamat</label>
-                        <input type="text" class="form-control" name="alamat" value="" autocomplete="off">
+                        <input type="text" class="form-control alamat" name="alamat" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Telp</label>
-                        <input type="text" class="form-control" name="telp" value="" autocomplete="off">
+                        <input type="text" class="form-control telp" name="telp" value="" autocomplete="off">
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -84,8 +87,8 @@
 <script>
     $(".btn_perusahaan").on("click", function() {
         $("#submit").trigger("reset");
+        $(".id").val("")
         $("#perusahaanModal").modal("show")
-        aplikasi_list()
     })
     $(function() {
         perusahaan_list();
@@ -110,28 +113,9 @@
                             "<td>" + data[i].PERUSAHAAN_NAMA + "</td>" +
                             "<td>" + data[i].PERUSAHAAN_ALAMAT + "</td>" +
                             "<td>" + data[i].PERUSAHAAN_TELP + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PERUSAHAAN_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            "<td><a class='btn btn-danger btn-sm mb-2' onclick='hapus(\"" + data[i].PERUSAHAAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].PERUSAHAAN_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
-                    }
-                }
-            },
-            error: function(x, e) {
-                console.log("Gagal")
-            }
-        });
-    }
-
-    function aplikasi_list() {
-        $.ajax({
-            type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/sistem/aplikasi/list",
-            async: false,
-            dataType: 'json',
-            success: function(data) {
-                $("#aplikasi").empty();
-                if (data.length === 0) {} else {
-                    for (i = 0; i < data.length; i++) {
-                        $("#aplikasi").append("<option value='" + data[i].APLIKASI_ID + "'>" + data[i].APLIKASI_NAMA + "</option>");
                     }
                 }
             },
@@ -195,5 +179,27 @@
 
             }
         })
+    }
+
+    function detail(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/sistem/perusahaan/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".id").val(data[0].PERUSAHAAN_ID)
+                $(".kode").val(data[0].PERUSAHAAN_KODE)
+                $(".nama").val(data[0].PERUSAHAAN_NAMA)
+                $(".alamat").val(data[0].PERUSAHAAN_ALAMAT)
+                $(".telp").val(data[0].PERUSAHAAN_TELP)
+
+                $("#perusahaanModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>

@@ -52,4 +52,11 @@ class Perusahaan extends CI_Controller
         $data = $this->PerusahaanModel->hapus($id);
         echo json_encode($data);
     }
+
+    public function detail()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->PerusahaanModel->detail($id);
+        echo json_encode($data);
+    }
 }
