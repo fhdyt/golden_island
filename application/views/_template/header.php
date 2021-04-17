@@ -111,12 +111,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="<?= base_url(); ?>" class="nav-link">Masukan</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="<?= base_url(); ?>" class="nav-link">Bantuan</a>
+        </li>
       </ul>
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
+
         <li class="nav-item">
           <a class="nav-link" role="button">
             <i class="fas fa-user"></i> <?= $this->session->userdata('USER_NAMA') ?>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
           </a>
         </li>
         <li class="nav-item">

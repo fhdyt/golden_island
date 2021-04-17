@@ -42,9 +42,10 @@
 
 <!-- Main Footer -->
 <footer class="main-footer">
-    <!-- To the right -->
-    <!-- Default to the left -->
-    <!-- <strong>Copyright &copy; 2014-2020 <a href="https://mengundang.co.id">mengundang.co.id</a>.</strong> All rights reserved. -->
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2021 <a href="https://adminlte.io">Golden Island Group</a>.</strong> All rights reserved.
 </footer>
 </div>
 <!-- ./wrapper -->

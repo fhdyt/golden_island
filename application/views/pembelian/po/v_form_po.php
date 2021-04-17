@@ -75,7 +75,7 @@ if (empty($this->uri->segment('5'))) {
                                             <small class="text-muted">*Wajib diisi.</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Keterangan</label>
                                             <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
@@ -300,8 +300,13 @@ if (empty($this->uri->segment('5'))) {
                 memuat()
             },
             success: function(data) {
+                console.log(data)
                 Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
                 detail()
+                window.open(
+                    '<?= base_url(); ?>pdf/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>',
+                    '_blank'
+                );
             }
         });
     })
@@ -318,7 +323,6 @@ if (empty($this->uri->segment('5'))) {
                     detail_jenis_barang()
                     barang_list()
                 } else {
-                    console.log(data)
                     $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
@@ -355,7 +359,6 @@ if (empty($this->uri->segment('5'))) {
             dataType: 'json',
             success: function(data) {
                 $("select#barang").empty();
-                console.log(data)
                 if (data.length === 0) {} else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
@@ -413,7 +416,6 @@ if (empty($this->uri->segment('5'))) {
             success: function(data) {
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
                     $(".total").val("0")
@@ -443,7 +445,6 @@ if (empty($this->uri->segment('5'))) {
     }
 
     function hapus(id) {
-        console.log(id)
         Swal.fire({
             title: 'Hapus ?',
             icon: 'question',

@@ -11,19 +11,31 @@
                 <form id="submit">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" class="form-control" name="nama" autocomplete="off">
+                        <select name="karyawan" id="karyawan" class="form-control karyawan select2" style="width: 100%;">
+                            <option value="">-- Satuan --</option>
+                            <?php foreach (karyawan_list() as $row) {
+                            ?>
+                                <option value="<?= $row->MASTER_KARYAWAN_ID; ?>"><?= $row->MASTER_KARYAWAN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nama</label>
+                        <input type="text" class="form-control" name="nama" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Username</label>
-                        <input type="text" class="form-control" name="username" autocomplete="off">
+                        <input type="text" class="form-control" name="username" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Password</label>
-                        <input type="text" class="form-control" name="password" autocomplete="off">
+                        <input type="text" class="form-control" name="password" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Perusahaan</label>
-                        <select name="perusahaan" id="perusahaan" class="form-control select2" style="width: 100%;">
+                        <select name="perusahaan" id="perusahaan" class="form-control select2" style="width: 100%;" required>
                             <?php foreach ($perusahaan as $row) {
                             ?>
                                 <option value="<?= $row->PERUSAHAAN_KODE; ?>"><?= $row->PERUSAHAAN_NAMA; ?></option>
@@ -70,6 +82,7 @@
                                 <th>No.</th>
                                 <th>Nama</th>
                                 <th>Username</th>
+                                <th>Kode Perusahaan</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -112,6 +125,7 @@
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].USER_NAMA + "</td>" +
                             "<td>" + data[i].USER_USERNAME + "</td>" +
+                            "<td>" + data[i].PERUSAHAAN_KODE + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].USER_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-success btn-sm' href='<?php echo base_url(); ?>sistem/user/akses/" + data[i].USER_ID + "'><i class='fas fa-star'></i></a></td>" +
                             "</tr>");

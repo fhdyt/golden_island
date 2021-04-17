@@ -16,6 +16,7 @@ class UserModel extends CI_Model
             'USER_USERNAME' => $this->input->post('username'),
             'USER_PASSWORD' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
             'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
+            'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

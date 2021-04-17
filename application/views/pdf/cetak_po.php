@@ -129,6 +129,18 @@
             </td>
         </tr>
     </table>
+
+    <table class="table-noborder">
+        <tr>
+            <td width="50%">
+                <p style="margin-bottom: 60px;">Keterangan:</p>
+                <br>
+                <p style="font-size: 16px; "><?= $detail[0]->PEMBELIAN_KETERANGAN; ?></p>
+            <td width="50%" align="right">
+                <p><?= $oleh[0]->USER_NAMA; ?></p>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>

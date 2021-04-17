@@ -100,12 +100,12 @@ if (!function_exists('jenis_barang')) {
   {
     $jenis_barang = array(
       'gas' => 'Gas',
-      'tabung' => 'Tabung',
+      //'tabung' => 'Tabung',
       'liquid' => 'Liquid',
-      'tangki' => 'Tangki',
+      //'tangki' => 'Tangki',
       'sparepart' => 'Sparepart',
       'aset' => 'Aset',
-      'transporter' => 'Transporter',
+      //'transporter' => 'Transporter',
     );
     return $jenis_barang;
   }
@@ -238,6 +238,16 @@ if (!function_exists('pajak_list')) {
     $CI = &get_instance();
     $CI->load->database();
     $hasil = $CI->db->query('SELECT * FROM PAJAK WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
+
+if (!function_exists('karyawan_list')) {
+  function karyawan_list()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_KARYAWAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
     return $hasil;
   }
 }

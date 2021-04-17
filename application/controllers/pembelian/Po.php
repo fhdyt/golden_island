@@ -53,7 +53,8 @@ class Po extends CI_Controller
 
     public function add()
     {
-        $this->PoModel->add();
+        $data = $this->PoModel->add();
+        echo json_encode($data);
     }
 
     public function hapus()
