@@ -65,7 +65,7 @@ if (empty($this->uri->segment('5'))) {
                                                 <option value="">-- Jenis Barang --</option>
 
                                                 <?php
-                                                foreach (jenis_barang() as $value => $text) {
+                                                foreach (jenis_barang_pembelian() as $value => $text) {
                                                 ?>
                                                     <option value="<?= $value; ?>"><?= $text; ?></option>
                                                 <?php
@@ -78,7 +78,7 @@ if (empty($this->uri->segment('5'))) {
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Keterangan</label>
-                                            <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
+                                            <textarea name="keterangan" id="keterangan" class="form-control keterangan" rows="6"><?= keterangan_pembelian(); ?></textarea>
                                             <small class="text-muted">Kosongkan jika tidak diperlukan.</small>
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@ if (empty($this->uri->segment('5'))) {
                             <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Bayar</label>
                                 <div class="col-sm-3">
-                                    <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;">
+                                    <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
                                         <option value="">-- Akun --</option>
                                         <?php foreach (akun_list() as $row) {
                                         ?>
@@ -328,7 +328,7 @@ if (empty($this->uri->segment('5'))) {
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
                     $(".jenis").val(data[0].PEMBELIAN_BARANG)
                     $(".akun").val(data[0].AKUN_ID)
-                    $(".keterangan").val(data[0].PEMBELIAN_KETERANGAN)
+                    $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
                     $(".pajak").val(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_PAJAK)
                     $(".potongan").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_POTONGAN))
                     $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))

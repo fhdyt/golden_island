@@ -100,7 +100,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </style>
 </head>
 
-<body class="hold-transition sidebar-mini ">
+<body class="hold-transition sidebar-mini">
   <div id="loader-wrapper">
     <h2><i class="fas fa-3x fa-sync-alt fa-spin"></i></h2>
   </div>

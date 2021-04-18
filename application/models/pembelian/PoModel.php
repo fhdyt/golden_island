@@ -48,6 +48,7 @@ class PoModel extends CI_Model
             'PEMBELIAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
             'PEMBELIAN_TANGGAL' => $this->input->post('tanggal'),
             'PEMBELIAN_KETERANGAN' => $this->input->post('keterangan'),
+            // 'PEMBELIAN_KETERANGAN' => str_replace("\n", "<br/>", $this->input->post('keterangan')),
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),

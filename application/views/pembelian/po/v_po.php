@@ -26,7 +26,6 @@
                                 <th>Nomor Pemesanan</th>
                                 <th>Jenis Pembelian</th>
                                 <th>Supplier</th>
-                                <th>Keterangan</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -69,8 +68,7 @@
                             "<td>" + data[i].PEMBELIAN_NOMOR + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
-                            "<td>" + data[i].PEMBELIAN_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm mb-2' href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
+                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
                             "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>pdf/cetak_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'> <i class='right fas fa-print'></i> Cetak</a></td>" +
                             "</tr>");
                     }

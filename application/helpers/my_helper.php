@@ -110,6 +110,21 @@ if (!function_exists('jenis_barang')) {
     return $jenis_barang;
   }
 }
+if (!function_exists('jenis_barang_pembelian')) {
+  function jenis_barang_pembelian()
+  {
+    $jenis_barang_pembelian = array(
+      'gas' => 'Gas',
+      'gas' => 'Tabung',
+      'liquid' => 'Liquid',
+      'liquid' => 'Tangki',
+      'sparepart' => 'Sparepart',
+      'aset' => 'Aset',
+      'liquid' => 'Transporter',
+    );
+    return $jenis_barang_pembelian;
+  }
+}
 
 if (!function_exists('satuan')) {
   function satuan()
@@ -179,6 +194,19 @@ if (!function_exists('jabatan')) {
       'Direktur' => 'Direktur',
     );
     return $jabatan;
+  }
+}
+
+if (!function_exists('keterangan_pembelian')) {
+  function keterangan_pembelian()
+  {
+    $keterangan_pembelian = "1. 
+2. 
+3. 
+4. 
+5. 
+6.";
+    return $keterangan_pembelian;
   }
 }
 

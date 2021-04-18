@@ -130,14 +130,21 @@
         </tr>
     </table>
 
-    <table class="table-noborder">
+    <table class="table-noborder" style="margin-top: 20px;">
         <tr>
             <td width="50%">
                 <p style="margin-bottom: 60px;">Keterangan:</p>
                 <br>
-                <p style="font-size: 16px; "><?= $detail[0]->PEMBELIAN_KETERANGAN; ?></p>
-            <td width="50%" align="right">
-                <p><?= $oleh[0]->USER_NAMA; ?></p>
+                <p><?php echo nl2br($detail[0]->PEMBELIAN_KETERANGAN); ?></p>
+            <td width="50%" align="center">
+                <p>Ditanda tangani oleh :</p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p><b><?= $oleh[0]->USER_NAMA; ?></b></p>
+                <p><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></p>
             </td>
         </tr>
     </table>
