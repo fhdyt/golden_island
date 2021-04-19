@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Pemesanan</h1>
+                    <h1 class="m-0"><?= $this->lang->line('Pemesanan'); ?></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>pembelian/po/form_po" class="btn btn-secondary mb-2 btn-form">Tambah Purchasing Order</a>
+                    <a href="<?= base_url(); ?>pembelian/po/form_po" class="btn btn-secondary mb-2 btn-form">Tambah Pemesanan</a>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
