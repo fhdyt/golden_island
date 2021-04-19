@@ -84,4 +84,18 @@ class Po extends CI_Controller
         $data = $this->PoModel->list_barang($id, $id_pembelian);
         echo json_encode($data);
     }
+    public function detail_jenis_barang()
+    {
+        $jenis = $_GET['jenis'];
+        $data = $this->PoModel->detail_jenis_barang($jenis);
+        echo json_encode($data);
+    }
+
+    public function po_to_pd()
+    {
+        $id = $this->uri->segment('4');
+        $id_pembelian = $this->uri->segment('5');
+        $data = $this->PoModel->po_to_pd($id, $id_pembelian);
+        echo json_encode($data);
+    }
 }

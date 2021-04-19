@@ -38,10 +38,7 @@ class Pd extends CI_Controller
     public function form_pd()
     {
         $this->load->model('master/SupplierModel');
-        $this->load->model('pembelian/PoModel');
-
         $data['supplier'] = $this->SupplierModel->list();
-        $data['po'] = $this->PoModel->list();
 
         $this->load->view('_template/header');
         $this->load->view('pembelian/pd/v_form_pd', $data);
@@ -56,11 +53,7 @@ class Pd extends CI_Controller
 
     public function add()
     {
-        $this->PdModel->add();
-    }
-    public function add_barang()
-    {
-        $data = $this->PdModel->add_barang();
+        $data = $this->PdModel->add();
         echo json_encode($data);
     }
 
@@ -71,18 +64,24 @@ class Pd extends CI_Controller
         echo json_encode($data);
     }
 
-    public function pilih_po_barang()
-    {
-        $id = $this->uri->segment('4');
-        $id_pd = $this->uri->segment('5');
-        $data = $this->PdModel->pilih_po_barang($id, $id_pd);
-        echo json_encode($data);
-    }
-
     public function detail()
     {
         $id = $this->uri->segment('4');
         $data = $this->PdModel->detail($id);
+        echo json_encode($data);
+    }
+
+    public function add_barang()
+    {
+        $data = $this->PdModel->add_barang();
+        echo json_encode($data);
+    }
+
+    public function list_barang()
+    {
+        $id = $this->uri->segment('4');
+        $id_pembelian = $this->uri->segment('5');
+        $data = $this->PdModel->list_barang($id, $id_pembelian);
         echo json_encode($data);
     }
     public function detail_jenis_barang()
@@ -92,10 +91,11 @@ class Pd extends CI_Controller
         echo json_encode($data);
     }
 
-    public function list_barang()
+    public function po_to_pd()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PdModel->list_barang($id);
+        $id_pembelian = $this->uri->segment('5');
+        $data = $this->PdModel->po_to_pd($id, $id_pembelian);
         echo json_encode($data);
     }
 }

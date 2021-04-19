@@ -17,8 +17,11 @@ if (empty($this->uri->segment('5'))) {
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-12">
+                <div class="col-sm-7">
                     <h1 class="m-0">Form Pemesanan</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-5 text-right btn-pengiriman" hidden>
+                    <button class="btn btn-warning">Buat Pengiriman</button>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -332,6 +335,11 @@ if (empty($this->uri->segment('5'))) {
                     $(".pajak").val(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_PAJAK)
                     $(".potongan").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_POTONGAN))
                     $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
+                    if (data[0].PEMBELIAN_STATUS == "open") {
+                        $(".btn-pengiriman").attr("hidden", false)
+                    } else {
+                        $(".btn-pengiriman").attr("hidden", true)
+                    }
                     detail_jenis_barang()
                 }
 
@@ -354,7 +362,7 @@ if (empty($this->uri->segment('5'))) {
     function detail_jenis_barang() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/pembelian/pembelian/detail_jenis_barang?jenis=" + $(".jenis").val(),
+            url: "<?php echo base_url() ?>index.php/pembelian/po/detail_jenis_barang?jenis=" + $(".jenis").val(),
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -494,4 +502,23 @@ if (empty($this->uri->segment('5'))) {
         $(".total_bayar").val(number_format(total_bayar))
         $(".sisa_bayar").val(number_format(sisa_bayar))
     }
+
+    $(".btn-pengiriman").on("click", function() {
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/pembelian/po/po_to_pd/<?= $id; ?>/<?= $id_pembelian; ?>',
+            type: "ajax",
+            dataType: 'json',
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                window.open(
+                    '<?= base_url(); ?>pembelian/pd/form_pd/' + data.PD_ID + '/' + data.PEMBELIAN_ID,
+                    '_blank'
+                );
+                Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
+                detail()
+            }
+        });
+    })
 </script>

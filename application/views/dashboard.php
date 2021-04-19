@@ -29,7 +29,7 @@
               <div class="row">
                 <div class="col-sm-4 border-right">
                   <div class="description-block">
-                    <h5 class="description-header"></h5>
+                    <!-- <h5 class="description-header"><?= $this->lang->line('dashboard'); ?></h5> -->
                     <span class="description-text"></span>
                   </div>
                   <!-- /.description-block -->

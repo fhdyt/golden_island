@@ -21,6 +21,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/plugins/flag-icon-css/css/flag-icon.min.css">
   <!-- jQuery -->
   <script src="<?php echo base_url(); ?>assets/theme/plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
@@ -112,15 +113,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="<?= base_url(); ?>" class="nav-link">Masukan</a>
+          <a href="<?= base_url(); ?>" class="nav-link"><?= $this->lang->line('masukan'); ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="<?= base_url(); ?>" class="nav-link">Bantuan</a>
+          <a href="<?= base_url(); ?>" class="nav-link"><?= $this->lang->line('bantuan'); ?></a>
         </li>
       </ul>
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
 
+        <li class="nav-item dropdown">
+          <?php
+          if ($this->session->userdata('USER_BAHASA') == "bahasa") {
+            $flag = "id";
+            $bahasa = "Bahasa";
+          } else {
+            $flag = "us";
+            $bahasa = "English";
+          }
+          ?>
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="flag-icon flag-icon-<?= $flag; ?>"></i> <?= $bahasa; ?>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right p-0">
+            <a href="#" class="dropdown-item" lang="bahasa" onclick="ganti_bahasa('bahasa')">
+              <i class="flag-icon flag-icon-id mr-2"></i> Bahasa
+            </a>
+            <a href="#" class="dropdown-item" lang="bahasa" onclick="ganti_bahasa('english')">
+              <i class="flag-icon flag-icon-us mr-2"></i> English
+            </a>
+
+          </div>
+        </li>
         <li class="nav-item">
           <a class="nav-link" role="button">
             <i class="fas fa-user"></i> <?= $this->session->userdata('USER_NAMA') ?>
@@ -133,7 +157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<?php echo base_url(); ?>login/logout" role="button">
-            <i class="fas fa-sign-out-alt"></i> Keluar
+            <i class="fas fa-sign-out-alt"></i> <?= $this->lang->line('keluar'); ?>
           </a>
         </li>
       </ul>
@@ -177,7 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="#" class="nav-link">
                   <i class="nav-icon <?php echo $row->APLIKASI_ICON; ?>"></i>
                   <p>
-                    <?php echo $row->APLIKASI_NAMA; ?>
+                    <?php echo $this->lang->line($row->APLIKASI_NAMA); ?>
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -194,7 +218,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="<?php echo base_url(); ?><?php echo $row->APLIKASI_LINK; ?>/<?php echo $menu->MENU_LINK; ?>" class="nav-link <?= $active; ?>">
                         <i class="far fa-circle"></i>
                         <!-- <i class="<?php echo $menu->MENU_ICON; ?>"></i> -->
-                        <p><?php echo $menu->MENU_NAMA; ?></p>
+                        <p><?php echo $this->lang->line($menu->MENU_NAMA); ?></p>
                       </a>
                     </li>
                   <?php

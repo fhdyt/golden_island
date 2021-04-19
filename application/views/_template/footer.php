@@ -116,6 +116,27 @@
     function memuat() {
         $('div#loader-wrapper').fadeToggle()
     }
+
+    function ganti_bahasa(lang) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/sistem/user/ganti_bahasa/<?= $this->session->userdata('USER_ID') ?>?lang=' + lang,
+            dataType: 'json',
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                location.reload(true);
+            },
+            error: function(x, e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Proses Gagal'
+                })
+            } //end error
+        });
+    }
 </script>
 
 </html>

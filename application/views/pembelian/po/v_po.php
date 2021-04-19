@@ -62,10 +62,16 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].PEMBELIAN_STATUS == "close") {
+                            var status = "<span class='float-left badge bg-danger'>Close</span>"
+                        } else {
+                            var status = "<span class='float-left badge bg-success'>Open</span>"
+                        }
+
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].PEMBELIAN_NOMOR + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_NOMOR + "<br>" + status + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +

@@ -146,7 +146,7 @@
                 $("tbody#zone_data").empty();
                 memuat()
                 console.log(data.saldo_awal)
-                if (data.length === 0) {
+                if (data.kas_kecil.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
                 } else {
                     var no = 1

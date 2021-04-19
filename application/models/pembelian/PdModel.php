@@ -4,10 +4,10 @@ class PdModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM PD WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PD_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_JENIS="PD" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  ORDER BY PEMBELIAN_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
             $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
-            $row->TANGGAL = tanggal($row->PD_TANGGAL);
+            $row->TANGGAL = tanggal($row->PEMBELIAN_TANGGAL);
             $row->SUPPLIER = $supplier;
         }
         return $hasil;
@@ -24,19 +24,32 @@ class PdModel extends CI_Model
 
         $this->db->where('PD_ID', $this->input->post('id'));
         $this->db->where('RECORD_STATUS', 'AKTIF');
-        $this->db->update('PD', $data_edit_aktif);
+        $this->db->update('PEMBELIAN', $data_edit_aktif);
+
+        $data_edit_aktif_transaksi = array(
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('PD_ID', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('PEMBELIAN_TRANSAKSI', $data_edit_aktif_transaksi);
 
 
         $data = array(
+            'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
+            'PEMBELIAN_JENIS' => "PD",
+            'PEMBELIAN_NOMOR' => nomor_pembelian("PO", $this->input->post('tanggal')),
             'PD_ID' => $this->input->post('id'),
-            'PO_ID' => $this->input->post('po'),
-            'PD_JENIS' => $this->input->post('jenis'),
-            'PD_NOMOR_SURAT' => $this->input->post('nomor_surat'),
-            'PD_TANGGAL' => $this->input->post('tanggal'),
-            'PD_KETERANGAN' => $this->input->post('keterangan'),
+            'AKUN_ID' => $this->input->post('akun'),
+            'PEMBELIAN_BARANG' => $this->input->post('jenis'),
+            'PEMBELIAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
+            'PEMBELIAN_TANGGAL' => $this->input->post('tanggal'),
+            'PEMBELIAN_KETERANGAN' => $this->input->post('keterangan'),
+            'PEMBELIAN_STATUS' => "open",
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
-            'PD_TOTAL' => str_replace(".", "", $this->input->post('total')),
-            'PD_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -44,7 +57,20 @@ class PdModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $result = $this->db->insert('PD', $data);
+        $this->db->insert('PEMBELIAN', $data);
+
+        $data_transaksi = array(
+            'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
+            'PD_ID' => $this->input->post('id'),
+            'PEMBELIAN_TRANSAKSI_LAINNYA' => str_replace(".", "", $this->input->post('lainnya')),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('PEMBELIAN_TRANSAKSI', $data_transaksi);
         return $result;
     }
 
@@ -57,23 +83,33 @@ class PdModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $this->db->where('PD_BARANG_ID', $id);
-        $result = $this->db->update('PD_BARANG', $data);
+        $this->db->where('PEMBELIAN_BARANG_ID', $id);
+        $result = $this->db->update('PEMBELIAN_BARANG', $data);
         return $result;
     }
 
     public function detail($id)
     {
         $hasil = $this->db->query('SELECT * FROM 
-        PD
+        PEMBELIAN
         WHERE PD_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
-
+        foreach ($hasil as $row) {
+            $transaksi = $this->db->query('SELECT * FROM PEMBELIAN_TRANSAKSI WHERE PD_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+            $row->TRANSAKSI = $transaksi;
+        }
         return $hasil;
     }
 
     public function detail_jenis_barang($jenis)
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="' . $jenis . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        if ($jenis == "gas" or $jenis == "tabung") {
+            $jenis_barang = "gas";
+        } else if ($jenis == "liquid" or $jenis == "tangki" or $jenis == "transporter") {
+            $jenis_barang = "liquid";
+        } else {
+            $jenis_barang = $jenis;
+        }
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="' . $jenis_barang . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         return $hasil;
     }
 
@@ -81,14 +117,14 @@ class PdModel extends CI_Model
     {
         $total = $this->input->post('quantity_barang') * $this->input->post('harga_barang');
         $data = array(
-            'PD_BARANG_ID' => create_id(),
+            'PEMBELIAN_BARANG_ID' => create_id(),
             'PD_ID' => $this->input->post('id'),
-
+            'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
             'MASTER_BARANG_ID' => $this->input->post('barang'),
-            'PD_BARANG_SATUAN' => $this->input->post('satuan'),
-            'PD_BARANG_HARGA' => $this->input->post('harga_barang'),
-            'PD_BARANG_QUANTITY' => $this->input->post('quantity_barang'),
-            'PD_BARANG_TOTAL' => $total,
+            'PEMBELIAN_BARANG_SATUAN' => $this->input->post('satuan'),
+            'PEMBELIAN_BARANG_HARGA' => $this->input->post('harga_barang'),
+            'PEMBELIAN_BARANG_QUANTITY' => $this->input->post('quantity_barang'),
+            'PEMBELIAN_BARANG_TOTAL' => $total,
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -96,43 +132,50 @@ class PdModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $result = $this->db->insert('PD_BARANG', $data);
+        $result = $this->db->insert('PEMBELIAN_BARANG', $data);
         return $result;
     }
 
-    public function list_barang($id)
+    public function list_barang($id, $id_pembelian)
     {
         $hasil = $this->db->query('SELECT * FROM 
-        PD_BARANG AS P LEFT JOIN MASTER_BARANG AS B 
+        PEMBELIAN_BARANG AS P LEFT JOIN MASTER_BARANG AS B 
         ON P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
         WHERE 
         P.RECORD_STATUS="AKTIF" AND 
         B.RECORD_STATUS="AKTIF" AND 
-        P.PD_ID="' . $id . '" AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY P.PD_BARANG_INDEX DESC')->result();
+        P.PD_ID="' . $id . '" AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY P.PEMBELIAN_BARANG_INDEX DESC')->result();
         return $hasil;
     }
 
-    public function pilih_po_barang($id, $id_pd)
-    {
-        $detail_po = $this->db->query('SELECT * FROM PO WHERE PO_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
-        $hasil = $this->db->query('SELECT * FROM PO_BARANG WHERE PO_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
-        foreach ($hasil as $row) {
-            $data = array(
-                'PD_BARANG_ID' => create_id(),
-                'PD_ID' => $id_pd,
-                'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
-                'PD_BARANG_SATUAN' => $row->PO_BARANG_SATUAN,
-                'PD_BARANG_HARGA' => $row->PO_BARANG_HARGA,
-                'PD_BARANG_QUANTITY' => $row->PO_BARANG_QUANTITY,
-                'PD_BARANG_TOTAL' => $row->PO_BARANG_TOTAL,
+    // public function po_to_pd($id, $id_pembelian)
+    // {
+    //     $data_close = array(
+    //         'PEMBELIAN_STATUS' => "close",
+    //     );
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-            $this->db->insert('PD_BARANG', $data);
-        }
-        return $detail_po;
-    }
+    //     $this->db->where('PD_ID', $id);
+    //     $this->db->update('PEMBELIAN', $data_close);
+
+    //     $data = array(
+    //         'PEMBELIAN_ID' => $id_pembelian,
+    //         'PEMBELIAN_JENIS' => "PD",
+    //         'PEMBELIAN_NOMOR' => nomor_pembelian("PD", $this->input->post('tanggal')),
+    //         'PD_ID' => create_id(),
+    //         'AKUN_ID' => $this->input->post('akun'),
+    //         'PEMBELIAN_BARANG' => $this->input->post('jenis'),
+    //         'PEMBELIAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
+    //         'PEMBELIAN_TANGGAL' => $this->input->post('tanggal'),
+    //         'PEMBELIAN_KETERANGAN' => $this->input->post('keterangan'),
+    //         'PEMBELIAN_STATUS' => "open",
+    //         'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
+
+    //         'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+    //         'ENTRI_USER' => $this->session->userdata('USER_ID'),
+    //         'RECORD_STATUS' => "AKTIF",
+    //         'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+    //     );
+    //     $this->db->insert('PEMBELIAN', $data);
+    //     return $data;
+    // }
 }

@@ -115,12 +115,12 @@ if (!function_exists('jenis_barang_pembelian')) {
   {
     $jenis_barang_pembelian = array(
       'gas' => 'Gas',
-      'gas' => 'Tabung',
+      'tabung' => 'Tabung',
       'liquid' => 'Liquid',
-      'liquid' => 'Tangki',
+      'tangki' => 'Tangki',
       'sparepart' => 'Sparepart',
       'aset' => 'Aset',
-      'liquid' => 'Transporter',
+      'transporter' => 'Transporter',
     );
     return $jenis_barang_pembelian;
   }

@@ -56,6 +56,14 @@ class User extends CI_Controller
         echo json_encode($data);
     }
 
+    public function ganti_bahasa()
+    {
+        $id = $this->uri->segment('4');
+        $lang = $_GET['lang'];
+        $data = $this->UserModel->ganti_bahasa($id, $lang);
+        echo json_encode($data);
+    }
+
     public function akses()
     {
         $this->load->model('sistem/AplikasiModel');

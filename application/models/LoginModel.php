@@ -12,6 +12,7 @@ class LoginModel extends CI_Model
         $this->session->set_userdata('USER_USERNAME', $data_user->USER_USERNAME);
         $this->session->set_userdata('USER_ID', $data_user->USER_ID);
         $this->session->set_userdata('PERUSAHAAN_KODE', $data_user->PERUSAHAAN_KODE);
+        $this->session->set_userdata('USER_BAHASA', $data_user->USER_BAHASA);
         $this->session->set_userdata('is_login_golden_island', TRUE);
         return TRUE;
       } else {

@@ -23,10 +23,9 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Tanggal</th>
-                                <th>Nomor Surat</th>
+                                <th>Nomor Pengiriman</th>
                                 <th>Jenis Pembelian</th>
                                 <th>Supplier</th>
-                                <th>Keterangan</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -45,10 +44,10 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
-        pd_list();
+        po_list();
     });
 
-    function pd_list() {
+    function po_list() {
         $.ajax({
             type: 'ajax',
             url: "<?php echo base_url() ?>index.php/pembelian/pd/list",
@@ -63,14 +62,19 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].PEMBELIAN_STATUS == "close") {
+                            var status = "<span class='float-left badge bg-danger'>Close</span>"
+                        } else {
+                            var status = "<span class='float-left badge bg-success'>Open</span>"
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].PD_NOMOR_SURAT + "</td>" +
-                            "<td>" + data[i].PD_JENIS + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_NOMOR + "<br>" + status + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
-                            "<td>" + data[i].PD_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>pembelian/pd/form_pd/" + data[i].PD_ID + "'>Lihat</a></td>" +
+                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>pembelian/pd/form_pd/" + data[i].PD_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
+                            "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>pdf/cetak_pd/" + data[i].PD_ID + "/" + data[i].PEMBELIAN_ID + "'> <i class='right fas fa-print'></i> Cetak</a></td>" +
                             "</tr>");
                     }
                 }

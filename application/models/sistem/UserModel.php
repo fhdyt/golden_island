@@ -40,6 +40,18 @@ class UserModel extends CI_Model
         return $result;
     }
 
+    public function ganti_bahasa($id, $lang)
+    {
+        $data = array(
+            'USER_BAHASA' => $lang,
+        );
+
+        $this->db->where('USER_ID', $id);
+        $result = $this->db->update('USER', $data);
+        $this->session->set_userdata('USER_BAHASA', $lang);
+        return $result;
+    }
+
     public function menu_list()
     {
         if (empty($_GET['menu_filter'])) {

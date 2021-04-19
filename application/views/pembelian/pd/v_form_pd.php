@@ -4,6 +4,12 @@ if (empty($this->uri->segment('4'))) {
 } else {
     $id = $this->uri->segment('4');
 }
+
+if (empty($this->uri->segment('5'))) {
+    $id_pembelian = create_id();
+} else {
+    $id_pembelian = $this->uri->segment('5');
+}
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -11,8 +17,11 @@ if (empty($this->uri->segment('4'))) {
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-12">
+                <div class="col-sm-7">
                     <h1 class="m-0">Form Pengiriman</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-5 text-right btn-pengiriman" hidden>
+                    <button class="btn btn-warning">Buat Faktur</button>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -28,29 +37,8 @@ if (empty($this->uri->segment('4'))) {
                         <div class="col-md-12">
                             <form id="submit">
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
+                                <input type="hidden" class="form-control id_pembelian" name="id_pembelian" value="<?= $id_pembelian; ?>" autocomplete="off">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">No Pemesanan</label>
-                                            <select name="po" id="po" class="form-control po select2" style="width: 100%;">
-                                                <option value="">-- Pilih PO --</option>
-                                                <?php foreach ($po as $row) {
-                                                ?>
-                                                    <option value="<?= $row->PO_ID; ?>"><?= $row->PO_NOMOR_SURAT; ?></option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                            <small class="text-muted">Nomor Purchasing Order.</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nomor Surat</label>
-                                            <input type="text" class="form-control nomor_surat" name="nomor_surat" autocomplete="off" required>
-                                            <small class="text-muted">*Wajib diisi.</small>
-                                        </div>
-                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Tanggal</label>
@@ -80,7 +68,7 @@ if (empty($this->uri->segment('4'))) {
                                                 <option value="">-- Jenis Barang --</option>
 
                                                 <?php
-                                                foreach (jenis_barang() as $value => $text) {
+                                                foreach (jenis_barang_pembelian() as $value => $text) {
                                                 ?>
                                                     <option value="<?= $value; ?>"><?= $text; ?></option>
                                                 <?php
@@ -90,10 +78,10 @@ if (empty($this->uri->segment('4'))) {
                                             <small class="text-muted">*Wajib diisi.</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Keterangan</label>
-                                            <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
+                                            <textarea name="keterangan" id="keterangan" class="form-control keterangan" rows="6"></textarea>
                                             <small class="text-muted">Kosongkan jika tidak diperlukan.</small>
                                         </div>
                                     </div>
@@ -118,10 +106,10 @@ if (empty($this->uri->segment('4'))) {
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama Barang</th>
-                                        <th>Harga</th>
+                                        <!-- <th>Harga</th> -->
                                         <th>Quantity</th>
                                         <th>Satuan</th>
-                                        <th>Total</th>
+                                        <!-- <th>Total</th> -->
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -134,9 +122,9 @@ if (empty($this->uri->segment('4'))) {
                                             </select>
                                         </td>
 
-                                        <td>
+                                        <!-- <td>
                                             <input type="text" class="form-control form-control-sm harga_barang" name="harga_barang" autocomplete="off" value="0" onkeyup="kalkulasi_total_rupiah_barang()">
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <input type="text" class="form-control form-control-sm quantity_barang" name="quantity_barang" autocomplete="off" value="0" onkeyup="kalkulasi_total_rupiah_barang()">
                                         </td>
@@ -151,9 +139,9 @@ if (empty($this->uri->segment('4'))) {
                                                 ?>
                                             </select>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <input type="text" class="form-control form-control-sm total_rupiah_barang" name="total_rupiah_barang" autocomplete="off" value="0" onkeyup="" readonly>
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <button type="button" class="btn btn-secondary btn-sm btn-add-barang"><i class="nav-icon fas fa-plus"></i></button>
                                         </td>
@@ -176,36 +164,13 @@ if (empty($this->uri->segment('4'))) {
                     <div class="card card-default color-palette-box">
                         <div class="card-body">
                             <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Total</label>
+                                <label class="col-sm-2 col-form-label text-right">Biaya Lainnya</label>
                                 <div class="col-sm-10">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
                                         </div>
-                                        <input type="text" class="form-control total" name="total" readonly>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Bayar</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Rp.</span>
-                                        </div>
-                                        <input type="text" class="form-control bayar" name="bayar" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Sisa Bayar</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Rp.</span>
-                                        </div>
-                                        <input type="text" class="form-control sisa_bayar" name="sisa_bayar" readonly>
+                                        <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
                                     </div>
                                 </div>
                             </div>
@@ -234,17 +199,11 @@ if (empty($this->uri->segment('4'))) {
 
 <script>
     $(function() {
-        $(".potongan").mask("#.##0", {
+
+        $(".lainnya").mask("#.##0", {
             reverse: true
         });
 
-        $(".biaya_tambahan").mask("#.##0", {
-            reverse: true
-        });
-
-        $(".bayar").mask("#.##0", {
-            reverse: true
-        });
         detail()
         barang_list()
         kalkulasi_seluruh()
@@ -263,8 +222,10 @@ if (empty($this->uri->segment('4'))) {
                 memuat()
             },
             success: function(data) {
-                Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
+                console.log(data)
+                Swal.fire('Berhasil', 'Pengiriman berhasil ditambahkan', 'success')
                 detail()
+
             }
         });
     })
@@ -272,7 +233,7 @@ if (empty($this->uri->segment('4'))) {
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/pembelian/pd/detail/<?= $id; ?>',
+            url: '<?php echo base_url() ?>index.php/pembelian/pd/detail/<?= $id; ?>/<?= $id_pembelian; ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -281,14 +242,17 @@ if (empty($this->uri->segment('4'))) {
                     detail_jenis_barang()
                     barang_list()
                 } else {
-                    console.log(data)
-                    $(".nomor_surat").val(data[0].PD_NOMOR_SURAT)
-                    $(".tanggal").val(data[0].PD_TANGGAL)
+                    $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
+                    $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
-                    $(".jenis").val(data[0].PD_JENIS)
-                    $(".keterangan").val(data[0].PD_KETERANGAN)
-                    $(".total").val(number_format(data[0].PD_TOTAL))
-                    $(".bayar").val(number_format(data[0].PD_BAYAR))
+                    $(".jenis").val(data[0].PEMBELIAN_BARANG)
+                    $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
+                    $(".lainnya").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_LAINNYA))
+                    if (data[0].PEMBELIAN_STATUS == "open") {
+                        $(".btn-pengiriman").attr("hidden", false)
+                    } else {
+                        $(".btn-pengiriman").attr("hidden", true)
+                    }
                     detail_jenis_barang()
                 }
 
@@ -311,12 +275,11 @@ if (empty($this->uri->segment('4'))) {
     function detail_jenis_barang() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/pembelian/pembelian/detail_jenis_barang?jenis=" + $(".jenis").val(),
+            url: "<?php echo base_url() ?>index.php/pembelian/po/detail_jenis_barang?jenis=" + $(".jenis").val(),
             async: false,
             dataType: 'json',
             success: function(data) {
                 $("select#barang").empty();
-                console.log(data)
                 if (data.length === 0) {} else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
@@ -340,6 +303,7 @@ if (empty($this->uri->segment('4'))) {
             },
             data: {
                 id: "<?= $id; ?>",
+                id_pembelian: "<?= $id_pembelian; ?>",
                 barang: $('.barang').val(),
                 satuan: $('.satuan').val(),
                 harga_barang: $('.harga_barang').val(),
@@ -357,6 +321,7 @@ if (empty($this->uri->segment('4'))) {
     })
 
     function kalkulasi_total_rupiah_barang() {
+
         var quantity = $(".quantity_barang").val()
         var harga = $(".harga_barang").val()
         var total = quantity * harga
@@ -366,13 +331,12 @@ if (empty($this->uri->segment('4'))) {
     function barang_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/pembelian/pd/list_barang/<?= $id; ?>",
+            url: "<?php echo base_url() ?>index.php/pembelian/pd/list_barang/<?= $id; ?>/<?= $id_pembelian; ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
                     $(".total").val("0")
@@ -380,18 +344,17 @@ if (empty($this->uri->segment('4'))) {
                     var no = 1
                     var total = 0
                     for (i = 0; i < data.length; i++) {
-                        total += parseInt(data[i].PD_BARANG_TOTAL);
+                        total += parseInt(data[i].PEMBELIAN_BARANG_TOTAL);
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + number_format(data[i].PD_BARANG_HARGA) + "</td>" +
-                            "<td>" + number_format(data[i].PD_BARANG_QUANTITY) + "</td>" +
-                            "<td>" + data[i].PD_BARANG_SATUAN + "</td>" +
-                            "<td align='right'>" + number_format(data[i].PD_BARANG_TOTAL) + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PD_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            // "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
+                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
+                            // "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
                             "</tr>");
                     }
-                    $("tfoot#total_data").append("<tr><td colspan='5' align='right'><b>Total</b></td><td align='right'>" + number_format(total) + "</td></tr>")
                     $(".total").val(number_format(total))
                 }
             },
@@ -402,7 +365,6 @@ if (empty($this->uri->segment('4'))) {
     }
 
     function hapus(id) {
-        console.log(id)
         Swal.fire({
             title: 'Hapus ?',
             icon: 'question',
@@ -435,48 +397,40 @@ if (empty($this->uri->segment('4'))) {
         })
     }
 
-    $('.ppn_check').change(function() {
+    $('.pajak').change(function() {
         kalkulasi_seluruh()
     });
 
     function kalkulasi_seluruh() {
-        var total = parseInt($(".total").val().split('.').join(""))
-        var bayar = parseInt($(".bayar").val().split('.').join(""))
-        var sisa_bayar = total - bayar
-        $(".sisa_bayar").val(number_format(sisa_bayar))
+        // var pajak = parseInt($(".pajak").val())
+        // var potongan = parseInt($(".potongan").val().split('.').join(""))
+
+        // var total = parseInt($(".total").val().split('.').join(""))
+        // var bayar = parseInt($(".bayar").val().split('.').join(""))
+        // var pajak_rupiah = (total - potongan) * (pajak / 100)
+        // $(".pajak_rupiah").val(number_format(pajak_rupiah))
+        // var total_bayar = (total - potongan) + pajak_rupiah
+        // var sisa_bayar = total_bayar - bayar
+        // $(".total_bayar").val(number_format(total_bayar))
+        // $(".sisa_bayar").val(number_format(sisa_bayar))
     }
 
-    $('.po').change(function() {
-        var id = $(this).val()
-        pilih_po_barang(id)
-    });
-
-    function pilih_po_barang(id) {
+    $(".btn-pengiriman").on("click", function() {
         $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/pembelian/pd/pilih_po_barang/' + id + "/<?= $id; ?>",
+            url: '<?php echo base_url(); ?>index.php/pembelian/po/po_to_pd/<?= $id; ?>/<?= $id_pembelian; ?>',
+            type: "ajax",
+            dataType: 'json',
             beforeSend: function() {
                 memuat()
             },
-            dataType: 'json',
             success: function(data) {
-                if (data.length === 0) {} else {
-                    detail();
-                    Swal.fire('Berhasil', 'Berhasil ditambah', 'success')
-                    $(".tanggal").val(data[0].PD_TANGGAL)
-                    $(".supplier").val(data[0].MASTER_SUPPLIER_ID).trigger('change')
-                    $(".jenis").val(data[0].PD_JENIS).trigger('change')
-                    $(".keterangan").val(data[0].PD_KETERANGAN)
-                    kalkulasi_seluruh()
-                }
-            },
-            error: function(x, e) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Proses Gagal'
-                })
+                window.open(
+                    '<?= base_url(); ?>pembelian/pd/form_pd/' + data.PD_ID + '/' + data.PEMBELIAN_ID,
+                    '_blank'
+                );
+                Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
+                detail()
             }
         });
-    }
+    })
 </script>
