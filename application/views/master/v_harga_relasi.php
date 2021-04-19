@@ -25,8 +25,8 @@
 
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -94,7 +94,7 @@
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     // var tableContent = "";
                     // var no = 1

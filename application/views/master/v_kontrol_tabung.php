@@ -13,7 +13,7 @@
                         <input type="hidden" class="form-control id_detail" name="id_detail" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Tanggal</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
                         <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required>
                     </div>
                     <div class="form-group">
@@ -45,14 +45,14 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Keterangan</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                         <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off">
                     </div>
 
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="col-md-2">
                             <select name="status_filter" id="status_filter" class="form-control status_filter select2" style="width: 100%;">
-                                <option value="">Semua</option>
+                                <option value=""><?= $this->lang->line('semua'); ?></option>
                                 <option value="MP">MP</option>
                                 <option value="MR">MR</option>
                             </select>
@@ -107,11 +107,11 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Tanggal</th>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th>Kirim</th>
                                 <th>Kembali</th>
                                 <th>Saldo</th>
-                                <th>Keterangan</th>
+                                <th><?= $this->lang->line('keterangan'); ?></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -157,7 +157,7 @@
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
                     var total = 0
@@ -213,10 +213,10 @@
     function hapus(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

@@ -14,9 +14,9 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Tanggal</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
                         <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required>
-                        <small class="text-muted">*Wajib diisi.</small>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jenis</label>
@@ -26,9 +26,9 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Keterangan</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                         <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off" required>
-                        <small class="text-muted">*Wajib diisi.</small>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
 
                     <div class="form-group">
@@ -37,8 +37,8 @@
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -54,7 +54,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Kas Kecil</h1>
+                    <h1 class="m-0"><?= $this->lang->line('Kas Kecil'); ?></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-md-4">
                             <select name="bulan" id="bulan" class="form-control bulan select2" style="width: 100%;">
-                                <option value="">Semua</option>
+                                <option value=""><?= $this->lang->line('semua'); ?></option>
 
                                 <?php
                                 foreach (bulan() as $value => $text) {
@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-md-4">
                             <select name="tahun" id="tahun" class="form-control tahun select2" style="width: 100%;">
-                                <option value="">Semua</option>
+                                <option value=""><?= $this->lang->line('semua'); ?></option>
 
                                 <?php
                                 foreach (tahun() as $value => $text) {
@@ -101,8 +101,8 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Tanggal</th>
-                                <th>Keterangan</th>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
+                                <th><?= $this->lang->line('keterangan'); ?></th>
                                 <th>K/D</th>
                                 <th>Rupiah</th>
                                 <th>Saldo</th>
@@ -147,7 +147,7 @@
                 memuat()
                 console.log(data.saldo_awal)
                 if (data.kas_kecil.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
                     for (i = 0; i < data.kas_kecil.length; i++) {
@@ -192,10 +192,10 @@
     function hapus(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

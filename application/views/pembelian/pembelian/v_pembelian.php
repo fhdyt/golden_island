@@ -22,11 +22,11 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Tanggal</th>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th>Nomor Surat</th>
                                 <th>Jenis Pembelian</th>
-                                <th>Supplier</th>
-                                <th>Keterangan</th>
+                                <th><?= $this->lang->line('supplier'); ?></th>
+                                <th><?= $this->lang->line('keterangan'); ?></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -59,7 +59,7 @@
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {

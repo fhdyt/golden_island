@@ -69,15 +69,15 @@ if (empty($this->uri->segment('4'))) {
                         <input type="text" class="form-control klaim_qty_klaim" name="klaim_qty_klaim" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Keterangan</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                         <input type="text" class="form-control klaim_keterangan" name="klaim_keterangan" autocomplete="off">
                     </div>
 
 
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -110,15 +110,15 @@ if (empty($this->uri->segment('4'))) {
                         <input type="text" class="form-control klaim_qty_klaim_ttbk" name="klaim_qty_klaim_ttbk" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Keterangan</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                         <input type="text" class="form-control klaim_keterangan_ttbk" name="klaim_keterangan_ttbk" autocomplete="off">
                     </div>
 
 
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -168,7 +168,7 @@ if (empty($this->uri->segment('4'))) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Tanggal</label>
+                                        <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
                                         <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off">
                                     </div>
                                 </div>
@@ -224,7 +224,7 @@ if (empty($this->uri->segment('4'))) {
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Keterangan</label>
+                                        <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                                         <textarea class="form-control keterangan" name="keterangan" autocomplete="off"></textarea>
                                     </div>
                                 </div>
@@ -443,7 +443,7 @@ if (empty($this->uri->segment('4'))) {
 
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success btn-lg">Simpan</button>
+                    <button type="submit" class="btn btn-success btn-lg"><?= $this->lang->line('simpan'); ?></button>
                 </div>
             </div>
             </form>
@@ -517,7 +517,7 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 $("tbody#zone_data").empty();
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                     $(".total_rupiah").val("0")
                 } else {
                     var tableContent = "";
@@ -568,7 +568,7 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 $("tbody#zone_data_ttbk").empty();
                 if (data.length === 0) {
-                    $("tbody#zone_data_ttbk").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data_ttbk").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var tableContent = "";
                     var no = 1
@@ -792,10 +792,10 @@ if (empty($this->uri->segment('4'))) {
 
     function hapus(id) {
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

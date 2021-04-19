@@ -133,7 +133,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           }
           ?>
           <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="flag-icon flag-icon-<?= $flag; ?>"></i> <?= $bahasa; ?>
+            <i class="flag-icon flag-icon-<?= $flag; ?>"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right p-0">
             <a href="#" class="dropdown-item" lang="bahasa" onclick="ganti_bahasa('bahasa')">
@@ -218,7 +218,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="<?php echo base_url(); ?><?php echo $row->APLIKASI_LINK; ?>/<?php echo $menu->MENU_LINK; ?>" class="nav-link <?= $active; ?>">
                         <i class="far fa-circle"></i>
                         <!-- <i class="<?php echo $menu->MENU_ICON; ?>"></i> -->
-                        <p><?php echo $this->lang->line($menu->MENU_NAMA); ?></p>
+                        <p><?= $this->lang->line($menu->MENU_NAMA); ?></p>
                       </a>
                     </li>
                   <?php

@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah aplikasi</h4>
+                <h4 class="modal-title"><?= $this->lang->line("tambah_aplikasi"); ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form id="submit">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
                         <input type="text" class="form-control" name="nama" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
@@ -23,8 +23,8 @@
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line("tutup"); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line("simpan"); ?></button>
                 </form>
             </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Aplikasi</h1>
+                    <h1 class="m-0"><?= $this->lang->line("Aplikasi"); ?></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -52,12 +52,12 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_aplikasi mb-2">Tambah Aplikasi</button>
+                    <button type="button" class="btn btn-secondary btn_aplikasi mb-2"><?= $this->lang->line("tambah_aplikasi"); ?></button>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama</th>
+                                <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Link</th>
                                 <th>Icon</th>
                                 <th></th>
@@ -138,10 +138,10 @@
     function hapus(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

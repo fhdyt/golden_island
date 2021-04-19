@@ -13,19 +13,19 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
                         <input type="text" class="form-control nama" name="nama" autocomplete="off" required>
-                        <small class="text-muted">*Wajib diisi.</small>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Alamat</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('alamat'); ?></label>
                         <input type="text" class="form-control alamat" name="alamat" autocomplete="off">
-                        <small class="text-muted">*Wajib diisi.</small>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">No. HP</label>
                         <input type="text" class="form-control hp" name="hp" autocomplete="off">
-                        <small class="text-muted">*Wajib diisi.</small>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">NPWP</label>
@@ -37,8 +37,8 @@
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -54,7 +54,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Relasi</h1>
+                    <h1 class="m-0"><?= $this->lang->line('Relasi'); ?></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -71,8 +71,8 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama</th>
-                                <th>Alamat</th>
+                                <th><?= $this->lang->line('nama'); ?></th>
+                                <th><?= $this->lang->line('alamat'); ?></th>
                                 <th>No. HP</th>
                                 <th>NPWP</th>
                                 <th></th>
@@ -112,7 +112,7 @@
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
@@ -164,10 +164,10 @@
     function hapus(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

@@ -24,22 +24,22 @@
                             }
                             ?>
                         </select>
-                        <small class="text-muted">*Wajib diisi.</small>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
                         <input type="text" class="form-control nama" name="nama" autocomplete="off">
-                        <small class="text-muted">*Wajib diisi.</small>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Keterangan</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                         <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
                     </div>
 
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -55,7 +55,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Barang</h1>
+                    <h1 class="m-0"><?= $this->lang->line('Barang'); ?></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-6">
                             <select name="jenis_filter" id="jenis_filter" class="form-control jenis_filter select2" style="width: 100%;">
-                                <option value="">Semua</option>
+                                <option value=""><?= $this->lang->line('semua'); ?></option>
 
                                 <?php
                                 foreach (jenis_barang() as $value => $text) {
@@ -90,9 +90,9 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama</th>
+                                <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Jenis</th>
-                                <th>Keterangan</th>
+                                <th><?= $this->lang->line('keterangan'); ?></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -136,7 +136,7 @@
                 $("tbody#zone_data").empty();
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
@@ -180,10 +180,10 @@
     function hapus(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

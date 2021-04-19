@@ -21,7 +21,7 @@
                     <div class="row mb-2">
                         <div class="col-12">
                             <select name="menu_filter" id="menu_filter" class="form-control menu_filter select2" style="width: 100%;">
-                                <option value="">Semua</option>
+                                <option value=""><?= $this->lang->line('semua'); ?></option>
 
                                 <?php
                                 foreach ($aplikasi as $row) {

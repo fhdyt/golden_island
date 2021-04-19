@@ -133,7 +133,7 @@
     <table class="table-noborder" style="margin-top: 20px;">
         <tr>
             <td width="50%">
-                <p style="margin-bottom: 60px;">Keterangan:</p>
+                <p style="margin-bottom: 60px;"><?= $this->lang->line('keterangan'); ?>:</p>
                 <br>
                 <p><?php echo nl2br($detail[0]->PEMBELIAN_KETERANGAN); ?></p>
             <td width="50%" align="center">

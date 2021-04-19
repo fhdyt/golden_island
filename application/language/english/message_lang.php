@@ -6,6 +6,20 @@ $lang["dashboard"] = "Dashboard";
 $lang["masukan"] = "Feedback";
 $lang["bantuan"] = "Help";
 $lang["keluar"] = "Logout";
+$lang["simpan"] = "Save";
+$lang["tutup"] = "Close";
+$lang["tidak_ada_data"] = "No Data";
+$lang["tanggal"] = "Date";
+$lang["keterangan"] = "Description";
+$lang["nama"] = "Name";
+$lang["supplier"] = "Supplier";
+$lang["alamat"] = "Address";
+$lang["kode"] = "Code";
+$lang["wajib_isi"] = "Mandatory";
+
+$lang["success"] = "Success";
+$lang["hapus"] = "Delete";
+$lang["semua"] = "All";
 
 // ----------------- aplikasi -----------------
 $lang["Produksi"] = "Production";
@@ -35,3 +49,8 @@ $lang["Perusahaan"] = "Company";
 $lang["Aplikasi"] = "Application";
 $lang["Menu"] = "Menu";
 $lang["User"] = "User";
+
+// ----------------- aplikasi -----------------
+$lang["tambah_aplikasi"] = "Add New Application";
+$lang["link"] = "Link";
+$lang["icon"] = "Icon";

@@ -48,19 +48,19 @@ if (empty($this->uri->segment('4'))) {
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Nomor Surat</label>
                                             <input type="text" class="form-control nomor_surat" name="nomor_surat" autocomplete="off" required>
-                                            <small class="text-muted">*Wajib diisi.</small>
+                                            <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Tanggal</label>
+                                            <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
                                             <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required>
-                                            <small class="text-muted">*Wajib diisi.</small>
+                                            <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Supplier</label>
+                                            <label for="exampleInputEmail1"><?= $this->lang->line('supplier'); ?></label>
                                             <select name="supplier" id="supplier" class="form-control supplier select2" style="width: 100%;" required>
                                                 <option value="">-- Pilih Supplier --</option>
                                                 <?php foreach ($supplier as $row) {
@@ -70,7 +70,7 @@ if (empty($this->uri->segment('4'))) {
                                                 }
                                                 ?>
                                             </select>
-                                            <small class="text-muted">*Wajib diisi.</small>
+                                            <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -87,7 +87,7 @@ if (empty($this->uri->segment('4'))) {
                                                 }
                                                 ?>
                                             </select>
-                                            <small class="text-muted">*Wajib diisi.</small>
+                                            <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -100,7 +100,7 @@ if (empty($this->uri->segment('4'))) {
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Keterangan</label>
+                                            <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                                             <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
                                             <small class="text-muted">Kosongkan jika tidak diperlukan.</small>
                                         </div>
@@ -288,7 +288,7 @@ if (empty($this->uri->segment('4'))) {
             <div class="col-md-12">
                 <div class="card card-default color-palette-box">
                     <div class="card-body">
-                        <button type="submit" class="btn btn-success btn-lg">Simpan</button>
+                        <button type="submit" class="btn btn-success btn-lg"><?= $this->lang->line('simpan'); ?></button>
                         </form>
                     </div>
                 </div>
@@ -457,7 +457,7 @@ if (empty($this->uri->segment('4'))) {
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
                     var total = 0
@@ -485,10 +485,10 @@ if (empty($this->uri->segment('4'))) {
 
     function hapus(id) {
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

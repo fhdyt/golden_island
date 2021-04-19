@@ -45,8 +45,8 @@ if (empty($this->uri->segment('4'))) {
 
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -92,8 +92,8 @@ if (empty($this->uri->segment('4'))) {
 
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -149,7 +149,7 @@ if (empty($this->uri->segment('4'))) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Tanggal</label>
+                                        <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
                                         <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off">
                                     </div>
                                 </div>
@@ -201,7 +201,7 @@ if (empty($this->uri->segment('4'))) {
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Keterangan</label>
+                                        <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                                         <textarea class="form-control keterangan" name="keterangan" autocomplete="off"></textarea>
                                     </div>
                                 </div>
@@ -286,7 +286,7 @@ if (empty($this->uri->segment('4'))) {
             </div>
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success btn-lg">Simpan</button>
+                    <button type="submit" class="btn btn-success btn-lg"><?= $this->lang->line('simpan'); ?></button>
                 </div>
             </div>
             </form>
@@ -321,7 +321,7 @@ if (empty($this->uri->segment('4'))) {
                 $("tbody#zone_data").empty();
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var tableContent = "";
                     var no = 1
@@ -361,7 +361,7 @@ if (empty($this->uri->segment('4'))) {
                 $("tbody#zone_data_ttbk").empty();
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data_ttbk").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data_ttbk").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var tableContent = "";
                     var no = 1
@@ -558,10 +558,10 @@ if (empty($this->uri->segment('4'))) {
     function hapus(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {
@@ -592,10 +592,10 @@ if (empty($this->uri->segment('4'))) {
     function hapus_ttbk(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

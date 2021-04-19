@@ -16,7 +16,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
+                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
                         <input type="text" class="form-control" name="nama" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
@@ -29,8 +29,8 @@
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-6">
                             <select name="menu_filter" id="menu_filter" class="form-control menu_filter select2" style="width: 100%;">
-                                <option value="">Semua</option>
+                                <option value=""><?= $this->lang->line('semua'); ?></option>
 
                                 <?php
                                 foreach ($aplikasi as $row) {
@@ -83,7 +83,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Aplikasi</th>
-                                <th>Nama</th>
+                                <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Link</th>
                                 <th>Icon</th>
                                 <th></th>
@@ -184,10 +184,10 @@
     function hapus(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {

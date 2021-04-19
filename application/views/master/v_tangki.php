@@ -23,7 +23,7 @@
                             }
                             ?>
                         </select>
-                        <small class="text-muted">*Wajib diisi.</small>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Kode Tangki</label>
@@ -47,8 +47,8 @@
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -64,7 +64,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Tangki</h1>
+                    <h1 class="m-0"><?= $this->lang->line('TAngki'); ?></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -81,7 +81,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Kode</th>
+                                <th><?= $this->lang->line('kode'); ?></th>
                                 <th>Jenis Barang</th>
                                 <th>Lokasi</th>
                                 <th></th>
@@ -121,7 +121,7 @@
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
+                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
@@ -165,10 +165,10 @@
     function hapus(id) {
         console.log(id)
         Swal.fire({
-            title: 'Hapus ?',
+            title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {
