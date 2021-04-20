@@ -168,7 +168,7 @@
                     var total = 0
                     for (i = 0; i < data.length; i++) {
                         total += data[i].TOTAL
-                        if (data[i].JURNAL_TABUNG_FILE == "kosong")
+                        if (data[i].JURNAL_TABUNG_FILE == "empty")
                             var img = ""
                         else {
                             var img = "<img src='<?= base_url(); ?>uploads/kontrol_tabung/" + data[i].JURNAL_TABUNG_FILE + "' width='50'><br><a href='<?= base_url(); ?>uploads/kontrol_tabung/" + data[i].JURNAL_TABUNG_FILE + "' target='_blank'> Buka Gambar</a>"
