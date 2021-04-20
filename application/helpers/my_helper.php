@@ -311,3 +311,22 @@ if (!function_exists('nomor_pembelian')) {
     }
   }
 }
+
+if (!function_exists('kode_tabung')) {
+  function kode_tabung()
+  {
+    $CI = &get_instance();
+
+    $kode = $CI->session->userdata('PERUSAHAAN_KODE');
+
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_TABUNG WHERE MASTER_TABUNG_KODE LIKE "%' . $kode . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_TABUNG_KODE DESC')->result();
+    if (empty($hasil)) {
+      return $kode . "/0001";
+    } else {
+      $nomor = explode("/", $hasil[0]->MASTER_TABUNG_KODE);
+      $nomorbaru = $nomor[1] + 1;
+      return $kode . "/" . sprintf("%04d", $nomorbaru);
+    }
+  }
+}

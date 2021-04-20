@@ -25,7 +25,7 @@ class RelasiModel extends CI_Model
 
         return $hasil;
     }
-    public function add_kontrol_tabung($user)
+    public function add_kontrol_tabung($user, $config)
     {
         $data = array(
             'JURNAL_TABUNG_ID' => create_id(),
@@ -36,6 +36,7 @@ class RelasiModel extends CI_Model
             'JURNAL_TABUNG_KEMBALI' => $this->input->post('kembali'),
             'JURNAL_TABUNG_STATUS' => $this->input->post('status'),
             'JURNAL_TABUNG_KETERANGAN' => $this->input->post('keterangan'),
+            'JURNAL_TABUNG_FILE' => $config['file_name'],
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

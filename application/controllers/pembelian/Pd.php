@@ -91,11 +91,9 @@ class Pd extends CI_Controller
         echo json_encode($data);
     }
 
-    public function po_to_pd()
+    public function realisasi_tabung()
     {
-        $id = $this->uri->segment('4');
-        $id_pembelian = $this->uri->segment('5');
-        $data = $this->PdModel->po_to_pd($id, $id_pembelian);
+        $data = $this->PdModel->realisasi_tabung();
         echo json_encode($data);
     }
 }

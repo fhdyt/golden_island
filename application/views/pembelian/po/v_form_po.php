@@ -17,11 +17,14 @@ if (empty($this->uri->segment('5'))) {
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-7">
+                <div class="col-sm-8">
                     <h1 class="m-0">Form Pemesanan</h1>
                 </div><!-- /.col -->
-                <div class="col-sm-5 text-right btn-pengiriman" hidden>
-                    <button class="btn btn-warning">Buat Pengiriman</button>
+                <div class="col-sm-2 text-right">
+                    <a target="_blank" class="btn btn-block btn-primary" href="<?= base_url(); ?>pdf/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>">Cetak</a>
+                </div><!-- /.col -->
+                <div class="col-sm-2 text-right btn-pengiriman" hidden>
+                    <button class="btn btn-block btn-warning">Buat Pengiriman</button>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -306,6 +309,7 @@ if (empty($this->uri->segment('5'))) {
                 console.log(data)
                 Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
                 detail()
+                window.location.href = '<?= base_url(); ?>pembelian/po/form_po/<?= $id; ?>/<?= $id_pembelian; ?>'
                 window.open(
                     '<?= base_url(); ?>pdf/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>',
                     '_blank'

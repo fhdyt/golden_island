@@ -44,6 +44,7 @@ $lang["Barang"] = "Barang";
 $lang["Relasi"] = "Relasi";
 $lang["Pemesanan"] = "Pemesanan";
 $lang["Pengiriman"] = "Pengiriman";
+$lang["Faktur"] = "Faktur";
 $lang["Stok"] = "Stok";
 $lang["Perusahaan"] = "Perusahaan";
 $lang["Aplikasi"] = "Aplikasi";

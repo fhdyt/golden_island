@@ -11,6 +11,39 @@ if (empty($this->uri->segment('5'))) {
     $id_pembelian = $this->uri->segment('5');
 }
 ?>
+<div class="modal fade" id="realisasi_tabungModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Realikasi Tabung</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="realisasi_tabung">
+                    <div class="form-group">
+                        <input type="text" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Quantity</label>
+                        <input type="text" class="form-control quantity_realisasi" name="quantity_realisasi" autocomplete="off">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -233,9 +266,7 @@ if (empty($this->uri->segment('5'))) {
                 memuat()
             },
             success: function(data) {
-                console.log(data)
-                Swal.fire('Berhasil', 'Pengiriman berhasil ditambahkan', 'success')
-                detail()
+                window.location.href = '<?= base_url(); ?>pembelian/pd/form_pd/<?= $id; ?>/<?= $id_pembelian; ?>'
 
             }
         });
@@ -256,7 +287,7 @@ if (empty($this->uri->segment('5'))) {
                     $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
-                    $(".jenis").val(data[0].PEMBELIAN_BARANG)
+                    $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger('change')
                     $(".akun").val(data[0].AKUN_ID)
                     $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
                     $(".lainnya").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_LAINNYA))
@@ -357,14 +388,22 @@ if (empty($this->uri->segment('5'))) {
                     var total = 0
                     for (i = 0; i < data.length; i++) {
                         total += parseInt(data[i].PEMBELIAN_BARANG_TOTAL);
+                        if (data[i].PEMBELIAN_BARANG_REALISASI == "1") {
+                            var btn_realisasi = ""
+                            var txt_realisasi = "<br><small class='text-success'>Telah direalisasi</small>"
+                        } else {
+                            var btn_realisasi = "<a class='btn btn-primary btn-sm' onclick='realisasi(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'> Realisasi</a>"
+                            var txt_realisasi = "<br><small class='text-danger'>Belum direalisasi</small>"
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "" + txt_realisasi + "</td>" +
                             // "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
                             "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
                             // "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            btn_realisasi + "</td>" +
                             "</tr>");
                     }
                     $(".total").val(number_format(total))
@@ -408,6 +447,36 @@ if (empty($this->uri->segment('5'))) {
             }
         })
     }
+
+    function realisasi(id) {
+        var jenis_barang = $(".jenis").val()
+
+        if (jenis_barang == "tabung") {
+            $("#realisasi_tabungModal").modal("show")
+            $(".id_realisasi").val(id)
+        }
+    }
+
+    $('#realisasi_tabung').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/pembelian/pd/realisasi_tabung',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                memuat()
+                Swal.fire('Berhasil', 'Pengiriman berhasil ditambahkan', 'success')
+                barang_list()
+
+            }
+        });
+    })
 
     $('.pajak').change(function() {
         kalkulasi_seluruh()

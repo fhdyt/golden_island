@@ -148,34 +148,38 @@ class PdModel extends CI_Model
         return $hasil;
     }
 
-    // public function po_to_pd($id, $id_pembelian)
-    // {
-    //     $data_close = array(
-    //         'PEMBELIAN_STATUS' => "close",
-    //     );
+    public function realisasi_tabung()
+    {
+        $quantity = $this->input->post('quantity_realisasi');
+        $hasil = $this->db->query('SELECT * FROM 
+        PEMBELIAN_BARANG 
+        WHERE 
+        RECORD_STATUS="AKTIF" AND 
+        PEMBELIAN_BARANG_ID="' . $this->input->post('id_realisasi') . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        if (!empty($hasil)) {
+            for ($x = 0; $x <= $quantity; $x++) {
+                $data = array(
+                    'MASTER_TABUNG_ID' => create_id(),
+                    'MASTER_TABUNG_KODE' => kode_tabung(),
+                    'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
+                    'PEMBELIAN_NOMOR_SURAT' => "",
+                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                    'RECORD_STATUS' => "AKTIF",
+                    'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                );
+                $this->db->insert('MASTER_TABUNG', $data);
+            }
 
-    //     $this->db->where('PD_ID', $id);
-    //     $this->db->update('PEMBELIAN', $data_close);
+            $data_barang = array(
+                'PEMBELIAN_BARANG_QUANTITY' => $quantity,
+                'PEMBELIAN_BARANG_REALISASI' => "1",
+            );
 
-    //     $data = array(
-    //         'PEMBELIAN_ID' => $id_pembelian,
-    //         'PEMBELIAN_JENIS' => "PD",
-    //         'PEMBELIAN_NOMOR' => nomor_pembelian("PD", $this->input->post('tanggal')),
-    //         'PD_ID' => create_id(),
-    //         'AKUN_ID' => $this->input->post('akun'),
-    //         'PEMBELIAN_BARANG' => $this->input->post('jenis'),
-    //         'PEMBELIAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
-    //         'PEMBELIAN_TANGGAL' => $this->input->post('tanggal'),
-    //         'PEMBELIAN_KETERANGAN' => $this->input->post('keterangan'),
-    //         'PEMBELIAN_STATUS' => "open",
-    //         'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
+            $this->db->where('PEMBELIAN_BARANG_ID', $this->input->post('id_realisasi'));
+            $result = $this->db->update('PEMBELIAN_BARANG', $data_barang);
+        }
 
-    //         'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-    //         'ENTRI_USER' => $this->session->userdata('USER_ID'),
-    //         'RECORD_STATUS' => "AKTIF",
-    //         'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-    //     );
-    //     $this->db->insert('PEMBELIAN', $data);
-    //     return $data;
-    // }
+        return $result;
+    }
 }

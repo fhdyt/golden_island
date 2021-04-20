@@ -45,8 +45,13 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Gambar</label>
+                        <input type="file" name="userfile" class="form-control">
+                        <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
-                        <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off">
+                        <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off" value="Saldo Awal (Manual)">
                     </div>
 
             </div>
@@ -163,6 +168,11 @@
                     var total = 0
                     for (i = 0; i < data.length; i++) {
                         total += data[i].TOTAL
+                        if (data[i].JURNAL_TABUNG_FILE == "kosong")
+                            var img = ""
+                        else {
+                            var img = "<img src='<?= base_url(); ?>uploads/kontrol_tabung/" + data[i].JURNAL_TABUNG_FILE + "' width='50'><br><a href='<?= base_url(); ?>uploads/kontrol_tabung/" + data[i].JURNAL_TABUNG_FILE + "' target='_blank'> Buka Gambar</a>"
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "<br><small>" + data[i].JURNAL_TABUNG_STATUS + "</small></td>" +
@@ -170,6 +180,7 @@
                             "<td>" + data[i].JURNAL_TABUNG_KEMBALI + "</td>" +
                             "<td>" + total + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KETERANGAN + "</td>" +
+                            "<td>" + img + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "</td>" +
                             "</tr>");

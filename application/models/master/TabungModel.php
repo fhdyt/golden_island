@@ -54,7 +54,7 @@ class TabungModel extends CI_Model
 
             $data = array(
                 'MASTER_TABUNG_ID' => create_id(),
-                'MASTER_TABUNG_KODE' => $this->input->post('kode'),
+                'MASTER_TABUNG_KODE' => kode_tabung(),
                 'MASTER_BARANG_ID' => $this->input->post('tabung'),
                 'PEMBELIAN_NOMOR_SURAT' => $this->input->post('surat'),
 

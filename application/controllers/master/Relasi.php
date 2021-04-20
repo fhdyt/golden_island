@@ -61,8 +61,20 @@ class Relasi extends CI_Controller
 
     public function add_kontrol_tabung()
     {
+        $config['name']                    = random_string('sha1', 40);
+        $config['upload_path']          = './uploads/kontrol_tabung';
+        $config['allowed_types']        = '*';
+        $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
+
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('userfile');
+
+        if ($_FILES["userfile"]["name"] == "") {
+            $config['file_name'] = "empty";
+        }
+
         $id = $this->uri->segment('4');
-        $data = $this->RelasiModel->add_kontrol_tabung($id);
+        $data = $this->RelasiModel->add_kontrol_tabung($id, $config);
         echo json_encode($data);
     }
     public function hapus_kontrol_tabung()

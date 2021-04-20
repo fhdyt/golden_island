@@ -74,7 +74,7 @@
                             "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>pembelian/pd/form_pd/" + data[i].PD_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
-                            "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>pdf/cetak_pd/" + data[i].PD_ID + "/" + data[i].PEMBELIAN_ID + "'> <i class='right fas fa-print'></i> Cetak</a></td>" +
+                            "</td>" +
                             "</tr>");
                     }
                 }
