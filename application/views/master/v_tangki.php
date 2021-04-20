@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jenis Tangki</label>
                         <select name="tangki" id="tangki" class="form-control tangki select2" style="width: 100%;">
-                            <option value="">-- Nama Tangki --</option>
+                            <option value="">-- Jenis --</option>
                             <?php foreach (tangki() as $row) {
                             ?>
                                 <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
@@ -44,6 +44,10 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Lokasi</label>
                         <input type="text" class="form-control lokasi" name="lokasi" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Kapasitas</label>
+                        <input type="text" class="form-control kapasitas" name="kapasitas" autocomplete="off">
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -77,7 +81,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <button type="button" class="btn btn-secondary btn_tangki mb-2">Tambah Tangki</button>
-                    <table class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -104,6 +108,7 @@
     $(".btn_tangki").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
+        $(".tangki").val("").trigger("change")
         $("#tangkiModal").modal("show")
     })
     $(function() {
@@ -125,9 +130,15 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        var persentase = data[i].KAPASITAS / data[i].MASTER_TANGKI_KAPASITAS * 100
+                        if (persentase < 30) {
+                            var warna_persentase = "danger"
+                        } else {
+                            var warna_persentase = "success"
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_TANGKI_KODE + "</td>" +
+                            "<td>" + data[i].MASTER_TANGKI_KODE + "<br><span class='description-percentage text-" + warna_persentase + "'> " + persentase + "%</span></td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_TANGKI_LOKASI + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TANGKI_ID + "\")'><i class='fas fa-trash'></i></a> " +
@@ -211,6 +222,7 @@
                 $(".id").val(data[0].MASTER_TANGKI_ID)
                 $(".kode").val(data[0].MASTER_TANGKI_KODE)
                 $(".lokasi").val(data[0].MASTER_TANGKI_LOKASI)
+                $(".kapasitas").val(data[0].MASTER_TANGKI_KAPASITAS)
                 $(".tangki").val(data[0].MASTER_BARANG_ID).trigger('change')
 
                 $("#tangkiModal").modal("show")

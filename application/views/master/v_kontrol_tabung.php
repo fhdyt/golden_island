@@ -92,7 +92,7 @@
                             <select name="tabung_filter" id="tabung_filter" class="form-control tabung_filter select2" style="width: 100%;">
                                 <option value="">-- Jenis Tabung --</option>
                                 <?php
-                                foreach (tabung() as $row) {
+                                foreach (tabung($relasi[0]->MASTER_RELASI_ID) as $row) {
                                 ?>
                                     <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
                                 <?php
@@ -108,7 +108,7 @@
                             </select>
                         </div>
                     </div>
-                    <table class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -160,7 +160,6 @@
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {

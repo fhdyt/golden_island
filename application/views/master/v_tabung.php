@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jenis Tabung</label>
                         <select name="tabung" id="tabung" class="form-control tabung select2" style="width: 100%;">
-                            <option value="">-- Nama Tabung --</option>
+                            <option value="">-- Jenis --</option>
                             <?php foreach (tabung() as $row) {
                             ?>
                                 <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
@@ -71,7 +71,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <button type="button" class="btn btn-secondary btn_tabung mb-2">Tambah Tabung</button>
-                    <table class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -97,6 +97,7 @@
     $(".btn_tabung").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
+        $(".tabung").val("").trigger("change")
         $("#tabungModal").modal("show")
     })
     $(function() {

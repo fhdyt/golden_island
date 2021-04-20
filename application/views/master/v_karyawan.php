@@ -77,7 +77,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <button type="button" class="btn btn-secondary btn_karyawan mb-2">Tambah Karyawan</button>
-                    <table class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -106,6 +106,7 @@
     $(".btn_karyawan").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
+        $(".jabatan").val("").trigger("change")
         $("#karyawanModal").modal("show")
     })
     $(function() {

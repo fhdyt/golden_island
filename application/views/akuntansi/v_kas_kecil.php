@@ -98,7 +98,7 @@
                             </select>
                         </div>
                     </div>
-                    <table class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th><?= $this->lang->line('tanggal'); ?></th>

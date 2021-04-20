@@ -19,10 +19,11 @@ class TabungModel extends CI_Model
 
     public function add()
     {
+        $tabung_id = create_id();
         if ($this->input->post('id') == "") {
             $data_riwayat = array(
                 'RIWAYAT_TABUNG_ID' => create_id(),
-                'MASTER_TABUNG_KODE' => $this->input->post('kode'),
+                'MASTER_TABUNG_ID' => $tabung_id,
                 'RIWAYAT_TABUNG_TANGGAL' => date("Y-m-d"),
                 'RIWAYAT_TABUNG_STATUS' => "baru",
                 'RIWAYAT_TABUNG_KETERANGAN' => "",
@@ -38,7 +39,7 @@ class TabungModel extends CI_Model
             if ($this->input->post('isi') == "on") {
                 $data_riwayat = array(
                     'RIWAYAT_TABUNG_ID' => create_id(),
-                    'MASTER_TABUNG_KODE' => $this->input->post('kode'),
+                    'MASTER_TABUNG_ID' => $tabung_id,
                     'RIWAYAT_TABUNG_TANGGAL' => date("Y-m-d"),
                     'RIWAYAT_TABUNG_STATUS' => "isi",
                     'RIWAYAT_TABUNG_KETERANGAN' => "",
@@ -53,7 +54,7 @@ class TabungModel extends CI_Model
             }
 
             $data = array(
-                'MASTER_TABUNG_ID' => create_id(),
+                'MASTER_TABUNG_ID' => $tabung_id,
                 'MASTER_TABUNG_KODE' => kode_tabung(),
                 'MASTER_BARANG_ID' => $this->input->post('tabung'),
                 'PEMBELIAN_NOMOR_SURAT' => $this->input->post('surat'),

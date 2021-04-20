@@ -1,6 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
+use Endroid\QrCode\Label\Font\NotoSans;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\Writer\PngWriter;
+
 class Pdf extends CI_Controller
 {
 
@@ -19,6 +27,9 @@ class Pdf extends CI_Controller
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+
+
+
 	function __construct()
 	{
 		parent::__construct();
@@ -40,12 +51,28 @@ class Pdf extends CI_Controller
 	{
 		$id = $this->uri->segment('3');
 		$id_pembelian = $this->uri->segment('4');
-
 		$data = $this->PdfModel->cetak_po($id, $id_pembelian);
-
 		$mpdf = new \Mpdf\Mpdf();
 		$html = $this->load->view('pdf/cetak_po', $data, true);
 		$mpdf->WriteHTML($html);
 		$mpdf->Output();
+	}
+
+	public function qrcode()
+	{
+		$result = Builder::create()
+			->writer(new PngWriter())
+			->writerOptions([])
+			->data('Custom QR code contents')
+			->encoding(new Encoding('UTF-8'))
+			->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+			->size(300)
+			->margin(10)
+			->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+			->logoPath(__DIR__ . '/assets/symfony.png')
+			->labelText('This is the label')
+			->labelFont(new NotoSans(20))
+			->labelAlignment(new LabelAlignmentCenter())
+			->build();
 	}
 }

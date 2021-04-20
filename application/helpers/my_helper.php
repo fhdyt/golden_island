@@ -239,13 +239,31 @@ if (!function_exists('tabung')) {
     return $hasil;
   }
 }
+if (!function_exists('tabung_kontrol_tabung')) {
+  function tabung_kontrol_tabung($id)
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM 
+JURNAL_TABUNG AS J 
+LEFT JOIN MASTER_BARANG AS B 
+ON J.MASTER_BARANG_ID=B.MASTER_BARANG_ID 
+WHERE B.MASTER_BARANG_JENIS="gas" 
+AND J.MASTER_RELASI_ID="' . $id . '"
+AND J.RECORD_STATUS="AKTIF" 
+AND J.PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"
+AND B.RECORD_STATUS="AKTIF" 
+AND B.PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+    return $hasil;
+  }
+}
 
 if (!function_exists('tangki')) {
   function tangki()
   {
     $CI = &get_instance();
     $CI->load->database();
-    $hasil = $CI->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="tangki" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="liquid" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
     return $hasil;
   }
 }

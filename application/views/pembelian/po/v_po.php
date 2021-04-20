@@ -18,7 +18,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <a href="<?= base_url(); ?>pembelian/po/form_po" class="btn btn-secondary mb-2 btn-form">Tambah Pemesanan</a>
-                    <table class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>

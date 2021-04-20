@@ -15,7 +15,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jenis</label>
                         <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;">
-
+                            <option value="">-- Pilih --</option>
                             <?php
                             foreach (jenis_barang() as $value => $text) {
                             ?>
@@ -86,7 +86,7 @@
                             <small class="text-muted">Jenis Barang</small>
                         </div>
                     </div>
-                    <table class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -119,6 +119,7 @@
     $(".btn_barang").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
+        $(".jenis").val("").trigger("change")
         $("#barangModal").modal("show")
     })
     $(function() {

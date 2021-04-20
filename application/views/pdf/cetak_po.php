@@ -42,6 +42,7 @@
             background-color: #f2f2f2
         }
     </style>
+    <script src="<?php echo base_url(); ?>assets/qrcode/qrcode.js"></script>
 
 <body>
     <table>
@@ -50,16 +51,21 @@
             <td>
                 <h3><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></h3>
             </td>
+            <td rowspan="3"></td>
         </tr>
         <tr>
             <td><?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?></td>
         </tr>
         <tr>
             <td><?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?></td>
+
         </tr>
     </table>
     <hr>
-    <table class="table-noborder">
+    <p style="font-size:24px; font-weight:bold">Purchase Order</p>
+    <p style="font-size: 16px;"><?= $detail[0]->PEMBELIAN_NOMOR; ?></p>
+
+    <table class="table-noborder" style="margin-top:150px">
         <tr>
             <td width="50%">
                 <p style="margin-bottom: 60px;">Kepada:</p>
@@ -69,7 +75,7 @@
                 <p style="font-size: 14px; font-color:#757575;"><?= $supplier[0]->MASTER_SUPPLIER_HP; ?></p>
             </td>
             <td width="50%" align="right">
-                <p style="font-size: 16px;"><?= $detail[0]->PEMBELIAN_NOMOR; ?></p>
+
                 <p style="font-size: 16px;"><?= tanggal($detail[0]->PEMBELIAN_TANGGAL); ?></p>
             </td>
         </tr>
@@ -148,6 +154,8 @@
             </td>
         </tr>
     </table>
+    <div id="qrcode" style="margin-top:15px;"></div>
 </body>
+
 
 </html>
