@@ -82,6 +82,7 @@ class UserModel extends CI_Model
     public function akses_menu($user, $menu_id)
     {
         $menu = $this->db->query('SELECT * FROM MENU WHERE RECORD_STATUS="AKTIF" AND MENU_ID="' . $menu_id . '"')->result();
+        $aplikasi = $this->db->query('SELECT * FROM APLIKASI WHERE RECORD_STATUS="AKTIF" AND APLIKASI_ID="' . $menu[0]->APLIKASI_ID . '"')->result();
         $hasil = $this->db->query('SELECT * FROM USER_AKSES WHERE RECORD_STATUS="AKTIF" AND MENU_ID="' . $menu_id . '" AND USER_ID="' . $user . '"');
         $data = $hasil->num_rows();
         if ($data == 0) {
@@ -90,7 +91,7 @@ class UserModel extends CI_Model
                 'USER_ID' => $user,
                 'MENU_ID' => $menu_id,
                 'APLIKASI_ID' => $menu[0]->APLIKASI_ID,
-
+                'USER_AKSES_LINK' => $aplikasi[0]->APLIKASI_LINK . '/' . $menu[0]->MENU_LINK,
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",

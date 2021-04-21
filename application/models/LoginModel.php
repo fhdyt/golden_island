@@ -28,6 +28,10 @@ class LoginModel extends CI_Model
   {
     if (empty($this->session->userdata('is_login_golden_island'))) {
       redirect('login');
+    } else {
+      $aplikasi = $this->uri->segment('1');
+      $menu = $this->uri->segment('2');
+      $akses = $aplikasi . '/' . $menu;
     }
   }
 
