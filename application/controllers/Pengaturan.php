@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller
+class Pengaturan extends CI_Controller
 {
 
 	/**
@@ -19,28 +19,21 @@ class Dashboard extends CI_Controller
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+
+
+
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('PdfModel');
 		$this->load->model('LoginModel');
 		$this->LoginModel->cek_login();
 	}
 
 	public function index()
 	{
-		$data['menu'] = $this->LoginModel->menu();
-		$this->load->view('_template/header', $data);
-		$this->load->view('dashboard');
-		$this->load->view('_template/footer');
-	}
-	public function not_found()
-	{
 		$this->load->view('_template/header');
-		$this->load->view('errors/404');
+		$this->load->view('pengaturan');
 		$this->load->view('_template/footer');
-	}
-	public function folder()
-	{
-		mkdir("/test", 0777, true);
 	}
 }

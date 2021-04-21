@@ -82,6 +82,7 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Username</th>
+                                <th>ID</th>
                                 <th>Kode Perusahaan</th>
                                 <th></th>
                             </tr>
@@ -125,6 +126,7 @@
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].USER_NAMA + "</td>" +
                             "<td>" + data[i].USER_USERNAME + "</td>" +
+                            "<td>" + data[i].USER_ID + "</td>" +
                             "<td>" + data[i].PERUSAHAAN_KODE + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].USER_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-success btn-sm' href='<?php echo base_url(); ?>sistem/user/akses/" + data[i].USER_ID + "'><i class='fas fa-star'></i></a></td>" +

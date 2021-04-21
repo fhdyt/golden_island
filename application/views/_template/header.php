@@ -134,7 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="<?= base_url(); ?>" class="nav-link"><i class="fas fa-question-circle"></i> <?= $this->lang->line('bantuan'); ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="<?= base_url(); ?>" class="nav-link"><i class="fas fa-user-cog"></i> <?= $this->lang->line('pengaturan'); ?></a>
+          <a href="<?= base_url(); ?>pengaturan" class="nav-link"><i class="fas fa-user-cog"></i> <?= $this->lang->line('pengaturan'); ?></a>
         </li>
       </ul>
       <!-- Right navbar links -->
@@ -172,7 +172,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-bell"></i>
-            <span class="badge badge-danger navbar-badge">3</span>
+            <!-- <span class="badge badge-danger navbar-badge">3</span> -->
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <a href="#" class="dropdown-item">

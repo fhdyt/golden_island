@@ -1,4 +1,9 @@
 <!-- Content Wrapper. Contains page content -->
+<style>
+  .bg-info {
+    background-color: #343A40 !important;
+  }
+</style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -13,18 +18,58 @@
 
   <!-- Main content -->
   <div class="content">
-    <div class="row">
-      <div class="col-md-12">
-        <center>
-          <h2 class="text-danger" style="font-size: 150px;">404</h2>
-          <p style="font-size: 25px;">Halaman yang anda tuju tidak ditemukan, mohon periksa kembali link anda.</p>
-        </center>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-widget widget-user">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-danger">
+              <h3 class="widget-user-username">404</h3>
+              <h5 class="widget-user-desc">Halaman tidak ditemukan. Periksa kembali link tujuan anda</h5>
+            </div>
+            <div class="widget-user-image">
+              <img class="img-circle elevation-2" src="<?php echo base_url(); ?>assets/img/user.jpg" alt="User Avatar">
+            </div>
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <!-- <h5 class="description-header"><?= $this->lang->line('dashboard'); ?></h5> -->
+                    <span class="description-text"></span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header"></h5>
+                    <span class="description-text"></span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header"></h5>
+                    <span class="description-text"></span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
+
+    </div><!-- /.container-fluid -->
   </div>
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
 <script>
   $(function() {
     memuat()
