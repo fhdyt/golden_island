@@ -23,7 +23,7 @@ if (empty($this->uri->segment('5'))) {
             <div class="modal-body">
                 <form id="realisasi_tabung">
                     <div class="form-group">
-                        <input type="text" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
+                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Quantity</label>

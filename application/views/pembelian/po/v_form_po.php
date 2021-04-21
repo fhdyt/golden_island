@@ -20,12 +20,13 @@ if (empty($this->uri->segment('5'))) {
                 <div class="col-sm-8">
                     <h1 class="m-0">Form Pemesanan</h1>
                 </div><!-- /.col -->
-                <div class="col-sm-2 text-right">
-                    <a target="_blank" class="btn btn-block btn-primary" href="<?= base_url(); ?>pdf/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>">Cetak</a>
-                </div><!-- /.col -->
                 <div class="col-sm-2 text-right btn-pengiriman" hidden>
                     <button class="btn btn-block btn-warning">Buat Pengiriman</button>
                 </div><!-- /.col -->
+                <div class="col-sm-2 text-right">
+                    <a target="_blank" class="btn btn-block btn-primary" href="<?= base_url(); ?>pdf/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>">Cetak</a>
+                </div><!-- /.col -->
+
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -333,7 +334,7 @@ if (empty($this->uri->segment('5'))) {
                     $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
-                    $(".jenis").val(data[0].PEMBELIAN_BARANG)
+                    $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger("change")
                     $(".akun").val(data[0].AKUN_ID)
                     $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
                     $(".pajak").val(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_PAJAK)
@@ -494,7 +495,8 @@ if (empty($this->uri->segment('5'))) {
     });
 
     function kalkulasi_seluruh() {
-        var pajak = parseInt($(".pajak").val())
+        var pajak = ($(".pajak").val())
+        console.log($(".pajak").val())
         var potongan = parseInt($(".potongan").val().split('.').join(""))
 
         var total = parseInt($(".total").val().split('.').join(""))

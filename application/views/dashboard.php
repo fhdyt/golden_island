@@ -1,4 +1,9 @@
 <!-- Content Wrapper. Contains page content -->
+<style>
+  .bg-info {
+    background-color: #343A40 !important;
+  }
+</style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
