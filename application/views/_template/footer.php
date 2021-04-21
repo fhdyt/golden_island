@@ -55,6 +55,42 @@
 
 
 </body>
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script>
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('1b15b42882162825307f', {
+        cluster: 'ap1'
+    });
+
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('my-event', function(data) {
+        $(document).Toasts('create', {
+            class: 'bg-success',
+            title: 'Golden Island',
+            subtitle: 'Notifikasi',
+            body: JSON.stringify(data.message)
+        })
+
+        if (window.Notification) {
+            Notification.requestPermission(function(status) {
+                var options = {
+                    body: JSON.stringify(data.message),
+                    dir: 'ltr',
+                    image: '<?= base_url(); ?>/assets/header.png'
+
+                }
+
+                var n = new Notification('Golden Island', options);
+            });
+        } else {
+            console.log('Your browser doesn\'t support notifications.');
+        }
+    });
+</script>
+
 <script>
     $(function() {
         $("#example1").DataTable({

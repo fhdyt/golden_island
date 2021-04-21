@@ -16,6 +16,7 @@ $lang["supplier"] = "Supplier";
 $lang["alamat"] = "Address";
 $lang["kode"] = "Code";
 $lang["wajib_isi"] = "Mandatory";
+$lang["pengaturan"] = "Setting";
 
 $lang["success"] = "Success";
 $lang["hapus"] = "Delete";

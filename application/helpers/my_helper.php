@@ -348,3 +348,24 @@ if (!function_exists('kode_tabung')) {
     }
   }
 }
+
+if (!function_exists('notifikasi')) {
+  function notifikasi()
+  {
+    require APPPATH . '../vendor/autoload.php';
+
+    $options = array(
+      'cluster' => 'ap1',
+      'useTLS' => true
+    );
+    $pusher = new Pusher\Pusher(
+      '1b15b42882162825307f',
+      '7d1aa65ac06a11eabb87',
+      '1191698',
+      $options
+    );
+
+    $data['message'] = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam rerum ipsum numquam natus, tenetur molestiae iste sequi cupiditate minima in minus laudantium exercitationem magni magnam unde vero quidem placeat! In!';
+    $pusher->trigger('my-channel', 'my-event', $data);
+  }
+}
