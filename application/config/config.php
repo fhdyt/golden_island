@@ -23,9 +23,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$config['base_url'] = 'http://localhost/golden_island';
-$config['base_url'] = 'https://goldenisland.site/';
-
+if ($_SERVER['HTTP_HOST'] == "localhost") {
+    $config['base_url'] = 'http://localhost/golden_island';
+} else {
+    $config['base_url'] = 'https://goldenisland.site/';
+}
 /*
 |--------------------------------------------------------------------------
 | Index File
