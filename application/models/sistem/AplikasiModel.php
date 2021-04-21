@@ -10,19 +10,44 @@ class AplikasiModel extends CI_Model
 
     public function add()
     {
-        $data = array(
-            'APLIKASI_ID' => create_id(),
-            'APLIKASI_NAMA' => $this->input->post('nama'),
-            'APLIKASI_LINK' => $this->input->post('link'),
-            'APLIKASI_ICON' => $this->input->post('icon'),
+        if ($this->input->post('id') == "") {
+            $data = array(
+                'APLIKASI_ID' => create_id(),
+                'APLIKASI_NAMA' => $this->input->post('nama'),
+                'APLIKASI_LINK' => $this->input->post('link'),
+                'APLIKASI_ICON' => $this->input->post('icon'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-            'ENTRI_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "AKTIF",
-        );
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+            );
 
-        $result = $this->db->insert('APLIKASI', $data);
-        return $result;
+            $result = $this->db->insert('APLIKASI', $data);
+            return $result;
+        } else {
+            $data_edit = array(
+                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+                'EDIT_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "EDIT",
+            );
+
+            $this->db->where('APLIKASI_ID', $this->input->post('id'));
+            $edit = $this->db->update('APLIKASI', $data_edit);
+
+            $data = array(
+                'APLIKASI_ID' => $this->input->post('id'),
+                'APLIKASI_NAMA' => $this->input->post('nama'),
+                'APLIKASI_LINK' => $this->input->post('link'),
+                'APLIKASI_ICON' => $this->input->post('icon'),
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+            );
+
+            $result = $this->db->insert('APLIKASI', $data);
+            return $result;
+        }
     }
 
     public function hapus($id)
@@ -36,5 +61,11 @@ class AplikasiModel extends CI_Model
         $this->db->where('APLIKASI_ID', $id);
         $result = $this->db->update('APLIKASI', $data);
         return $result;
+    }
+
+    public function detail($id)
+    {
+        $hasil = $this->db->query('SELECT * FROM APLIKASI WHERE APLIKASI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
     }
 }

@@ -10,16 +10,19 @@
             <div class="modal-body">
                 <form id="submit">
                     <div class="form-group">
+                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
-                        <input type="text" class="form-control" name="nama" value="" autocomplete="off">
+                        <input type="text" class="form-control nama" name="nama" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Link</label>
-                        <input type="text" class="form-control" name="link" value="" autocomplete="off">
+                        <input type="text" class="form-control link" name="link" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Icon</label>
-                        <input type="text" class="form-control" name="icon" value="" autocomplete="off">
+                        <input type="text" class="form-control icon" name="icon" value="" autocomplete="off">
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -104,7 +107,8 @@
                             "<td>" + data[i].APLIKASI_NAMA + "</td>" +
                             "<td>" + data[i].APLIKASI_LINK + "</td>" +
                             "<td>" + data[i].APLIKASI_ICON + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].APLIKASI_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].APLIKASI_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].APLIKASI_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
                     }
                 }
@@ -169,5 +173,27 @@
 
             }
         })
+    }
+
+    function detail(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/sistem/aplikasi/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(id)
+                memuat()
+                $(".id").val(data[0].APLIKASI_ID)
+                $(".nama").val(data[0].APLIKASI_NAMA)
+                $(".link").val(data[0].APLIKASI_LINK)
+                $(".icon").val(data[0].APLIKASI_ICON)
+
+                $("#aplikasiModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>

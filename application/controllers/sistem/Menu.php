@@ -55,4 +55,11 @@ class Menu extends CI_Controller
         $data = $this->MenuModel->hapus($id);
         echo json_encode($data);
     }
+
+    public function detail()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->MenuModel->detail($id);
+        echo json_encode($data);
+    }
 }

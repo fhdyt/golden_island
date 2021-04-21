@@ -10,22 +10,25 @@
             <div class="modal-body">
                 <form id="submit">
                     <div class="form-group">
+                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Aplikasi</label>
-                        <select name="aplikasi" id="aplikasi" class="form-control select2" style="width: 100%;">
+                        <select name="aplikasi" id="aplikasi" class="form-control select2 aplikasi" style="width: 100%;">
 
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
-                        <input type="text" class="form-control" name="nama" value="" autocomplete="off">
+                        <input type="text" class="form-control nama" name="nama" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Link</label>
-                        <input type="text" class="form-control" name="link" value="" autocomplete="off">
+                        <input type="text" class="form-control link" name="link" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Icon</label>
-                        <input type="text" class="form-control" name="icon" value="" autocomplete="off">
+                        <input type="text" class="form-control icon" name="icon" value="" autocomplete="off">
                     </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -106,10 +109,10 @@
     $(".btn_menu").on("click", function() {
         $("#submit").trigger("reset");
         $("#menuModal").modal("show")
-        aplikasi_list()
     })
     $(function() {
         menu_list();
+        aplikasi_list()
     });
 
     function menu_list() {
@@ -130,7 +133,8 @@
                             "<td>" + data[i].MENU_NAMA + "</td>" +
                             "<td>" + data[i].MENU_LINK + "</td>" +
                             "<td>" + data[i].MENU_ICON + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MENU_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MENU_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MENU_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
                     }
                 }
@@ -215,6 +219,29 @@
 
             }
         })
+    }
+
+    function detail(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/sistem/menu/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(id)
+                memuat()
+                $(".id").val(data[0].MENU_ID)
+                $(".aplikasi").val(data[0].APLIKASI_ID).trigger("change")
+                $(".nama").val(data[0].MENU_NAMA)
+                $(".link").val(data[0].MENU_LINK)
+                $(".icon").val(data[0].MENU_ICON)
+
+                $("#menuModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 
     $('#menu_filter').change(function() {

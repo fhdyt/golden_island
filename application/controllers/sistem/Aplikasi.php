@@ -52,4 +52,11 @@ class Aplikasi extends CI_Controller
         $data = $this->AplikasiModel->hapus($id);
         echo json_encode($data);
     }
+
+    public function detail()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->AplikasiModel->detail($id);
+        echo json_encode($data);
+    }
 }
