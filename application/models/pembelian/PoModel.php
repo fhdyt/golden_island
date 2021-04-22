@@ -190,6 +190,8 @@ class PoModel extends CI_Model
             $list_barang = $this->db->query('SELECT * FROM 
         PEMBELIAN_BARANG 
         WHERE 
+        PO_ID = "' . $id . '"
+        AND PEMBELIAN_ID="' . $id_pembelian . '" AND
         RECORD_STATUS="AKTIF" AND 
         PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
 

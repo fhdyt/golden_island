@@ -30,6 +30,7 @@ $lang["Master"] = "Master";
 $lang["Akuntansi"] = "Accounting";
 $lang["Distribusi"] = "Distribution";
 $lang["Sistem"] = "System";
+$lang["Laporan"] = "Report";
 
 // ----------------- menu -----------------
 $lang["Akun"] = "Account";
@@ -51,6 +52,7 @@ $lang["Perusahaan"] = "Company";
 $lang["Aplikasi"] = "Application";
 $lang["Menu"] = "Menu";
 $lang["User"] = "User";
+$lang["Kontrol Tabung"] = "Cylinder Control";
 
 // ----------------- aplikasi -----------------
 $lang["tambah_aplikasi"] = "Add New Application";

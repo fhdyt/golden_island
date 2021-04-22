@@ -96,4 +96,14 @@ class Pd extends CI_Controller
         $data = $this->PdModel->realisasi_tabung();
         echo json_encode($data);
     }
+    public function realisasi_tangki()
+    {
+        $data = $this->PdModel->realisasi_tangki();
+        echo json_encode($data);
+    }
+    public function realisasi_liquid()
+    {
+        $data = $this->PdModel->realisasi_liquid();
+        echo json_encode($data);
+    }
 }

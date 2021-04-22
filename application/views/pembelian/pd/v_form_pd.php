@@ -44,6 +44,86 @@ if (empty($this->uri->segment('5'))) {
 </div>
 <!-- /.modal -->
 
+<div class="modal fade" id="realisasi_tangkiModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Realikasi Tangki</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="realisasi_tangki">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Quantity</label>
+                        <input type="text" class="form-control quantity_realisasi" name="quantity_realisasi" autocomplete="off">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="realisasi_liquidModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Realikasi liquid</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="realisasi_liquid">
+                    <div class="form-group">
+                        <input type="text" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Quantity</label>
+                        <select name="tangki" id="tangki" class="form-control tangki select2" style="width: 100%;">
+                            <option value="">-- Pilih --</option>
+                            <?php
+                            foreach (tangki_list() as $row) {
+                            ?>
+                                <option value="<?= $row->MASTER_TANGKI_ID; ?>"><?= $row->MASTER_TANGKI_KODE; ?> - <?= $row->MASTER_TANGKI_LOKASI; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Kapasitas</label>
+                        <input type="text" class="form-control kapasitas" name="kapasitas" autocomplete="off">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -454,6 +534,12 @@ if (empty($this->uri->segment('5'))) {
         if (jenis_barang == "tabung") {
             $("#realisasi_tabungModal").modal("show")
             $(".id_realisasi").val(id)
+        } else if (jenis_barang == "tangki") {
+            $("#realisasi_tangkiModal").modal("show")
+            $(".id_realisasi").val(id)
+        } else if (jenis_barang == "liquid") {
+            $("#realisasi_liquidModal").modal("show")
+            $(".id_realisasi").val(id)
         }
     }
 
@@ -471,9 +557,51 @@ if (empty($this->uri->segment('5'))) {
             },
             success: function(data) {
                 memuat()
-                Swal.fire('Berhasil', 'Pengiriman berhasil ditambahkan', 'success')
+                $("#realisasi_tabungModal").modal("hide")
+                Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
                 barang_list()
+            }
+        });
+    })
 
+    $('#realisasi_tangki').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/pembelian/pd/realisasi_tangki',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                memuat()
+                $("#realisasi_tangkiModal").modal("hide")
+                Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
+                barang_list()
+            }
+        });
+    })
+
+    $('#realisasi_liquid').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/pembelian/pd/realisasi_liquid',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                memuat()
+                $("#realisasi_liquidModal").modal("hide")
+                Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
+                barang_list()
             }
         });
     })

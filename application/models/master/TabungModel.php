@@ -7,7 +7,7 @@ class TabungModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM 
         MASTER_TABUNG AS T LEFT JOIN MASTER_BARANG AS B
         ON T.MASTER_BARANG_ID=B.MASTER_BARANG_ID
-        WHERE T.RECORD_STATUS="AKTIF" AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.RECORD_STATUS="AKTIF" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        WHERE T.RECORD_STATUS="AKTIF" AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.RECORD_STATUS="AKTIF" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY T.MASTER_TABUNG_KODE DESC')->result();
 
         return $hasil;
     }

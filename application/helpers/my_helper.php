@@ -297,6 +297,25 @@ if (!function_exists('karyawan_list')) {
     return $hasil;
   }
 }
+if (!function_exists('relasi_list')) {
+  function relasi_list()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_RELASI WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
+
+if (!function_exists('tangki_list')) {
+  function tangki_list()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_TANGKI WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
 
 if (!function_exists('kategori_akun')) {
   function kategori_akun()
@@ -343,6 +362,25 @@ if (!function_exists('kode_tabung')) {
       return $kode . "/0001";
     } else {
       $nomor = explode("/", $hasil[0]->MASTER_TABUNG_KODE);
+      $nomorbaru = $nomor[1] + 1;
+      return $kode . "/" . sprintf("%04d", $nomorbaru);
+    }
+  }
+}
+
+if (!function_exists('kode_tangki')) {
+  function kode_tangki()
+  {
+    $CI = &get_instance();
+
+    $kode = "T-" . $CI->session->userdata('PERUSAHAAN_KODE');
+
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_TANGKI WHERE MASTER_TANGKI_KODE LIKE "%' . $kode . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_TANGKI_KODE DESC')->result();
+    if (empty($hasil)) {
+      return $kode . "/0001";
+    } else {
+      $nomor = explode("/", $hasil[0]->MASTER_TANGKI_KODE);
       $nomorbaru = $nomor[1] + 1;
       return $kode . "/" . sprintf("%04d", $nomorbaru);
     }

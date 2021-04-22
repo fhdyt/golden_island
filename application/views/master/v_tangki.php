@@ -222,6 +222,7 @@
                 $(".id").val(data[0].MASTER_TANGKI_ID)
                 $(".kode").val(data[0].MASTER_TANGKI_KODE)
                 $(".lokasi").val(data[0].MASTER_TANGKI_LOKASI)
+                $(".satuan").val(data[0].MASTER_TANGKI_SATUAN).trigger("change")
                 $(".kapasitas").val(data[0].MASTER_TANGKI_KAPASITAS)
                 $(".tangki").val(data[0].MASTER_BARANG_ID).trigger('change')
 
