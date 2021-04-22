@@ -57,12 +57,12 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Tanggal</th>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th><?= $this->lang->line('Relasi'); ?></th>
                                 <th>Kirim</th>
                                 <th>Kembali</th>
                                 <th>Total</th>
-                                <th>Keterangan</th>
+                                <th><?= $this->lang->line('keterangan'); ?></th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
