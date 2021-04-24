@@ -344,6 +344,10 @@ if (empty($this->uri->segment('5'))) {
                         $(".btn-pengiriman").attr("hidden", false)
                     } else {
                         $(".btn-pengiriman").attr("hidden", true)
+                        $("a.btn-danger").removeAttr("onclick")
+                        $("button").prop("disabled", true)
+                        $("input").attr("disabled", true)
+                        $("select").attr("disabled", true)
                     }
                     detail_jenis_barang()
                 }
@@ -510,21 +514,34 @@ if (empty($this->uri->segment('5'))) {
     }
 
     $(".btn-pengiriman").on("click", function() {
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/pembelian/po/po_to_pd/<?= $id; ?>/<?= $id_pembelian; ?>',
-            type: "ajax",
-            dataType: 'json',
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                window.open(
-                    '<?= base_url(); ?>pembelian/pd/form_pd/' + data.PD_ID + '/' + data.PEMBELIAN_ID,
-                    '_blank'
-                );
-                Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
-                detail()
+        Swal.fire({
+            title: 'Buat Pengiriman ?',
+            icon: 'question',
+            text: 'Setelah membuat Pengiriman, anda tidak dapat merubah form pemesanan',
+            showCancelButton: true,
+            confirmButtonText: `Buat`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?php echo base_url(); ?>index.php/pembelian/po/po_to_pd/<?= $id; ?>/<?= $id_pembelian; ?>',
+                    type: "ajax",
+                    dataType: 'json',
+                    beforeSend: function() {
+                        memuat()
+                    },
+                    success: function(data) {
+                        window.open(
+                            '<?= base_url(); ?>pembelian/pd/form_pd/' + data.PD_ID + '/' + data.PEMBELIAN_ID,
+                            '_blank'
+                        );
+                        Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
+                        detail()
+                    }
+                });
+
             }
-        });
+        })
+
     })
 </script>

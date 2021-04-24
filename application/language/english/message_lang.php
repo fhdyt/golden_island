@@ -31,6 +31,7 @@ $lang["Akuntansi"] = "Accounting";
 $lang["Distribusi"] = "Distribution";
 $lang["Sistem"] = "System";
 $lang["Laporan"] = "Report";
+$lang["Manajemen Tabung"] = "Cylinder Management";
 
 // ----------------- menu -----------------
 $lang["Akun"] = "Account";
@@ -53,6 +54,7 @@ $lang["Aplikasi"] = "Application";
 $lang["Menu"] = "Menu";
 $lang["User"] = "User";
 $lang["Kontrol Tabung"] = "Cylinder Control";
+
 
 // ----------------- aplikasi -----------------
 $lang["tambah_aplikasi"] = "Add New Application";

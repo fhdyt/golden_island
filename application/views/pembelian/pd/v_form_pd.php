@@ -89,7 +89,7 @@ if (empty($this->uri->segment('5'))) {
             <div class="modal-body">
                 <form id="realisasi_liquid">
                     <div class="form-group">
-                        <input type="text" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
+                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Quantity</label>
@@ -133,7 +133,7 @@ if (empty($this->uri->segment('5'))) {
                 <div class="col-sm-7">
                     <h1 class="m-0">Form Pengiriman</h1>
                 </div><!-- /.col -->
-                <div class="col-sm-5 text-right btn-pengiriman" hidden>
+                <div class="col-sm-5 text-right btn-faktur" hidden>
                     <button class="btn btn-warning">Buat Faktur</button>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -372,9 +372,13 @@ if (empty($this->uri->segment('5'))) {
                     $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
                     $(".lainnya").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_LAINNYA))
                     if (data[0].PEMBELIAN_STATUS == "open") {
-                        $(".btn-pengiriman").attr("hidden", false)
+                        $(".btn-faktur").attr("hidden", false)
                     } else {
-                        $(".btn-pengiriman").attr("hidden", true)
+                        $(".btn-faktur").attr("hidden", true)
+                        $("a.btn-danger").removeAttr("onclick")
+                        $("button").prop("disabled", true)
+                        $("input").attr("disabled", true)
+                        $("select").attr("disabled", true)
                     }
                     detail_jenis_barang()
                 }
@@ -624,7 +628,7 @@ if (empty($this->uri->segment('5'))) {
         // $(".sisa_bayar").val(number_format(sisa_bayar))
     }
 
-    $(".btn-pengiriman").on("click", function() {
+    $(".btn-faktur").on("click", function() {
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/pembelian/po/po_to_pd/<?= $id; ?>/<?= $id_pembelian; ?>',
             type: "ajax",
@@ -641,5 +645,37 @@ if (empty($this->uri->segment('5'))) {
                 detail()
             }
         });
+    })
+
+    $(".btn-faktur").on("click", function() {
+        Swal.fire({
+            title: 'Buat Pengiriman ?',
+            icon: 'question',
+            text: 'Setelah membuat Pengiriman, anda tidak dapat merubah form pemesanan',
+            showCancelButton: true,
+            confirmButtonText: `Buat`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?php echo base_url(); ?>index.php/pembelian/pd/pd_to_pi/<?= $id; ?>/<?= $id_pembelian; ?>',
+                    type: "ajax",
+                    dataType: 'json',
+                    beforeSend: function() {
+                        memuat()
+                    },
+                    success: function(data) {
+                        // window.open(
+                        //     '<?= base_url(); ?>pembelian/pd/form_pd/' + data.PD_ID + '/' + data.PEMBELIAN_ID,
+                        //     '_blank'
+                        // );
+                        Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
+                        detail()
+                    }
+                });
+
+            }
+        })
+
     })
 </script>
