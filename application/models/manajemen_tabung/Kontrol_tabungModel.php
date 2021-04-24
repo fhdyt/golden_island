@@ -43,7 +43,6 @@ class Kontrol_tabungModel extends CI_Model
             'JURNAL_TABUNG_KEMBALI' => $this->input->post('kembali'),
             'JURNAL_TABUNG_STATUS' => $this->input->post('status'),
             'JURNAL_TABUNG_KETERANGAN' => "",
-            'JURNAL_TABUNG_FILE' => "",
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
