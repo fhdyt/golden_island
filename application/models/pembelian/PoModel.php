@@ -62,6 +62,7 @@ class PoModel extends CI_Model
         $data_transaksi = array(
             'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
             'PO_ID' => $this->input->post('id'),
+            'PEMBELIAN_JENIS' => "PO",
             'PEMBELIAN_TRANSAKSI_TOTAL' => str_replace(".", "", $this->input->post('total')),
             'PEMBELIAN_TRANSAKSI_PAJAK' => $this->input->post('pajak'),
             'PEMBELIAN_TRANSAKSI_PAJAK_RUPIAH' => str_replace(".", "", $this->input->post('pajak_rupiah')),

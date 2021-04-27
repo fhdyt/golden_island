@@ -94,8 +94,12 @@ class PiModel extends CI_Model
         PEMBELIAN
         WHERE PI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         foreach ($hasil as $row) {
-            $transaksi = $this->db->query('SELECT * FROM PEMBELIAN_TRANSAKSI WHERE PI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+            $transaksi_po = $this->db->query('SELECT * FROM PEMBELIAN_TRANSAKSI WHERE PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND PEMBELIAN_JENIS="PO" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+            $transaksi_pd = $this->db->query('SELECT * FROM PEMBELIAN_TRANSAKSI WHERE PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND PEMBELIAN_JENIS="PD" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+            $transaksi = $this->db->query('SELECT * FROM PEMBELIAN_TRANSAKSI WHERE PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND PEMBELIAN_JENIS="PI" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
             $row->TRANSAKSI = $transaksi;
+            $row->TRANSAKSI_PO = $transaksi_po;
+            $row->TRANSAKSI_PD = $transaksi_pd;
         }
         return $hasil;
     }

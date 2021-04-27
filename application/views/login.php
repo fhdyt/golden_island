@@ -58,8 +58,12 @@
           <div class="row">
             <!-- /.col -->
             <div class="col-12">
-              <button type="submit" class="btn btn-secondary btn-block" style=>Login</button>
+              <button type="submit" class="btn btn-outline-secondary btn-block btn-lg" style=>Login</button>
+              <p class="mb-0 mt-2">
+                <a href="#" class="text-center">Lupa Password ?</a>
+              </p>
             </div>
+
             <!-- /.col -->
           </div>
         </form>

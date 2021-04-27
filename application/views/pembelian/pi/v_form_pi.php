@@ -11,131 +11,17 @@ if (empty($this->uri->segment('5'))) {
     $id_pembelian = $this->uri->segment('5');
 }
 ?>
-<div class="modal fade" id="realisasi_tabungModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Realikasi Tabung</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="realisasi_tabung">
-                    <div class="form-group">
-                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Quantity</label>
-                        <input type="text" class="form-control quantity_realisasi" name="quantity_realisasi" autocomplete="off">
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<div class="modal fade" id="realisasi_tangkiModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Realikasi Tangki</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="realisasi_tangki">
-                    <div class="form-group">
-                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Quantity</label>
-                        <input type="text" class="form-control quantity_realisasi" name="quantity_realisasi" autocomplete="off">
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<div class="modal fade" id="realisasi_liquidModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Realikasi liquid</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="realisasi_liquid">
-                    <div class="form-group">
-                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Quantity</label>
-                        <select name="tangki" id="tangki" class="form-control tangki select2" style="width: 100%;">
-                            <option value="">-- Pilih --</option>
-                            <?php
-                            foreach (tangki_list() as $row) {
-                            ?>
-                                <option value="<?= $row->MASTER_TANGKI_ID; ?>"><?= $row->MASTER_TANGKI_KODE; ?> - <?= $row->MASTER_TANGKI_LOKASI; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Kapasitas</label>
-                        <input type="text" class="form-control kapasitas" name="kapasitas" autocomplete="off">
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-7">
-                    <h1 class="m-0">Form Pengiriman</h1>
+                <div class="col-sm-8">
+                    <h1 class="m-0">Form Pemesanan</h1>
                 </div><!-- /.col -->
-                <div class="col-sm-5 text-right btn-faktur" hidden>
-                    <button class="btn btn-warning">Buat Faktur</button>
-                </div><!-- /.col -->
+
+
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -194,7 +80,7 @@ if (empty($this->uri->segment('5'))) {
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
-                                            <textarea name="keterangan" id="keterangan" class="form-control keterangan" rows="6"></textarea>
+                                            <textarea name="keterangan" id="keterangan" class="form-control keterangan" rows="6"><?= keterangan_pembelian(); ?></textarea>
                                             <small class="text-muted">Kosongkan jika tidak diperlukan.</small>
                                         </div>
                                     </div>
@@ -219,15 +105,15 @@ if (empty($this->uri->segment('5'))) {
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama Barang</th>
-                                        <!-- <th>Harga</th> -->
+                                        <th>Harga</th>
                                         <th>Quantity</th>
                                         <th>Satuan</th>
-                                        <!-- <th>Total</th> -->
-                                        <th></th>
+                                        <th>Total</th>
+                                        <!-- <th></th> -->
                                     </tr>
                                 </thead>
                                 <tbody id="form_tt">
-                                    <tr class="table-secondary">
+                                    <!-- <tr class="table-secondary">
                                         <td>#</td>
                                         <td>
                                             <select name="barang" id="barang" class="form-control form-control-sm barang select2" style="width: 100%;" required>
@@ -235,9 +121,9 @@ if (empty($this->uri->segment('5'))) {
                                             </select>
                                         </td>
 
-                                        <!-- <td>
+                                        <td>
                                             <input type="text" class="form-control form-control-sm harga_barang" name="harga_barang" autocomplete="off" value="0" onkeyup="kalkulasi_total_rupiah_barang()">
-                                        </td> -->
+                                        </td>
                                         <td>
                                             <input type="text" class="form-control form-control-sm quantity_barang" name="quantity_barang" autocomplete="off" value="0" onkeyup="kalkulasi_total_rupiah_barang()">
                                         </td>
@@ -252,13 +138,13 @@ if (empty($this->uri->segment('5'))) {
                                                 ?>
                                             </select>
                                         </td>
-                                        <!-- <td>
+                                        <td>
                                             <input type="text" class="form-control form-control-sm total_rupiah_barang" name="total_rupiah_barang" autocomplete="off" value="0" onkeyup="" readonly>
-                                        </td> -->
+                                        </td>
                                         <td>
                                             <button type="button" class="btn btn-secondary btn-sm btn-add-barang"><i class="nav-icon fas fa-plus"></i></button>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                                 <tbody id="zone_data">
                                     <tr>
@@ -277,7 +163,71 @@ if (empty($this->uri->segment('5'))) {
                     <div class="card card-default color-palette-box">
                         <div class="card-body">
                             <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Total</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control total" name="total" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Potongan</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control potongan" name="potongan" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Pajak</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <select name="pajak" id="pajak" class="form-control pajak select2" style="width: 100%;">
+                                                <option value="0">0</option>
+                                                <?php foreach (pajak_list() as $row) {
+                                                ?>
+                                                    <option value="<?= $row->PAJAK_NILAI; ?>"><?= $row->PAJAK_NAMA; ?> - <?= $row->PAJAK_NILAI; ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <input type="text" class="form-control pajak_rupiah" name="pajak_rupiah" autocomplete="off" value="0" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Biaya Lainnya</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Total Bayar</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control total_bayar" name="total_bayar" autocomplete="off" value="0" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Bayar</label>
                                 <div class="col-sm-3">
                                     <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
                                         <option value="">-- Akun --</option>
@@ -294,7 +244,18 @@ if (empty($this->uri->segment('5'))) {
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
                                         </div>
-                                        <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
+                                        <input type="text" class="form-control bayar" name="bayar" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Sisa Bayar</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control sisa_bayar" name="sisa_bayar" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -323,11 +284,20 @@ if (empty($this->uri->segment('5'))) {
 
 <script>
     $(function() {
-
-        $(".lainnya").mask("#.##0", {
+        $(".potongan").mask("#.##0", {
             reverse: true
         });
 
+        $(".biaya_tambahan").mask("#.##0", {
+            reverse: true
+        });
+
+        $(".bayar").mask("#.##0", {
+            reverse: true
+        });
+        $(".lainnya").mask("#.##0", {
+            reverse: true
+        });
         detail()
         barang_list()
         kalkulasi_seluruh()
@@ -336,7 +306,7 @@ if (empty($this->uri->segment('5'))) {
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/pembelian/pd/add',
+            url: '<?php echo base_url(); ?>index.php/pembelian/po/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -346,8 +316,14 @@ if (empty($this->uri->segment('5'))) {
                 memuat()
             },
             success: function(data) {
-                window.location.href = '<?= base_url(); ?>pembelian/pd/form_pd/<?= $id; ?>/<?= $id_pembelian; ?>'
-
+                console.log(data)
+                Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
+                detail()
+                window.location.href = '<?= base_url(); ?>pembelian/po/form_po/<?= $id; ?>/<?= $id_pembelian; ?>'
+                window.open(
+                    '<?= base_url(); ?>pdf/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>',
+                    '_blank'
+                );
             }
         });
     })
@@ -355,11 +331,12 @@ if (empty($this->uri->segment('5'))) {
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/pembelian/pd/detail/<?= $id; ?>/<?= $id_pembelian; ?>',
+            url: '<?php echo base_url() ?>index.php/pembelian/pi/detail/<?= $id; ?>/<?= $id_pembelian; ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
                 memuat()
+                console.log(data)
                 if (data.length == 0) {
                     detail_jenis_barang()
                     barang_list()
@@ -367,14 +344,17 @@ if (empty($this->uri->segment('5'))) {
                     $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
-                    $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger('change')
+                    $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger("change")
                     $(".akun").val(data[0].AKUN_ID)
                     $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
-                    $(".lainnya").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_LAINNYA))
+                    $(".pajak").val(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_PAJAK)
+                    $(".potongan").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_POTONGAN))
+                    $(".bayar").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
+                    $(".lainnya").val(number_format(data[0].TRANSAKSI_PD[0].PEMBELIAN_TRANSAKSI_LAINNYA))
                     if (data[0].PEMBELIAN_STATUS == "open") {
-                        $(".btn-faktur").attr("hidden", false)
+                        $(".btn-pengiriman").attr("hidden", false)
                     } else {
-                        $(".btn-faktur").attr("hidden", true)
+                        $(".btn-pengiriman").attr("hidden", true)
                         $("a.btn-danger").removeAttr("onclick")
                         $("button").prop("disabled", true)
                         $("input").attr("disabled", true)
@@ -423,7 +403,7 @@ if (empty($this->uri->segment('5'))) {
     $('.btn-add-barang').on("click", function(e) {
         $.ajax({
             type: "POST",
-            url: '<?php echo base_url(); ?>index.php/pembelian/pd/add_barang',
+            url: '<?php echo base_url(); ?>index.php/pembelian/po/add_barang',
             dataType: "JSON",
             beforeSend: function() {
                 memuat()
@@ -458,38 +438,31 @@ if (empty($this->uri->segment('5'))) {
     function barang_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/pembelian/pd/list_barang/<?= $id; ?>/<?= $id_pembelian; ?>",
+            url: "<?php echo base_url() ?>index.php/pembelian/pi/list_barang/<?= $id; ?>/<?= $id_pembelian; ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
                 if (data.length === 0) {
-                    $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                    $("tbody#zone_data").append("<td colspan='10'>Tidak ada data</td>")
                     $(".total").val("0")
                 } else {
                     var no = 1
                     var total = 0
                     for (i = 0; i < data.length; i++) {
                         total += parseInt(data[i].PEMBELIAN_BARANG_TOTAL);
-                        if (data[i].PEMBELIAN_BARANG_REALISASI == "1") {
-                            var btn_realisasi = ""
-                            var txt_realisasi = "<br><small class='text-success'>Telah direalisasi</small>"
-                        } else {
-                            var btn_realisasi = "<a class='btn btn-primary btn-sm' onclick='realisasi(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'> Realisasi</a>"
-                            var txt_realisasi = "<br><small class='text-danger'>Belum direalisasi</small>"
-                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_BARANG_NAMA + "" + txt_realisasi + "</td>" +
-                            // "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
                             "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
-                            // "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            btn_realisasi + "</td>" +
+                            "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
+                            // "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
                             "</tr>");
                     }
+                    $("tfoot#total_data").append("<tr><td colspan='5' align='right'><b>Total</b></td><td align='right'>" + number_format(total) + "</td></tr>")
                     $(".total").val(number_format(total))
                 }
             },
@@ -510,7 +483,7 @@ if (empty($this->uri->segment('5'))) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/pembelian/pd/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/pembelian/po/hapus/' + id,
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -532,122 +505,27 @@ if (empty($this->uri->segment('5'))) {
         })
     }
 
-    function realisasi(id) {
-        var jenis_barang = $(".jenis").val()
-
-        if (jenis_barang == "tabung") {
-            $("#realisasi_tabungModal").modal("show")
-            $(".id_realisasi").val(id)
-        } else if (jenis_barang == "tangki") {
-            $("#realisasi_tangkiModal").modal("show")
-            $(".id_realisasi").val(id)
-        } else if (jenis_barang == "liquid") {
-            $("#realisasi_liquidModal").modal("show")
-            $(".id_realisasi").val(id)
-        }
-    }
-
-    $('#realisasi_tabung').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/pembelian/pd/realisasi_tabung',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                memuat()
-                $("#realisasi_tabungModal").modal("hide")
-                Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
-                barang_list()
-            }
-        });
-    })
-
-    $('#realisasi_tangki').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/pembelian/pd/realisasi_tangki',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                memuat()
-                $("#realisasi_tangkiModal").modal("hide")
-                Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
-                barang_list()
-            }
-        });
-    })
-
-    $('#realisasi_liquid').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/pembelian/pd/realisasi_liquid',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                memuat()
-                $("#realisasi_liquidModal").modal("hide")
-                Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
-                barang_list()
-            }
-        });
-    })
-
     $('.pajak').change(function() {
         kalkulasi_seluruh()
     });
 
     function kalkulasi_seluruh() {
-        // var pajak = parseInt($(".pajak").val())
-        // var potongan = parseInt($(".potongan").val().split('.').join(""))
+        var pajak = ($(".pajak").val())
+        console.log($(".pajak").val())
+        var potongan = parseInt($(".potongan").val().split('.').join(""))
 
-        // var total = parseInt($(".total").val().split('.').join(""))
-        // var bayar = parseInt($(".bayar").val().split('.').join(""))
-        // var pajak_rupiah = (total - potongan) * (pajak / 100)
-        // $(".pajak_rupiah").val(number_format(pajak_rupiah))
-        // var total_bayar = (total - potongan) + pajak_rupiah
-        // var sisa_bayar = total_bayar - bayar
-        // $(".total_bayar").val(number_format(total_bayar))
-        // $(".sisa_bayar").val(number_format(sisa_bayar))
+        var total = parseInt($(".total").val().split('.').join(""))
+        var bayar = parseInt($(".bayar").val().split('.').join(""))
+        var lainnya = parseInt($(".lainnya").val().split('.').join(""))
+        var pajak_rupiah = (total - potongan) * (pajak / 100)
+        $(".pajak_rupiah").val(number_format(pajak_rupiah))
+        var total_bayar = (total - potongan) + pajak_rupiah + lainnya
+        var sisa_bayar = total_bayar - bayar
+        $(".total_bayar").val(number_format(total_bayar))
+        $(".sisa_bayar").val(number_format(sisa_bayar))
     }
 
-    // $(".btn-faktur").on("click", function() {
-    //     $.ajax({
-    //         url: '<?php echo base_url(); ?>index.php/pembelian/po/po_to_pd/<?= $id; ?>/<?= $id_pembelian; ?>',
-    //         type: "ajax",
-    //         dataType: 'json',
-    //         beforeSend: function() {
-    //             memuat()
-    //         },
-    //         success: function(data) {
-    //             window.open(
-    //                 '<?= base_url(); ?>pembelian/pd/form_pd/' + data.PI_ID + '/' + data.PEMBELIAN_ID,
-    //                 '_blank'
-    //             );
-    //             Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
-    //             detail()
-    //         }
-    //     });
-    // })
-
-    $(".btn-faktur").on("click", function() {
+    $(".btn-pengiriman").on("click", function() {
         Swal.fire({
             title: 'Buat Pengiriman ?',
             icon: 'question',
@@ -658,7 +536,7 @@ if (empty($this->uri->segment('5'))) {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo base_url(); ?>index.php/pembelian/pd/pd_to_pi/<?= $id; ?>/<?= $id_pembelian; ?>',
+                    url: '<?php echo base_url(); ?>index.php/pembelian/po/po_to_pd/<?= $id; ?>/<?= $id_pembelian; ?>',
                     type: "ajax",
                     dataType: 'json',
                     beforeSend: function() {
@@ -666,7 +544,7 @@ if (empty($this->uri->segment('5'))) {
                     },
                     success: function(data) {
                         window.open(
-                            '<?= base_url(); ?>pembelian/pi/form_pi/' + data.PD_ID + '/' + data.PEMBELIAN_ID,
+                            '<?= base_url(); ?>pembelian/pd/form_pd/' + data.PD_ID + '/' + data.PEMBELIAN_ID,
                             '_blank'
                         );
                         Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')

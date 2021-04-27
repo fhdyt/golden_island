@@ -62,6 +62,7 @@ class PdModel extends CI_Model
         $data_transaksi = array(
             'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
             'PD_ID' => $this->input->post('id'),
+            'PEMBELIAN_JENIS' => "PD",
             'PEMBELIAN_TRANSAKSI_LAINNYA' => str_replace(".", "", $this->input->post('lainnya')),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
@@ -288,7 +289,7 @@ class PdModel extends CI_Model
             $list_barang = $this->db->query('SELECT * FROM 
         PEMBELIAN_BARANG 
         WHERE 
-        PO_ID = "' . $id . '"
+        PD_ID = "' . $id . '"
         AND PEMBELIAN_ID="' . $id_pembelian . '" AND
         RECORD_STATUS="AKTIF" AND 
         PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();

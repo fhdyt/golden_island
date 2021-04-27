@@ -215,7 +215,7 @@
                 memuat()
                 $(".id").val(data[0].MASTER_KARYAWAN_ID)
                 $(".nama").val(data[0].MASTER_KARYAWAN_NAMA)
-                $(".jabatan").val(data[0].MASTER_KARYAWAN_JABATAN)
+                $(".jabatan").val(data[0].MASTER_KARYAWAN_JABATAN).trigger("change")
                 $(".alamat").val(data[0].MASTER_KARYAWAN_ALAMAT)
                 $(".hp").val(data[0].MASTER_KARYAWAN_HP)
                 $(".ktp").val(data[0].MASTER_KARYAWAN_KTP)
