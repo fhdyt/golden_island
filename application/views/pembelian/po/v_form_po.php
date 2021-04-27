@@ -444,7 +444,7 @@ if (empty($this->uri->segment('5'))) {
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
+                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "" + "</td>" +
                             "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
                             "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +

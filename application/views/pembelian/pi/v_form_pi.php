@@ -1,16 +1,16 @@
-<?php
-if (empty($this->uri->segment('4'))) {
-    $id = create_id();
-} else {
-    $id = $this->uri->segment('4');
-}
+td<?php
+    if (empty($this->uri->segment('4'))) {
+        $id = create_id();
+    } else {
+        $id = $this->uri->segment('4');
+    }
 
-if (empty($this->uri->segment('5'))) {
-    $id_pembelian = create_id();
-} else {
-    $id_pembelian = $this->uri->segment('5');
-}
-?>
+    if (empty($this->uri->segment('5'))) {
+        $id_pembelian = create_id();
+    } else {
+        $id_pembelian = $this->uri->segment('5');
+    }
+    ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -284,24 +284,36 @@ if (empty($this->uri->segment('5'))) {
 
 <script>
     $(function() {
-        $(".potongan").mask("#.##0", {
+        $("#edit_harga").mask("#.##0", {
             reverse: true
         });
 
-        $(".biaya_tambahan").mask("#.##0", {
-            reverse: true
-        });
-
-        $(".bayar").mask("#.##0", {
-            reverse: true
-        });
-        $(".lainnya").mask("#.##0", {
-            reverse: true
-        });
         detail()
         barang_list()
         kalkulasi_seluruh()
     });
+
+    function edit_harga(id) {
+        console.log(id)
+        console.log()
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/pembelian/pi/edit',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                id: id,
+                harga: $(".edit_harga_" + id + "").val(),
+            },
+            success: function(data) {
+                detail()
+                barang_list()
+                Swal.fire('Berhasil', '', 'success')
+            }
+        });
+    }
 
     $('#submit').submit(function(e) {
         e.preventDefault();
@@ -447,10 +459,10 @@ if (empty($this->uri->segment('5'))) {
                     var total = 0
                     for (i = 0; i < data.length; i++) {
                         total += parseInt(data[i].PEMBELIAN_BARANG_TOTAL);
-                        $("tbody#zone_data").append("<tr class=''>" +
+                        $("tbody#zone_data").append("<tr class='xxx' id_barang ='adfasdf'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
+                            "<td><input type='text' class='form-control edit_harga_" + data[i].PEMBELIAN_BARANG_ID + "' id='edit_harga' id_barang='" + data[i].PEMBELIAN_BARANG_ID + "' value='" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "' onfocusout='edit_harga(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'/></td>" +
                             "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
                             "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +

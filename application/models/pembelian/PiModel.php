@@ -151,4 +151,22 @@ class PiModel extends CI_Model
         P.PI_ID="' . $id . '" AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY P.PEMBELIAN_BARANG_INDEX DESC')->result();
         return $hasil;
     }
+
+    public function edit()
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        PEMBELIAN_BARANG 
+        WHERE 
+        RECORD_STATUS="AKTIF" AND 
+        PEMBELIAN_BARANG_ID="' . $this->input->post('id') . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+
+        $total = str_replace(".", "", $this->input->post('harga')) * $hasil[0]->PEMBELIAN_BARANG_QUANTITY;
+        $data_barang = array(
+            'PEMBELIAN_BARANG_HARGA' => str_replace(".", "", $this->input->post('harga')),
+            'PEMBELIAN_BARANG_TOTAL' => $total,
+        );
+
+        $this->db->where('PEMBELIAN_BARANG_ID', $this->input->post('id'));
+        $result = $this->db->update('PEMBELIAN_BARANG', $data_barang);
+    }
 }

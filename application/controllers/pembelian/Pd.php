@@ -84,6 +84,7 @@ class Pd extends CI_Controller
         $data = $this->PdModel->list_barang($id, $id_pembelian);
         echo json_encode($data);
     }
+
     public function detail_jenis_barang()
     {
         $jenis = $_GET['jenis'];
@@ -96,14 +97,10 @@ class Pd extends CI_Controller
         $data = $this->PdModel->realisasi_tabung();
         echo json_encode($data);
     }
-    public function realisasi_tangki()
+
+    public function edit()
     {
-        $data = $this->PdModel->realisasi_tangki();
-        echo json_encode($data);
-    }
-    public function realisasi_liquid()
-    {
-        $data = $this->PdModel->realisasi_liquid();
+        $data = $this->PdModel->edit();
         echo json_encode($data);
     }
 

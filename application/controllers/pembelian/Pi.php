@@ -84,10 +84,17 @@ class Pi extends CI_Controller
         $data = $this->PiModel->list_barang($id, $id_pembelian);
         echo json_encode($data);
     }
+
     public function detail_jenis_barang()
     {
         $jenis = $_GET['jenis'];
         $data = $this->PiModel->detail_jenis_barang($jenis);
+        echo json_encode($data);
+    }
+
+    public function edit()
+    {
+        $data = $this->PiModel->edit();
         echo json_encode($data);
     }
 }

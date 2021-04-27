@@ -185,74 +185,25 @@ class PdModel extends CI_Model
         return $result;
     }
 
-    public function realisasi_tangki()
+    public function edit()
     {
-        $quantity = $this->input->post('quantity_realisasi');
         $hasil = $this->db->query('SELECT * FROM 
         PEMBELIAN_BARANG 
         WHERE 
         RECORD_STATUS="AKTIF" AND 
-        PEMBELIAN_BARANG_ID="' . $this->input->post('id_realisasi') . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
-        if (!empty($hasil)) {
-            for ($x = 0; $x < $quantity; $x++) {
-                $data = array(
-                    'MASTER_TANGKI_ID' => create_id(),
-                    'MASTER_TANGKI_KODE' => kode_tangki(),
-                    'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
-                    'MASTER_TANGKI_LOKASI' => $this->input->post('lokasi'),
-                    'MASTER_TANGKI_SATUAN' => $this->input->post('satuan'),
-                    'MASTER_TANGKI_KAPASITAS' => $this->input->post('kapasitas'),
+        PEMBELIAN_BARANG_ID="' . $this->input->post('id_barang') . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
 
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                    'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                    'RECORD_STATUS' => "AKTIF",
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                    'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                    'RECORD_STATUS' => "AKTIF",
-                    'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-                );
-                $this->db->insert('MASTER_TANGKI', $data);
-            }
-
-            $total = $quantity * $hasil[0]->PEMBELIAN_BARANG_HARGA;
-            $data_barang = array(
-                'PEMBELIAN_BARANG_QUANTITY' => $quantity,
-                'PEMBELIAN_BARANG_TOTAL' => $total,
-                'PEMBELIAN_BARANG_REALISASI' => "1",
-            );
-
-            $this->db->where('PEMBELIAN_BARANG_ID', $this->input->post('id_realisasi'));
-            $result = $this->db->update('PEMBELIAN_BARANG', $data_barang);
-        }
-
-        return $result;
-    }
-
-    public function realisasi_liquid()
-    {
-        $data_riwayat = array(
-            'RIWAYAT_TANGKI_ID' => create_id(),
-            'MASTER_TANGKI_ID' => $this->input->post('tangki'),
-            'RIWAYAT_TANGKI_TANGGAL' => date("Y-m-d"),
-            'RIWAYAT_TANGKI_KAPASITAS' => $this->input->post('kapasitas'),
-            'RIWAYAT_TANGKI_KETERANGAN' => "",
-
-
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-            'ENTRI_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "AKTIF",
-            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-        );
-        $this->db->insert('RIWAYAT_TANGKI', $data_riwayat);
-
+        $total = $this->input->post('quantity_barang') * $hasil[0]->PEMBELIAN_BARANG_HARGA;
         $data_barang = array(
-            'PEMBELIAN_BARANG_QUANTITY' => $this->input->post('kapasitas'),
-            'PEMBELIAN_BARANG_REALISASI' => "1",
+            'PEMBELIAN_BARANG_QUANTITY' => $this->input->post('quantity_barang'),
+            'PEMBELIAN_BARANG_TOTAL' => $total,
+            'PEMBELIAN_BARANG_SATUAN' => $this->input->post('satuan_barang'),
         );
 
-        $this->db->where('PEMBELIAN_BARANG_ID', $this->input->post('id_realisasi'));
+        $this->db->where('PEMBELIAN_BARANG_ID', $this->input->post('id_barang'));
         $result = $this->db->update('PEMBELIAN_BARANG', $data_barang);
     }
+
 
     public function pd_to_pi($id, $id_pembelian)
     {

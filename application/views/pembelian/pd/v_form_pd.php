@@ -44,70 +44,37 @@ if (empty($this->uri->segment('5'))) {
 </div>
 <!-- /.modal -->
 
-<div class="modal fade" id="realisasi_tangkiModal">
+<div class="modal fade" id="editModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Realikasi Tangki</h4>
+                <h4 class="modal-title">Edit Barang</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="realisasi_tangki">
+                <form id="edit">
                     <div class="form-group">
-                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
+                        <input type="hidden" class="form-control id_barang" name="id_barang" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Quantity</label>
-                        <input type="text" class="form-control quantity_realisasi" name="quantity_realisasi" autocomplete="off">
+                        <input type="text" class="form-control quantity_barang" name="quantity_barang" autocomplete="off">
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
 
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<div class="modal fade" id="realisasi_liquidModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Realikasi liquid</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="realisasi_liquid">
                     <div class="form-group">
-                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Quantity</label>
-                        <select name="tangki" id="tangki" class="form-control tangki select2" style="width: 100%;">
-                            <option value="">-- Pilih --</option>
-                            <?php
-                            foreach (tangki_list() as $row) {
+                        <label for="exampleInputEmail1">Satuan</label>
+                        <select name="satuan_barang" id="satuan_barang" class="form-control satuan_barang select2" style="width: 100%;">
+                            <option value="">-- Satuan --</option>
+                            <?php foreach (satuan() as $row) {
                             ?>
-                                <option value="<?= $row->MASTER_TANGKI_ID; ?>"><?= $row->MASTER_TANGKI_KODE; ?> - <?= $row->MASTER_TANGKI_LOKASI; ?></option>
+                                <option value="<?= $row->SATUAN_NAMA; ?>"><?= $row->SATUAN_NAMA; ?></option>
                             <?php
                             }
                             ?>
                         </select>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Kapasitas</label>
-                        <input type="text" class="form-control kapasitas" name="kapasitas" autocomplete="off">
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
 
@@ -352,6 +319,26 @@ if (empty($this->uri->segment('5'))) {
         });
     })
 
+    $('#edit').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/pembelian/pd/edit',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                barang_list()
+                memuat()
+                Swal.fire('Berhasil', '', 'success')
+            }
+        });
+    })
+
     function detail() {
         $.ajax({
             type: 'ajax',
@@ -487,6 +474,7 @@ if (empty($this->uri->segment('5'))) {
                             "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
                             // "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='edit(\"" + data[i].PEMBELIAN_BARANG_ID + "\",\"" + data[i].PEMBELIAN_BARANG_QUANTITY + "\",\"" + data[i].PEMBELIAN_BARANG_SATUAN + "\")'><i class='fas fa-edit'></i></a> " +
                             btn_realisasi + "</td>" +
                             "</tr>");
                     }
@@ -530,6 +518,16 @@ if (empty($this->uri->segment('5'))) {
 
             }
         })
+    }
+
+    function edit(id, quantity, satuan) {
+        console.log(id)
+        console.log(quantity)
+        console.log(satuan)
+        $("#editModal").modal("show")
+        $(".id_barang").val(id)
+        $(".quantity_barang").val(quantity)
+        $(".satuan_barang").val(satuan).trigger("change")
     }
 
     function realisasi(id) {
