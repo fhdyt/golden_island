@@ -88,4 +88,11 @@ class User extends CI_Controller
         $data = $this->UserModel->akses_menu($user, $menu_id);
         echo json_encode($data);
     }
+
+    public function detail()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->UserModel->detail($id);
+        echo json_encode($data);
+    }
 }

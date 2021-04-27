@@ -10,21 +10,53 @@ class UserModel extends CI_Model
 
     public function add()
     {
-        $data = array(
-            'USER_ID' => create_id(),
-            'USER_NAMA' => $this->input->post('nama'),
-            'USER_USERNAME' => $this->input->post('username'),
-            'USER_PASSWORD' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-            'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
-            'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
+        if ($this->input->post('id') == "") {
+            $data = array(
+                'USER_ID' => create_id(),
+                'USER_NAMA' => $this->input->post('nama'),
+                'USER_USERNAME' => $this->input->post('username'),
+                'USER_PASSWORD' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
+                'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-            'ENTRI_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "AKTIF",
-        );
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+            );
 
-        $result = $this->db->insert('USER', $data);
-        return $result;
+            $result = $this->db->insert('USER', $data);
+            return $result;
+        } else {
+            $data_edit = array(
+                'USER_ID' => $this->input->post('id'),
+                'USER_NAMA' => $this->input->post('nama'),
+                'USER_USERNAME' => $this->input->post('username'),
+                'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
+                'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+            );
+
+            $this->db->where('USER_ID', $this->input->post('id'));
+            $edit = $this->db->update('USER', $data_edit);
+
+            // $data = array(
+            //     'USER_ID' => $this->input->post('id'),
+            //     'USER_NAMA' => $this->input->post('nama'),
+            //     'USER_USERNAME' => $this->input->post('username'),
+            //     'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
+            //     'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
+
+            //     'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            //     'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            //     'RECORD_STATUS' => "AKTIF",
+            // );
+
+            // $result = $this->db->insert('USER', $data);
+            return $edit;
+        }
     }
 
     public function hapus($id)
@@ -111,5 +143,11 @@ class UserModel extends CI_Model
             $result = $this->db->update('USER_AKSES', $data);
             return $result;
         }
+    }
+
+    public function detail($id)
+    {
+        $hasil = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
     }
 }

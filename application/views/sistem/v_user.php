@@ -10,9 +10,12 @@
             <div class="modal-body">
                 <form id="submit">
                     <div class="form-group">
+                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
                         <select name="karyawan" id="karyawan" class="form-control karyawan select2" style="width: 100%;">
-                            <option value="">-- Satuan --</option>
+                            <option value="">-- Karyawan --</option>
                             <?php foreach (karyawan_list() as $row) {
                             ?>
                                 <option value="<?= $row->MASTER_KARYAWAN_ID; ?>"><?= $row->MASTER_KARYAWAN_NAMA; ?></option>
@@ -23,19 +26,19 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
-                        <input type="text" class="form-control" name="nama" autocomplete="off" required>
+                        <input type="text" class="form-control nama" name="nama" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Username</label>
-                        <input type="text" class="form-control" name="username" autocomplete="off" required>
+                        <input type="text" class="form-control username" name="username" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Password</label>
-                        <input type="text" class="form-control" name="password" autocomplete="off" required>
+                        <input type="text" class="form-control password" name="password" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Perusahaan</label>
-                        <select name="perusahaan" id="perusahaan" class="form-control select2" style="width: 100%;" required>
+                        <select name="perusahaan" id="perusahaan" class="form-control perusahaan select2" style="width: 100%;" required>
                             <?php foreach ($perusahaan as $row) {
                             ?>
                                 <option value="<?= $row->PERUSAHAAN_KODE; ?>"><?= $row->PERUSAHAAN_NAMA; ?></option>
@@ -129,6 +132,7 @@
                             "<td>" + data[i].USER_ID + "</td>" +
                             "<td>" + data[i].PERUSAHAAN_KODE + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].USER_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].USER_ID + "\")'><i class='fas fa-edit'></i></a>" +
                             "<a class='btn btn-success btn-sm' href='<?php echo base_url(); ?>sistem/user/akses/" + data[i].USER_ID + "'><i class='fas fa-star'></i></a></td>" +
                             "</tr>");
                     }
@@ -196,5 +200,28 @@
 
             }
         })
+    }
+
+    function detail(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/sistem/user/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".id").val(data[0].USER_ID)
+                $(".nama").val(data[0].USER_NAMA)
+                $(".karyawan").val(data[0].MASTER_KARYAWAN_ID).trigger("change")
+                $(".username").val(data[0].USER_USERNAME)
+                $(".password").val("*Password Tidak dapat diedit*")
+                $(".perusahaan").val(data[0].PERUSAHAAN_KODE).trigger("change")
+
+                $("#userModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>
