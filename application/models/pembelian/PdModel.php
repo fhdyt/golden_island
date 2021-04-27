@@ -171,9 +171,10 @@ class PdModel extends CI_Model
                 );
                 $this->db->insert('MASTER_TABUNG', $data);
             }
-
+            $total = $quantity * $hasil[0]->PEMBELIAN_BARANG_HARGA;
             $data_barang = array(
                 'PEMBELIAN_BARANG_QUANTITY' => $quantity,
+                'PEMBELIAN_BARANG_TOTAL' => $total,
                 'PEMBELIAN_BARANG_REALISASI' => "1",
             );
 
@@ -213,8 +214,10 @@ class PdModel extends CI_Model
                 $this->db->insert('MASTER_TANGKI', $data);
             }
 
+            $total = $quantity * $hasil[0]->PEMBELIAN_BARANG_HARGA;
             $data_barang = array(
                 'PEMBELIAN_BARANG_QUANTITY' => $quantity,
+                'PEMBELIAN_BARANG_TOTAL' => $total,
                 'PEMBELIAN_BARANG_REALISASI' => "1",
             );
 
@@ -296,7 +299,7 @@ class PdModel extends CI_Model
 
             foreach ($list_barang as $row) {
                 $total = $row->PEMBELIAN_BARANG_QUANTITY * $row->PEMBELIAN_BARANG_HARGA;
-                $data = array(
+                $data_barang = array(
                     'PEMBELIAN_BARANG_ID' => create_id(),
                     'PI_ID' => $id_pi,
                     'PEMBELIAN_ID' => $id_pembelian,
@@ -312,7 +315,7 @@ class PdModel extends CI_Model
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
                 );
 
-                $this->db->insert('PEMBELIAN_BARANG', $data);
+                $this->db->insert('PEMBELIAN_BARANG', $data_barang);
             }
             return $data;
         }

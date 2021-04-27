@@ -168,6 +168,7 @@
     })
 
     function memuat() {
+        $('.modal').modal('hide');
         $('div#loader-wrapper').fadeToggle()
     }
 

@@ -666,7 +666,7 @@ if (empty($this->uri->segment('5'))) {
                     },
                     success: function(data) {
                         window.open(
-                            '<?= base_url(); ?>pembelian/pi/form_pi/' + data.PD_ID + '/' + data.PEMBELIAN_ID,
+                            '<?= base_url(); ?>pembelian/pi/form_pi/' + data.PI_ID + '/' + data.PEMBELIAN_ID,
                             '_blank'
                         );
                         Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')

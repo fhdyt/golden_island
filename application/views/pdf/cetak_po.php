@@ -42,7 +42,6 @@
             background-color: #f2f2f2
         }
     </style>
-    <script src="<?php echo base_url(); ?>assets/qrcode/qrcode.js"></script>
 
 <body>
     <table>
@@ -62,13 +61,11 @@
         </tr>
     </table>
     <hr>
-    <p style="font-size:24px; font-weight:bold">Purchase Order</p>
-    <p style="font-size: 16px;"><?= $detail[0]->PEMBELIAN_NOMOR; ?></p>
-
-    <table class="table-noborder" style="margin-top:150px">
+    <p style="font-size:24px; font-weight:bold;">Purchase Order <br><small> <?= $detail[0]->PEMBELIAN_NOMOR; ?></small></p>
+    <table class="table-noborder" style="margin-top:50px">
         <tr>
             <td width="50%">
-                <p style="margin-bottom: 60px;">Kepada:</p>
+                <p style="margin-bottom: 60px; font-weight: bold;">Kepada:</p>
                 <br>
                 <p style="font-size: 18px; font-weight:bold;"><?= $supplier[0]->MASTER_SUPPLIER_NAMA; ?></p>
                 <p style="font-size: 14px; font-color:#757575;"><?= $supplier[0]->MASTER_SUPPLIER_ALAMAT; ?></p>

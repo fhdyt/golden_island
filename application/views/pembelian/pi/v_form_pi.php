@@ -319,11 +319,6 @@ if (empty($this->uri->segment('5'))) {
                 console.log(data)
                 Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
                 detail()
-                window.location.href = '<?= base_url(); ?>pembelian/po/form_po/<?= $id; ?>/<?= $id_pembelian; ?>'
-                window.open(
-                    '<?= base_url(); ?>pdf/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>',
-                    '_blank'
-                );
             }
         });
     })
