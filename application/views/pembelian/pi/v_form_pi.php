@@ -218,18 +218,7 @@ td<?php
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Uang Muka</label>
-                                <div class="col-sm-3">
-                                    <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
-                                        <option value="">-- Akun --</option>
-                                        <?php foreach (akun_list() as $row) {
-                                        ?>
-                                            <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
-                                        <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-10">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
@@ -252,7 +241,18 @@ td<?php
                             <hr>
                             <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Bayar</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-3">
+                                    <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                                        <option value="">-- Akun --</option>
+                                        <?php foreach (akun_list() as $row) {
+                                        ?>
+                                            <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-7">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
@@ -261,6 +261,8 @@ td<?php
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Sisa Bayar</label>
                                 <div class="col-sm-10">
