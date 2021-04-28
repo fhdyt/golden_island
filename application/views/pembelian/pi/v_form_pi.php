@@ -18,7 +18,7 @@ td<?php
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-8">
-                    <h1 class="m-0">Form Pemesanan</h1>
+                    <h1 class="m-0">Form Faktur</h1>
                 </div><!-- /.col -->
 
 
@@ -204,17 +204,7 @@ td<?php
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Biaya Lainnya</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Rp.</span>
-                                        </div>
-                                        <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Total Bayar</label>
                                 <div class="col-sm-10">
@@ -227,7 +217,7 @@ td<?php
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Bayar</label>
+                                <label class="col-sm-2 col-form-label text-right">Uang Muka</label>
                                 <div class="col-sm-3">
                                     <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
                                         <option value="">-- Akun --</option>
@@ -244,7 +234,30 @@ td<?php
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
                                         </div>
-                                        <input type="text" class="form-control bayar" name="bayar" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
+                                        <input type="text" class="form-control uang_muka" name="uang_muka" autocomplete="off" value="0" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Total</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control grand_total" name="grand_total" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Bayar</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control bayar" name="bayar" onkeyup="kalkulasi_seluruh()">
                                     </div>
                                 </div>
                             </div>
@@ -256,6 +269,18 @@ td<?php
                                             <span class="input-group-text">Rp.</span>
                                         </div>
                                         <input type="text" class="form-control sisa_bayar" name="sisa_bayar" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Biaya Lainnya</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -285,6 +310,12 @@ td<?php
 <script>
     $(function() {
         $("#edit_harga").mask("#.##0", {
+            reverse: true
+        });
+        $(".uang_muka").mask("#.##0", {
+            reverse: true
+        });
+        $(".bayar").mask("#.##0", {
             reverse: true
         });
 
@@ -318,7 +349,7 @@ td<?php
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/pembelian/po/add',
+            url: '<?php echo base_url(); ?>index.php/pembelian/pi/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -354,10 +385,21 @@ td<?php
                     $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger("change")
                     $(".akun").val(data[0].AKUN_ID)
                     $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
-                    $(".pajak").val(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_PAJAK)
-                    $(".potongan").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_POTONGAN))
-                    $(".bayar").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
-                    $(".lainnya").val(number_format(data[0].TRANSAKSI_PD[0].PEMBELIAN_TRANSAKSI_LAINNYA))
+
+                    if (data[0].TRANSAKSI == "") {
+                        $(".pajak").val(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_PAJAK)
+                        $(".potongan").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_POTONGAN))
+                        $(".uang_muka").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
+                        $(".lainnya").val(number_format(data[0].TRANSAKSI_PD[0].PEMBELIAN_TRANSAKSI_LAINNYA))
+                        $(".bayar").val("0")
+                    } else {
+                        $(".pajak").val(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_PAJAK)
+                        $(".potongan").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_POTONGAN))
+                        $(".uang_muka").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
+                        $(".lainnya").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_LAINNYA))
+                        $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR))
+                    }
+
                     if (data[0].PEMBELIAN_STATUS == "open") {
                         $(".btn-pengiriman").attr("hidden", false)
                     } else {
@@ -367,6 +409,9 @@ td<?php
                         $("input").attr("disabled", true)
                         $("select").attr("disabled", true)
                     }
+
+
+
                     detail_jenis_barang()
                 }
 
@@ -522,12 +567,17 @@ td<?php
         var potongan = parseInt($(".potongan").val().split('.').join(""))
 
         var total = parseInt($(".total").val().split('.').join(""))
+        var uang_muka = parseInt($(".uang_muka").val().split('.').join(""))
         var bayar = parseInt($(".bayar").val().split('.').join(""))
         var lainnya = parseInt($(".lainnya").val().split('.').join(""))
         var pajak_rupiah = (total - potongan) * (pajak / 100)
         $(".pajak_rupiah").val(number_format(pajak_rupiah))
-        var total_bayar = (total - potongan) + pajak_rupiah + lainnya
-        var sisa_bayar = total_bayar - bayar
+
+        var total_bayar = (total - potongan) + pajak_rupiah
+        var grand_total = total_bayar - uang_muka
+        $(".grand_total").val(number_format(grand_total))
+
+        var sisa_bayar = grand_total - bayar
         $(".total_bayar").val(number_format(total_bayar))
         $(".sisa_bayar").val(number_format(sisa_bayar))
     }

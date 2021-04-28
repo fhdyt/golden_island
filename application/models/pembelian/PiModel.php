@@ -62,7 +62,14 @@ class PiModel extends CI_Model
         $data_transaksi = array(
             'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
             'PI_ID' => $this->input->post('id'),
+            'PEMBELIAN_JENIS' => "PI",
+            'PEMBELIAN_TRANSAKSI_TOTAL' => str_replace(".", "", $this->input->post('total')),
+            'PEMBELIAN_TRANSAKSI_POTONGAN' => str_replace(".", "", $this->input->post('potongan')),
             'PEMBELIAN_TRANSAKSI_LAINNYA' => str_replace(".", "", $this->input->post('lainnya')),
+            'PEMBELIAN_TRANSAKSI_PAJAK' => $this->input->post('pajak'),
+            'PEMBELIAN_TRANSAKSI_PAJAK_RUPIAH' => str_replace(".", "", $this->input->post('pajak_rupiah')),
+            'PEMBELIAN_TRANSAKSI_UANG_MUKA' => str_replace(".", "", $this->input->post('uang_muka')),
+            'PEMBELIAN_TRANSAKSI_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
