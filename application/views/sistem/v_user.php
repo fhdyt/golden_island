@@ -132,7 +132,7 @@
                             "<td>" + data[i].USER_ID + "</td>" +
                             "<td>" + data[i].PERUSAHAAN_KODE + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].USER_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].USER_ID + "\")'><i class='fas fa-edit'></i></a>" +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].USER_ID + "\")'><i class='fas fa-edit'></i></a> " +
                             "<a class='btn btn-success btn-sm' href='<?php echo base_url(); ?>sistem/user/akses/" + data[i].USER_ID + "'><i class='fas fa-star'></i></a></td>" +
                             "</tr>");
                     }

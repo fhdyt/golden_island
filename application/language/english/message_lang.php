@@ -54,6 +54,8 @@ $lang["Aplikasi"] = "Application";
 $lang["Menu"] = "Menu";
 $lang["User"] = "User";
 $lang["Kontrol Tabung"] = "Cylinder Control";
+$lang["Buku Besar"] = "Ledger";
+$lang["Hutang"] = "Debt";
 
 
 // ----------------- aplikasi -----------------

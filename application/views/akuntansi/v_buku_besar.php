@@ -1,0 +1,199 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <h1 class="m-0"><?= $this->lang->line('Buku Besar'); ?></h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card card-default color-palette-box">
+                <div class="card-body">
+
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                                <option value="">-- Akun --</option>
+                                <?php foreach (akun_list() as $row) {
+                                ?>
+                                    <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <!-- <div class="col-md-4">
+                            <select name="tahun" id="tahun" class="form-control tahun select2" style="width: 100%;">
+                                <option value=""><?= $this->lang->line('semua'); ?></option>
+
+                                <?php
+                                foreach (tahun() as $value => $text) {
+                                ?>
+                                    <option value="<?= $value; ?>"><?= $text; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div> -->
+                    </div>
+                    <table id="example2" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
+                                <th><?= $this->lang->line('keterangan'); ?></th>
+                                <th>Sumber</th>
+                                <th>Debet</th>
+                                <th>Kredit</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zone_data">
+                            <tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<script>
+    $(function() {
+
+        buku_besar_list();
+    });
+
+    function buku_besar_list() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/akuntansi/buku_besar/list?akun=" + $(".akun").val() + "",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#zone_data").empty();
+                memuat()
+                console.log(data)
+                if (data.length === 0) {
+
+                    if ($(".akun").val() == "") {
+                        $("tbody#zone_data").append("<td colspan='10'>Silahkan pilih Jenis Akun terlebih dahulu.</td>")
+                    } else {
+                        $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                    }
+
+                } else {
+                    var no = 1
+                    var saldo = 0
+                    for (i = 0; i < data.length; i++) {
+                        saldo += data[i].SALDO
+                        $("tbody#zone_data").append("<tr class=''>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].BUKU_BESAR_KETERANGAN + "</td>" +
+                            "<td>" + data[i].BUKU_BESAR_SUMBER + "</td>" +
+                            "<td>" + number_format(data[i].BUKU_BESAR_DEBET) + "</td>" +
+                            "<td>" + number_format(data[i].BUKU_BESAR_KREDIT) + "</td>" +
+                            "<td>" + number_format(saldo) + "</td>" +
+                            "</tr>");
+                    }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    $('#submit').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/akuntansi/kas_kecil/add',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                kas_kecil_list();
+                Swal.fire('Berhasil', 'Kas Kecil berhasil ditambahkan', 'success')
+                $("#kas_kecilModal").modal("hide")
+            }
+        });
+    })
+
+    function hapus(id) {
+        console.log(id)
+        Swal.fire({
+            title: '<?= $this->lang->line('hapus'); ?> ?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'ajax',
+                    url: '<?php echo base_url() ?>index.php/akuntansi/kas_kecil/hapus/' + id,
+                    beforeSend: function() {
+                        memuat()
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.length === 0) {} else {
+                            kas_kecil_list();
+                            Swal.fire('Berhasil', 'Driver Berhasil dihapus', 'success')
+                        }
+                    },
+                    error: function(x, e) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Proses Gagal'
+                        })
+                    } //end error
+                });
+
+            }
+        })
+    }
+
+    function detail(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/master/kas_kecil/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".id").val(data[0].MASTER_DRIVER_ID)
+                $(".nama").val(data[0].MASTER_DRIVER_NAMA)
+                $(".alamat").val(data[0].MASTER_DRIVER_ALAMAT)
+                $(".hp").val(data[0].MASTER_DRIVER_HP)
+                $(".sim").val(data[0].MASTER_DRIVER_SIM)
+                $(".ktp").val(data[0].MASTER_DRIVER_KTP)
+
+                $("#driverModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
+    }
+    $('.akun').change(function() {
+        memuat()
+        buku_besar_list()
+    });
+</script>

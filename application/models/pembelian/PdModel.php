@@ -37,11 +37,23 @@ class PdModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('PEMBELIAN_TRANSAKSI', $data_edit_aktif_transaksi);
 
+        $data_edit_buku_besar = array(
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
 
+        $this->db->where('BUKU_BESAR_REF', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
+
+
+        $nomor_pembelian = nomor_pembelian("PD", $this->input->post('tanggal'));
         $data = array(
             'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
             'PEMBELIAN_JENIS' => "PD",
-            'PEMBELIAN_NOMOR' => nomor_pembelian("PD", $this->input->post('tanggal')),
+            'PEMBELIAN_NOMOR' => $nomor_pembelian,
             'PD_ID' => $this->input->post('id'),
             'AKUN_ID' => $this->input->post('akun'),
             'PEMBELIAN_BARANG' => $this->input->post('jenis'),
@@ -71,7 +83,26 @@ class PdModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $result = $this->db->insert('PEMBELIAN_TRANSAKSI', $data_transaksi);
+        $this->db->insert('PEMBELIAN_TRANSAKSI', $data_transaksi);
+
+        $data_buku_besar = array(
+            'BUKU_BESAR_ID' => create_id(),
+            'BUKU_BESAR_REF' => $this->input->post('id'),
+            'AKUN_ID' => $this->input->post('akun'),
+            'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
+            'BUKU_BESAR_JENIS' => "KREDIT",
+            'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('lainnya')),
+            'BUKU_BESAR_DEBET' => "0",
+            'BUKU_BESAR_SUMBER' => "PEMBELIAN",
+            'BUKU_BESAR_KETERANGAN' => "Pembayaran Biaya Lainnya " . $nomor_pembelian,
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('BUKU_BESAR', $data_buku_besar);
         return $result;
     }
 

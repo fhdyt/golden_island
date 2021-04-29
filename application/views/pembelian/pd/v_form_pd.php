@@ -649,7 +649,7 @@ if (empty($this->uri->segment('5'))) {
         Swal.fire({
             title: 'Buat Pengiriman ?',
             icon: 'question',
-            text: 'Setelah membuat Pengiriman, anda tidak dapat merubah form pemesanan',
+            text: 'Setelah membuat Faktur, anda tidak dapat merubah Form Pengiriman',
             showCancelButton: true,
             confirmButtonText: `Buat`,
             denyButtonText: `Batal`,
