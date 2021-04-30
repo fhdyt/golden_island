@@ -125,6 +125,9 @@
     })
     $(function() {
         hutang_list();
+        $(".rupiah").mask("#.##0", {
+            reverse: true
+        });
     });
 
     function hutang_list() {
@@ -165,7 +168,7 @@
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/akuntansi/hutang/add',
+            url: '<?php echo base_url(); ?>index.php/akuntansi/hutang/add?supplier=' + $(".supplier").val() + '&pi=' + $(".pi").val() + '',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -175,7 +178,7 @@
                 memuat()
             },
             success: function(data) {
-                akun_list();
+                hutang_list();
                 Swal.fire('Berhasil', '', 'success')
                 $("#akunModal").modal("hide")
             }

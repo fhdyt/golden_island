@@ -42,6 +42,7 @@ td<?php
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">No Faktur</label>
                                             <input type="text" class="form-control nomor_pembelian" name="nomor_pembelian" autocomplete="off" readonly>
+                                            <small class="text-muted">Nomor Otomatis akan terisi.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">

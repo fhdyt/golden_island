@@ -123,6 +123,14 @@ if (empty($this->uri->segment('5'))) {
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">No Pengiriman</label>
                                             <input type="text" class="form-control nomor_pembelian" name="nomor_pembelian" autocomplete="off" readonly>
+                                            <small class="text-muted">Nomor Otomatis akan terisi.</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">No Surat</label>
+                                            <input type="text" class="form-control nomor_surat" name="nomor_surat" autocomplete="off">
+
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -358,6 +366,7 @@ if (empty($this->uri->segment('5'))) {
                     barang_list()
                 } else {
                     $(".nomor_pembelian").val(data[0].PEMBELIAN_NOMOR)
+                    $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
                     $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger('change')
@@ -464,23 +473,17 @@ if (empty($this->uri->segment('5'))) {
                     var total = 0
                     for (i = 0; i < data.length; i++) {
                         total += parseInt(data[i].PEMBELIAN_BARANG_TOTAL);
-                        if (data[i].PEMBELIAN_BARANG_REALISASI == "1") {
-                            var btn_realisasi = ""
-                            var txt_realisasi = "<br><small class='text-success'>Telah direalisasi</small>"
-                        } else {
-                            var btn_realisasi = "<a class='btn btn-primary btn-sm' onclick='realisasi(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'> Realisasi</a>"
-                            var txt_realisasi = "<br><small class='text-danger'>Belum direalisasi</small>"
-                        }
+
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_BARANG_NAMA + "" + txt_realisasi + "</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             // "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
                             "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
                             // "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='edit(\"" + data[i].PEMBELIAN_BARANG_ID + "\",\"" + data[i].PEMBELIAN_BARANG_QUANTITY + "\",\"" + data[i].PEMBELIAN_BARANG_SATUAN + "\")'><i class='fas fa-edit'></i></a> " +
-                            btn_realisasi + "</td>" +
+                            "</td>" +
                             "</tr>");
                     }
                     $(".total").val(number_format(total))

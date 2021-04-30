@@ -12,47 +12,26 @@ class HutangModel extends CI_Model
         return $hasil;
     }
 
-    public function add()
+    public function add($supplier, $pi)
     {
-        if ($this->input->post('id') == "") {
-            $data = array(
-                'AKUN_ID' => create_id(),
-                'AKUN_NAMA' => $this->input->post('nama'),
-                'AKUN_KATEGORI' => $this->input->post('kategori'),
+        $data = array(
+            'HUTANG_ID' => create_id(),
+            'HUTANG_REF' => $pi,
+            'AKUN_ID' => $this->input->post('akun'),
+            'HUTANG_TANGGAL' => $this->input->post('tanggal'),
+            'MASTER_SUPPLIER_ID' => $supplier,
+            'HUTANG_KREDIT' => "0",
+            'HUTANG_DEBET' => str_replace(".", "", $this->input->post('rupiah')),
+            'HUTANG_SUMBER' => "PEMBELIAN",
+            'HUTANG_KETERANGAN' => $this->input->post('keterangan'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
 
-            $result = $this->db->insert('AKUN', $data);
-            return $result;
-        } else {
-            $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
-                'EDIT_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "EDIT",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $this->db->where('AKUN_ID', $this->input->post('id'));
-            $edit = $this->db->update('AKUN', $data_edit);
-
-            $data = array(
-                'AKUN_ID' => $this->input->post('id'),
-                'AKUN_NAMA' => $this->input->post('nama'),
-                'AKUN_KATEGORI' => $this->input->post('kategori'),
-
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $result = $this->db->insert('AKUN', $data);
-            return $result;
-        }
+        $result = $this->db->insert('HUTANG', $data);
     }
 
     public function hapus($id)

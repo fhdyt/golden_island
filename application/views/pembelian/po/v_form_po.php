@@ -47,6 +47,7 @@ if (empty($this->uri->segment('5'))) {
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">No Pemesanan</label>
                                             <input type="text" class="form-control nomor_pembelian" name="nomor_pembelian" autocomplete="off" readonly>
+                                            <small class="text-muted">Nomor Otomatis akan terisi.</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">

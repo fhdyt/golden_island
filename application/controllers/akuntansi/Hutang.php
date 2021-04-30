@@ -44,7 +44,9 @@ class Hutang extends CI_Controller
 
     public function add()
     {
-        $data = $this->HutangModel->add();
+        $supplier = $_GET['supplier'];
+        $pi = $_GET['pi'];
+        $data = $this->HutangModel->add($supplier, $pi);
     }
 
     public function hapus()
