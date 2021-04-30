@@ -48,8 +48,12 @@ class PoModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
 
+        if ($this->input->post('nomor_pembelian') == "") {
+            $nomor_pembelian = nomor_pembelian("PO", $this->input->post('tanggal'));
+        } else {
+            $nomor_pembelian = $this->input->post('nomor_pembelian');
+        }
 
-        $nomor_pembelian = nomor_pembelian("PO", $this->input->post('tanggal'));
         $data = array(
             'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
             'PEMBELIAN_JENIS' => "PO",

@@ -317,6 +317,16 @@ if (!function_exists('tangki_list')) {
   }
 }
 
+if (!function_exists('supplier_list')) {
+  function supplier_list()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_SUPPLIER WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
+
 if (!function_exists('kategori_akun')) {
   function kategori_akun()
   {

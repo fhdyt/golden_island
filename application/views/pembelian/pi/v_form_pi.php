@@ -40,6 +40,12 @@ td<?php
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label for="exampleInputEmail1">No Faktur</label>
+                                            <input type="text" class="form-control nomor_pembelian" name="nomor_pembelian" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                             <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
                                             <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required>
                                             <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
@@ -344,6 +350,7 @@ td<?php
                 detail()
                 barang_list()
                 Swal.fire('Berhasil', '', 'success')
+                kalkulasi_seluruh()
             }
         });
     }
@@ -381,7 +388,7 @@ td<?php
                     detail_jenis_barang()
                     barang_list()
                 } else {
-                    $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
+                    $(".nomor_pembelian").val(data[0].PEMBELIAN_NOMOR)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
                     $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger("change")

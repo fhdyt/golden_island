@@ -10,6 +10,13 @@ class BarangModel extends CI_Model
             $filter = 'AND MASTER_BARANG_JENIS="' . $_GET['jenis'] . '"';
         }
         $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ' . $filter . '  ORDER BY MASTER_BARANG_NAMA ASC')->result();
+
+        foreach ($hasil as $row) {
+            $isi = $this->db->query('SELECT SUM(STOK_BARANG_MASUK) AS ISI FROM STOK_BARANG WHERE MASTER_BARANG_ID = "' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  ')->result();
+            $tabung = $this->db->query('SELECT COUNT(MASTER_TABUNG_KODE) AS TABUNG FROM MASTER_TABUNG WHERE MASTER_BARANG_ID = "' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  ')->result();
+            $row->ISI = $isi;
+            $row->TABUNG = $tabung;
+        }
         return $hasil;
     }
 

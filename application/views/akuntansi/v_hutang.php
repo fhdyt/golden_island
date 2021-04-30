@@ -1,8 +1,8 @@
-<div class="modal fade" id="barangModal">
+<div class="modal fade" id="akunModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Jenis Barang</h4>
+                <h4 class="modal-title">Bayar Hutang</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,13 +13,17 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Jenis</label>
-                        <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;">
-                            <option value="">-- Pilih --</option>
-                            <?php
-                            foreach (jenis_barang() as $value => $text) {
+                        <label for="exampleInputEmail1">Tanggal</label>
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Akun</label>
+                        <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                            <option value="">-- Akun --</option>
+                            <?php foreach (akun_list() as $row) {
                             ?>
-                                <option value="<?= $value; ?>"><?= $text; ?></option>
+                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
                             <?php
                             }
                             ?>
@@ -27,13 +31,13 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
-                        <input type="text" class="form-control nama" name="nama" autocomplete="off">
+                        <label for="exampleInputEmail1">Rupiah</label>
+                        <input type="text" class="form-control rupiah" name="rupiah" autocomplete="off" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
-                        <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
+                        <label for="exampleInputEmail1">Keterangan</label>
+                        <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off">
                     </div>
 
             </div>
@@ -55,7 +59,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0"><?= $this->lang->line('Barang'); ?></h1>
+                    <h1 class="m-0"><?= $this->lang->line('Hutang'); ?></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -68,91 +72,86 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-6">
-                            <button type="button" class="btn btn-secondary btn_barang mb-2">Tambah Barang</button>
-                        </div>
-                        <div class="col-6">
-                            <select name="jenis_filter" id="jenis_filter" class="form-control jenis_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
-
-                                <?php
-                                foreach (jenis_barang() as $value => $text) {
+                        <div class="col-md-4">
+                            <select name="supplier" id="supplier" class="form-control supplier select2" style="width: 100%;" required>
+                                <option value="">-- Pilih Supplier --</option>
+                                <?php foreach (supplier_list() as $row) {
                                 ?>
-                                    <option value="<?= $value; ?>"><?= $text; ?></option>
+                                    <option value="<?= $row->MASTER_SUPPLIER_ID; ?>"><?= $row->MASTER_SUPPLIER_NAMA; ?></option>
                                 <?php
                                 }
                                 ?>
                             </select>
-                            <small class="text-muted">Jenis Barang</small>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="pi" id="pi" class="form-control pi select2" style="width: 100%;" required>
+                                <option value="">-- Nomor Faktur --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-secondary btn_akun mb-2">Bayar Hutang</button>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th><?= $this->lang->line('nama'); ?></th>
-                                <th>Jenis</th>
-                                <th>Isi</th>
-                                <th>Total Tabung</th>
+                                <th>No</th>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th><?= $this->lang->line('keterangan'); ?></th>
-
-                                <th></th>
+                                <th>Sumber</th>
+                                <th>Debet</th>
+                                <th>Kredit</th>
+                                <th>Saldo</th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
                             <tr>
-                                <td colspan="9">
-                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <!-- /.card-body -->
-                <!-- <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i>
-                </div> -->
             </div>
-
         </div><!-- /.container-fluid -->
     </div>
-
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
 <script>
-    $(".btn_barang").on("click", function() {
+    $(".btn_akun").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
-        $(".jenis").val("").trigger("change")
-        $("#barangModal").modal("show")
+        $("#akunModal").modal("show")
     })
     $(function() {
-        barang_list();
+        hutang_list();
     });
 
-    function barang_list() {
+    function hutang_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/master/barang/list?jenis=" + $(".jenis_filter").val(),
+            url: "<?php echo base_url() ?>index.php/akuntansi/hutang/list?supplier=" + $(".supplier").val() + "&pi=" + $(".pi").val() + "",
             async: false,
             dataType: 'json',
             success: function(data) {
-                memuat()
                 $("tbody#zone_data").empty();
+                memuat()
                 console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
+                    var saldo = 0
                     for (i = 0; i < data.length; i++) {
+                        saldo += data[i].SALDO
                         $("tbody#zone_data").append("<tr class=''>" +
-                            "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + data[i].MASTER_BARANG_JENIS + "</td>" +
-                            "<td>" + data[i].ISI[0].ISI + "</td>" +
-                            "<td>" + data[i].TABUNG[0].TABUNG + "</td>" +
-                            "<td>" + data[i].MASTER_BARANG_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-edit'></i></a> " +
+                            "<td>" + no++ + "</td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].HUTANG_KETERANGAN + "</td>" +
+                            "<td>" + data[i].HUTANG_SUMBER + "</td>" +
+                            "<td>" + number_format(data[i].HUTANG_DEBET) + "</td>" +
+                            "<td>" + number_format(data[i].HUTANG_KREDIT) + "</td>" +
+                            "<td>" + number_format(saldo) + "</td>" +
                             "</tr>");
                     }
                 }
@@ -166,7 +165,7 @@
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/master/barang/add',
+            url: '<?php echo base_url(); ?>index.php/akuntansi/hutang/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -176,9 +175,9 @@
                 memuat()
             },
             success: function(data) {
-                barang_list();
-                Swal.fire('Berhasil', 'Jenis Barang berhasil ditambahkan', 'success')
-                $("#barangModal").modal("hide")
+                akun_list();
+                Swal.fire('Berhasil', '', 'success')
+                $("#akunModal").modal("hide")
             }
         });
     })
@@ -195,15 +194,15 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/barang/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/akuntansi/akun/hapus/' + id,
                     beforeSend: function() {
                         memuat()
                     },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            barang_list();
-                            Swal.fire('Berhasil', 'Jenis Barang Berhasil dihapus', 'success')
+                            akun_list();
+                            Swal.fire('Berhasil', 'Akun Berhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {
@@ -222,26 +221,53 @@
     function detail(id) {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/master/barang/detail/' + id,
+            url: '<?php echo base_url() ?>index.php/akuntansi/akun/detail/' + id,
             beforeSend: function() {
                 memuat()
             },
             dataType: 'json',
             success: function(data) {
                 memuat()
-                $("#barangModal").modal("show")
-                $(".jenis").val(data[0].MASTER_BARANG_JENIS).trigger('change')
-                $(".id").val(data[0].MASTER_BARANG_ID)
-                $(".nama").val(data[0].MASTER_BARANG_NAMA)
+                $(".id").val(data[0].AKUN_ID)
+                $(".nama").val(data[0].AKUN_NAMA)
+                $(".akun").val(data[0].AKUN_KATEGORI)
 
+                $("#akunModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
+    }
+
+    function pi_list(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/akuntansi/hutang/pi_list/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                $(".pi").empty()
+
+                for (i = 0; i < data.length; i++) {
+                    $(".pi").append("<option value='" + data[i].PI_ID + "'>" + data[i].PEMBELIAN_NOMOR + "</option>");
+                }
+                hutang_list()
 
             },
             error: function(x, e) {} //end error
         });
     }
 
-    $('#jenis_filter').change(function() {
+    $('.supplier').change(function() {
         memuat()
-        barang_list()
+        var id = $(".supplier").val()
+        pi_list(id)
+    });
+
+    $('.pi').change(function() {
+        memuat()
+        hutang_list()
     });
 </script>

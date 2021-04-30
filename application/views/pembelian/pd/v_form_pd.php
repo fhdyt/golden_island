@@ -97,11 +97,11 @@ if (empty($this->uri->segment('5'))) {
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-7">
+                <div class="col-sm-10">
                     <h1 class="m-0">Form Pengiriman</h1>
                 </div><!-- /.col -->
-                <div class="col-sm-5 text-right btn-faktur" hidden>
-                    <button class="btn btn-warning">Buat Faktur</button>
+                <div class="col-sm-2 text-right btn-faktur" hidden>
+                    <button class="btn btn-block btn-warning">Buat Faktur</button>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -119,6 +119,12 @@ if (empty($this->uri->segment('5'))) {
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
                                 <input type="hidden" class="form-control id_pembelian" name="id_pembelian" value="<?= $id_pembelian; ?>" autocomplete="off">
                                 <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">No Pengiriman</label>
+                                            <input type="text" class="form-control nomor_pembelian" name="nomor_pembelian" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
@@ -206,7 +212,7 @@ if (empty($this->uri->segment('5'))) {
                                             <input type="text" class="form-control form-control-sm harga_barang" name="harga_barang" autocomplete="off" value="0" onkeyup="kalkulasi_total_rupiah_barang()">
                                         </td> -->
                                         <td>
-                                            <input type="text" class="form-control form-control-sm quantity_barang" name="quantity_barang" autocomplete="off" value="0" onkeyup="kalkulasi_total_rupiah_barang()">
+                                            <input type="text" class="form-control form-control-sm quantity_barang_add" name="quantity_barang_add" autocomplete="off" value="0" onkeyup="kalkulasi_total_rupiah_barang()">
                                         </td>
                                         <td>
                                             <select name="satuan" id="satuan" class="form-control form-control-sm satuan select2" style="width: 100%;">
@@ -351,7 +357,7 @@ if (empty($this->uri->segment('5'))) {
                     detail_jenis_barang()
                     barang_list()
                 } else {
-                    $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
+                    $(".nomor_pembelian").val(data[0].PEMBELIAN_NOMOR)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
                     $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger('change')
@@ -420,13 +426,12 @@ if (empty($this->uri->segment('5'))) {
                 id_pembelian: "<?= $id_pembelian; ?>",
                 barang: $('.barang').val(),
                 satuan: $('.satuan').val(),
-                harga_barang: $('.harga_barang').val(),
-                quantity_barang: $('.quantity_barang').val(),
+                quantity_barang: $('.quantity_barang_add').val(),
             },
             success: function(data) {
                 detail()
                 $('.harga_barang').val("0")
-                $('.quantity_barang').val("0")
+                $('.quantity_barang_add').val("0")
                 $('.total_rupiah_barang').val("0")
                 kalkulasi_seluruh()
                 barang_list()
@@ -436,10 +441,10 @@ if (empty($this->uri->segment('5'))) {
 
     function kalkulasi_total_rupiah_barang() {
 
-        var quantity = $(".quantity_barang").val()
-        var harga = $(".harga_barang").val()
-        var total = quantity * harga
-        $(".total_rupiah_barang").val(total)
+        // var quantity = $(".quantity_barang").val()
+        // var harga = $(".harga_barang").val()
+        // var total = quantity * harga
+        // $(".total_rupiah_barang").val(total)
     }
 
     function barang_list() {

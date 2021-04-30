@@ -48,8 +48,23 @@ class PiModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
 
+        $data_edit_hutang = array(
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
 
-        $nomor_pembelian = nomor_pembelian("PI", $this->input->post('tanggal'));
+        $this->db->where('HUTANG_REF', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('HUTANG', $data_edit_hutang);
+
+        if ($this->input->post('nomor_pembelian') == "") {
+            $nomor_pembelian = nomor_pembelian("PI", $this->input->post('tanggal'));
+        } else {
+            $nomor_pembelian = $this->input->post('nomor_pembelian');
+        }
+
         $data = array(
             'PEMBELIAN_ID' => $this->input->post('id_pembelian'),
             'PEMBELIAN_JENIS' => "PI",
@@ -108,7 +123,26 @@ class PiModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $result = $this->db->insert('BUKU_BESAR', $data_buku_besar);
+        $this->db->insert('BUKU_BESAR', $data_buku_besar);
+
+        $data_hutang = array(
+            'HUTANG_ID' => create_id(),
+            'HUTANG_REF' => $this->input->post('id'),
+            'AKUN_ID' => $this->input->post('akun'),
+            'HUTANG_TANGGAL' => $this->input->post('tanggal'),
+            'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
+            'HUTANG_KREDIT' => "0",
+            'HUTANG_DEBET' => str_replace(".", "", $this->input->post('sisa_bayar')),
+            'HUTANG_SUMBER' => "PEMBELIAN",
+            'HUTANG_KETERANGAN' => "Hutang Pembelian " . $nomor_pembelian,
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('HUTANG', $data_hutang);
         return $result;
     }
 
