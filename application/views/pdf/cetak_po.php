@@ -57,7 +57,6 @@
         </tr>
         <tr>
             <td><?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?></td>
-
         </tr>
     </table>
     <hr>
