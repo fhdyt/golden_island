@@ -97,6 +97,7 @@ class PiModel extends CI_Model
             'PEMBELIAN_TRANSAKSI_PAJAK_RUPIAH' => str_replace(".", "", $this->input->post('pajak_rupiah')),
             'PEMBELIAN_TRANSAKSI_UANG_MUKA' => str_replace(".", "", $this->input->post('uang_muka')),
             'PEMBELIAN_TRANSAKSI_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
+            'PEMBELIAN_TRANSAKSI_BIAYA_TAMBAHAN' => str_replace(".", "", $this->input->post('biaya_tambahan')),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -106,14 +107,20 @@ class PiModel extends CI_Model
 
         $this->db->insert('PEMBELIAN_TRANSAKSI', $data_transaksi);
 
+        if (str_replace(".", "", $this->input->post('biaya_tambahan')) > 0 and str_replace(".", "", $this->input->post('sisa_bayar')) == 0) {
+            $debit = str_replace(".", "", $this->input->post('biaya_tambahan'));
+            $kredit = "0";
+        } else {
+            $debit = "0";
+            $kredit = str_replace(".", "", $this->input->post('bayar'));
+        }
         $data_buku_besar = array(
             'BUKU_BESAR_ID' => create_id(),
             'BUKU_BESAR_REF' => $this->input->post('id'),
             'AKUN_ID' => $this->input->post('akun'),
             'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
-            'BUKU_BESAR_JENIS' => "KREDIT",
-            'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('bayar')),
-            'BUKU_BESAR_DEBET' => "0",
+            'BUKU_BESAR_KREDIT' => $kredit,
+            'BUKU_BESAR_DEBET' => $debit,
             'BUKU_BESAR_SUMBER' => "PEMBELIAN",
             'BUKU_BESAR_KETERANGAN' => "Pembayaran " . $nomor_pembelian,
 

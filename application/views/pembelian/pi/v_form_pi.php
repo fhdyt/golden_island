@@ -235,6 +235,17 @@ td<?php
                                 </div>
                             </div>
                             <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label text-right">Biaya Tambahan</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control biaya_tambahan" name="biaya_tambahan" autocomplete="off" onkeyup="kalkulasi_seluruh()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Total</label>
                                 <div class="col-sm-10">
                                     <div class="input-group mb-3">
@@ -289,7 +300,7 @@ td<?php
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
                                         </div>
-                                        <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()" readonly>
+                                        <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -325,6 +336,12 @@ td<?php
             reverse: true
         });
         $(".bayar").mask("#.##0", {
+            reverse: true
+        });
+        $(".potongan").mask("#.##0", {
+            reverse: true
+        });
+        $(".biaya_tambahan").mask("#.##0", {
             reverse: true
         });
 
@@ -397,9 +414,12 @@ td<?php
                     $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
 
                     if (data[0].TRANSAKSI == "") {
-                        $(".pajak").val(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_PAJAK)
-                        $(".potongan").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_POTONGAN))
-                        $(".uang_muka").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
+                        if (data[0].TRANSAKSI_PO != "") {
+                            $(".pajak").val(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_PAJAK)
+                            $(".potongan").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_POTONGAN))
+                            $(".uang_muka").val(number_format(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
+                        }
+
                         $(".lainnya").val(number_format(data[0].TRANSAKSI_PD[0].PEMBELIAN_TRANSAKSI_LAINNYA))
                         $(".bayar").val("0")
                     } else {
@@ -408,6 +428,7 @@ td<?php
                         $(".uang_muka").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_UANG_MUKA))
                         $(".lainnya").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_LAINNYA))
                         $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR))
+                        $(".biaya_tambahan").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BIAYA_TAMBAHAN))
                     }
 
                     if (data[0].PEMBELIAN_STATUS == "open") {
@@ -579,12 +600,14 @@ td<?php
         var total = parseInt($(".total").val().split('.').join(""))
         var uang_muka = parseInt($(".uang_muka").val().split('.').join(""))
         var bayar = parseInt($(".bayar").val().split('.').join(""))
-        var lainnya = parseInt($(".lainnya").val().split('.').join(""))
+
+        var biaya_tambahan = parseInt($(".biaya_tambahan").val().split('.').join(""))
+
         var pajak_rupiah = (total - potongan) * (pajak / 100)
         $(".pajak_rupiah").val(number_format(pajak_rupiah))
 
         var total_bayar = (total - potongan) + pajak_rupiah
-        var grand_total = total_bayar - uang_muka
+        var grand_total = total_bayar - uang_muka + biaya_tambahan
         $(".grand_total").val(number_format(grand_total))
 
         var sisa_bayar = grand_total - bayar

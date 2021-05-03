@@ -26,6 +26,10 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Jumlah Tabung</label>
+                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" value="1">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Kode Tabung</label>
                         <input type="text" class="form-control kode" name="kode" autocomplete="off">
                     </div>

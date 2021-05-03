@@ -13,7 +13,7 @@ class PdModel extends CI_Model
         return $hasil;
     }
 
-    public function add()
+    public function add($config)
     {
         $data_edit_aktif = array(
             'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
@@ -65,6 +65,7 @@ class PdModel extends CI_Model
             'PEMBELIAN_TANGGAL' => $this->input->post('tanggal'),
             'PEMBELIAN_KETERANGAN' => $this->input->post('keterangan'),
             'PEMBELIAN_STATUS' => "open",
+            'PEMBELIAN_FILE' => $config['file_name'],
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),

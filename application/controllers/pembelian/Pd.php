@@ -53,7 +53,20 @@ class Pd extends CI_Controller
 
     public function add()
     {
-        $data = $this->PdModel->add();
+        if ($this->input->post('userfile_name') == "" and $_FILES["userfile"]["name"] == "") {
+            $config['file_name'] = $this->input->post('userfile_name');
+        } else  if ($this->input->post('userfile_name') != "" and $_FILES["userfile"]["name"] == "") {
+            $config['file_name'] = $this->input->post('userfile_name');
+        } else {
+            $config['name']                    = random_string('sha1', 40);
+            $config['upload_path']          = './uploads/pembelian';
+            $config['allowed_types']        = '*';
+            $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
+
+            $this->load->library('upload', $config);
+            $this->upload->do_upload('userfile');
+        }
+        $data = $this->PdModel->add($config);
         echo json_encode($data);
     }
 

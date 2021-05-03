@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Keterangan</label>
-                        <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off">
+                        <input type="text" class="form-control keterangan" name="keterangan" value="Pembayaran Hutang" autocomplete="off">
                     </div>
 
             </div>

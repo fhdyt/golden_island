@@ -172,6 +172,14 @@ if (empty($this->uri->segment('5'))) {
                                             <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Dokumen</label>
+                                            <input type="hidden" name="userfile_name" class="form-control userfile_name">
+                                            <input type="file" name="userfile" class="form-control userfile">
+                                            <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
@@ -181,12 +189,7 @@ if (empty($this->uri->segment('5'))) {
                                     </div>
                                 </div>
                         </div>
-                        <!-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Upload Dokumen</label>
-                                <button type="button" nama_input="sampul_tema" class="btn btn-primary btn-block btn_upload">Pilih File</button>
-                            </div>
-                        </div> -->
+
                     </div>
                 </div>
             </div>
@@ -369,10 +372,19 @@ if (empty($this->uri->segment('5'))) {
                     $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID)
+                    $(".userfile_name").val(data[0].PEMBELIAN_FILE)
                     $(".jenis").val(data[0].PEMBELIAN_BARANG).trigger('change')
                     $(".akun").val(data[0].AKUN_ID)
                     $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
                     $(".lainnya").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_LAINNYA))
+
+                    if (data[0].PEMBELIAN_FILE == "") {
+
+                    } else {
+                        $(".link_dokument").html("Lihat Dokumen")
+                        $(".link_dokument").attr("href", "<?= base_url(); ?>uploads/pembelian/" + data[0].PEMBELIAN_FILE + "")
+                    }
+
                     if (data[0].PEMBELIAN_STATUS == "open") {
                         $(".btn-faktur").attr("hidden", false)
                     } else {
