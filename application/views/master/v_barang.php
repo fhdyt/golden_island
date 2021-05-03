@@ -92,8 +92,6 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Jenis</th>
-                                <th>Isi</th>
-                                <th>Total Tabung</th>
                                 <th><?= $this->lang->line('keterangan'); ?></th>
 
                                 <th></th>
@@ -148,8 +146,6 @@
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_JENIS + "</td>" +
-                            "<td>" + data[i].ISI[0].ISI + "</td>" +
-                            "<td>" + data[i].TABUNG[0].TABUNG + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_KETERANGAN + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-edit'></i></a> " +
