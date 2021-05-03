@@ -2,12 +2,21 @@
 class TabungModel extends CI_Model
 {
 
-    public function list()
+    public function list($tabung)
     {
+        if (empty($tabung)) {
+            $filter_tabung = "";
+        } else {
+            $filter_tabung = 'AND T.MASTER_BARANG_ID = "' . $tabung . '"';
+        }
         $hasil = $this->db->query('SELECT * FROM 
         MASTER_TABUNG AS T LEFT JOIN MASTER_BARANG AS B
         ON T.MASTER_BARANG_ID=B.MASTER_BARANG_ID
-        WHERE T.RECORD_STATUS="AKTIF" AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.RECORD_STATUS="AKTIF" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY T.MASTER_TABUNG_KODE DESC')->result();
+        WHERE 
+        T.RECORD_STATUS="AKTIF" AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+        AND B.RECORD_STATUS="AKTIF" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+        ' . $filter_tabung . '
+        ORDER BY T.MASTER_TABUNG_KODE DESC')->result();
 
         return $hasil;
     }

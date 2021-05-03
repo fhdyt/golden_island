@@ -235,7 +235,7 @@ td<?php
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Biaya Tambahan</label>
+                                <label class="col-sm-2 col-form-label text-right">Pengembalian Dana</label>
                                 <div class="col-sm-10">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">

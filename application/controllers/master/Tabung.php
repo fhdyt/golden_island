@@ -36,7 +36,8 @@ class Tabung extends CI_Controller
 
     public function list()
     {
-        $data = $this->TabungModel->list();
+        $tabung = $_GET['tabung'];
+        $data = $this->TabungModel->list($tabung);
         echo json_encode($data);
     }
 

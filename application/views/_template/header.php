@@ -131,7 +131,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="<?= base_url(); ?>" class="nav-link"><i class="fas fa-comment-alt"></i> <?= $this->lang->line('masukan'); ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="<?= base_url(); ?>" class="nav-link"><i class="fas fa-question-circle"></i> <?= $this->lang->line('bantuan'); ?></a>
+          <a class="nav-link btn-bantuan"><i class="fas fa-question-circle"></i> <?= $this->lang->line('bantuan'); ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="<?= base_url(); ?>pengaturan" class="nav-link"><i class="fas fa-user-cog"></i> <?= $this->lang->line('pengaturan'); ?></a>

@@ -1,35 +1,28 @@
-<div class="modal fade" id="uploadModal">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="bantuanModal">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Upload</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
             <div class="modal-body">
-                <form id="submit">
-                    <div class="row">
-                        <div class="col-md-10 mb-2">
-                            <input type="hidden" class="form-control nama_input">
-                            <input type="file" name="userfile" class="form-control" accept="image/png, image/jpeg, image/jpg">
-                        </div>
-                        <div class="col-md-2 mb-2">
-                            <button type="submit" class="btn btn-primary btn-block upload_gambar">Upload</button>
-                        </div>
-                        <div class="col-md-12">
-                            <ul>
-                                <li>Format Gambar .jpg, .jpeg, dan .png</li>
-                                <li>Maksimal ukuran 700kb</li>
-                            </ul>
-                        </div>
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>Fikri Hidayat</h3>
+
+                        <p>0823 8254 7870</p>
                     </div>
-                </form>
+                    <div class="icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        Hubungi <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
+        <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal-content -->
+<!-- /.modal -->
+
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -123,6 +116,10 @@
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
+    })
+
+    $(".btn-bantuan").on("click", function() {
+        $("#bantuanModal").modal("show")
     })
 
     function number_format(number, decimals, dec_point, thousands_sep) {

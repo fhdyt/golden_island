@@ -74,7 +74,23 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_tabung mb-2">Tambah Tabung</button>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-secondary btn_tabung mb-2">Tambah Tabung</button>
+                        </div>
+                        <div class="col-md-10">
+                            <select name="tabung_filter" id="tabung_filter" class="form-control tabung_filter select2" style="width: 100%;" required>
+                                <option value="">-- Semua --</option>
+                                <?php foreach (tabung() as $row) {
+                                ?>
+                                    <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -108,10 +124,10 @@
         tabung_list();
     });
 
-    function tabung_list() {
+    function tabung_list(id) {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/master/tabung/list",
+            url: "<?php echo base_url() ?>index.php/master/tabung/list?tabung=" + $(".tabung_filter").val() + "",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -214,4 +230,10 @@
             error: function(x, e) {} //end error
         });
     }
+
+    $('.tabung_filter').change(function() {
+        memuat()
+        var id = $(".tabung_filter").val()
+        tabung_list(id)
+    });
 </script>
