@@ -234,17 +234,7 @@ td<?php
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Pengembalian Dana</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Rp.</span>
-                                        </div>
-                                        <input type="text" class="form-control biaya_tambahan" name="biaya_tambahan" autocomplete="off" onkeyup="kalkulasi_seluruh()">
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label text-right">Total</label>
                                 <div class="col-sm-10">
@@ -253,6 +243,17 @@ td<?php
                                             <span class="input-group-text">Rp.</span>
                                         </div>
                                         <input type="text" class="form-control grand_total" name="grand_total" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row pengembalian_dana">
+                                <label class="col-sm-2 col-form-label text-right">Pengembalian Dana</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rp.</span>
+                                        </div>
+                                        <input type="text" class="form-control biaya_tambahan" name="biaya_tambahan" autocomplete="off" onkeyup="kalkulasi_seluruh()">
                                     </div>
                                 </div>
                             </div>
@@ -422,6 +423,7 @@ td<?php
 
                         $(".lainnya").val(number_format(data[0].TRANSAKSI_PD[0].PEMBELIAN_TRANSAKSI_LAINNYA))
                         $(".bayar").val("0")
+                        $(".biaya_tambahan").val("0")
                     } else {
                         $(".pajak").val(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_PAJAK)
                         $(".potongan").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_POTONGAN))
@@ -613,6 +615,10 @@ td<?php
         var sisa_bayar = grand_total - bayar
         $(".total_bayar").val(number_format(total_bayar))
         $(".sisa_bayar").val(number_format(sisa_bayar))
+
+        if (grand_total > 0) {
+            $("div.pengembalian_dana").attr("hidden", true)
+        }
     }
 
     $(".btn-pengiriman").on("click", function() {

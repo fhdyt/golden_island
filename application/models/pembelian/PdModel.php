@@ -135,6 +135,7 @@ class PdModel extends CI_Model
                     'STOK_BARANG_TANGGAL' => $this->input->post('tanggal'),
                     'STOK_BARANG_MASUK' => $row->PEMBELIAN_BARANG_QUANTITY,
                     'STOK_BARANG_KELUAR' => 0,
+                    'STOK_BARANG_POSISI' => "GUDANG",
 
                     'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -190,6 +191,7 @@ class PdModel extends CI_Model
                     'STOK_BARANG_TANGGAL' => $this->input->post('tanggal'),
                     'STOK_BARANG_MASUK' => $row->PEMBELIAN_BARANG_QUANTITY,
                     'STOK_BARANG_KELUAR' => 0,
+                    'STOK_BARANG_POSISI' => "GUDANG",
 
                     'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),

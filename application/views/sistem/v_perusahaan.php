@@ -25,6 +25,10 @@
                         <input type="text" class="form-control alamat" name="alamat" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Kota</label>
+                        <input type="text" class="form-control kota" name="kota" value="" autocomplete="off">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Telp</label>
                         <input type="text" class="form-control telp" name="telp" value="" autocomplete="off">
                     </div>
@@ -67,6 +71,7 @@
                                 <th><?= $this->lang->line('kode'); ?></th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th><?= $this->lang->line('alamat'); ?></th>
+                                <th>Kota</th>
                                 <th>Telp</th>
                                 <th></th>
                             </tr>
@@ -112,6 +117,7 @@
                             "<td>" + data[i].PERUSAHAAN_KODE + "</td>" +
                             "<td>" + data[i].PERUSAHAAN_NAMA + "</td>" +
                             "<td>" + data[i].PERUSAHAAN_ALAMAT + "</td>" +
+                            "<td>" + data[i].PERUSAHAAN_KOTA + "</td>" +
                             "<td>" + data[i].PERUSAHAAN_TELP + "</td>" +
                             "<td><a class='btn btn-danger btn-sm mb-2' onclick='hapus(\"" + data[i].PERUSAHAAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].PERUSAHAAN_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
@@ -195,6 +201,7 @@
                 $(".kode").val(data[0].PERUSAHAAN_KODE)
                 $(".nama").val(data[0].PERUSAHAAN_NAMA)
                 $(".alamat").val(data[0].PERUSAHAAN_ALAMAT)
+                $(".kota").val(data[0].PERUSAHAAN_KOTA)
                 $(".telp").val(data[0].PERUSAHAAN_TELP)
 
                 $("#perusahaanModal").modal("show")

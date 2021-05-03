@@ -73,7 +73,7 @@
             </td>
             <td width="50%" align="right">
 
-                <p style="font-size: 16px;"><?= tanggal($detail[0]->PEMBELIAN_TANGGAL); ?></p>
+                <p style="font-size: 16px;"><?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->PEMBELIAN_TANGGAL); ?></p>
             </td>
         </tr>
     </table>

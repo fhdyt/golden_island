@@ -17,6 +17,7 @@ class PerusahaanModel extends CI_Model
                 'PERUSAHAAN_NAMA' => $this->input->post('nama'),
                 'PERUSAHAAN_ALAMAT' => $this->input->post('alamat'),
                 'PERUSAHAAN_TELP' => $this->input->post('telp'),
+                'PERUSAHAAN_KOTA' => $this->input->post('kota'),
                 'PERUSAHAAN_LOGO' => "",
 
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
@@ -42,6 +43,7 @@ class PerusahaanModel extends CI_Model
                 'PERUSAHAAN_NAMA' => $this->input->post('nama'),
                 'PERUSAHAAN_ALAMAT' => $this->input->post('alamat'),
                 'PERUSAHAAN_TELP' => $this->input->post('telp'),
+                'PERUSAHAAN_KOTA' => $this->input->post('kota'),
                 'PERUSAHAAN_LOGO' => "",
 
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
