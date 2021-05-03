@@ -4,8 +4,12 @@ class Buku_besarModel extends CI_Model
 
     public function list($akun)
     {
-
-        $hasil = $this->db->query('SELECT * FROM BUKU_BESAR WHERE AKUN_ID="' . $akun . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
+        $hasil = $this->db->query('SELECT * FROM 
+        BUKU_BESAR WHERE 
+        AKUN_ID="' . $akun . '" 
+        AND NOT (BUKU_BESAR_KREDIT=0 AND BUKU_BESAR_DEBET =0)
+        AND RECORD_STATUS="AKTIF" 
+        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->BUKU_BESAR_TANGGAL);
             $row->SALDO = $row->BUKU_BESAR_DEBET - $row->BUKU_BESAR_KREDIT;

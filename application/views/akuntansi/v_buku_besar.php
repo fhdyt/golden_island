@@ -124,6 +124,12 @@
         $(".rupiah").mask("#.##0", {
             reverse: true
         });
+        $(".kredit").mask("#.##0", {
+            reverse: true
+        });
+        $(".debet").mask("#.##0", {
+            reverse: true
+        });
         buku_besar_list();
     });
 
@@ -150,6 +156,12 @@
                     var saldo = 0
                     for (i = 0; i < data.length; i++) {
                         saldo += data[i].SALDO
+
+                        if (data[i].BUKU_BESAR_REF == "") {
+                            var btn_hapus = "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].BUKU_BESAR_ID + "\")'><i class='fas fa-trash'></i></a></td>"
+                        } else {
+                            var btn_hapus = ""
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].BUKU_BESAR_KETERANGAN + "</td>" +
@@ -157,7 +169,7 @@
                             "<td>" + number_format(data[i].BUKU_BESAR_DEBET) + "</td>" +
                             "<td>" + number_format(data[i].BUKU_BESAR_KREDIT) + "</td>" +
                             "<td>" + number_format(saldo) + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].BUKU_BESAR_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
+                            btn_hapus +
                             "</tr>");
                     }
                 }

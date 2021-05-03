@@ -110,9 +110,11 @@ class PiModel extends CI_Model
         if (str_replace(".", "", $this->input->post('biaya_tambahan')) > 0 and str_replace(".", "", $this->input->post('sisa_bayar')) == 0) {
             $debit = str_replace(".", "", $this->input->post('biaya_tambahan'));
             $kredit = "0";
+            $keterangan = "Pengembalian Dana ";
         } else {
             $debit = "0";
             $kredit = str_replace(".", "", $this->input->post('bayar'));
+            $keterangan = "Pembayaran ";
         }
         $data_buku_besar = array(
             'BUKU_BESAR_ID' => create_id(),
@@ -122,7 +124,7 @@ class PiModel extends CI_Model
             'BUKU_BESAR_KREDIT' => $kredit,
             'BUKU_BESAR_DEBET' => $debit,
             'BUKU_BESAR_SUMBER' => "PEMBELIAN",
-            'BUKU_BESAR_KETERANGAN' => "Pembayaran " . $nomor_pembelian,
+            'BUKU_BESAR_KETERANGAN' => $keterangan . $nomor_pembelian,
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

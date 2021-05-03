@@ -4,7 +4,11 @@ class HutangModel extends CI_Model
 
     public function list($supplier, $pi)
     {
-        $hasil = $this->db->query('SELECT * FROM HUTANG WHERE MASTER_SUPPLIER_ID="' . $supplier . '" AND HUTANG_REF="' . $pi . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY HUTANG_TANGGAL ASC')->result();
+        $hasil = $this->db->query('SELECT * FROM 
+        HUTANG 
+        WHERE MASTER_SUPPLIER_ID="' . $supplier . '" 
+        AND NOT (HUTANG_KREDIT=0 AND HUTANG_DEBET =0)
+        AND HUTANG_REF="' . $pi . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY HUTANG_TANGGAL ASC')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->HUTANG_TANGGAL);
             $row->SALDO = $row->HUTANG_DEBET - $row->HUTANG_KREDIT;
