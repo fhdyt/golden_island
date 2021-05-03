@@ -1,3 +1,49 @@
+<div class="modal fade" id="akunModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bayar Hutang</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tanggal</label>
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Debet</label>
+                        <input type="text" class="form-control debet" name="debet" autocomplete="off" value="0" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Kredit</label>
+                        <input type="text" class="form-control kredit" name="kredit" autocomplete="off" value="0" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Keterangan</label>
+                        <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off">
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -30,19 +76,9 @@
                                 ?>
                             </select>
                         </div>
-                        <!-- <div class="col-md-4">
-                            <select name="tahun" id="tahun" class="form-control tahun select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
-
-                                <?php
-                                foreach (tahun() as $value => $text) {
-                                ?>
-                                    <option value="<?= $value; ?>"><?= $text; ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                        </div> -->
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-secondary btn_akun mb-2">Tambah</button>
+                        </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
@@ -69,8 +105,25 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-    $(function() {
+    $(".btn_akun").on("click", function() {
+        $("#submit").trigger("reset");
+        $(".id").val("")
+        if ($(".akun").val() == "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Silahkan pilih Akun terlebih dahulu'
+            })
+        } else {
+            $("#akunModal").modal("show")
+        }
 
+    })
+
+    $(function() {
+        $(".rupiah").mask("#.##0", {
+            reverse: true
+        });
         buku_besar_list();
     });
 
@@ -104,6 +157,7 @@
                             "<td>" + number_format(data[i].BUKU_BESAR_DEBET) + "</td>" +
                             "<td>" + number_format(data[i].BUKU_BESAR_KREDIT) + "</td>" +
                             "<td>" + number_format(saldo) + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].BUKU_BESAR_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
                             "</tr>");
                     }
                 }
@@ -117,7 +171,7 @@
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/akuntansi/kas_kecil/add',
+            url: '<?php echo base_url(); ?>index.php/akuntansi/buku_besar/add?akun=' + $(".akun").val() + '',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -127,8 +181,8 @@
                 memuat()
             },
             success: function(data) {
-                kas_kecil_list();
-                Swal.fire('Berhasil', 'Kas Kecil berhasil ditambahkan', 'success')
+                buku_besar_list();
+                Swal.fire('Berhasil', '', 'success')
                 $("#kas_kecilModal").modal("hide")
             }
         });
@@ -146,15 +200,15 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/akuntansi/kas_kecil/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/akuntansi/buku_besar/hapus/' + id,
                     beforeSend: function() {
                         memuat()
                     },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            kas_kecil_list();
-                            Swal.fire('Berhasil', 'Driver Berhasil dihapus', 'success')
+                            buku_besar_list();
+                            Swal.fire('Berhasil', 'DBerhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {

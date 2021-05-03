@@ -121,7 +121,18 @@
     $(".btn_akun").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
-        $("#akunModal").modal("show")
+
+        if ($(".supplier").val() == "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Silahkan pilih Supplier terlebih dahulu'
+            })
+        } else {
+            $("#akunModal").modal("show")
+        }
+
+
     })
     $(function() {
         hutang_list();

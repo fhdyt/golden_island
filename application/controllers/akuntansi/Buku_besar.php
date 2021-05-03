@@ -43,7 +43,9 @@ class Buku_besar extends CI_Controller
 
     public function add()
     {
-        $data = $this->Buku_besarModel->add();
+        $akun = $_GET['akun'];
+        $data = $this->Buku_besarModel->add($akun);
+        return $data;
     }
 
     public function hapus()
