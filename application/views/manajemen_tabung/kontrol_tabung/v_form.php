@@ -180,6 +180,7 @@ if (empty($this->uri->segment('4'))) {
             },
             data: {
                 id: "<?= $id; ?>",
+                relasi: $('.relasi').val(),
                 tabung: $('.tabung').val(),
                 kirim: $('.kirim').val(),
                 kembali: $('.kembali').val(),

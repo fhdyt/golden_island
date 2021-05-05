@@ -35,7 +35,7 @@ class Kontrol_tabungModel extends CI_Model
     {
         $data = array(
             'JURNAL_TABUNG_ID' => create_id(),
-            'MASTER_RELASI_ID' => "",
+            'MASTER_RELASI_ID' => $this->input->post('relasi'),
             'MASTER_BARANG_ID' => $this->input->post('tabung'),
             'JURNAL_FORM_ID' => $this->input->post('id'),
             'JURNAL_TABUNG_TANGGAL' => $this->input->post('tanggal'),
