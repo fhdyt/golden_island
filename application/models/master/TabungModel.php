@@ -17,6 +17,14 @@ class TabungModel extends CI_Model
         AND B.RECORD_STATUS="AKTIF" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
         ' . $filter_tabung . '
         ORDER BY T.MASTER_TABUNG_KODE DESC')->result();
+        foreach ($hasil as $row) {
+            $riwayat_tabung = $this->db->query('SELECT RIWAYAT_TABUNG_STATUS FROM RIWAYAT_TABUNG WHERE MASTER_TABUNG_ID="' . $row->MASTER_TABUNG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY RIWAYAT_TABUNG_INDEX DESC LIMIT 1');
+            if ($riwayat_tabung->num_rows() > 0) {
+                $row->RIWAYAT = $riwayat_tabung->result();
+            } else {
+                $row->RIWAYAT = array();
+            }
+        }
 
         return $hasil;
     }
@@ -33,36 +41,34 @@ class TabungModel extends CI_Model
         if ($this->input->post('id') == "") {
             for ($x = 0; $x < $this->input->post('jumlah'); $x++) {
                 $tabung_id_loop = create_id();
-                $data_riwayat = array(
+                $data_riwayat_tabung = array(
                     'RIWAYAT_TABUNG_ID' => create_id(),
                     'MASTER_TABUNG_ID' => $tabung_id_loop,
-                    'RIWAYAT_TABUNG_TANGGAL' => date("Y-m-d"),
-                    'RIWAYAT_TABUNG_STATUS' => "baru",
-                    'RIWAYAT_TABUNG_KETERANGAN' => "",
-
+                    'RIWAYAT_TABUNG_TANGGAL' => $this->input->post('tanggal'),
+                    'RIWAYAT_TABUNG_STATUS' => '0',
+                    'RIWAYAT_TABUNG_KETERANGAN' => '',
 
                     'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
                 );
-                $this->db->insert('RIWAYAT_TABUNG', $data_riwayat);
+                $this->db->insert('RIWAYAT_TABUNG', $data_riwayat_tabung);
 
                 if ($this->input->post('isi') == "on") {
-                    $data_riwayat = array(
+                    $data_riwayat_tabung = array(
                         'RIWAYAT_TABUNG_ID' => create_id(),
                         'MASTER_TABUNG_ID' => $tabung_id_loop,
-                        'RIWAYAT_TABUNG_TANGGAL' => date("Y-m-d"),
-                        'RIWAYAT_TABUNG_STATUS' => "isi",
-                        'RIWAYAT_TABUNG_KETERANGAN' => "",
-
+                        'RIWAYAT_TABUNG_TANGGAL' => $this->input->post('tanggal'),
+                        'RIWAYAT_TABUNG_STATUS' => '1',
+                        'RIWAYAT_TABUNG_KETERANGAN' => '',
 
                         'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                         'ENTRI_USER' => $this->session->userdata('USER_ID'),
                         'RECORD_STATUS' => "AKTIF",
                         'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
                     );
-                    $this->db->insert('RIWAYAT_TABUNG', $data_riwayat);
+                    $this->db->insert('RIWAYAT_TABUNG', $data_riwayat_tabung);
                 }
 
                 $data = array(

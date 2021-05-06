@@ -29,46 +29,22 @@ class Surat_jalan extends CI_Controller
 
     public function index()
     {
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
-        $this->load->view('distribusi/v_surat_jalan');
+        $this->load->view('_template/header');
+        $this->load->view('distribusi/surat_jalan/v_surat_jalan');
+        $this->load->view('_template/footer');
+    }
+    public function form()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('distribusi/surat_jalan/v_form');
         $this->load->view('_template/footer');
     }
 
-    public function form_sj()
+    public function detail_jenis_barang()
     {
-        $this->load->model('master/RelasiModel');
-        $this->load->model('master/DriverModel');
-        $this->load->model('master/KendaraanModel');
-        $this->load->model('master/Jenis_barangModel');
-
-        $data['relasi'] = $this->RelasiModel->list();
-        $data['driver'] = $this->DriverModel->list();
-        $data['kendaraan'] = $this->KendaraanModel->list();
-        $data['jenis_barang'] = $this->Jenis_barangModel->detail_jenis_barang();
-
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
-        $this->load->view('distribusi/v_form_sj');
-        $this->load->view('_template/footer');
-    }
-
-    public function form_cash()
-    {
-        $this->load->model('master/RelasiModel');
-        $this->load->model('master/DriverModel');
-        $this->load->model('master/KendaraanModel');
-        $this->load->model('master/Jenis_barangModel');
-
-        $data['relasi'] = $this->RelasiModel->list();
-        $data['driver'] = $this->DriverModel->list();
-        $data['kendaraan'] = $this->KendaraanModel->list();
-        $data['jenis_barang'] = $this->Jenis_barangModel->detail_jenis_barang();
-
-        $data['menu'] = $this->LoginModel->menu();
-        $this->load->view('_template/header', $data);
-        $this->load->view('distribusi/v_form_cash');
-        $this->load->view('_template/footer');
+        $jenis = $_GET['jenis'];
+        $data = $this->Surat_jalanModel->detail_jenis_barang($jenis);
+        echo json_encode($data);
     }
 
     public function list()
@@ -77,58 +53,9 @@ class Surat_jalan extends CI_Controller
         echo json_encode($data);
     }
 
-    public function barang_list()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->barang_list($id);
-        echo json_encode($data);
-    }
-
-    public function ttbk_list()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->ttbk_list($id);
-        echo json_encode($data);
-    }
-    public function detail_tabung_list()
-    {
-        $data = $this->Surat_jalanModel->detail_tabung_list();
-        echo json_encode($data);
-    }
-
-    public function detail_jenis_barang()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->detail_jenis_barang($id);
-        echo json_encode($data);
-    }
-    public function perharga()
-    {
-        $id = $this->uri->segment('4');
-        $relasi = $this->uri->segment('5');
-        $data = $this->Surat_jalanModel->perharga($id, $relasi);
-        echo json_encode($data);
-    }
-
     public function add()
     {
         $data = $this->Surat_jalanModel->add();
-    }
-
-    public function add_barang()
-    {
-        $data = $this->Surat_jalanModel->add_barang();
-        echo json_encode($data);
-    }
-    public function add_detail_tabung()
-    {
-        $data = $this->Surat_jalanModel->add_detail_tabung();
-        echo json_encode($data);
-    }
-
-    public function add_ttbk()
-    {
-        $data = $this->Surat_jalanModel->add_ttbk();
         echo json_encode($data);
     }
 
@@ -138,29 +65,24 @@ class Surat_jalan extends CI_Controller
         $data = $this->Surat_jalanModel->hapus($id);
         echo json_encode($data);
     }
-    public function hapus_barang()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->hapus_barang($id);
-        echo json_encode($data);
-    }
-    public function hapus_ttbk()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->hapus_ttbk($id);
-        echo json_encode($data);
-    }
-    public function hapus_detail_tabung()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->hapus_detail_tabung($id);
-        echo json_encode($data);
-    }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
         $data = $this->Surat_jalanModel->detail($id);
+        echo json_encode($data);
+    }
+
+    public function add_barang()
+    {
+        $data = $this->Surat_jalanModel->add_barang();
+        echo json_encode($data);
+    }
+
+    public function list_barang()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->Surat_jalanModel->list_barang($id);
         echo json_encode($data);
     }
 }

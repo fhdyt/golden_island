@@ -139,9 +139,18 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        //console.log()
+                        if (data[i].RIWAYAT[0].RIWAYAT_TABUNG_STATUS == "0") {
+                            var status = "Kosong"
+                        } else if (data[i].RIWAYAT[0].RIWAYAT_TABUNG_STATUS == "1") {
+                            var status = "Isi"
+                        } else {
+                            var status = "Tidak diketahui"
+                        }
+
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_TABUNG_KODE + "</td>" +
+                            "<td>" + data[i].MASTER_TABUNG_KODE + "<p>" + status + "</p></td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-edit'></i></a></td>" +

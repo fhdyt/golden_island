@@ -4,56 +4,65 @@ class Surat_jalanModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_KARYAWAN_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC ')->result();
+        foreach ($hasil as $row) {
+            $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
+            $row->RELASI = $relasi;
+        }
         return $hasil;
     }
     public function add()
     {
-        if ($this->input->post('id') == "") {
-            $data = array(
-                'MASTER_KARYAWAN_ID' => create_id(),
-                'MASTER_KARYAWAN_NAMA' => $this->input->post('nama'),
-                'MASTER_KARYAWAN_JABATAN' => $this->input->post('jabatan'),
-                'MASTER_KARYAWAN_ALAMAT' => $this->input->post('alamat'),
-                'MASTER_KARYAWAN_HP' => $this->input->post('hp'),
-                'MASTER_KARYAWAN_KTP' => $this->input->post('ktp'),
+        $data_edit_aktif = array(
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
+        $this->db->where('SURAT_JALAN_ID', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('SURAT_JALAN', $data_edit_aktif);
 
-            $result = $this->db->insert('MASTER_KARYAWAN', $data);
-            return $result;
+        if ($this->input->post('nomor_surat_jalan') == "") {
+            $nomor_surat_jalan = nomor_surat_jalan("SJ", $this->input->post('tanggal'));
         } else {
-            $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
-                'EDIT_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "EDIT",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $this->db->where('MASTER_KARYAWAN_ID', $this->input->post('id'));
-            $edit = $this->db->update('MASTER_KARYAWAN', $data_edit);
-
-            $data = array(
-                'MASTER_KARYAWAN_ID' => $this->input->post('id'),
-                'MASTER_KARYAWAN_NAMA' => $this->input->post('nama'),
-                'MASTER_KARYAWAN_JABATAN' => $this->input->post('jabatan'),
-                'MASTER_KARYAWAN_ALAMAT' => $this->input->post('alamat'),
-                'MASTER_KARYAWAN_HP' => $this->input->post('hp'),
-                'MASTER_KARYAWAN_KTP' => $this->input->post('ktp'),
-
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $result = $this->db->insert('MASTER_KARYAWAN', $data);
-            return $result;
+            $nomor_surat_jalan = $this->input->post('nomor_surat_jalan');
         }
+        $data = array(
+            'SURAT_JALAN_ID' => $this->input->post('id'),
+            'SURAT_JALAN_JENIS' => "Surat Jalan",
+            'SURAT_JALAN_NOMOR' => $nomor_surat_jalan,
+            'SURAT_JALAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
+            'SURAT_JALAN_TANGGAL' => $this->input->post('tanggal'),
+            'SURAT_JALAN_KETERANGAN' => $this->input->post('keterangan'),
+            'SURAT_JALAN_STATUS' => "open",
+            'MASTER_RELASI_ID' => $this->input->post('relasi'),
+            'DRIVER_ID' => $this->input->post('driver'),
+            'MASTER_KENDARAAN_ID' => $this->input->post('kendaraan'),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $data = $this->db->insert('SURAT_JALAN', $data);
+        return $data;
+    }
+
+    public function detail_jenis_barang($jenis)
+    {
+        if ($jenis == "gas" or $jenis == "tabung") {
+            $jenis_barang = "gas";
+        } else if ($jenis == "liquid" or $jenis == "tangki" or $jenis == "transporter") {
+            $jenis_barang = "liquid";
+        } else {
+            $jenis_barang = $jenis;
+        }
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="' . $jenis_barang . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        return $hasil;
     }
 
     public function hapus($id)
@@ -65,14 +74,50 @@ class Surat_jalanModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $this->db->where('MASTER_KARYAWAN_ID', $id);
-        $result = $this->db->update('MASTER_KARYAWAN', $data);
+        $this->db->where('SURAT_JALAN_BARANG_ID', $id);
+        $result = $this->db->update('SURAT_JALAN_BARANG', $data);
         return $result;
     }
 
     public function detail($id)
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil = $this->db->query('SELECT * FROM 
+        SURAT_JALAN
+        WHERE SURAT_JALAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        return $hasil;
+    }
+
+    public function add_barang()
+    {
+        $data = array(
+            'SURAT_JALAN_BARANG_ID' => create_id(),
+            'SURAT_JALAN_ID' => $this->input->post('id'),
+            'MASTER_BARANG_ID' => $this->input->post('barang'),
+            'SURAT_JALAN_BARANG_JENIS' => $this->input->post('jenis'),
+            'SURAT_JALAN_BARANG_QUANTITY' => $this->input->post('quantity_barang'),
+            'SURAT_JALAN_BARANG_QUANTITY_KOSONG' => $this->input->post('quantity_barang_kosong'),
+            'SURAT_JALAN_BARANG_QUANTITY_KLAIM' => $this->input->post('quantity_barang_klaim'),
+            'SURAT_JALAN_BARANG_SATUAN' => $this->input->post('satuan_barang'),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('SURAT_JALAN_BARANG', $data);
+        return $result;
+    }
+
+    public function list_barang($id)
+    {
+        $hasil['isi'] = $this->db->query('SELECT * FROM 
+        SURAT_JALAN_BARANG AS P LEFT JOIN MASTER_BARANG AS B 
+        ON P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+        WHERE 
+        P.RECORD_STATUS="AKTIF" AND 
+        B.RECORD_STATUS="AKTIF" AND 
+        P.SURAT_JALAN_ID="' . $id . '" AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY P.SURAT_JALAN_BARANG_INDEX DESC')->result();
         return $hasil;
     }
 }

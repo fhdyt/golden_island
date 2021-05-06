@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>penjualan/surat_jalan/form" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a>
+                    <a href="<?= base_url(); ?>distribusi/surat_jalan/form" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -49,7 +49,7 @@
     function po_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/penjualan/surat_jalan/list",
+            url: "<?php echo base_url() ?>index.php/distribusi/surat_jalan/list",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -71,7 +71,7 @@
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "</td>" +
                             "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "<br><small class='text-muted'>" + data[i].RELASI[0].MASTER_RELASI_HP + "</small></td>" +
-                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>penjualan/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "'>Lihat</a> " +
+                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "'>Lihat</a> " +
                             "</td>" +
                             "</tr>");
                     }

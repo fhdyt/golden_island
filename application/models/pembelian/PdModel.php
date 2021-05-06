@@ -201,17 +201,34 @@ class PdModel extends CI_Model
                 $this->db->insert('STOK_BARANG', $data_stok);
 
                 for ($x = 0; $x < $row->PEMBELIAN_BARANG_QUANTITY; $x++) {
+                    $id_tabung = create_id();
                     $data = array(
-                        'MASTER_TABUNG_ID' => create_id(),
+                        'MASTER_TABUNG_ID' => $id_tabung,
                         'MASTER_TABUNG_KODE' => kode_tabung(),
                         'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
                         'STOK_BARANG_ID' => $id_stok_barang,
+
                         'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                         'ENTRI_USER' => $this->session->userdata('USER_ID'),
                         'RECORD_STATUS' => "AKTIF",
                         'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
                     );
                     $this->db->insert('MASTER_TABUNG', $data);
+
+                    $data_riwayat_tabung = array(
+                        'RIWAYAT_TABUNG_ID' => create_id(),
+                        'MASTER_TABUNG_ID' => $id_tabung,
+                        'RIWAYAT_TABUNG_TANGGAL' => $this->input->post('tanggal'),
+                        'RIWAYAT_TABUNG_STATUS' => '0',
+                        'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
+                        'RIWAYAT_TABUNG_KETERANGAN' => 'PEMBELIAN',
+
+                        'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                        'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                        'RECORD_STATUS' => "AKTIF",
+                        'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                    );
+                    $this->db->insert('RIWAYAT_TABUNG', $data_riwayat_tabung);
                 }
             }
         }

@@ -126,6 +126,18 @@ if (!function_exists('jenis_barang_pembelian')) {
   }
 }
 
+if (!function_exists('jenis_barang_penjualan')) {
+  function jenis_barang_penjualan()
+  {
+    $jenis_barang_penjualan = array(
+      'gas' => 'Gas',
+      'tabung' => 'Tabung',
+      'liquid' => 'Liquid',
+    );
+    return $jenis_barang_penjualan;
+  }
+}
+
 if (!function_exists('satuan')) {
   function satuan()
   {
@@ -216,6 +228,15 @@ if (!function_exists('driver')) {
     $CI = &get_instance();
     $CI->load->database();
     $hasil = $CI->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_JABATAN="Driver" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
+if (!function_exists('kendaraan')) {
+  function kendaraan()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_KENDARAAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
     return $hasil;
   }
 }
@@ -339,6 +360,33 @@ if (!function_exists('kategori_akun')) {
 }
 
 
+if (!function_exists('add_riwayat_tabung')) {
+  function add_riwayat_tabung($id, $tanggal, $status, $supplier_id, $relasi_id)
+  {
+    $CI = &get_instance();
+  }
+}
+
+if (!function_exists('nomor_surat_jalan')) {
+  function nomor_surat_jalan($surat_jalan, $tanggal)
+  {
+    $CI = &get_instance();
+
+    $bulan = date("m", strtotime($tanggal));
+    $tahun = date("y", strtotime($tanggal));
+    $nomor = "" . $surat_jalan . "/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC ')->result();
+    if (empty($hasil)) {
+      return "0001/" . $surat_jalan . "/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    } else {
+      $nomor = explode("/", $hasil[0]->SURAT_JALAN_NOMOR);
+      $nomorbaru = $nomor[0] + 1;
+      return sprintf("%04d", $nomorbaru) . "/" . $surat_jalan . "/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    }
+  }
+}
 if (!function_exists('nomor_pembelian')) {
   function nomor_pembelian($pembelian, $tanggal)
   {
@@ -370,11 +418,11 @@ if (!function_exists('kode_tabung')) {
     $CI->load->database();
     $hasil = $CI->db->query('SELECT * FROM MASTER_TABUNG WHERE MASTER_TABUNG_KODE LIKE "%' . $kode . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_TABUNG_KODE DESC')->result();
     if (empty($hasil)) {
-      return $kode . "/0001";
+      return $kode . "-0001";
     } else {
-      $nomor = explode("/", $hasil[0]->MASTER_TABUNG_KODE);
+      $nomor = explode("-", $hasil[0]->MASTER_TABUNG_KODE);
       $nomorbaru = $nomor[1] + 1;
-      return $kode . "/" . sprintf("%04d", $nomorbaru);
+      return $kode . "-" . sprintf("%04d", $nomorbaru);
     }
   }
 }
@@ -389,11 +437,11 @@ if (!function_exists('kode_tangki')) {
     $CI->load->database();
     $hasil = $CI->db->query('SELECT * FROM MASTER_TANGKI WHERE MASTER_TANGKI_KODE LIKE "%' . $kode . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_TANGKI_KODE DESC')->result();
     if (empty($hasil)) {
-      return $kode . "/0001";
+      return $kode . "-0001";
     } else {
-      $nomor = explode("/", $hasil[0]->MASTER_TANGKI_KODE);
+      $nomor = explode("-", $hasil[0]->MASTER_TANGKI_KODE);
       $nomorbaru = $nomor[1] + 1;
-      return $kode . "/" . sprintf("%04d", $nomorbaru);
+      return $kode . "-" . sprintf("%04d", $nomorbaru);
     }
   }
 }
