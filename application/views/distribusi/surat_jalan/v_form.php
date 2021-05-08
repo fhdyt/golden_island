@@ -14,7 +14,8 @@ if (empty($this->uri->segment('4'))) {
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-10">
-                    <h1 class="m-0">Form Surat Jalan</h1>
+                    <h1 class="m-0">Form Surat Jalan <br><small class="text-muted"><?= strtoupper($_GET['jenis_sj']); ?></small></h1>
+
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -30,6 +31,8 @@ if (empty($this->uri->segment('4'))) {
                         <div class="col-md-12">
                             <form id="submit">
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
+                                <input type="hidden" class="form-control jenis_sj" name="jenis_sj" value="<?= $_GET['jenis_sj']; ?>" autocomplete="off">
+
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -45,21 +48,44 @@ if (empty($this->uri->segment('4'))) {
                                             <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1"><?= $this->lang->line('Relasi'); ?></label>
-                                            <select name="relasi" id="relasi" class="form-control relasi select2" style="width: 100%;" required>
-                                                <option value="">-- Pilih Relasi --</option>
-                                                <?php foreach (relasi_list() as $row) {
-                                                ?>
-                                                    <option value="<?= $row->MASTER_RELASI_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?></option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                            <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                    <?php if ($_GET['jenis_sj'] == "penjualan") {
+                                    ?>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1"><?= $this->lang->line('Relasi'); ?></label>
+                                                <select name="relasi" id="relasi" class="form-control relasi select2" style="width: 100%;" required>
+                                                    <option value="">-- Pilih Relasi --</option>
+                                                    <?php foreach (relasi_list() as $row) {
+                                                    ?>
+                                                        <option value="<?= $row->MASTER_RELASI_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                            </div>
                                         </div>
-                                    </div>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1"><?= $this->lang->line('Supplier'); ?></label>
+                                                <select name="supplier" id="supplier" class="form-control supplier select2" style="width: 100%;" required>
+                                                    <option value="">-- Pilih Relasi --</option>
+                                                    <?php foreach (supplier_list() as $row) {
+                                                    ?>
+                                                        <option value="<?= $row->MASTER_SUPPLIER_ID; ?>"><?= $row->MASTER_SUPPLIER_NAMA; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Driver</label>
@@ -230,7 +256,7 @@ if (empty($this->uri->segment('4'))) {
                 memuat()
             },
             success: function(data) {
-                window.location.href = '<?= base_url(); ?>distribusi/surat_jalan/form/<?= $id; ?>/'
+                window.location.href = '<?= base_url(); ?>distribusi/surat_jalan/form/<?= $id; ?>?jenis_sj=' + $(".jenis_sj").val() + ''
 
             }
         });
@@ -250,7 +276,9 @@ if (empty($this->uri->segment('4'))) {
                 } else {
                     $(".nomor_surat_jalan").val(data[0].SURAT_JALAN_NOMOR)
                     $(".tanggal").val(data[0].SURAT_JALAN_TANGGAL)
+                    $(".jenis_sj").val(data[0].SURAT_JALAN_JENIS)
                     $(".relasi").val(data[0].MASTER_RELASI_ID).trigger("change")
+                    $(".supplier").val(data[0].MASTER_SUPPLIER_ID).trigger("change")
                     $(".driver").val(data[0].DRIVER_ID).trigger("change")
                     $(".kendaraan").val(data[0].MASTER_KENDARAAN_ID).trigger("change")
                     $(".keterangan").html(data[0].SURAT_JALAN_KETERANGAN)

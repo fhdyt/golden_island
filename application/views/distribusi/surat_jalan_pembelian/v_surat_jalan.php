@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0"><?= $this->lang->line('Surat Jalan'); ?></h1>
+                    <h1 class="m-0"><?= $this->lang->line('Surat Jalan Pembelian'); ?></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -17,14 +17,14 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>penjualan/surat_jalan/form" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a>
+                    <a href="<?= base_url(); ?>distribusi/surat_jalan/form?jenis_sj=pembelian" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th>Nomor Surat Jalan</th>
-                                <th><?= $this->lang->line('Relasi'); ?></th>
+                                <th><?= $this->lang->line('Supplier'); ?></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -49,7 +49,7 @@
     function po_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/penjualan/surat_jalan/list",
+            url: "<?php echo base_url() ?>index.php/distribusi/surat_jalan/list?jenis_sj=pembelian",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -66,12 +66,18 @@
                         } else {
                             var status = "<span class='float-left badge bg-success'>Open</span>"
                         }
+
+                        if (data[i].SUPPLIER == "") {
+                            var supplier = "-"
+                        } else {
+                            var supplier = data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "</td>" +
-                            "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "<br><small class='text-muted'>" + data[i].RELASI[0].MASTER_RELASI_HP + "</small></td>" +
-                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>penjualan/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "'>Lihat</a> " +
+                            "<td>" + supplier + "</td>" +
+                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
                             "</td>" +
                             "</tr>");
                     }

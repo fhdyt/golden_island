@@ -58,6 +58,9 @@ $lang["Kontrol Tabung"] = "Cylinder Control";
 $lang["Buku Besar"] = "Ledger";
 $lang["Hutang"] = "Debt";
 $lang["Surat Jalan"] = "Travel Document";
+$lang["Surat Jalan Penjualan"] = "Travel Document of Sales";
+$lang["Surat Jalan Pembelian"] = "Travel Document of Purchase";
+$lang["Realisasi Surat Jalan"] = "Realization of Travel Document";
 
 
 // ----------------- aplikasi -----------------

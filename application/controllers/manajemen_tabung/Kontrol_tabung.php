@@ -78,7 +78,6 @@ class Kontrol_tabung extends CI_Controller
 
     public function relasi_list()
     {
-
         $data = $this->Kontrol_tabungModel->relasi_list();
         echo json_encode($data);
     }

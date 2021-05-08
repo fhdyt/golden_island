@@ -2,13 +2,15 @@
 class Surat_jalanModel extends CI_Model
 {
 
-    public function list()
+    public function list($jenis_sj)
     {
-        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_JENIS="' . $jenis_sj . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
             $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
             $row->RELASI = $relasi;
+            $row->SUPPLIER = $supplier;
         }
         return $hasil;
     }
@@ -32,13 +34,14 @@ class Surat_jalanModel extends CI_Model
         }
         $data = array(
             'SURAT_JALAN_ID' => $this->input->post('id'),
-            'SURAT_JALAN_JENIS' => "Surat Jalan",
+            'SURAT_JALAN_JENIS' => $this->input->post('jenis_sj'),
             'SURAT_JALAN_NOMOR' => $nomor_surat_jalan,
             'SURAT_JALAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
             'SURAT_JALAN_TANGGAL' => $this->input->post('tanggal'),
             'SURAT_JALAN_KETERANGAN' => $this->input->post('keterangan'),
             'SURAT_JALAN_STATUS' => "open",
             'MASTER_RELASI_ID' => $this->input->post('relasi'),
+            'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
             'DRIVER_ID' => $this->input->post('driver'),
             'MASTER_KENDARAAN_ID' => $this->input->post('kendaraan'),
 
