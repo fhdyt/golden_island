@@ -2,6 +2,33 @@
 class Realisasi_sjModel extends CI_Model
 {
 
+    public function list_realisasi($driver_id)
+    {
+
+        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE DRIVER_ID="' . $driver_id . '" AND SURAT_JALAN_STATUS="open" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR')->result();
+        foreach ($hasil as $row) {
+            $barang = $this->db->query('SELECT * FROM 
+                                                SURAT_JALAN_BARANG AS SJ
+                                                LEFT JOIN MASTER_BARANG AS B
+                                                ON
+                                                SJ.MASTER_BARANG_ID = B.MASTER_BARANG_ID 
+                                                WHERE 
+                                                SJ.SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" 
+                                                AND SJ.RECORD_STATUS="AKTIF" 
+                                                AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                                AND B.RECORD_STATUS="AKTIF" 
+                                                AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                                ')->result();
+            foreach ($barang as $row_barang) {
+                $row_barang->TOTAL = $row_barang->SURAT_JALAN_BARANG_QUANTITY + $row_barang->SURAT_JALAN_BARANG_QUANTITY_KOSONG + $row_barang->SURAT_JALAN_BARANG_QUANTITY_KLAIM;
+            }
+            $row->BARANG = $barang;
+
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
+        }
+        return $hasil;
+    }
+
     public function list()
     {
         $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_JABATAN="Driver" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_KARYAWAN_NAMA ')->result();

@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0"><?= $this->lang->line('Realisasi Surat Jalan'); ?></h1>
+                    <h1 class="m-0">Realisasi</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -20,18 +20,25 @@
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th><?= $this->lang->line('nama'); ?></th>
-                                <th><?= $this->lang->line('Tanggal'); ?></th>
-                                <th>Nomor Surat Jalan</th>
-                                <th><?= $this->lang->line('Relasi'); ?></th>
-                                <th><?= $this->lang->line('Supplier'); ?></th>
+                                <th rowspan="2" style="vertical-align: middle;">No.</th>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Nomor Surat Jalan</th>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Jenis Barang</th>
+                                <th colspan="3" style="text-align: center; vertical-align: middle;">Quantity</th>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Total</th>
+                            </tr>
+                            <tr>
+                                <th>Isi</th>
+                                <th>Kosong</th>
+                                <th>Klaim</th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
                             <tr>
                             </tr>
                         </tbody>
+                        <tfoot id="total_data">
+
+                        </tfoot>
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -49,55 +56,45 @@
     function po_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list",
+            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi?driver=<?= $this->uri->segment("4"); ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
+                $("tfoot#total_data").empty();
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
-                    // var no = 1
-                    // for (i = 0; i < data.length; i++) {
-                    //     $("tbody#zone_data").append("<tr class=''>" +
-                    //         "<td>" + no++ + ".</td>" +
-                    //         "<td>" + data[i].MASTER_KARYAWAN_NAMA + "</td>" +
-                    //         "</td>" +
-                    //         "</tr>");
-                    // }
+
 
                     var tableContent = "";
                     var no = 1
                     for (i = 0; i < data.length; i++) {
                         var rowspan = 0;
-                        var detailLength = data[i].SURAT_JALAN.length;
+                        var detailLength = data[i].BARANG.length;
                         rowspan += detailLength;
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].MASTER_KARYAWAN_NAMA + "<br><a href='<?php base_url(); ?>realisasi_sj/form/" + data[i].MASTER_KARYAWAN_ID + "'>Realisasi</a></td></tr>";
+                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "</td></tr>";
                         console.log(detailLength)
-                        var surat_jalanLength = 0;
+                        var barangLlength = 0;
+                        var total_qty = 0
                         for (var j = 0; j < detailLength; j++) {
-                            if (data[i].SURAT_JALAN[j].RELASI == "") {
-                                var relasi = "-"
-                            } else {
-                                var relasi = data[i].SURAT_JALAN[j].RELASI[0].MASTER_RELASI_NAMA
-                            }
-                            if (data[i].SURAT_JALAN[j].SUPPLIER == "") {
-                                var supplier = "-"
-                            } else {
-                                var supplier = data[i].SURAT_JALAN[j].SUPPLIER[0].MASTER_SUPPLIER_NAMA
-                            }
+                            total_qty += data[i].BARANG[j].TOTAL
                             tableContent += "<tr>" +
-                                "<td rowspan=" + parseInt(1 + surat_jalanLength) + ">" + data[i].SURAT_JALAN[j].TANGGAL + "</td>" +
-                                "<td rowspan=" + parseInt(1 + surat_jalanLength) + ">" + data[i].SURAT_JALAN[j].SURAT_JALAN_NOMOR + "</td>" +
-                                "<td rowspan=" + parseInt(1 + surat_jalanLength) + ">" + relasi + "</td>" +
-                                "<td rowspan=" + parseInt(1 + surat_jalanLength) + ">" + supplier + "</td>" +
+                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</td>" +
+                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY + "</td>" +
+                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KOSONG + "</td>" +
+                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM + "</td>" +
+                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].TOTAL + "</td>" +
+
                                 "</tr>";
                         }
                     }
                     $("tbody#zone_data").append(tableContent);
+                    $("tfoot#total_data").append("<tr><td colspan='6' align='right'><b>Total</b></td><td><b>" + total_qty + "</b></td></tr>")
+                    console.log(total_qty)
                 }
             },
             error: function(x, e) {

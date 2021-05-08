@@ -34,9 +34,23 @@ class Realisasi_sj extends CI_Controller
         $this->load->view('_template/footer');
     }
 
+    public function form()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('distribusi/realisasi_sj/v_form');
+        $this->load->view('_template/footer');
+    }
+
     public function list()
     {
         $data = $this->Realisasi_sjModel->list();
+        echo json_encode($data);
+    }
+
+    public function list_realisasi()
+    {
+        $driver_id = $_GET['driver'];
+        $data = $this->Realisasi_sjModel->list_realisasi($driver_id);
         echo json_encode($data);
     }
 
