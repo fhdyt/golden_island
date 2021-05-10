@@ -54,6 +54,13 @@ class Realisasi_sj extends CI_Controller
         echo json_encode($data);
     }
 
+    public function detail_driver()
+    {
+        $driver_id = $_GET['driver'];
+        $data = $this->Realisasi_sjModel->detail_driver($driver_id);
+        echo json_encode($data);
+    }
+
     public function add()
     {
         $data = $this->Realisasi_sjModel->add();

@@ -3,9 +3,10 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-sm-12">
                     <h1 class="m-0">Realisasi</h1>
+                    <p class="driver_nama">Loading...</p>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -50,10 +51,11 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
-        po_list();
+        realisasi_list();
+        detail_driver()
     });
 
-    function po_list() {
+    function realisasi_list() {
         $.ajax({
             type: 'ajax',
             url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi?driver=<?= $this->uri->segment("4"); ?>",
@@ -83,7 +85,7 @@
                         for (var j = 0; j < detailLength; j++) {
                             total_qty += data[i].BARANG[j].TOTAL
                             tableContent += "<tr>" +
-                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</td>" +
+                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data[i].BARANG[j].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY + "</td>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KOSONG + "</td>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM + "</td>" +
@@ -100,6 +102,26 @@
             error: function(x, e) {
                 console.log("Gagal")
             }
+        });
+    }
+
+    function detail_driver() {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/detail_driver?driver=<?= $this->uri->segment("4"); ?>',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                if (data.length == 0) {
+                    console.log(data)
+                } else {
+                    console.log(data)
+                    $("p.driver_nama").html(data[0].MASTER_KARYAWAN_NAMA)
+                }
+
+
+            },
+            error: function(x, e) {} //end error
         });
     }
 </script>
