@@ -65,7 +65,7 @@
                         if (data[i].SURAT_JALAN.length < 1) {
                             var btn_realisasi = "<span class='float-left badge bg-danger'>Tidak ada Surat Jalan</span>"
                         } else {
-                            if (data[i].SURAT_JALAN[0].REALISASI_ID == null) {
+                            if (data[i].SURAT_JALAN[0].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                                 var realisasi_id = "<?= create_id(); ?>"
                             } else {
                                 var realisasi_id = data[i].SURAT_JALAN[0].REALISASI_ID

@@ -35,6 +35,17 @@ class Realisasi_sjModel extends CI_Model
         return $hasil;
     }
 
+    public function jenis_tabung($jenis)
+    {
+        if ($jenis == "") {
+            $filter = '';
+        } else {
+            $filter = 'AND MASTER_BARANG_ID="' . $jenis . '"';
+        }
+        $hasil = $this->db->query('SELECT * FROM MASTER_TABUNG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ' . $filter . '')->result();
+        return $hasil;
+    }
+
     public function list()
     {
         $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_JABATAN="Driver" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_KARYAWAN_NAMA ')->result();
@@ -74,6 +85,7 @@ class Realisasi_sjModel extends CI_Model
         foreach ($hasil as $row) {
             $data = array(
                 'REALISASI_ID' => $this->input->post('id_realisasi'),
+                'SURAT_JALAN_REALISASI_STATUS' => "selesai",
             );
 
             $this->db->where('SURAT_JALAN_ID', $row->SURAT_JALAN_ID);
@@ -85,12 +97,45 @@ class Realisasi_sjModel extends CI_Model
 
     public function add_barang($realisasi_id)
     {
+        if ($this->input->post('tabung') == "baru") {
+            $id_tabung_realisasi = create_id();
+            $data_tabung = array(
+                'MASTER_TABUNG_ID' => $id_tabung_realisasi,
+                'MASTER_TABUNG_KODE' => kode_tabung(),
+                'MASTER_TABUNG_KODE_LAMA' => $this->input->post('kode'),
+                'MASTER_BARANG_ID' => $this->input->post('jenis'),
+                'MASTER_TABUNG_KEPEMILIKAN' => $this->input->post('kepemilikan'),
+                'STOK_BARANG_ID' => "",
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('MASTER_TABUNG', $data_tabung);
+
+            $data_riwayat_tabung = array(
+                'RIWAYAT_TABUNG_ID' => create_id(),
+                'MASTER_TABUNG_ID' => $id_tabung_realisasi,
+                'RIWAYAT_TABUNG_TANGGAL' => date("Y-m-d"),
+                'RIWAYAT_TABUNG_STATUS' => '0',
+                'RIWAYAT_TABUNG_KETERANGAN' => '',
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('RIWAYAT_TABUNG', $data_riwayat_tabung);
+        } else {
+            $id_tabung_realisasi = $this->input->post('tabung');
+        }
         $hasil = $this->db->query('SELECT * FROM MASTER_TABUNG WHERE MASTER_TABUNG_ID="' . $this->input->post('tabung') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         $data = array(
             'REALISASI_BARANG_ID' => create_id(),
             'REALISASI_ID' => $realisasi_id,
             'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
-            'MASTER_TABUNG_ID' => $this->input->post('tabung'),
+            'MASTER_TABUNG_ID' => $id_tabung_realisasi,
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

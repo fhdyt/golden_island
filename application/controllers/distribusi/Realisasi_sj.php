@@ -68,6 +68,13 @@ class Realisasi_sj extends CI_Controller
         echo json_encode($data);
     }
 
+    public function jenis_tabung()
+    {
+        $jenis = $_GET['jenis'];
+        $data = $this->Realisasi_sjModel->jenis_tabung($jenis);
+        echo json_encode($data);
+    }
+
     public function add()
     {
         $data = $this->Realisasi_sjModel->add();

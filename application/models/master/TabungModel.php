@@ -74,7 +74,9 @@ class TabungModel extends CI_Model
                 $data = array(
                     'MASTER_TABUNG_ID' => $tabung_id_loop,
                     'MASTER_TABUNG_KODE' => kode_tabung(),
+                    'MASTER_TABUNG_KODE_LAMA' => $this->input->post('kode_lama'),
                     'MASTER_BARANG_ID' => $this->input->post('tabung'),
+                    'MASTER_TABUNG_KEPEMILIKAN' => $this->input->post('kepemilikan'),
                     'STOK_BARANG_ID' => "",
 
                     'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
@@ -100,8 +102,9 @@ class TabungModel extends CI_Model
             $data = array(
                 'MASTER_TABUNG_ID' => $this->input->post('id'),
                 'MASTER_TABUNG_KODE' => $this->input->post('kode'),
+                'MASTER_TABUNG_KODE_LAMA' => $this->input->post('kode_lama'),
                 'MASTER_BARANG_ID' => $this->input->post('tabung'),
-                'PEMBELIAN_NOMOR_SURAT' => $this->input->post('surat'),
+                'MASTER_TABUNG_KEPEMILIKAN' => $this->input->post('kepemilikan'),
 
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),

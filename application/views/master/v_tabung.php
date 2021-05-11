@@ -34,6 +34,18 @@
                         <input type="text" class="form-control kode" name="kode" autocomplete="off">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Kode Tabung Lama</label>
+                        <input type="text" class="form-control kode_lama" name="kode_lama" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Kepemilikan</label>
+                        <select name="kepemilikan" id="kepemilikan" class="form-control kepemilikan select2" style="width: 100%;" required>
+                            <option value="MP">MP</option>
+                            <option value="MR">MR</option>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
                         <div class="form-group clearfix">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="isi" name="isi">
@@ -140,17 +152,32 @@
                     var no = 1
                     for (i = 0; i < data.length; i++) {
                         //console.log()
-                        if (data[i].RIWAYAT[0].RIWAYAT_TABUNG_STATUS == "0") {
-                            var status = "Kosong"
-                        } else if (data[i].RIWAYAT[0].RIWAYAT_TABUNG_STATUS == "1") {
-                            var status = "Isi"
+                        if (data[i].RIWAYAT.length < 1) {
+                            var status = "<p class='text-danger'><b><i>Riwayat Tabung<br>tidak ditemukan</i></b></p>"
                         } else {
-                            var status = "Tidak diketahui"
+                            if (data[i].RIWAYAT[0].RIWAYAT_TABUNG_STATUS == "0") {
+                                var status = "<p class='text-muted'>Kosong</p>"
+                            } else if (data[i].RIWAYAT[0].RIWAYAT_TABUNG_STATUS == "1") {
+                                var status = "<p class='text-success'>Isi</p>"
+                            } else {
+                                var status = "<p>Tidak diketahui</p>"
+                            }
                         }
+                        if (data[i].MASTER_TABUNG_KEPEMILIKAN == null) {
+                            var kepemilikan = "-"
 
+                        } else {
+                            var kepemilikan = data[i].MASTER_TABUNG_KEPEMILIKAN
+                        }
+                        if (data[i].MASTER_TABUNG_KODE_LAMA == null) {
+                            var kode_lama = "-"
+
+                        } else {
+                            var kode_lama = data[i].MASTER_TABUNG_KODE_LAMA
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_TABUNG_KODE + "<p>" + status + "</p></td>" +
+                            "<td>" + data[i].MASTER_TABUNG_KODE + " (" + kepemilikan + ")<br><small class='text-muted'>Kode Lama : " + kode_lama + "</small>" + status + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-edit'></i></a> " +
@@ -233,7 +260,9 @@
                 memuat()
                 $(".id").val(data[0].MASTER_TABUNG_ID)
                 $(".kode").val(data[0].MASTER_TABUNG_KODE)
+                $(".kode_lama").val(data[0].MASTER_TABUNG_KODE_LAMA)
                 $(".tabung").val(data[0].MASTER_BARANG_ID).trigger('change')
+                $(".kepemilikan").val(data[0].MASTER_TABUNG_KEPEMILIKAN).trigger('change')
 
                 $("#tabungModal").modal("show")
             },

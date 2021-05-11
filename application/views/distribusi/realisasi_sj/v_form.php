@@ -10,16 +10,40 @@
             <div class="modal-body">
                 <form id="submit_barang">
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
-                        <select name="tabung" id="tabung" class="form-control tabung select2" style="width: 100%;">
-                            <option value="">-- tabung --</option>
-                            <?php foreach (tabung_list() as $row) {
+                        <label for="exampleInputEmail1">Jenis</label>
+                        <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;" required>
+                            <option value="">-- Jenis --</option>
+
+                            <?php
+                            foreach (tabung() as $row) {
                             ?>
-                                <option value="<?= $row->MASTER_TABUNG_ID; ?>"><?= $row->MASTER_TABUNG_KODE; ?></option>
+                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
                             <?php
                             }
                             ?>
                         </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
+                        <select name="tabung" id="tabung" class="form-control tabung select2" style="width: 100%;">
+
+                        </select>
+                    </div>
+                    <div class="tambah_baru">
+                        <hr>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kode Lama</label>
+                            <input type="text" class="form-control kode" name="kode" id="kode" value="" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kepemilikan</label>
+                            <select name="kepemilikan" id="kepemilikan" class="form-control kepemilikan select2" style="width: 100%;" required>
+                                <option value="MP">MP</option>
+                                <option value="MR">MR</option>
+                            </select>
+                            <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                        </div>
                     </div>
 
             </div>
@@ -152,14 +176,8 @@
                 title: 'Oops...',
                 text: 'Tidak dapat menambah tabung.'
             })
-        } else if (total_tabung_sj < total_realisasi) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Tidak dapat menambah tabung.'
-            })
         } else {
-            $("#submit").trigger("reset");
+            // $("#submit").trigger("reset");
             $("#barangModal").modal("show")
 
         }
@@ -274,6 +292,29 @@
         });
     }
 
+    function jenis_tabung() {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/jenis_tabung?jenis=' + $(".jenis").val() + '',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $(".tabung").empty()
+                if (data.length == 0) {
+                    $(".tabung").append("<option value='baru'>--Tambah Tabung Baru--</option>")
+                } else {
+                    $(".tabung").append("<option value='baru'>--Tambah Tabung Baru--</option>")
+                    for (i = 0; i < data.length; i++) {
+                        $(".tabung").append("<option value='" + data[i].MASTER_TABUNG_ID + "'>" + data[i].MASTER_TABUNG_KODE + "</option>")
+                    }
+                }
+
+
+            },
+            error: function(x, e) {} //end error
+        });
+    }
+
     $('.btn-realisasi').on("click", function(e) {
         $.ajax({
             type: "POST",
@@ -348,5 +389,22 @@
 
             }
         })
+    }
+
+    $('.jenis').change(function() {
+        jenis_tabung()
+        tambah_tabung_baru()
+    });
+    $('.tabung').change(function() {
+        tambah_tabung_baru()
+    });
+
+    function tambah_tabung_baru() {
+        var tabung = $(".tabung").val()
+        if (tabung == "baru") {
+            $("div.tambah_baru").attr("hidden", false)
+        } else {
+            $("div.tambah_baru").attr("hidden", true)
+        }
     }
 </script>

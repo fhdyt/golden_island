@@ -67,7 +67,7 @@
                             var status = "<span class='float-left badge bg-success'>Open</span>"
                         }
 
-                        if (data[i].REALISASI_ID == null) {
+                        if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                             var riwayat_status = "<span class='float-left badge bg-danger'>Belum Teralisasi</span>"
                         } else {
                             var riwayat_status = "<span class='float-left badge bg-success'>Telah terealisasi</span>"

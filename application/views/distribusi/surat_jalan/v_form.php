@@ -292,6 +292,15 @@ if (empty($this->uri->segment('4'))) {
                         $("input").attr("disabled", true)
                         $("select").attr("disabled", true)
                     }
+
+                    if (data[0].SURAT_JALAN_REALISASI_STATUS == "selesai") {
+                        $(".btn-faktur").attr("hidden", true)
+                        $("a.btn-danger").removeAttr("onclick")
+                        $("button").prop("disabled", true)
+                        $("input").attr("disabled", true)
+                        $("select").attr("disabled", true)
+                    } else {}
+
                     detail_jenis_barang()
                 }
 
