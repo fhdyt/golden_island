@@ -54,6 +54,13 @@ class Realisasi_sj extends CI_Controller
         echo json_encode($data);
     }
 
+    public function list_realisasi_tabung()
+    {
+        $id_realisasi = $_GET['realisasi_id'];
+        $data = $this->Realisasi_sjModel->list_realisasi_tabung($id_realisasi);
+        echo json_encode($data);
+    }
+
     public function detail_driver()
     {
         $driver_id = $_GET['driver'];
@@ -64,6 +71,13 @@ class Realisasi_sj extends CI_Controller
     public function add()
     {
         $data = $this->Realisasi_sjModel->add();
+        echo json_encode($data);
+    }
+    public function add_barang()
+    {
+        $realisasi_id = $_GET['realisasi_id'];
+        $data = $this->Realisasi_sjModel->add_barang($realisasi_id);
+        echo json_encode($data);
     }
 
     public function hapus()

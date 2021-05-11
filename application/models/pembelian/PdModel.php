@@ -319,8 +319,9 @@ class PdModel extends CI_Model
         PEMBELIAN_BARANG_ID="' . $this->input->post('id_realisasi') . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         if (!empty($hasil)) {
             for ($x = 0; $x < $quantity; $x++) {
+                $master_tabung_id = create_id();
                 $data = array(
-                    'MASTER_TABUNG_ID' => create_id(),
+                    'MASTER_TABUNG_ID' => $master_tabung_id,
                     'MASTER_TABUNG_KODE' => kode_tabung(),
                     'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
                     'PEMBELIAN_NOMOR_SURAT' => "",

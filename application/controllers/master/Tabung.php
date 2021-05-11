@@ -59,4 +59,18 @@ class Tabung extends CI_Controller
         $data = $this->TabungModel->detail($id);
         echo json_encode($data);
     }
+
+    public function riwayat_tabung()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('master/v_tabung_riwayat');
+        $this->load->view('_template/footer');
+    }
+
+    public function list_riwayat()
+    {
+        $id = $_GET['id_tabung'];
+        $data = $this->TabungModel->list_riwayat($id);
+        echo json_encode($data);
+    }
 }

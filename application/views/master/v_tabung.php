@@ -153,7 +153,8 @@
                             "<td>" + data[i].MASTER_TABUNG_KODE + "<p>" + status + "</p></td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-edit'></i></a> " +
+                            "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>master/tabung/riwayat_tabung/" + data[i].MASTER_TABUNG_ID + "'><i class='fas fa-list'></i></a></td>" +
                             "</tr>");
                     }
                 }

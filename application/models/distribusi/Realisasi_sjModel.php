@@ -52,53 +52,54 @@ class Realisasi_sjModel extends CI_Model
         return $hasil;
     }
 
+    public function list_realisasi_tabung($id_realisasi)
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+                                    REALISASI_BARANG AS R
+                                    LEFT JOIN MASTER_TABUNG AS T
+                                    ON 
+                                    R.MASTER_TABUNG_ID = T.MASTER_TABUNG_ID
+                                    WHERE 
+                                    R.REALISASI_ID="' . $id_realisasi . '" 
+                                    AND (R.RECORD_STATUS="AKTIF" OR R.RECORD_STATUS="DRAFT") 
+                                    AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                    AND T.RECORD_STATUS="AKTIF"
+                                    AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+        return $hasil;
+    }
+
     public function add()
     {
-        if ($this->input->post('id') == "") {
+        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE DRIVER_ID="' . $this->input->post('id_driver') . '" AND SURAT_JALAN_STATUS="open" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR')->result();
+        foreach ($hasil as $row) {
             $data = array(
-                'MASTER_KARYAWAN_ID' => create_id(),
-                'MASTER_KARYAWAN_NAMA' => $this->input->post('nama'),
-                'MASTER_KARYAWAN_JABATAN' => $this->input->post('jabatan'),
-                'MASTER_KARYAWAN_ALAMAT' => $this->input->post('alamat'),
-                'MASTER_KARYAWAN_HP' => $this->input->post('hp'),
-                'MASTER_KARYAWAN_KTP' => $this->input->post('ktp'),
-
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                'REALISASI_ID' => $this->input->post('id_realisasi'),
             );
 
-            $result = $this->db->insert('MASTER_KARYAWAN', $data);
-            return $result;
-        } else {
-            $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
-                'EDIT_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "EDIT",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $this->db->where('MASTER_KARYAWAN_ID', $this->input->post('id'));
-            $edit = $this->db->update('MASTER_KARYAWAN', $data_edit);
-
-            $data = array(
-                'MASTER_KARYAWAN_ID' => $this->input->post('id'),
-                'MASTER_KARYAWAN_NAMA' => $this->input->post('nama'),
-                'MASTER_KARYAWAN_JABATAN' => $this->input->post('jabatan'),
-                'MASTER_KARYAWAN_ALAMAT' => $this->input->post('alamat'),
-                'MASTER_KARYAWAN_HP' => $this->input->post('hp'),
-                'MASTER_KARYAWAN_KTP' => $this->input->post('ktp'),
-
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $result = $this->db->insert('MASTER_KARYAWAN', $data);
-            return $result;
+            $this->db->where('SURAT_JALAN_ID', $row->SURAT_JALAN_ID);
+            $this->db->where('RECORD_STATUS', "AKTIF");
+            $this->db->update('SURAT_JALAN', $data);
         }
+        return true;
+    }
+
+    public function add_barang($realisasi_id)
+    {
+        $hasil = $this->db->query('SELECT * FROM MASTER_TABUNG WHERE MASTER_TABUNG_ID="' . $this->input->post('tabung') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $data = array(
+            'REALISASI_BARANG_ID' => create_id(),
+            'REALISASI_ID' => $realisasi_id,
+            'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
+            'MASTER_TABUNG_ID' => $this->input->post('tabung'),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('REALISASI_BARANG', $data);
+        return $result;
     }
 
     public function hapus($id)
@@ -110,8 +111,8 @@ class Realisasi_sjModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $this->db->where('MASTER_KARYAWAN_ID', $id);
-        $result = $this->db->update('MASTER_KARYAWAN', $data);
+        $this->db->where('REALISASI_BARANG_ID', $id);
+        $result = $this->db->update('REALISASI_BARANG', $data);
         return $result;
     }
 

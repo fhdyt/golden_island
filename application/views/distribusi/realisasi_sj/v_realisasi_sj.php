@@ -55,30 +55,35 @@
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
-                    // var no = 1
-                    // for (i = 0; i < data.length; i++) {
-                    //     $("tbody#zone_data").append("<tr class=''>" +
-                    //         "<td>" + no++ + ".</td>" +
-                    //         "<td>" + data[i].MASTER_KARYAWAN_NAMA + "</td>" +
-                    //         "</td>" +
-                    //         "</tr>");
-                    // }
-
                     var tableContent = "";
                     var no = 1
+                    console.log(data)
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].SURAT_JALAN.length < 1) {
+                            var btn_realisasi = "<span class='float-left badge bg-danger'>Tidak ada Surat Jalan</span>"
+                        } else {
+                            if (data[i].SURAT_JALAN[0].REALISASI_ID == null) {
+                                var realisasi_id = "<?= create_id(); ?>"
+                            } else {
+                                var realisasi_id = data[i].SURAT_JALAN[0].REALISASI_ID
+                            }
+                            var btn_realisasi = "<a href='<?php base_url(); ?>realisasi_sj/form/" + data[i].MASTER_KARYAWAN_ID + "?realisasi_id=" + realisasi_id + "'>Realisasi</a>"
+                        }
+
+
                         var rowspan = 0;
                         var detailLength = data[i].SURAT_JALAN.length;
                         rowspan += detailLength;
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].MASTER_KARYAWAN_NAMA + "<br><a href='<?php base_url(); ?>realisasi_sj/form/" + data[i].MASTER_KARYAWAN_ID + "'>Realisasi</a></td></tr>";
-                        console.log(detailLength)
+                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].MASTER_KARYAWAN_NAMA + "<br>" + btn_realisasi + "</td></tr>";
+
                         var surat_jalanLength = 0;
                         for (var j = 0; j < detailLength; j++) {
+
+
                             if (data[i].SURAT_JALAN[j].RELASI == "") {
                                 var relasi = "-"
                             } else {

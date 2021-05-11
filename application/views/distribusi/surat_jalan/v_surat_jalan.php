@@ -67,6 +67,12 @@
                             var status = "<span class='float-left badge bg-success'>Open</span>"
                         }
 
+                        if (data[i].REALISASI_ID == null) {
+                            var riwayat_status = "<span class='float-left badge bg-danger'>Belum Teralisasi</span>"
+                        } else {
+                            var riwayat_status = "<span class='float-left badge bg-success'>Telah terealisasi</span>"
+                        }
+
                         if (data[i].RELASI == "") {
                             var relasi = "-"
                         } else {
@@ -75,7 +81,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=penjualan'>Lihat</a> " +
                             "</td>" +
