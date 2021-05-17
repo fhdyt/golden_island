@@ -24,7 +24,7 @@ if (empty($this->uri->segment('5'))) {
                     <button class="btn btn-block btn-warning">Buat Pengiriman</button>
                 </div><!-- /.col -->
                 <div class="col-sm-2 text-right">
-                    <a target="_blank" class="btn btn-block btn-primary" href="<?= base_url(); ?>pdf/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>">Cetak</a>
+                    <a target="_blank" class="btn btn-block btn-primary" href="<?= base_url(); ?>cetak/cetak_po/<?= $id; ?>/<?= $id_pembelian; ?>">Cetak</a>
                 </div><!-- /.col -->
 
             </div><!-- /.row -->
