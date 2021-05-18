@@ -23,12 +23,15 @@
                 <div class="col-2 text-right">
                     <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= detail_perusahaan()[0]->PERUSAHAAN_KODE; ?>.png" height="90px" alt="">
                 </div>
-                <div class="col-10">
+                <div class="col-8">
                     <address>
                         <h2><b><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></b></h2>
                         <b><?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?><br>
                             Telp : <?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?></b>
                     </address>
+                </div>
+                <div class="col-2 text-left">
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->PEMBELIAN_NOMOR); ?>.png" height="90px" />
                 </div>
                 <!-- /.col -->
             </div>
