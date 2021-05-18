@@ -496,3 +496,70 @@ if (!function_exists('notifikasi')) {
     $pusher->trigger('my-channel', 'my-event', $data);
   }
 }
+
+if (!function_exists('penyebut')) {
+  function penyebut($nilai)
+  {
+    $nilai = abs($nilai);
+    $huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+    $temp = "";
+    if ($nilai < 12) {
+      $temp = " " . $huruf[$nilai];
+    } else if ($nilai < 20) {
+      $temp = penyebut($nilai - 10) . " belas";
+    } else if ($nilai < 100) {
+      $temp = penyebut($nilai / 10) . " puluh" . penyebut($nilai % 10);
+    } else if ($nilai < 200) {
+      $temp = " seratus" . penyebut($nilai - 100);
+    } else if ($nilai < 1000) {
+      $temp = penyebut($nilai / 100) . " ratus" . penyebut($nilai % 100);
+    } else if ($nilai < 2000) {
+      $temp = " seribu" . penyebut($nilai - 1000);
+    } else if ($nilai < 1000000) {
+      $temp = penyebut($nilai / 1000) . " ribu" . penyebut($nilai % 1000);
+    } else if ($nilai < 1000000000) {
+      $temp = penyebut($nilai / 1000000) . " juta" . penyebut($nilai % 1000000);
+    } else if ($nilai < 1000000000000) {
+      $temp = penyebut($nilai / 1000000000) . " milyar" . penyebut(fmod($nilai, 1000000000));
+    } else if ($nilai < 1000000000000000) {
+      $temp = penyebut($nilai / 1000000000000) . " trilyun" . penyebut(fmod($nilai, 1000000000000));
+    }
+    return $temp;
+  }
+}
+
+if (!function_exists('terbilang')) {
+  function terbilang($nilai)
+  {
+    if ($nilai < 0) {
+      $hasil = "minus " . trim(penyebut($nilai));
+    } else {
+      $hasil = trim(penyebut($nilai));
+    }
+    return $hasil;
+  }
+}
+
+if (!function_exists('qrcode')) {
+  function qrcode($nomor)
+  {
+    $CI = &get_instance();
+    $CI->load->library('ciqrcode');
+
+    $config['cacheable']    = true; //boolean, the default is true
+    $config['imagedir']     = 'uploads/qr/'; //direktori penyimpanan qr code
+    $config['quality']      = true; //boolean, the default is true
+    $config['size']         = '1024'; //interger, the default is 1024
+    $config['black']        = array(224, 255, 255); // array, default is array(255,255,255)
+    $config['white']        = array(70, 130, 180); // array, default is array(0,0,0)
+    $CI->ciqrcode->initialize($config);
+
+    $image_name = str_replace("/", "-", $nomor) . '.png'; //buat name dari qr code sesuai dengan nomor
+
+    $params['data'] = $nomor; //data yang akan di jadikan QR CODE
+    $params['level'] = 'H'; //H=High
+    $params['size'] = 10;
+    $params['savename'] = FCPATH . $config['imagedir'] . $image_name; //simpan image QR CODE ke folder assets/images/
+    $CI->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+  }
+}

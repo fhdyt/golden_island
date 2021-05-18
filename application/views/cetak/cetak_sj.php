@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $detail[0]->PEMBELIAN_NOMOR; ?></title>
+    <title><?= $detail[0]->SURAT_JALAN_NOMOR; ?></title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -23,20 +23,23 @@
                 <div class="col-2 text-right">
                     <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= detail_perusahaan()[0]->PERUSAHAAN_KODE; ?>.png" height="90px" alt="">
                 </div>
-                <div class="col-10">
+                <div class="col-8">
+                    <h2><b><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></b></h2>
                     <address>
-                        <h2><b><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></b></h2>
                         <b><?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?><br>
                             Telp : <?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?></b>
                     </address>
+                </div>
+                <div class="col-2 text-center">
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->SURAT_JALAN_NOMOR); ?>.png" height="90px" />
                 </div>
                 <!-- /.col -->
             </div>
             <!-- info row -->
             <hr>
             <center>
-                <h3><b>Faktur Pemesanan</b></h3>
-                <h4>No. <?= $detail[0]->PEMBELIAN_NOMOR; ?></h4>
+                <h3><b>Surat Jalan</b></h3>
+                <h4>No. <?= $detail[0]->SURAT_JALAN_NOMOR; ?></h4>
             </center>
             <br>
             <br>
@@ -44,14 +47,23 @@
                 <div class="col-sm-6 invoice-col">
                     Kepada :
                     <address>
-                        <strong><?= $supplier[0]->MASTER_SUPPLIER_NAMA; ?></strong><br>
-                        <?= $supplier[0]->MASTER_SUPPLIER_ALAMAT; ?><br>
-                        <?= $supplier[0]->MASTER_SUPPLIER_HP; ?><br>
+                        <?php
+                        if ($detail[0]->SURAT_JALAN_JENIS == "penjualan") { ?>
+                            <strong><?= $relasi[0]->MASTER_RELASI_NAMA; ?></strong><br>
+                            <?= $relasi[0]->MASTER_RELASI_ALAMAT; ?><br>
+                            <?= $relasi[0]->MASTER_RELASI_HP; ?><br>
+                        <?php } else { ?>
+                            <strong><?= $supplier[0]->MASTER_SUPPLIER_NAMA; ?></strong><br>
+                            <?= $supplier[0]->MASTER_SUPPLIER_ALAMAT; ?><br>
+                            <?= $supplier[0]->MASTER_SUPPLIER_HP; ?><br>
+                        <?php }
+                        ?>
+
                     </address>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-6 invoice-col text-right">
-                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->PEMBELIAN_TANGGAL); ?>
+                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->SURAT_JALAN_TANGGAL); ?>
                 </div>
                 <!-- /.col -->
             </div>
@@ -64,10 +76,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama Barang</th>
-                            <th>Harga</th>
                             <th>Quantity</th>
-                            <th>Satuan</th>
-                            <th align="right">Total</th>
                         </tr>
                         <?php
                         $no = 1;
@@ -75,40 +84,11 @@
                             <tr>
                                 <td><?= $no++; ?>.</td>
                                 <td><?= $row->MASTER_BARANG_NAMA; ?></td>
-                                <td><?= number_format($row->PEMBELIAN_BARANG_HARGA, 0, ",", "."); ?></td>
-                                <td><?= number_format($row->PEMBELIAN_BARANG_QUANTITY, 0, ",", "."); ?></td>
-                                <td><?= $row->PEMBELIAN_BARANG_SATUAN; ?></td>
-                                <td align="right"><?= number_format($row->PEMBELIAN_BARANG_TOTAL, 0, ",", "."); ?></td>
+                                <td><?= number_format($row->SURAT_JALAN_BARANG_QUANTITY, 0, ",", "."); ?></td>
                             </tr>
                         <?php
                         }
                         ?>
-
-                        <tr>
-                            <td colspan="5" align="right"><b>Total</b></td>
-                            <td align="right"><?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_TOTAL, 0, ",", "."); ?></td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" align="right"><b>Potongan</b></td>
-                            <td align="right"><?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_POTONGAN, 0, ",", "."); ?></td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" align="right"><b>Pajak (<?= $transaksi[0]->PEMBELIAN_TRANSAKSI_PAJAK; ?>%)</b></td>
-                            <td align="right"><?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_PAJAK_RUPIAH, 0, ",", "."); ?></td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" align="right"><b>Bayar</b></td>
-                            <td align="right"><?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_UANG_MUKA, 0, ",", "."); ?></td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" align="right"><b>Sisa Bayar</b></td>
-                            <td align="right">
-                                <?php
-                                $total = $transaksi[0]->PEMBELIAN_TRANSAKSI_TOTAL - $transaksi[0]->PEMBELIAN_TRANSAKSI_POTONGAN + $transaksi[0]->PEMBELIAN_TRANSAKSI_PAJAK_RUPIAH;
-                                echo number_format($total - $transaksi[0]->PEMBELIAN_TRANSAKSI_UANG_MUKA, 0, ",", ".");
-                                ?>
-                            </td>
-                        </tr>
                     </table>
                 </div>
                 <!-- /.col -->
@@ -116,13 +96,25 @@
             <!-- /.row -->
             <hr>
             <div class="row invoice-info">
-                <div class="col-sm-9 invoice-col">
+                <div class="col-sm-12 invoice-col">
                     <?= $this->lang->line('keterangan'); ?>
                     <address>
-                        <?php echo nl2br($detail[0]->PEMBELIAN_KETERANGAN); ?>
+                        <?php echo nl2br($detail[0]->SURAT_JALAN_KETERANGAN); ?>
                     </address>
                 </div>
-                <div class="col-3 text-center">
+            </div>
+            <div class="row invoice-info">
+                <div class="col-6 text-center">
+                    <p>Dibawa Oleh :</p>
+                    <br>
+                    <br>
+                    <br>
+                    <address>
+                        <b><?= $driver[0]->MASTER_KARYAWAN_NAMA; ?></b><br>
+                        <?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?>
+                    </address>
+                </div>
+                <div class="col-6 text-center">
                     <p>Dibuat oleh :</p>
                     <br>
                     <br>

@@ -63,8 +63,10 @@
                     for (i = 0; i < data.length; i++) {
                         if (data[i].SURAT_JALAN_STATUS == "close") {
                             var status = "<span class='float-left badge bg-danger'>Close</span>"
+                            var btn_cetak = "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
                         } else {
                             var status = "<span class='float-left badge bg-success'>Open</span>"
+                            var btn_cetak = ""
                         }
 
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
@@ -84,6 +86,7 @@
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=penjualan'>Lihat</a> " +
+                            btn_cetak +
                             "</td>" +
                             "</tr>");
                     }

@@ -123,11 +123,122 @@ if (empty($this->uri->segment('4'))) {
                                         <th>Jenis</th>
                                         <th>Quantity</th>
                                         <th>Harga</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody id="zone_data_barang">
                                 </tbody>
+                                <tfoot id="total_rp">
+
+                                </tfoot>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-default color-palette-box">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-default color-palette-box">
+                                    <div class="card-body">
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label text-right">Total</label>
+                                            <div class="col-sm-10">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
+                                                    <input type="text" class="form-control total" name="total" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label text-right">Pajak</label>
+                                            <div class="col-sm-10">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <select name="pajak" id="pajak" class="form-control pajak select2" style="width: 100%;">
+                                                            <option value="0">0</option>
+                                                            <?php foreach (pajak_list() as $row) {
+                                                            ?>
+                                                                <option value="<?= $row->PAJAK_NILAI; ?>"><?= $row->PAJAK_NAMA; ?> - <?= $row->PAJAK_NILAI; ?></option>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" class="form-control pajak_rupiah" name="pajak_rupiah" autocomplete="off" value="0" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label text-right">Total Bayar</label>
+                                            <div class="col-sm-10">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
+                                                    <input type="text" class="form-control total_bayar" name="total_bayar" autocomplete="off" value="0" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label text-right">Total</label>
+                                            <div class="col-sm-10">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
+                                                    <input type="text" class="form-control grand_total" name="grand_total" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label text-right">Bayar</label>
+                                            <div class="col-sm-3">
+                                                <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                                                    <option value="">-- Akun --</option>
+                                                    <?php foreach (akun_list() as $row) {
+                                                    ?>
+                                                        <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
+                                                    <input type="text" class="form-control bayar" name="bayar" onkeyup="kalkulasi_seluruh()">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label text-right">Sisa Bayar</label>
+                                            <div class="col-sm-10">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
+                                                    <input type="text" class="form-control sisa_bayar" name="sisa_bayar" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -153,7 +264,9 @@ if (empty($this->uri->segment('4'))) {
 
 <script>
     $(function() {
-
+        $(".bayar").mask("#.##0", {
+            reverse: true
+        });
         detail()
         surat_jalan_list()
         barang_list()
@@ -191,7 +304,16 @@ if (empty($this->uri->segment('4'))) {
                     $(".nomor_faktur").val(data[0].FAKTUR_NOMOR)
                     $(".tanggal").val(data[0].FAKTUR_TANGGAL)
                     $(".relasi").val(data[0].MASTER_RELASI_ID).trigger("change")
+                    $(".akun").val(data[0].AKUN_ID).trigger("change")
                     $(".keterangan").val(data[0].FAKTUR_KETERANGAN)
+                    if (data[0].TRANSAKSI.length == 0) {
+                        console.log("kosong")
+                    } else {
+                        // $(".total").val(data[0].TRANSAKSI[0].FAKTUR_TRANSAKSI_TOTAL)
+                        $(".pajak").val(data[0].TRANSAKSI[0].FAKTUR_TRANSAKSI_PAJAK).trigger("change")
+                        $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR))
+                    }
+                    kalkulasi_seluruh()
 
                 }
             },
@@ -243,6 +365,7 @@ if (empty($this->uri->segment('4'))) {
                 memuat()
                 surat_jalan_list()
                 barang_list()
+                kalkulasi_seluruh()
             }
         });
     })
@@ -260,6 +383,7 @@ if (empty($this->uri->segment('4'))) {
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
+                $("tfoot#total_rp").empty();
                 if (data.length === 0) {
 
                 } else {
@@ -289,23 +413,33 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 $("tbody#zone_data_barang").empty();
                 if (data.length === 0) {
-
+                    $(".total").val("0")
+                    kalkulasi_seluruh()
                 } else {
                     var no = 1;
+                    var total_rp = 0
+                    var total_qty = 0
                     for (i = 0; i < data.length; i++) {
                         if (data[i].HARGA.length == 0) {
                             var harga = "0"
                         } else {
                             var harga = data[i].HARGA[0].MASTER_HARGA_HARGA
                         }
+                        var total = data[i].FAKTUR_BARANG_QUANTITY * harga;
+                        total_rp += total
+                        total_qty += parseInt(data[i].FAKTUR_BARANG_QUANTITY)
                         $("tbody#zone_data_barang").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + data[i].FAKTUR_BARANG_JENIS + "</td>" +
-                            "<td>" + data[i].FAKTUR_BARANG_QUANTITY + "</td>" +
-                            "<td>" + number_format(harga) + "</td>" +
+                            "<td align='right'>" + data[i].FAKTUR_BARANG_QUANTITY + "</td>" +
+                            "<td align='right'>" + number_format(harga) + "</td>" +
+                            "<td align='right'>" + number_format(total) + "</td>" +
                             "</tr>");
                     }
+                    $(".total").val(number_format(total_rp))
+                    kalkulasi_seluruh()
+                    $("tfoot#total_rp").append("<tr><td colspan='3' align='right'><b>Total</b></td><td align='right'>" + number_format(total_qty) + "</td><td></td><td align='right'>" + number_format(total_rp) + "</td></tr>")
                 }
             },
             error: function(x, e) {
@@ -331,6 +465,8 @@ if (empty($this->uri->segment('4'))) {
                         if (data.length === 0) {} else {
                             Swal.fire('Berhasil', '', 'success')
                             surat_jalan_list()
+                            barang_list()
+                            kalkulasi_seluruh()
                         }
                     },
                     error: function(x, e) {
@@ -344,5 +480,28 @@ if (empty($this->uri->segment('4'))) {
 
             }
         })
+    }
+
+    $('.pajak').change(function() {
+        kalkulasi_seluruh()
+    });
+
+    function kalkulasi_seluruh() {
+        var pajak = ($(".pajak").val())
+        console.log($(".pajak").val())
+
+        var total = parseInt($(".total").val().split('.').join(""))
+        var bayar = parseInt($(".bayar").val().split('.').join(""))
+
+        var pajak_rupiah = total * (pajak / 100)
+        $(".pajak_rupiah").val(number_format(pajak_rupiah))
+
+        var total_bayar = total + pajak_rupiah
+        var grand_total = total_bayar
+        $(".grand_total").val(number_format(grand_total))
+
+        var sisa_bayar = grand_total - bayar
+        $(".total_bayar").val(number_format(total_bayar))
+        $(".sisa_bayar").val(number_format(sisa_bayar))
     }
 </script>

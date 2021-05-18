@@ -26,19 +26,30 @@ class Cetak extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		//sudo chmod -R 755 logs
+		//sudo chmod -R 777 logs
+		//$this->load->library('ciqrcode');
 		$this->load->model('PdfModel');
 		$this->load->model('LoginModel');
 		$this->LoginModel->cek_login();
 	}
-
 	public function index()
 	{
 	}
+
 	public function cetak_po()
 	{
 		$id = $this->uri->segment('3');
 		$id_pembelian = $this->uri->segment('4');
 		$data = $this->PdfModel->cetak_po($id, $id_pembelian);
+		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
 		$this->load->view('cetak/cetak_po', $data);
+	}
+	public function cetak_sj()
+	{
+		$id = $this->uri->segment('3');
+		$data = $this->PdfModel->cetak_sj($id);
+		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
+		$this->load->view('cetak/cetak_sj', $data);
 	}
 }

@@ -14,6 +14,18 @@ class FakturModel extends CI_Model
     }
     public function add()
     {
+        $hasil = $this->db->query('SELECT * FROM 
+        FAKTUR_SURAT_JALAN
+        WHERE FAKTUR_ID="' . $this->input->post('id') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil as $row) {
+            $data_surat_jalan = array(
+                'SURAT_JALAN_STATUS' => "close",
+            );
+
+            $this->db->where('SURAT_JALAN_ID', $row->SURAT_JALAN_ID);
+            $this->db->update('SURAT_JALAN', $data_surat_jalan);
+        }
+
         $data_edit_aktif = array(
             'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
@@ -25,6 +37,17 @@ class FakturModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('FAKTUR', $data_edit_aktif);
 
+        $data_edit_transaksi = array(
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('FAKTUR_ID', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('FAKTUR_TRANSAKSI', $data_edit_transaksi);
+
 
         $data = array(
             'FAKTUR_ID' => $this->input->post('id'),
@@ -32,6 +55,7 @@ class FakturModel extends CI_Model
             'FAKTUR_TANGGAL' => $this->input->post('tanggal'),
             'FAKTUR_KETERANGAN' => $this->input->post('keterangan'),
             'MASTER_RELASI_ID' => $this->input->post('relasi'),
+            'AKUN_ID' => $this->input->post('akun'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -39,12 +63,33 @@ class FakturModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $data = $this->db->insert('FAKTUR', $data);
-        return $data;
+        $this->db->insert('FAKTUR', $data);
+
+        $data_transaksi = array(
+            'FAKTUR_TRANSAKSI_ID' => create_id(),
+            'FAKTUR_ID' => $this->input->post('id'),
+            'FAKTUR_TRANSAKSI_TOTAL' => str_replace(".", "", $this->input->post('total')),
+            'FAKTUR_TRANSAKSI_PAJAK' => $this->input->post('pajak'),
+            'FAKTUR_TRANSAKSI_PAJAK_RUPIAH' => str_replace(".", "", $this->input->post('pajak_rupiah')),
+            'FAKTUR_TRANSAKSI_GRAND_TOTAL' => str_replace(".", "", $this->input->post('grand_total')),
+            'PEMBELIAN_TRANSAKSI_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $data_transaksi = $this->db->insert('FAKTUR_TRANSAKSI', $data_transaksi);
+        return $data_transaksi;
     }
 
     public function hapus($id)
     {
+        $hasil = $this->db->query('SELECT * FROM 
+        FAKTUR_SURAT_JALAN
+        WHERE FAKTUR_SURAT_JALAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+
         $data = array(
             'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
@@ -53,7 +98,26 @@ class FakturModel extends CI_Model
         );
 
         $this->db->where('FAKTUR_SURAT_JALAN_ID', $id);
-        $result = $this->db->update('FAKTUR_SURAT_JALAN', $data);
+        $this->db->update('FAKTUR_SURAT_JALAN', $data);
+
+        $data_barang = array(
+            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('SURAT_JALAN_ID', $hasil[0]->SURAT_JALAN_ID);
+        $this->db->update('FAKTUR_BARANG', $data_barang);
+
+        $data_surat_jalan = array(
+            'SURAT_JALAN_STATUS' => "open",
+        );
+
+        $this->db->where('SURAT_JALAN_ID', $hasil[0]->SURAT_JALAN_ID);
+        $result = $this->db->update('SURAT_JALAN', $data_surat_jalan);
+
+
         return $result;
     }
 
@@ -62,6 +126,14 @@ class FakturModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM 
         FAKTUR
         WHERE FAKTUR_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        foreach ($hasil as $row) {
+            $transaksi = $this->db->query('SELECT * FROM FAKTUR_TRANSAKSI WHERE FAKTUR_ID="' . $row->FAKTUR_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1');
+            if ($transaksi->num_rows() < 1) {
+                $row->TRANSAKSI = array();
+            } else {
+                $row->TRANSAKSI = $transaksi->result();
+            }
+        }
         return $hasil;
     }
 
