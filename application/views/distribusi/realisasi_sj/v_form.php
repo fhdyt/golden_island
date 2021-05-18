@@ -207,6 +207,7 @@
 
                     var tableContent = "";
                     var no = 1
+                    var total_qty = 0
                     for (i = 0; i < data.length; i++) {
                         var rowspan = 0;
                         var detailLength = data[i].BARANG.length;
@@ -215,7 +216,7 @@
                             "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "</td></tr>";
                         console.log(detailLength)
                         var barangLlength = 0;
-                        var total_qty = 0
+
                         for (var j = 0; j < detailLength; j++) {
                             total_qty += data[i].BARANG[j].TOTAL
                             tableContent += "<tr>" +
@@ -224,7 +225,6 @@
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KOSONG + "</td>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM + "</td>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].TOTAL + "</td>" +
-
                                 "</tr>";
                         }
                     }
@@ -316,21 +316,31 @@
     }
 
     $('.btn-realisasi').on("click", function(e) {
-        $.ajax({
-            type: "POST",
-            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add',
-            dataType: "JSON",
-            beforeSend: function() {
-                memuat()
-            },
-            data: {
-                id_realisasi: "<?= $_GET['realisasi_id']; ?>",
-                id_driver: "<?= $this->uri->segment('4'); ?>",
-            },
-            success: function(data) {
-                memuat()
-            }
-        });
+        var total_tabung_sj = $(".total_tabung_sj").val()
+        var total_realisasi = $(".total_realisasi").val()
+        if (total_tabung_sj == total_realisasi) {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add',
+                dataType: "JSON",
+                beforeSend: function() {
+                    memuat()
+                },
+                data: {
+                    id_realisasi: "<?= $_GET['realisasi_id']; ?>",
+                    id_driver: "<?= $this->uri->segment('4'); ?>",
+                },
+                success: function(data) {
+                    memuat()
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Total Realisasi Tidak Sesuai'
+            })
+        }
     })
 
     $('#submit_barang').submit(function(e) {

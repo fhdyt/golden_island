@@ -36,7 +36,7 @@ if (empty($this->uri->segment('4'))) {
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">No Faktur</label>
-                                            <input type="text" class="form-control nomor_surat_jalan" name="nomor_surat_jalan" autocomplete="off" readonly>
+                                            <input type="text" class="form-control nomor_faktur" name="nomor_faktur" autocomplete="off" readonly>
                                             <small class="text-muted">Nomor Otomatis akan terisi.</small>
                                         </div>
                                     </div>
@@ -111,6 +111,27 @@ if (empty($this->uri->segment('4'))) {
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-default color-palette-box">
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nama Barang</th>
+                                        <th>Jenis</th>
+                                        <th>Quantity</th>
+                                        <th>Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="zone_data_barang">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -135,6 +156,7 @@ if (empty($this->uri->segment('4'))) {
 
         detail()
         surat_jalan_list()
+        barang_list()
     });
 
     $('#submit').submit(function(e) {
@@ -159,16 +181,19 @@ if (empty($this->uri->segment('4'))) {
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/distribusi/surat_jalan/detail/<?= $id; ?>',
+            url: '<?php echo base_url() ?>index.php/penjualan/faktur/detail/<?= $id; ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
                 memuat()
+                console.log(data)
                 if (data.length == 0) {} else {
+                    $(".nomor_faktur").val(data[0].FAKTUR_NOMOR)
+                    $(".tanggal").val(data[0].FAKTUR_TANGGAL)
+                    $(".relasi").val(data[0].MASTER_RELASI_ID).trigger("change")
+                    $(".keterangan").val(data[0].FAKTUR_KETERANGAN)
 
                 }
-
-
             },
             error: function(x, e) {} //end error
         });
@@ -217,6 +242,7 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 memuat()
                 surat_jalan_list()
+                barang_list()
             }
         });
     })
@@ -233,10 +259,7 @@ if (empty($this->uri->segment('4'))) {
             async: false,
             dataType: 'json',
             success: function(data) {
-                $("tbody#zone_data_isi").empty();
-                $("tfoot#total_data_isi").empty();
-
-                console.log(data)
+                $("tbody#zone_data").empty();
                 if (data.length === 0) {
 
                 } else {
@@ -247,6 +270,40 @@ if (empty($this->uri->segment('4'))) {
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].FAKTUR_SURAT_JALAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "</td>" +
+                            "</tr>");
+                    }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    function barang_list() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/penjualan/faktur/barang_list/<?= $id; ?>?relasi=" + $(".relasi").val() + "",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#zone_data_barang").empty();
+                if (data.length === 0) {
+
+                } else {
+                    var no = 1;
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].HARGA.length == 0) {
+                            var harga = "0"
+                        } else {
+                            var harga = data[i].HARGA[0].MASTER_HARGA_HARGA
+                        }
+                        $("tbody#zone_data_barang").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].FAKTUR_BARANG_JENIS + "</td>" +
+                            "<td>" + data[i].FAKTUR_BARANG_QUANTITY + "</td>" +
+                            "<td>" + number_format(harga) + "</td>" +
                             "</tr>");
                     }
                 }
@@ -268,12 +325,12 @@ if (empty($this->uri->segment('4'))) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/distribusi/surat_jalan/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/penjualan/faktur/hapus/' + id,
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            Swal.fire('Berhasil', 'Jenis Barang Berhasil dihapus', 'success')
-                            barang_list()
+                            Swal.fire('Berhasil', '', 'success')
+                            surat_jalan_list()
                         }
                     },
                     error: function(x, e) {

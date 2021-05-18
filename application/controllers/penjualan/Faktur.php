@@ -54,6 +54,14 @@ class Faktur extends CI_Controller
         echo json_encode($data);
     }
 
+    public function barang_list()
+    {
+        $id = $this->uri->segment('4');
+        $relasi = $_GET['relasi'];
+        $data = $this->FakturModel->barang_list($id, $relasi);
+        echo json_encode($data);
+    }
+
     public function surat_jalan()
     {
         $relasi = $_GET['relasi'];
