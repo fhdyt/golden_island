@@ -23,11 +23,11 @@
                 <div class="col-2 text-right">
                     <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= detail_perusahaan()[0]->PERUSAHAAN_KODE; ?>.png" height="90px" alt="">
                 </div>
-                <div class="col-8">
+                <div class="col-8 invoice-col">
                     <address>
                         <h2><b><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></b></h2>
-                        <b><?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?><br>
-                            Telp : <?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?></b>
+                        <?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?><br>
+                        Telp : <?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?>
                     </address>
                 </div>
                 <div class="col-2 text-left">
@@ -46,10 +46,11 @@
             <div class="row invoice-info">
                 <div class="col-sm-6 invoice-col">
                     Kepada :
+                    <hr>
                     <address>
                         <strong><?= $supplier[0]->MASTER_SUPPLIER_NAMA; ?></strong><br>
                         <?= $supplier[0]->MASTER_SUPPLIER_ALAMAT; ?><br>
-                        <?= $supplier[0]->MASTER_SUPPLIER_HP; ?><br>
+                        Telp : <?= $supplier[0]->MASTER_SUPPLIER_HP; ?><br>
                     </address>
                 </div>
                 <!-- /.col -->
@@ -119,13 +120,17 @@
             <!-- /.row -->
             <hr>
             <div class="row invoice-info">
-                <div class="col-sm-9 invoice-col">
+                <div class="col-sm-12 invoice-col">
                     <?= $this->lang->line('keterangan'); ?>
                     <address>
                         <?php echo nl2br($detail[0]->PEMBELIAN_KETERANGAN); ?>
                     </address>
                 </div>
-                <div class="col-3 text-center">
+            </div>
+            <div class="row invoice-info">
+                <div class="col-6 text-center">
+                </div>
+                <div class="col-6 text-center">
                     <p>Dibuat oleh :</p>
                     <br>
                     <br>

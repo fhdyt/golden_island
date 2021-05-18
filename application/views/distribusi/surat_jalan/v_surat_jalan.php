@@ -63,16 +63,18 @@
                     for (i = 0; i < data.length; i++) {
                         if (data[i].SURAT_JALAN_STATUS == "close") {
                             var status = "<span class='float-left badge bg-danger'>Close</span>"
-                            var btn_cetak = "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
                         } else {
                             var status = "<span class='float-left badge bg-success'>Open</span>"
-                            var btn_cetak = ""
                         }
 
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                             var riwayat_status = "<span class='float-left badge bg-danger'>Belum Teralisasi</span>"
+                            var btn_cetak = ""
+
                         } else {
                             var riwayat_status = "<span class='float-left badge bg-success'>Telah terealisasi</span>"
+                            var btn_cetak = "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
+
                         }
 
                         if (data[i].RELASI == "") {

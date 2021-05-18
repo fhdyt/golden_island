@@ -69,8 +69,12 @@
 
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                             var riwayat_status = "<span class='float-left badge bg-danger'>Belum Teralisasi</span>"
+                            var btn_cetak = ""
+
                         } else {
                             var riwayat_status = "<span class='float-left badge bg-success'>Telah terealisasi</span>"
+                            var btn_cetak = "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
+
                         }
 
 
@@ -85,6 +89,7 @@
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "</td>" +
                             "<td>" + supplier + "</td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
+                            btn_cetak +
                             "</td>" +
                             "</tr>");
                     }

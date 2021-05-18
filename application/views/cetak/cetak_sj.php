@@ -23,11 +23,11 @@
                 <div class="col-2 text-right">
                     <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= detail_perusahaan()[0]->PERUSAHAAN_KODE; ?>.png" height="90px" alt="">
                 </div>
-                <div class="col-8">
-                    <h2><b><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></b></h2>
+                <div class="col-8 invoice-col">
                     <address>
-                        <b><?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?><br>
-                            Telp : <?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?></b>
+                        <h2><b><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></b></h2>
+                        <?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?><br>
+                        Telp : <?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?>
                     </address>
                 </div>
                 <div class="col-2 text-left">
@@ -38,7 +38,14 @@
             <!-- info row -->
             <hr>
             <center>
-                <h3><b>Surat Jalan</b></h3>
+                <?php
+                if ($detail[0]->SURAT_JALAN_JENIS == "penjualan") {
+                    $jenis = "Penjualan";
+                } else {
+                    $jenis = "Pembelian";
+                }
+                ?>
+                <h3><b>Surat Jalan <?= $jenis; ?></b></h3>
                 <h4>No. <?= $detail[0]->SURAT_JALAN_NOMOR; ?></h4>
             </center>
             <br>
@@ -46,16 +53,17 @@
             <div class="row invoice-info">
                 <div class="col-sm-6 invoice-col">
                     Kepada :
+                    <hr>
                     <address>
                         <?php
                         if ($detail[0]->SURAT_JALAN_JENIS == "penjualan") { ?>
                             <strong><?= $relasi[0]->MASTER_RELASI_NAMA; ?></strong><br>
                             <?= $relasi[0]->MASTER_RELASI_ALAMAT; ?><br>
-                            <?= $relasi[0]->MASTER_RELASI_HP; ?><br>
+                            Telp : <?= $relasi[0]->MASTER_RELASI_HP; ?><br>
                         <?php } else { ?>
                             <strong><?= $supplier[0]->MASTER_SUPPLIER_NAMA; ?></strong><br>
                             <?= $supplier[0]->MASTER_SUPPLIER_ALAMAT; ?><br>
-                            <?= $supplier[0]->MASTER_SUPPLIER_HP; ?><br>
+                            Telp : <?= $supplier[0]->MASTER_SUPPLIER_HP; ?><br>
                         <?php }
                         ?>
 

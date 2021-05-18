@@ -88,9 +88,12 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-secondary btn_tabung mb-2">Tambah Tabung</button>
+                            <button type="button" class="btn btn-secondary btn_tabung mb-2 btn-block">Tambah Tabung</button>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-2">
+                            <a target="_blank" href="<?= base_url(); ?>cetak/tabung" class="btn btn-block btn-success mb-2"><i class="fas fa-qrcode"></i> Cetak Qrcode</a>
+                        </div>
+                        <div class="col-md-8">
                             <select name="tabung_filter" id="tabung_filter" class="form-control tabung_filter select2" style="width: 100%;" required>
                                 <option value="">-- Semua --</option>
                                 <?php foreach (tabung() as $row) {

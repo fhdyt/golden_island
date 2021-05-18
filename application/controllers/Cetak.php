@@ -52,4 +52,13 @@ class Cetak extends CI_Controller
 		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
 		$this->load->view('cetak/cetak_sj', $data);
 	}
+
+	public function tabung()
+	{
+		$data['tabung'] = $this->PdfModel->tabung();
+		foreach ($data['tabung'] as $row) {
+			qrcode($row->MASTER_TABUNG_KODE);
+		}
+		$this->load->view('cetak/tabung', $data);
+	}
 }
