@@ -42,7 +42,7 @@ class Cetak extends CI_Controller
 		$id = $this->uri->segment('3');
 		$id_pembelian = $this->uri->segment('4');
 		$data = $this->PdfModel->cetak_po($id, $id_pembelian);
-		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
+		qrcode($data['detail'][0]->PEMBELIAN_NOMOR);
 		$this->load->view('cetak/cetak_po', $data);
 	}
 	public function cetak_sj()
