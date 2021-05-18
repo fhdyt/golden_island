@@ -397,6 +397,26 @@ if (!function_exists('nomor_surat_jalan')) {
     }
   }
 }
+if (!function_exists('nomor_faktur')) {
+  function nomor_faktur($tanggal)
+  {
+    $CI = &get_instance();
+
+    $bulan = date("m", strtotime($tanggal));
+    $tahun = date("y", strtotime($tanggal));
+    $nomor = "FAKTUR/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC ')->result();
+    if (empty($hasil)) {
+      return "0001/FAKTUR/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    } else {
+      $nomor = explode("/", $hasil[0]->SURAT_JALAN_NOMOR);
+      $nomorbaru = $nomor[0] + 1;
+      return sprintf("%04d", $nomorbaru) . "/FAKTUR/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    }
+  }
+}
 if (!function_exists('nomor_pembelian')) {
   function nomor_pembelian($pembelian, $tanggal)
   {

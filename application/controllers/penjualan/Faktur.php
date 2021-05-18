@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Surat_jalan extends CI_Controller
+class Faktur extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Surat_jalan extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('penjualan/Surat_jalanModel');
+        $this->load->model('penjualan/FakturModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,59 +30,59 @@ class Surat_jalan extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('penjualan/surat_jalan/v_surat_jalan');
+        $this->load->view('penjualan/faktur/v_faktur');
         $this->load->view('_template/footer');
     }
     public function form()
     {
         $this->load->view('_template/header');
-        $this->load->view('penjualan/surat_jalan/v_form');
+        $this->load->view('penjualan/faktur/v_form');
         $this->load->view('_template/footer');
     }
 
-    public function detail_jenis_barang()
-    {
-        $jenis = $_GET['jenis'];
-        $data = $this->Surat_jalanModel->detail_jenis_barang($jenis);
-        echo json_encode($data);
-    }
 
     public function list()
     {
-        $data = $this->Surat_jalanModel->list();
+        $data = $this->FakturModel->list();
+        echo json_encode($data);
+    }
+
+    public function surat_jalan_list()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->FakturModel->surat_jalan_list($id);
+        echo json_encode($data);
+    }
+
+    public function surat_jalan()
+    {
+        $relasi = $_GET['relasi'];
+        $data = $this->FakturModel->surat_jalan($relasi);
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->Surat_jalanModel->add();
+        $data = $this->FakturModel->add();
+        echo json_encode($data);
+    }
+    public function add_surat_jalan()
+    {
+        $data = $this->FakturModel->add_surat_jalan();
         echo json_encode($data);
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->hapus($id);
+        $data = $this->FakturModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->detail($id);
-        echo json_encode($data);
-    }
-
-    public function add_barang()
-    {
-        $data = $this->Surat_jalanModel->add_barang();
-        echo json_encode($data);
-    }
-
-    public function list_barang()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->Surat_jalanModel->list_barang($id);
+        $data = $this->FakturModel->detail($id);
         echo json_encode($data);
     }
 }
