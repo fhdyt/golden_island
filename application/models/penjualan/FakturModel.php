@@ -32,7 +32,6 @@ class FakturModel extends CI_Model
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
-
         $this->db->where('FAKTUR_ID', $this->input->post('id'));
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('FAKTUR', $data_edit_aktif);
@@ -43,11 +42,71 @@ class FakturModel extends CI_Model
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
-
         $this->db->where('FAKTUR_ID', $this->input->post('id'));
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('FAKTUR_TRANSAKSI', $data_edit_transaksi);
 
+        $data_edit_piutang = array(
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+        $this->db->where('PIUTANG_REF', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('PIUTANG', $data_edit_piutang);
+
+        $data_edit_buku_besar = array(
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+        $this->db->where('BUKU_BESAR_REF', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
+
+        if (str_replace(".", "", $this->input->post('sisa_bayar')) > 0) {
+            $data_piutang = array(
+                'PIUTANG_REF' => $this->input->post('id'),
+                'PIUTANG_ID' => create_id(),
+                'AKUN_ID' => $this->input->post('akun'),
+                'MASTER_RELASI_ID' => $this->input->post('relasi'),
+                'PIUTANG_TANGGAL' => $this->input->post('tanggal'),
+                'PIUTANG_KREDIT' => str_replace(".", "", $this->input->post('sisa_bayar')),
+                'PIUTANG_DEBET' => "0",
+                'PIUTANG_SUMBER' => "PENJUALAN",
+                'PIUTANG_KETERANGAN' => $this->input->post('keterangan'),
+                'MASTER_RELASI_ID' => $this->input->post('relasi'),
+
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+
+            $this->db->insert('PIUTANG', $data_piutang);
+        }
+
+
+        $data_buku_besar = array(
+            'BUKU_BESAR_ID' => create_id(),
+            'BUKU_BESAR_REF' => $this->input->post('id'),
+            'AKUN_ID' => $this->input->post('akun'),
+            'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
+            'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('sisa_bayar')),
+            'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('sisa_bayar')),
+            'BUKU_BESAR_SUMBER' => "PENJUALAN",
+            'BUKU_BESAR_KETERANGAN' => "",
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->insert('BUKU_BESAR', $data_buku_besar);
 
         $data = array(
             'FAKTUR_ID' => $this->input->post('id'),

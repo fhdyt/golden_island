@@ -57,6 +57,7 @@ $lang["User"] = "Pengguna";
 $lang["Kontrol Tabung"] = "Kontrol Tabung";
 $lang["Buku Besar"] = "Buku Besar";
 $lang["Hutang"] = "Hutang";
+$lang["Piutang"] = "Piutang";
 $lang["Surat Jalan"] = "Surat Jalan";
 $lang["Surat Jalan Penjualan"] = "Surat Jalan Penjualan";
 $lang["Surat Jalan Pembelian"] = "Surat Jalan Pembelian";
