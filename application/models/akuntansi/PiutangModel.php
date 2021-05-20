@@ -2,13 +2,13 @@
 class PiutangModel extends CI_Model
 {
 
-    public function list($relasi, $pi)
+    public function list($relasi)
     {
         $hasil = $this->db->query('SELECT * FROM 
         PIUTANG 
         WHERE MASTER_RELASI_ID="' . $relasi . '" 
         AND NOT (PIUTANG_KREDIT=0 AND PIUTANG_DEBET =0)
-        AND PIUTANG_REF="' . $pi . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PIUTANG_TANGGAL ASC')->result();
+        AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PIUTANG_TANGGAL ASC')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->PIUTANG_TANGGAL);
             $row->SALDO = $row->PIUTANG_DEBET - $row->PIUTANG_KREDIT;
@@ -16,11 +16,10 @@ class PiutangModel extends CI_Model
         return $hasil;
     }
 
-    public function add($relasi, $pi)
+    public function add($relasi)
     {
         $data = array(
             'PIUTANG_ID' => create_id(),
-            'PIUTANG_REF' => $pi,
             'AKUN_ID' => $this->input->post('akun'),
             'PIUTANG_TANGGAL' => $this->input->post('tanggal'),
             'MASTER_RELASI_ID' => $relasi,
@@ -75,12 +74,6 @@ class PiutangModel extends CI_Model
     public function detail($id)
     {
         $hasil = $this->db->query('SELECT * FROM AKUN WHERE AKUN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
-        return $hasil;
-    }
-
-    public function pi_list($id)
-    {
-        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_JENIS="penjualan" AND MASTER_RELASI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         return $hasil;
     }
 }

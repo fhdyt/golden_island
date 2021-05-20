@@ -67,6 +67,12 @@ class FakturModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
 
+        if ($this->input->post('nomor_faktur') == "") {
+            $nomor_faktur = nomor_faktur($this->input->post('tanggal'));
+        } else {
+            $nomor_faktur = $this->input->post('nomor_faktur');
+        }
+
         $barang = $this->db->query('SELECT * FROM 
                                     FAKTUR_BARANG 
                                      WHERE FAKTUR_ID="' . $this->input->post('id') . '" 
@@ -92,10 +98,10 @@ class FakturModel extends CI_Model
                 'AKUN_ID' => $this->input->post('akun'),
                 'MASTER_RELASI_ID' => $this->input->post('relasi'),
                 'PIUTANG_TANGGAL' => $this->input->post('tanggal'),
-                'PIUTANG_KREDIT' => str_replace(".", "", $this->input->post('sisa_bayar')),
-                'PIUTANG_DEBET' => "0",
+                'PIUTANG_KREDIT' => "",
+                'PIUTANG_DEBET' => str_replace(".", "", $this->input->post('sisa_bayar')),
                 'PIUTANG_SUMBER' => "PENJUALAN",
-                'PIUTANG_KETERANGAN' => $this->input->post('keterangan'),
+                'PIUTANG_KETERANGAN' => "PIUTANG " . $nomor_faktur,
                 'MASTER_RELASI_ID' => $this->input->post('relasi'),
 
 
@@ -114,10 +120,10 @@ class FakturModel extends CI_Model
             'BUKU_BESAR_REF' => $this->input->post('id'),
             'AKUN_ID' => $this->input->post('akun'),
             'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
-            'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('sisa_bayar')),
-            'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('sisa_bayar')),
+            'BUKU_BESAR_KREDIT' => "0",
+            'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('bayar')),
             'BUKU_BESAR_SUMBER' => "PENJUALAN",
-            'BUKU_BESAR_KETERANGAN' => "",
+            'BUKU_BESAR_KETERANGAN' => "PENJUALAN " . $nomor_faktur,
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -129,7 +135,7 @@ class FakturModel extends CI_Model
 
         $data = array(
             'FAKTUR_ID' => $this->input->post('id'),
-            'FAKTUR_NOMOR' => nomor_faktur($this->input->post('tanggal')),
+            'FAKTUR_NOMOR' => $nomor_faktur,
             'FAKTUR_TANGGAL' => $this->input->post('tanggal'),
             'FAKTUR_KETERANGAN' => $this->input->post('keterangan'),
             'MASTER_RELASI_ID' => $this->input->post('relasi'),

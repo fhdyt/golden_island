@@ -37,8 +37,7 @@ class Piutang extends CI_Controller
     public function list()
     {
         $relasi = $_GET['relasi'];
-        $pi = $_GET['pi'];
-        $data = $this->PiutangModel->list($relasi, $pi);
+        $data = $this->PiutangModel->list($relasi);
         echo json_encode($data);
     }
 

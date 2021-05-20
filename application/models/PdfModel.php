@@ -54,11 +54,9 @@ class PdfModel extends CI_Model
                                      AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         $hasil['barang'] = $this->db->query('SELECT 
                                             FB.MASTER_BARANG_ID,
-                                            B.MASTER_BARANG_ID,
-                                            SUM(FB.FAKTUR_BARANG_QUANTITY) AS SUM, 
-                                            FB.FAKTUR_BARANG_QUANTITY,
-                                            FB.FAKTUR_BARANG_HARGA,
-                                            B.MASTER_BARANG_NAMA 
+                                            B.MASTER_BARANG_NAMA,
+                                            SUM(FB.FAKTUR_BARANG_QUANTITY) AS SUM,
+                                            FB.FAKTUR_BARANG_HARGA 
                                             FROM 
                                             FAKTUR_BARANG AS FB
                                             LEFT JOIN MASTER_BARANG AS B
@@ -71,10 +69,9 @@ class PdfModel extends CI_Model
                                             GROUP 
                                             BY
                                             FB.MASTER_BARANG_ID,
-                                            B.MASTER_BARANG_ID,
-                                            FB.FAKTUR_BARANG_QUANTITY,
-                                            FB.FAKTUR_BARANG_HARGA,
-                                            B.MASTER_BARANG_NAMA')->result();
+                                            B.MASTER_BARANG_NAMA,
+                                            FB.FAKTUR_BARANG_HARGA')->result();
+        $hasil['transaksi'] = $this->db->query('SELECT * FROM FAKTUR_TRANSAKSI WHERE FAKTUR_ID="' . $id . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         $hasil['relasi'] = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $hasil['detail'][0]->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;

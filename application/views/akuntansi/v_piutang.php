@@ -84,11 +84,6 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <select name="pi" id="pi" class="form-control pi select2" style="width: 100%;" required>
-                                <option value="">-- Nomor Faktur --</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
                             <button type="button" class="btn btn-secondary btn_akun mb-2">Bayar Piutang</button>
                         </div>
                     </div>
@@ -144,7 +139,7 @@
     function piutang_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/akuntansi/piutang/list?relasi=" + $(".relasi").val() + "&pi=" + $(".pi").val() + "",
+            url: "<?php echo base_url() ?>index.php/akuntansi/piutang/list?relasi=" + $(".relasi").val() + "",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -252,36 +247,10 @@
         });
     }
 
-    function pi_list(id) {
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/akuntansi/piutang/pi_list/' + id,
-            beforeSend: function() {
-                memuat()
-            },
-            dataType: 'json',
-            success: function(data) {
-                memuat()
-                $(".pi").empty()
-
-                for (i = 0; i < data.length; i++) {
-                    $(".pi").append("<option value='" + data[i].SURAT_JALAN_ID + "'>" + data[i].SURAT_JALAN_NOMOR + "</option>");
-                }
-                piutang_list()
-
-            },
-            error: function(x, e) {} //end error
-        });
-    }
 
     $('.relasi').change(function() {
         memuat()
         var id = $(".relasi").val()
-        pi_list(id)
-    });
-
-    $('.pi').change(function() {
-        memuat()
-        piutang_list()
+        piutang_list(id)
     });
 </script>

@@ -31,7 +31,7 @@
                     </address>
                 </div>
                 <div class="col-2 text-left">
-                    <!-- <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->SURAT_JALAN_NOMOR); ?>.png" height="90px" /> -->
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="90px" />
                 </div>
                 <!-- /.col -->
             </div>
@@ -85,15 +85,34 @@
                                 <td><?= $no++; ?>.</td>
                                 <td><?= $row->MASTER_BARANG_NAMA; ?></td>
                                 <td><?= $row->SUM; ?></td>
-                                <td><?= number_format($row->FAKTUR_BARANG_HARGA, 0, ",", "."); ?></td>
-                                <td><?= number_format($total, 0, ",", "."); ?></td>
+                                <td>Rp. <?= number_format($row->FAKTUR_BARANG_HARGA, 0, ",", "."); ?></td>
+                                <td align="right">Rp. <?= number_format($total, 0, ",", "."); ?></td>
                             </tr>
                         <?php
                         }
                         ?>
+                    </table>
+                    <table class="table">
                         <tr>
-                            <td colspan="4" align="right">Total</td>
-                            <td><?= number_format($total_rp, 0, ",", "."); ?></td>
+                            <td colspan="5" align="right"><b>Total</b></td>
+                            <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_TOTAL, 0, ",", "."); ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="right"><b>Pajak (<?= $transaksi[0]->FAKTUR_TRANSAKSI_PAJAK; ?>%)</b></td>
+                            <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_PAJAK_RUPIAH, 0, ",", "."); ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="right"><b>Bayar</b></td>
+                            <td align="right">Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="right"><b>Sisa Bayar</b></td>
+                            <td align="right">
+                                <?php
+                                $total = $transaksi[0]->FAKTUR_TRANSAKSI_GRAND_TOTAL - $transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR;
+                                echo "Rp. " . number_format($total, 0, ",", ".");
+                                ?>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -103,12 +122,12 @@
             <hr>
             <div class="row invoice-info">
                 <div class="col-sm-12 invoice-col">
-                    Nomor Surat Jalan
+                    Nomor Surat Jalan :
                     <address>
                         <?php
                         foreach ($surat_jalan as $row) {
                             echo $row->SURAT_JALAN_NOMOR;
-                            echo "<br>";
+                            echo " ; ";
                         }
                         ?>
                     </address>
@@ -116,7 +135,7 @@
             </div>
             <div class="row invoice-info">
                 <div class="col-sm-12 invoice-col">
-                    <?= $this->lang->line('keterangan'); ?>
+                    <?= $this->lang->line('keterangan'); ?> :
                     <address>
                         <?php echo nl2br($detail[0]->FAKTUR_KETERANGAN); ?>
                     </address>
