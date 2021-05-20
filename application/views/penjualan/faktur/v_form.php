@@ -420,11 +420,16 @@ if (empty($this->uri->segment('4'))) {
                     var total_rp = 0
                     var total_qty = 0
                     for (i = 0; i < data.length; i++) {
-                        if (data[i].HARGA.length == 0) {
-                            var harga = "0"
+                        if (data[i].FAKTUR_BARANG_HARGA > 0) {
+                            var harga = data[i].FAKTUR_BARANG_HARGA
                         } else {
-                            var harga = data[i].HARGA[0].MASTER_HARGA_HARGA
+                            if (data[i].HARGA.length == 0) {
+                                var harga = "0"
+                            } else {
+                                var harga = data[i].HARGA[0].MASTER_HARGA_HARGA
+                            }
                         }
+
                         var total = data[i].FAKTUR_BARANG_QUANTITY * harga;
                         total_rp += total
                         total_qty += parseInt(data[i].FAKTUR_BARANG_QUANTITY)

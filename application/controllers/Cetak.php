@@ -61,4 +61,11 @@ class Cetak extends CI_Controller
 		}
 		$this->load->view('cetak/tabung', $data);
 	}
+
+	public function faktur()
+	{
+		$id = $this->uri->segment('3');
+		$data = $this->PdfModel->faktur($id);
+		$this->load->view('cetak/faktur', $data);
+	}
 }

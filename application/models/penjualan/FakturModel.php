@@ -12,6 +12,7 @@ class FakturModel extends CI_Model
         }
         return $hasil;
     }
+
     public function add()
     {
         $hasil = $this->db->query('SELECT * FROM 
@@ -65,6 +66,24 @@ class FakturModel extends CI_Model
         $this->db->where('BUKU_BESAR_REF', $this->input->post('id'));
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
+
+        $barang = $this->db->query('SELECT * FROM 
+                                    FAKTUR_BARANG 
+                                     WHERE FAKTUR_ID="' . $this->input->post('id') . '" 
+                                     AND RECORD_STATUS="AKTIF" 
+                                     AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($barang as $row) {
+            if ($row->FAKTUR_BARANG_HARGA < 1) {
+                $harga = $this->db->query('SELECT * FROM MASTER_HARGA WHERE MASTER_RELASI_ID="' . $this->input->post('relasi') . '" AND MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+
+                $harga_relasi = array(
+                    'FAKTUR_BARANG_HARGA' => $harga[0]->MASTER_HARGA_HARGA,
+                );
+                $this->db->where('FAKTUR_ID', $this->input->post('id'));
+                $this->db->where('RECORD_STATUS', 'AKTIF');
+                $this->db->update('FAKTUR_BARANG', $harga_relasi);
+            }
+        }
 
         if (str_replace(".", "", $this->input->post('sisa_bayar')) > 0) {
             $data_piutang = array(

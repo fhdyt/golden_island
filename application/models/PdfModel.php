@@ -39,4 +39,44 @@ class PdfModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM MASTER_TABUNG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_TABUNG_KODE ')->result();
         return $hasil;
     }
+
+    public function faktur($id)
+    {
+        $hasil['detail'] = $this->db->query('SELECT * FROM FAKTUR WHERE FAKTUR_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['surat_jalan'] = $this->db->query('SELECT * FROM 
+                                    FAKTUR_SURAT_JALAN AS FSJ
+                                    LEFT JOIN SURAT_JALAN AS SJ
+                                    ON FSJ.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                     WHERE FSJ.FAKTUR_ID="' . $id . '" 
+                                     AND FSJ.RECORD_STATUS="AKTIF" 
+                                     AND FSJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                     AND SJ.RECORD_STATUS="AKTIF" 
+                                     AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        $hasil['barang'] = $this->db->query('SELECT 
+                                            FB.MASTER_BARANG_ID,
+                                            B.MASTER_BARANG_ID,
+                                            SUM(FB.FAKTUR_BARANG_QUANTITY) AS SUM, 
+                                            FB.FAKTUR_BARANG_QUANTITY,
+                                            FB.FAKTUR_BARANG_HARGA,
+                                            B.MASTER_BARANG_NAMA 
+                                            FROM 
+                                            FAKTUR_BARANG AS FB
+                                            LEFT JOIN MASTER_BARANG AS B
+                                            ON FB.MASTER_BARANG_ID=B.MASTER_BARANG_ID  
+                                            WHERE FB.FAKTUR_ID="' . $id . '"
+                                            AND FB.RECORD_STATUS="AKTIF" 
+                                            AND FB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                            AND B.RECORD_STATUS="AKTIF" 
+                                            AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                            GROUP 
+                                            BY
+                                            FB.MASTER_BARANG_ID,
+                                            B.MASTER_BARANG_ID,
+                                            FB.FAKTUR_BARANG_QUANTITY,
+                                            FB.FAKTUR_BARANG_HARGA,
+                                            B.MASTER_BARANG_NAMA')->result();
+        $hasil['relasi'] = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $hasil['detail'][0]->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
+    }
 }
