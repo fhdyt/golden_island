@@ -13,8 +13,22 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/dist/css/adminlte.min.css">
 </head>
+<style>
+    @media print {
+        .pagebreak {
+            page-break-before: always;
+        }
+
+        /* page-break-after works, as well */
+    }
+</style>
 
 <body>
+    <?php
+    $no_faktur = explode("/", $detail[0]->FAKTUR_NOMOR);
+    $no_kwitansi = $no_faktur[0] . '/KWT/' . $no_faktur[2] . '/' . $no_faktur[3];
+    $no_tt = $no_faktur[0] . '/TT/' . $no_faktur[2] . '/' . $no_faktur[3];
+    ?>
     <div class="wrapper">
         <!-- Main content -->
         <section class="invoice">
@@ -158,7 +172,184 @@
             </div>
 
 
+
         </section>
+        <div class="pagebreak"> </div>
+        <section class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-2 text-right">
+                    <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= detail_perusahaan()[0]->PERUSAHAAN_KODE; ?>.png" height="90px" alt="">
+                </div>
+                <div class="col-8 invoice-col">
+                    <address>
+                        <h2><b><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></b></h2>
+                        <?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?><br>
+                        Telp : <?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?>
+                    </address>
+                </div>
+                <div class="col-2 text-left">
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="90px" />
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- info row -->
+            <hr>
+            <center>
+                <h3><b>Kwitansi</b></h3>
+                <h4>No. <?= $no_kwitansi; ?></h4>
+            </center>
+            <br>
+            <br>
+            <!-- /.row -->
+
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table" style="font-size:22px">
+                        <tr>
+                            <td>Telah Terima Dari : </td>
+                            <td><strong><?= $relasi[0]->MASTER_RELASI_NAMA; ?></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Uang Sejumlah : </td>
+                            <td><strong><?= ucwords(terbilang($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR)); ?> Rupiah</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Untuk Pembayaran : </td>
+                            <td><strong>Faktur No : <?= $detail[0]->FAKTUR_NOMOR; ?></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Jumlah</td>
+                            <td>
+                                <h3>Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?></h3>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <hr>
+            <div class="row invoice-info">
+                <div class="col-6 text-center">
+
+                </div>
+                <div class="col-6 text-center">
+                    <p><?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->FAKTUR_TANGGAL); ?></p>
+                    <br>
+                    <br>
+                    <br>
+                    <address>
+                        <b><?= $oleh[0]->USER_NAMA; ?></b><br>
+                        <?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?>
+                    </address>
+                </div>
+            </div>
+
+
+
+        </section>
+        <div class="pagebreak"> </div>
+        <section class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-2 text-right">
+                    <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= detail_perusahaan()[0]->PERUSAHAAN_KODE; ?>.png" height="90px" alt="">
+                </div>
+                <div class="col-8 invoice-col">
+                    <address>
+                        <h2><b><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></b></h2>
+                        <?= detail_perusahaan()[0]->PERUSAHAAN_ALAMAT; ?><br>
+                        Telp : <?= detail_perusahaan()[0]->PERUSAHAAN_TELP; ?>
+                    </address>
+                </div>
+                <div class="col-2 text-left">
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="90px" />
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- info row -->
+            <hr>
+            <center>
+                <h3><b>Tanda Terima</b></h3>
+                <h4>No. <?= $no_tt; ?></h4>
+            </center>
+            <br>
+            <br>
+            <div class="row invoice-info">
+                <div class="col-sm-6 invoice-col">
+                    Kepada :
+                    <hr>
+                    <address>
+                        <strong><?= $relasi[0]->MASTER_RELASI_NAMA; ?></strong><br>
+                        <?= $relasi[0]->MASTER_RELASI_ALAMAT; ?><br>
+                        Telp : <?= $relasi[0]->MASTER_RELASI_HP; ?><br>
+                    </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-6 invoice-col text-right">
+                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->FAKTUR_TANGGAL); ?>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table" style="font-size:22px">
+
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama Dokumen</th>
+                            <th>Keterangan</th>
+                        </tr>
+                        <tr>
+                            <th>1.</th>
+                            <th>Faktur <?= $detail[0]->FAKTUR_NOMOR; ?></th>
+                            <th><strong>Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?></strong></th>
+                        </tr>
+                        <tr>
+                            <th>2.</th>
+                            <th>Kwitansi <?= $no_kwitansi; ?></th>
+                            <th><strong>ASLI</strong></th>
+                        </tr>
+
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <hr>
+
+            <div class="row invoice-info">
+                <div class="col-6 text-center">
+                    <p>Diserahkan oleh :</p>
+                    <br>
+                    <br>
+                    <br>
+                    <address>
+                        <b><?= $oleh[0]->USER_NAMA; ?></b><br>
+                        <?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?>
+                    </address>
+                </div>
+                <div class="col-6 text-center">
+                    <p>Diterima oleh :</p>
+                    <br>
+                    <br>
+                    <br>
+                    <address>
+                        <b>(.............................)</b><br>
+                        <?= $relasi[0]->MASTER_RELASI_NAMA; ?>
+                    </address>
+                </div>
+            </div>
+
+
+
+        </section>
+        <div class="pagebreak"> </div>
         <!-- /.content -->
     </div>
     <!-- ./wrapper -->

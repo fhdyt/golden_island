@@ -15,6 +15,7 @@ class FakturModel extends CI_Model
 
     public function add()
     {
+
         $hasil = $this->db->query('SELECT * FROM 
         FAKTUR_SURAT_JALAN
         WHERE FAKTUR_ID="' . $this->input->post('id') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
@@ -86,6 +87,7 @@ class FakturModel extends CI_Model
                     'FAKTUR_BARANG_HARGA' => $harga[0]->MASTER_HARGA_HARGA,
                 );
                 $this->db->where('FAKTUR_ID', $this->input->post('id'));
+                $this->db->where('MASTER_BARANG_ID', $row->MASTER_BARANG_ID);
                 $this->db->where('RECORD_STATUS', 'AKTIF');
                 $this->db->update('FAKTUR_BARANG', $harga_relasi);
             }

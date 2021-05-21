@@ -66,8 +66,8 @@
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].FAKTUR_NOMOR + "</td>" +
                             "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>penjualan/faktur/form/" + data[i].FAKTUR_ID + "?jenis_sj=penjualan'>Lihat</a> " +
-                            "<a target='_blank' class='btn btn-success btn-sm' href='<?= base_url(); ?>cetak/faktur/" + data[i].FAKTUR_ID + "'> <i class='right fas fa-print'></i> Cetak</a>" +
+                            "<td><a class='btn btn-primary btn-sm mb-2 ' href='<?= base_url(); ?>penjualan/faktur/form/" + data[i].FAKTUR_ID + "?jenis_sj=penjualan'>Lihat</a> " +
+                            "<a target='_blank' class='btn btn-success btn-sm mb-2' onclick='cetak(\"" + data[i].FAKTUR_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
                             "</td>" +
                             "</tr>");
                     }
@@ -77,5 +77,9 @@
                 console.log("Gagal")
             }
         });
+    }
+
+    function cetak(id) {
+        window.open('<?= base_url(); ?>cetak/faktur/' + id + '');
     }
 </script>

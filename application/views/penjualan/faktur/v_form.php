@@ -218,7 +218,7 @@ if (empty($this->uri->segment('4'))) {
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" class="form-control bayar" name="bayar" onkeyup="kalkulasi_seluruh()">
+                                                    <input type="text" class="form-control bayar" name="bayar" onkeyup="kalkulasi_seluruh()" required>
                                                 </div>
                                             </div>
                                         </div>

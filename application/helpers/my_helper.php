@@ -407,13 +407,13 @@ if (!function_exists('nomor_faktur')) {
     $nomor = "FAKTUR/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
 
     $CI->load->database();
-    $hasil = $CI->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC ')->result();
+    $hasil = $CI->db->query('SELECT * FROM FAKTUR WHERE FAKTUR_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY FAKTUR_NOMOR DESC ')->result();
     if (empty($hasil)) {
-      return "0001/FAKTUR/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+      return "0001/INV/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
     } else {
-      $nomor = explode("/", $hasil[0]->SURAT_JALAN_NOMOR);
+      $nomor = explode("/", $hasil[0]->FAKTUR_NOMOR);
       $nomorbaru = $nomor[0] + 1;
-      return sprintf("%04d", $nomorbaru) . "/FAKTUR/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+      return sprintf("%04d", $nomorbaru) . "/INV/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
     }
   }
 }
