@@ -21,11 +21,12 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th><?= $this->lang->line('nama'); ?></th>
-                                <th><?= $this->lang->line('Tanggal'); ?></th>
+                                <th>Tanggal</th>
                                 <th>Nomor Surat Jalan</th>
-                                <th><?= $this->lang->line('Relasi'); ?></th>
-                                <th><?= $this->lang->line('Supplier'); ?></th>
+                                <th>Nama Driver</th>
+                                <th>Nama Relasi</th>
+                                <th>Nama Supplier</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
@@ -62,47 +63,38 @@
                     var no = 1
                     console.log(data)
                     for (i = 0; i < data.length; i++) {
-                        if (data[i].SURAT_JALAN.length < 1) {
-                            var btn_realisasi = "<span class='float-left badge bg-danger'>Tidak ada Surat Jalan</span>"
+                        if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
+                            var realisasi_id = "<?= create_id(); ?>"
+                            var status = ""
                         } else {
-                            if (data[i].SURAT_JALAN[0].SURAT_JALAN_REALISASI_STATUS != "selesai") {
-                                var realisasi_id = "<?= create_id(); ?>"
-                            } else {
-                                var realisasi_id = data[i].SURAT_JALAN[0].REALISASI_ID
-                            }
-                            var btn_realisasi = "<a href='<?php base_url(); ?>realisasi_sj/form/" + data[i].MASTER_KARYAWAN_ID + "?realisasi_id=" + realisasi_id + "'>Realisasi</a>"
+                            var realisasi_id = data[i].REALISASI_ID
+                            var status = "Realisasi Selesai, Menunggu Faktur..."
+                        }
+                        var btn_realisasi = "<a class='btn btn-success btn-sm' href='<?php base_url(); ?>realisasi_sj/form/" + data[i].SURAT_JALAN_ID + "'>Realisasi</a>"
+
+                        if (data[i].RELASI == "") {
+                            var relasi = "-"
+                        } else {
+                            var relasi = data[i].RELASI[0].MASTER_RELASI_NAMA
+                        }
+                        if (data[i].SUPPLIER == "") {
+                            var supplier = "-"
+                        } else {
+                            var supplier = data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA
                         }
 
 
-                        var rowspan = 0;
-                        var detailLength = data[i].SURAT_JALAN.length;
-                        rowspan += detailLength;
-                        tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].MASTER_KARYAWAN_NAMA + "<br>" + btn_realisasi + "</td></tr>";
-
-                        var surat_jalanLength = 0;
-                        for (var j = 0; j < detailLength; j++) {
-
-
-                            if (data[i].SURAT_JALAN[j].RELASI == "") {
-                                var relasi = "-"
-                            } else {
-                                var relasi = data[i].SURAT_JALAN[j].RELASI[0].MASTER_RELASI_NAMA
-                            }
-                            if (data[i].SURAT_JALAN[j].SUPPLIER == "") {
-                                var supplier = "-"
-                            } else {
-                                var supplier = data[i].SURAT_JALAN[j].SUPPLIER[0].MASTER_SUPPLIER_NAMA
-                            }
-                            tableContent += "<tr>" +
-                                "<td rowspan=" + parseInt(1 + surat_jalanLength) + ">" + data[i].SURAT_JALAN[j].TANGGAL + "</td>" +
-                                "<td rowspan=" + parseInt(1 + surat_jalanLength) + ">" + data[i].SURAT_JALAN[j].SURAT_JALAN_NOMOR + "</td>" +
-                                "<td rowspan=" + parseInt(1 + surat_jalanLength) + ">" + relasi + "</td>" +
-                                "<td rowspan=" + parseInt(1 + surat_jalanLength) + ">" + supplier + "</td>" +
-                                "</tr>";
-                        }
+                        $("tbody#zone_data").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small class+'text-muted'>" + status + "</small></td>" +
+                            "<td>" + data[i].MASTER_KARYAWAN_NAMA + "</td>" +
+                            "<td>" + relasi + "</td>" +
+                            "<td>" + supplier + "</td>" +
+                            "<td>" + btn_realisasi + "" +
+                            "</td>" +
+                            "</tr>");
                     }
-                    $("tbody#zone_data").append(tableContent);
                 }
             },
             error: function(x, e) {

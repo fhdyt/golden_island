@@ -58,49 +58,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-<div class="modal fade" id="barangmrModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Tambah Tabung MR</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="submit_barang_mr">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Jenis</label>
-                        <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;" required>
-                            <option value="">-- Jenis --</option>
-
-                            <?php
-                            foreach (tabung() as $row) {
-                            ?>
-                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Jumlah Tabung</label>
-                        <input type="text" class="form-control jumlah" name="jumlah" id="jumlah" value="" autocomplete="off">
-                    </div>
-
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -110,7 +67,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h1 class="m-0">Realisasi</h1>
-                    <p class="surat_jalan_nomor">Loading...</p>
+                    <p class="driver_nama">Loading...</p>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -120,6 +77,7 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off" value="<?= $_GET['realisasi_id']; ?>">
             <div class="card card-primary card-outline card-outline-tabs">
 
                 <div class="card-header p-0 border-bottom-0">
@@ -128,19 +86,13 @@
                             <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Surat Jalan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Tabung MP</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-mr-tab" data-toggle="pill" href="#custom-tabs-four-mr" role="tab" aria-controls="custom-tabs-four-mr" aria-selected="false">Tabung MR</a>
+                            <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Detail Tabung</a>
                         </li>
                     </ul>
                 </div>
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-four-tabContent">
                         <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
-                            <input type="hidden" class="form-control total_tabung_sj" name="total_tabung_sj" id="total_tabung_sj" value="" autocomplete="off">
-                            <input type="hidden" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
-                            <input type="hidden" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -166,12 +118,11 @@
                             </table>
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-secondary btn_barang mb-2">Tambah Tabung</button>
-                                </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-secondary btn_barang mb-2">Tambah Tabung</button>
                             </div>
+                            <input type="hidden" class="form-control total_tabung_sj" name="total_tabung_sj" id="total_tabung_sj" value="" autocomplete="off">
+                            <input type="hidden" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -187,27 +138,6 @@
                                 <tfoot id="total_data_realisasi">
 
                                 </tfoot>
-                            </table>
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-four-mr" role="tabpanel" aria-labelledby="custom-tabs-four-mr-tab">
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-secondary btn_barang_mr mb-2">Tambah Tabung</button>
-                                </div>
-                            </div>
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Jumlah</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="zone_data_realisasi_mr">
-                                    <tr>
-                                    </tr>
-                                </tbody>
                             </table>
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
@@ -238,9 +168,9 @@
 <script>
     $(".btn_barang").on("click", function() {
         var total_tabung_sj = $(".total_tabung_sj").val()
-        var total_realisasi = parseInt($(".total_realisasi").val())
-        var total_tabung_mr = parseInt($(".total_tabung_mr").val())
-        if (total_tabung_sj == (total_realisasi + total_tabung_mr)) {
+        var total_realisasi = $(".total_realisasi").val()
+
+        if (total_tabung_sj == total_realisasi) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -253,35 +183,16 @@
         }
 
     })
-
-    $(".btn_barang_mr").on("click", function() {
-        var total_tabung_sj = $(".total_tabung_sj").val()
-        var total_realisasi = parseInt($(".total_realisasi").val())
-        var total_tabung_mr = parseInt($(".total_tabung_mr").val())
-        if (total_tabung_sj == (total_realisasi + total_tabung_mr)) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Tidak dapat menambah tabung.'
-            })
-        } else {
-            $("#barangmrModal").modal("show")
-
-        }
-
-
-    })
     $(function() {
+        surat_jalan_list();
         realisasi_list()
-        realisasi_mr_list()
-        surat_jalan_list()
-        detail()
+        detail_driver()
     });
 
     function surat_jalan_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi?surat_jalan_id=<?= $this->uri->segment("4"); ?>",
+            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi?driver=<?= $this->uri->segment("4"); ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -331,7 +242,7 @@
     function realisasi_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi_tabung?surat_jalan_id=<?= $this->uri->segment('4'); ?>",
+            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi_tabung?realisasi_id=<?= $_GET['realisasi_id']; ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -347,7 +258,6 @@
                     for (i = 0; i < data.length; i++) {
                         $("tbody#zone_data_realisasi").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_TABUNG_KODE + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].REALISASI_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
 
@@ -362,38 +272,23 @@
         });
     }
 
-    function realisasi_mr_list() {
+    function detail_driver() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi_tabung_mr?surat_jalan_id=<?= $this->uri->segment('4'); ?>",
+            url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/detail_driver?driver=<?= $this->uri->segment("4"); ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
-                $("tbody#zone_data_realisasi_mr").empty();
-                console.log(data)
-                if (data.length === 0) {
-                    $("tbody#zone_data_realisasi_mr").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
-                    $(".total_tabung_mr").val("0")
+                if (data.length == 0) {
+                    console.log(data)
                 } else {
-                    var no = 1
-                    var total_tabung_mr = 0
-
-                    for (i = 0; i < data.length; i++) {
-                        total_tabung_mr += parseInt(data[i].REALISASI_BARANG_MR_JUMLAH)
-                        $("tbody#zone_data_realisasi_mr").append("<tr class=''>" +
-                            "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + data[i].REALISASI_BARANG_MR_JUMLAH + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus_mr(\"" + data[i].REALISASI_BARANG_MR_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
-
-                            "</tr>");
-                    }
-                    $(".total_tabung_mr").val(total_tabung_mr)
+                    console.log(data)
+                    $("p.driver_nama").html(data[0].MASTER_KARYAWAN_NAMA)
                 }
+
+
             },
-            error: function(x, e) {
-                console.log("Gagal")
-            }
+            error: function(x, e) {} //end error
         });
     }
 
@@ -422,9 +317,8 @@
 
     $('.btn-realisasi').on("click", function(e) {
         var total_tabung_sj = $(".total_tabung_sj").val()
-        var total_realisasi = parseInt($(".total_realisasi").val())
-        var total_tabung_mr = parseInt($(".total_tabung_mr").val())
-        if (total_tabung_sj == (total_realisasi + total_tabung_mr)) {
+        var total_realisasi = $(".total_realisasi").val()
+        if (total_tabung_sj == total_realisasi) {
             $.ajax({
                 type: "POST",
                 url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add',
@@ -433,9 +327,9 @@
                     memuat()
                 },
                 data: {
-                    surat_jalan_id: "<?= $this->uri->segment('4'); ?>",
+                    id_realisasi: "<?= $_GET['realisasi_id']; ?>",
+                    id_driver: "<?= $this->uri->segment('4'); ?>",
                     total_realisasi: total_realisasi,
-                    total_tabung_mr: total_tabung_mr,
                 },
                 success: function(data) {
                     memuat()
@@ -453,7 +347,7 @@
     $('#submit_barang').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
+            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang?realisasi_id=<?= $_GET['realisasi_id']; ?>',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -464,26 +358,6 @@
             },
             success: function(data) {
                 realisasi_list()
-                memuat()
-                Swal.fire('Berhasil', '', 'success')
-                $("#barangModal").modal("hide")
-            }
-        });
-    })
-    $('#submit_barang_mr').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang_mr?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                realisasi_mr_list()
                 memuat()
                 Swal.fire('Berhasil', '', 'success')
                 $("#barangModal").modal("hide")
@@ -528,43 +402,6 @@
         })
     }
 
-    function hapus_mr(id) {
-        console.log(id)
-        Swal.fire({
-            title: '<?= $this->lang->line('hapus'); ?> ?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/hapus_mr/' + id,
-                    beforeSend: function() {
-                        memuat()
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.length === 0) {} else {
-                            realisasi_mr_list()
-                            memuat()
-                            Swal.fire('Berhasil', 'Berhasil dihapus', 'success')
-                        }
-                    },
-                    error: function(x, e) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Proses Gagal'
-                        })
-                    } //end error
-                });
-
-            }
-        })
-    }
-
     $('.jenis').change(function() {
         jenis_tabung()
         tambah_tabung_baru()
@@ -580,22 +417,5 @@
         } else {
             $("div.tambah_baru").attr("hidden", true)
         }
-    }
-
-    function detail() {
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/detail/<?= $this->uri->segment("4"); ?>',
-            async: false,
-            dataType: 'json',
-            success: function(data) {
-                if (data.length == 0) {} else {
-                    $("p.surat_jalan_nomor").html(data[0].SURAT_JALAN_NOMOR)
-                }
-
-
-            },
-            error: function(x, e) {} //end error
-        });
     }
 </script>

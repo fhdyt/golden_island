@@ -99,8 +99,8 @@
                                 <td><?= $no++; ?>.</td>
                                 <td><?= $row->MASTER_BARANG_NAMA; ?></td>
                                 <td><?= $row->SUM; ?></td>
-                                <td>Rp. <?= number_format($row->FAKTUR_BARANG_HARGA, 0, ",", "."); ?></td>
-                                <td align="right">Rp. <?= number_format($total, 0, ",", "."); ?></td>
+                                <td>Rp. <?= number_format($row->FAKTUR_BARANG_HARGA, 0, ",", "."); ?>,00</td>
+                                <td align="right">Rp. <?= number_format($total, 0, ",", "."); ?>,00</td>
                             </tr>
                         <?php
                         }
@@ -109,15 +109,15 @@
                     <table class="table">
                         <tr>
                             <td colspan="5" align="right"><b>Total</b></td>
-                            <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_TOTAL, 0, ",", "."); ?></td>
+                            <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_TOTAL, 0, ",", "."); ?>,00</td>
                         </tr>
                         <tr>
                             <td colspan="5" align="right"><b>Pajak (<?= $transaksi[0]->FAKTUR_TRANSAKSI_PAJAK; ?>%)</b></td>
-                            <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_PAJAK_RUPIAH, 0, ",", "."); ?></td>
+                            <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_PAJAK_RUPIAH, 0, ",", "."); ?>,00</td>
                         </tr>
                         <tr>
                             <td colspan="5" align="right"><b>Bayar</b></td>
-                            <td align="right">Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?></td>
+                            <td align="right">Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?>,00</td>
                         </tr>
                         <tr>
                             <td colspan="5" align="right"><b>Sisa Bayar</b></td>
@@ -222,7 +222,7 @@
                         <tr>
                             <td>Jumlah</td>
                             <td>
-                                <h3>Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?></h3>
+                                <h3>Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?>,00</h3>
                             </td>
                         </tr>
                     </table>
@@ -308,7 +308,7 @@
                         <tr>
                             <th>1.</th>
                             <th>Faktur <?= $detail[0]->FAKTUR_NOMOR; ?></th>
-                            <th><strong>Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?></strong></th>
+                            <th><strong>Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?>,00</strong></th>
                         </tr>
                         <tr>
                             <th>2.</th>
@@ -340,7 +340,7 @@
                     <br>
                     <br>
                     <address>
-                        <b>(.............................)</b><br>
+                        <b>( ............................. )</b><br>
                         <?= $relasi[0]->MASTER_RELASI_NAMA; ?>
                     </address>
                 </div>

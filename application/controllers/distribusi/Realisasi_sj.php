@@ -49,22 +49,21 @@ class Realisasi_sj extends CI_Controller
 
     public function list_realisasi()
     {
-        $driver_id = $_GET['driver'];
-        $data = $this->Realisasi_sjModel->list_realisasi($driver_id);
+        $surat_jalan_id = $_GET['surat_jalan_id'];
+        $data = $this->Realisasi_sjModel->list_realisasi($surat_jalan_id);
         echo json_encode($data);
     }
 
     public function list_realisasi_tabung()
     {
-        $id_realisasi = $_GET['realisasi_id'];
-        $data = $this->Realisasi_sjModel->list_realisasi_tabung($id_realisasi);
+        $surat_jalan_id = $_GET['surat_jalan_id'];
+        $data = $this->Realisasi_sjModel->list_realisasi_tabung($surat_jalan_id);
         echo json_encode($data);
     }
-
-    public function detail_driver()
+    public function list_realisasi_tabung_mr()
     {
-        $driver_id = $_GET['driver'];
-        $data = $this->Realisasi_sjModel->detail_driver($driver_id);
+        $surat_jalan_id = $_GET['surat_jalan_id'];
+        $data = $this->Realisasi_sjModel->list_realisasi_tabung_mr($surat_jalan_id);
         echo json_encode($data);
     }
 
@@ -82,8 +81,14 @@ class Realisasi_sj extends CI_Controller
     }
     public function add_barang()
     {
-        $realisasi_id = $_GET['realisasi_id'];
-        $data = $this->Realisasi_sjModel->add_barang($realisasi_id);
+        $surat_jalan_id = $_GET['surat_jalan_id'];
+        $data = $this->Realisasi_sjModel->add_barang($surat_jalan_id);
+        echo json_encode($data);
+    }
+    public function add_barang_mr()
+    {
+        $surat_jalan_id = $_GET['surat_jalan_id'];
+        $data = $this->Realisasi_sjModel->add_barang_mr($surat_jalan_id);
         echo json_encode($data);
     }
 
@@ -91,6 +96,12 @@ class Realisasi_sj extends CI_Controller
     {
         $id = $this->uri->segment('4');
         $data = $this->Realisasi_sjModel->hapus($id);
+        echo json_encode($data);
+    }
+    public function hapus_mr()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->Realisasi_sjModel->hapus_mr($id);
         echo json_encode($data);
     }
 
