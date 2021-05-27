@@ -172,6 +172,10 @@
                                 <th>Saldo</th>
                             </tr>
                         </thead>
+                        <tbody id="zone_saldo_awal">
+                            <tr>
+                            </tr>
+                        </tbody>
                         <tbody id="zone_data">
                             <tr>
                             </tr>
@@ -231,10 +235,11 @@
                 tanggal_sampai: $('.tanggal_sampai').val(),
             },
             success: function(data) {
+                $("tbody#zone_saldo_awal").empty();
                 $("tbody#zone_data").empty();
                 memuat()
                 console.log(data)
-                if (data.length === 0) {
+                if (data.data.length === 0) {
 
                     if ($(".akun").val() == "") {
                         $("tbody#zone_data").append("<td colspan='10'>Silahkan pilih Jenis Akun terlebih dahulu.</td>")
@@ -244,21 +249,32 @@
 
                 } else {
                     var no = 1
-                    var saldo = 0
-                    for (i = 0; i < data.length; i++) {
-                        saldo += data[i].SALDO
+                    if (data['saldo_awal'] == "") {
+                        var saldo_awal = 0
+                    } else {
+                        var saldo_awal = parseInt(data['saldo_awal'][0].DEBET) - parseInt(data['saldo_awal'][0].KREDIT)
+                    }
+                    // var saldo_awal = parseInt(data['saldo_awal'][0].DEBET) - parseInt(data['saldo_awal'][0].KREDIT)
+                    console.log(saldo_awal)
+                    $("tbody#zone_saldo_awal").append("<tr class=''>" +
+                        "<td colspan='5'style='text-align:center; vertical-align:middle;'><b>Saldo Awal</b></td>" +
+                        "<td>" + number_format(saldo_awal) + "</td>" +
+                        "</tr>");
+                    var saldo = 0 + parseInt(saldo_awal)
+                    for (i = 0; i < data['data'].length; i++) {
+                        saldo += data['data'][i].SALDO
 
-                        if (data[i].BUKU_BESAR_REF == "") {
-                            var btn_hapus = "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].BUKU_BESAR_ID + "\")'><i class='fas fa-trash'></i></a></td>"
+                        if (data['data'][i].BUKU_BESAR_REF == "") {
+                            var btn_hapus = "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['data'][i].BUKU_BESAR_ID + "\")'><i class='fas fa-trash'></i></a></td>"
                         } else {
                             var btn_hapus = ""
                         }
                         $("tbody#zone_data").append("<tr class=''>" +
-                            "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].BUKU_BESAR_KETERANGAN + "</td>" +
-                            "<td>" + data[i].BUKU_BESAR_SUMBER + "</td>" +
-                            "<td>" + number_format(data[i].BUKU_BESAR_DEBET) + "</td>" +
-                            "<td>" + number_format(data[i].BUKU_BESAR_KREDIT) + "</td>" +
+                            "<td>" + data['data'][i].TANGGAL + "</td>" +
+                            "<td>" + data['data'][i].BUKU_BESAR_KETERANGAN + "</td>" +
+                            "<td>" + data['data'][i].BUKU_BESAR_SUMBER + "</td>" +
+                            "<td>" + number_format(data['data'][i].BUKU_BESAR_DEBET) + "</td>" +
+                            "<td>" + number_format(data['data'][i].BUKU_BESAR_KREDIT) + "</td>" +
                             "<td>" + number_format(saldo) + "</td>" +
                             btn_hapus +
                             "</tr>");

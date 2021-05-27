@@ -30,14 +30,40 @@ class Piutang extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('akuntansi/v_piutang');
+        $this->load->view('akuntansi/piutang/v_piutang');
         $this->load->view('_template/footer');
     }
 
-    public function list()
+    public function list_hutang()
     {
-        $relasi = $_GET['relasi'];
-        $data = $this->PiutangModel->list($relasi);
+        $relasi = $_GET['id'];
+        $data = $this->PiutangModel->list_hutang($relasi);
+        echo json_encode($data);
+    }
+    public function list_pembayaran()
+    {
+        $relasi = $_GET['id'];
+        $data = $this->PiutangModel->list_pembayaran($relasi);
+        echo json_encode($data);
+    }
+
+    public function hutang()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('akuntansi/piutang/v_hutang');
+        $this->load->view('_template/footer');
+    }
+
+    public function pembayaran()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('akuntansi/piutang/v_pembayaran');
+        $this->load->view('_template/footer');
+    }
+
+    public function relasi_list()
+    {
+        $data = $this->PiutangModel->relasi_list();
         echo json_encode($data);
     }
 

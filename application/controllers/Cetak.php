@@ -83,4 +83,12 @@ class Cetak extends CI_Controller
 		qrcode($data['detail'][0]->FAKTUR_NOMOR);
 		$this->load->view('cetak/tt', $data);
 	}
+
+	// public function member()
+	// {
+	// 	for ($x = 0; $x <= 100; $x++) {
+	// 		$id = "BGS-R" . sprintf("%04d", $x);
+	// 		qrcode($id);
+	// 	}
+	// }
 }

@@ -2,16 +2,68 @@
 class PiutangModel extends CI_Model
 {
 
-    public function list($relasi)
+    public function relasi_list()
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        MASTER_RELASI 
+        WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_RELASI_NAMA')->result();
+        foreach ($hasil as $row) {
+            $kredit = $this->db->query('SELECT SUM(PIUTANG_KREDIT) AS KREDIT
+                                        FROM PIUTANG 
+                                        WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+
+            $debet = $this->db->query('SELECT SUM(PIUTANG_DEBET) AS DEBET
+                                        FROM PIUTANG 
+                                        WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+
+            $row->SALDO = $kredit[0]->KREDIT - $debet[0]->DEBET;
+        }
+        return $hasil;
+    }
+
+    public function list_hutang($relasi)
     {
         $hasil = $this->db->query('SELECT * FROM 
         PIUTANG 
         WHERE MASTER_RELASI_ID="' . $relasi . '" 
-        AND NOT (PIUTANG_KREDIT=0 AND PIUTANG_DEBET =0)
+        AND PIUTANG_DEBET>0 AND PIUTANG_KREDIT=0
+        AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PIUTANG_TANGGAL ASC')->result();
+
+        $kredit = $this->db->query('SELECT SUM(PIUTANG_KREDIT) AS KREDIT
+                                        FROM PIUTANG 
+                                        WHERE MASTER_RELASI_ID="' . $relasi . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+        $pembayaran = $kredit[0]->KREDIT;
+        foreach ($hasil as $row) {
+            $pembayaran = $pembayaran - $row->PIUTANG_DEBET;
+            if ($pembayaran >= 0) {
+                $row->STATUS = "CORET";
+                $row->PEMBAYARAN = "0";
+            } else {
+                $row->STATUS = "TIDAK";
+                $row->PEMBAYARAN = $pembayaran;
+            }
+            $row->TANGGAL = tanggal($row->PIUTANG_TANGGAL);
+        }
+        return $hasil;
+    }
+    public function list_pembayaran($relasi)
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        PIUTANG 
+        WHERE MASTER_RELASI_ID="' . $relasi . '" 
+        AND PIUTANG_KREDIT>0 AND PIUTANG_DEBET=0
         AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PIUTANG_TANGGAL ASC')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->PIUTANG_TANGGAL);
-            $row->SALDO = $row->PIUTANG_DEBET - $row->PIUTANG_KREDIT;
         }
         return $hasil;
     }
@@ -22,7 +74,7 @@ class PiutangModel extends CI_Model
             'PIUTANG_ID' => create_id(),
             'AKUN_ID' => $this->input->post('akun'),
             'PIUTANG_TANGGAL' => $this->input->post('tanggal'),
-            'MASTER_RELASI_ID' => $relasi,
+            'MASTER_RELASI_ID' => $this->input->post('id'),
             'PIUTANG_KREDIT' => str_replace(".", "", $this->input->post('rupiah')),
             'PIUTANG_DEBET' => "0",
             'PIUTANG_SUMBER' => "PENJUALAN",
