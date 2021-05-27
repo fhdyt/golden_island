@@ -27,14 +27,14 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jumlah Tabung</label>
-                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" value="1">
+                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" value="1" readonly>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Kode Tabung</label>
                         <input type="text" class="form-control kode" name="kode" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Kode Tabung Lama</label>
+                        <label for="exampleInputEmail1">Nomor Tabung</label>
                         <input type="text" class="form-control kode_lama" name="kode_lama" autocomplete="off">
                     </div>
                     <div class="form-group">
@@ -180,7 +180,7 @@
                         }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_TABUNG_KODE + " (" + kepemilikan + ")<br><small class='text-muted'>Kode Lama : " + kode_lama + "</small>" + status + "</td>" +
+                            "<td>" + data[i].MASTER_TABUNG_KODE + " (" + kepemilikan + ")<br><small class='text-muted'>Nomor Tabung : " + kode_lama + "</small>" + status + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TABUNG_ID + "\")'><i class='fas fa-edit'></i></a> " +
@@ -263,6 +263,7 @@
                 memuat()
                 $(".id").val(data[0].MASTER_TABUNG_ID)
                 $(".kode").val(data[0].MASTER_TABUNG_KODE)
+                $(".jumlah").val("1")
                 $(".kode_lama").val(data[0].MASTER_TABUNG_KODE_LAMA)
                 $(".tabung").val(data[0].MASTER_BARANG_ID).trigger('change')
                 $(".kepemilikan").val(data[0].MASTER_TABUNG_KEPEMILIKAN).trigger('change')

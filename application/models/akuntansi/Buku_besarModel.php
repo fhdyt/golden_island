@@ -4,12 +4,24 @@ class Buku_besarModel extends CI_Model
 
     public function list($akun)
     {
+        $tanggal_dari = $this->input->post("tanggal_dari");
+        $tanggal_sampai = $this->input->post("tanggal_sampai");
+        // echo $this->input->post("tanggal_sampai");
+        //exit;
+
+        if (!empty($tanggal_dari)) {
+            $tanggal = 'AND BUKU_BESAR_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+        } else {
+            $tanggal = '';
+        }
         $hasil = $this->db->query('SELECT * FROM 
         BUKU_BESAR WHERE 
         AKUN_ID="' . $akun . '" 
         AND NOT (BUKU_BESAR_KREDIT=0 AND BUKU_BESAR_DEBET =0)
         AND RECORD_STATUS="AKTIF" 
-        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
+        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+        ' . $tanggal . '
+        ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->BUKU_BESAR_TANGGAL);
             $row->SALDO = $row->BUKU_BESAR_DEBET - $row->BUKU_BESAR_KREDIT;
@@ -37,6 +49,48 @@ class Buku_besarModel extends CI_Model
         );
 
         $result = $this->db->insert('BUKU_BESAR', $data_buku_besar);
+        return $result;
+    }
+
+    public function transfer()
+    {
+        $data_dari = array(
+            'BUKU_BESAR_ID' => create_id(),
+            'BUKU_BESAR_REF' => $this->input->post('id'),
+            'AKUN_ID' => $this->input->post('akun_dari'),
+            'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
+            'BUKU_BESAR_JENIS' => "KREDIT",
+            'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('rupiah')),
+            'BUKU_BESAR_DEBET' => "0",
+            'BUKU_BESAR_SUMBER' => "TRANSFER",
+            'BUKU_BESAR_KETERANGAN' => $this->input->post('keterangan'),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->insert('BUKU_BESAR', $data_dari);
+
+        $data_tujuan = array(
+            'BUKU_BESAR_ID' => create_id(),
+            'BUKU_BESAR_REF' => $this->input->post('id'),
+            'AKUN_ID' => $this->input->post('akun_tujuan'),
+            'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
+            'BUKU_BESAR_JENIS' => "DEBET",
+            'BUKU_BESAR_KREDIT' => "0",
+            'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('rupiah')),
+            'BUKU_BESAR_SUMBER' => "TRANSFER",
+            'BUKU_BESAR_KETERANGAN' => $this->input->post('keterangan'),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('BUKU_BESAR', $data_tujuan);
         return $result;
     }
 

@@ -404,7 +404,7 @@ if (!function_exists('nomor_faktur')) {
 
     $bulan = date("m", strtotime($tanggal));
     $tahun = date("y", strtotime($tanggal));
-    $nomor = "FAKTUR/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    $nomor = "INV/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
 
     $CI->load->database();
     $hasil = $CI->db->query('SELECT * FROM FAKTUR WHERE FAKTUR_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY FAKTUR_NOMOR DESC ')->result();

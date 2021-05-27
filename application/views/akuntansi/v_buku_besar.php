@@ -44,6 +44,73 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<div class="modal fade" id="transferModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bayar Hutang</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit_transfer">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tanggal</label>
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required readonly value="<?= date("Y-m-d"); ?>">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Dari</label>
+                        <select name="akun_dari" id="akun_dari" class="form-control akun_dari select2" style="width: 100%;" required>
+                            <option value="">-- Akun --</option>
+                            <?php foreach (akun_list() as $row) {
+                            ?>
+                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tujuan</label>
+                        <select name="akun_tujuan" id="akun_tujuan" class="form-control akun_tujuan select2" style="width: 100%;" required>
+                            <option value="">-- Akun --</option>
+                            <?php foreach (akun_list() as $row) {
+                            ?>
+                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Rupiah</label>
+                        <input type="text" class="form-control rupiah" name="rupiah" autocomplete="off" value="0" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Keterangan</label>
+                        <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off">
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -65,7 +132,7 @@
                 <div class="card-body">
 
                     <div class="row mb-2">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
                                 <option value="">-- Akun --</option>
                                 <?php foreach (akun_list() as $row) {
@@ -76,8 +143,22 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-4">
-                            <button type="button" class="btn btn-secondary btn_akun mb-2">Tambah</button>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required>
+                            <small class="text-muted">Tanggal Dari.</small>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary filter_tanggal"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Tanggal Sampai.</small>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-secondary btn_akun mb-2 mr-2">Tambah</button>
+                            <button type="button" class="btn btn-success btn_transfer mb-2"><i class="fas fa-exchange-alt"></i> Transfer</button>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
@@ -119,6 +200,12 @@
         }
 
     })
+    $(".btn_transfer").on("click", function() {
+        $("#submit_transfer").trigger("reset");
+        $("#transferModal").modal("show")
+
+
+    })
 
     $(function() {
         $(".rupiah").mask("#.##0", {
@@ -135,10 +222,14 @@
 
     function buku_besar_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/akuntansi/buku_besar/list?akun=" + $(".akun").val() + "",
             async: false,
             dataType: 'json',
+            data: {
+                tanggal_dari: $('.tanggal_dari').val(),
+                tanggal_sampai: $('.tanggal_sampai').val(),
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
@@ -195,7 +286,27 @@
             success: function(data) {
                 buku_besar_list();
                 Swal.fire('Berhasil', '', 'success')
-                $("#kas_kecilModal").modal("hide")
+                $("#akunModal").modal("hide")
+            }
+        });
+    })
+
+    $('#submit_transfer').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/akuntansi/buku_besar/transfer',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                buku_besar_list();
+                Swal.fire('Berhasil', '', 'success')
+                $("#transferModal").modal("hide")
             }
         });
     })
@@ -261,5 +372,19 @@
     $('.akun').change(function() {
         memuat()
         buku_besar_list()
+    });
+
+    $('.filter_tanggal').on("click", function() {
+        if ($(".akun").val() == "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Silahkan pilih Akun terlebih dahulu'
+            })
+        } else {
+            memuat()
+            buku_besar_list()
+        }
+
     });
 </script>

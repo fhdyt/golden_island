@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Buku_besar extends CI_Controller
+class Piutang extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Buku_besar extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('akuntansi/Buku_besarModel');
+        $this->load->model('akuntansi/PiutangModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,41 +30,41 @@ class Buku_besar extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('akuntansi/v_buku_besar');
+        $this->load->view('akuntansi/v_piutang');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $akun = $_GET['akun'];
-        $data = $this->Buku_besarModel->list($akun);
+        $relasi = $_GET['relasi'];
+        $data = $this->PiutangModel->list($relasi);
         echo json_encode($data);
     }
 
     public function add()
     {
-        $akun = $_GET['akun'];
-        $data = $this->Buku_besarModel->add($akun);
-        return $data;
-    }
-
-    public function transfer()
-    {
-        $data = $this->Buku_besarModel->transfer();
-        return $data;
+        $relasi = $_GET['relasi'];
+        $pi = $_GET['pi'];
+        $data = $this->PiutangModel->add($relasi, $pi);
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Buku_besarModel->hapus($id);
+        $data = $this->PiutangModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Buku_besarModel->detail($id);
+        $data = $this->PiutangModel->detail($id);
+        echo json_encode($data);
+    }
+    public function pi_list()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->PiutangModel->pi_list($id);
         echo json_encode($data);
     }
 }

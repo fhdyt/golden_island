@@ -13,6 +13,11 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">ID Relasi</label>
+                        <input type="text" class="form-control qr_id" name="qr_id" autocomplete="off" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
                         <input type="text" class="form-control nama" name="nama" autocomplete="off" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
@@ -118,7 +123,7 @@
                     for (i = 0; i < data.length; i++) {
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>" + data[i].MASTER_RELASI_NAMA + "<br><small class='text-muted'>" + data[i].MASTER_RELASI_QR_ID + "</small></td>" +
                             "<td>" + data[i].MASTER_RELASI_ALAMAT + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_HP + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_NPWP + "</td>" +
@@ -208,6 +213,7 @@
             success: function(data) {
                 memuat()
                 $(".id").val(data[0].MASTER_RELASI_ID)
+                $(".qr_id").val(data[0].MASTER_RELASI_QR_ID)
                 $(".nama").val(data[0].MASTER_RELASI_NAMA)
                 $(".alamat").val(data[0].MASTER_RELASI_ALAMAT)
                 $(".hp").val(data[0].MASTER_RELASI_HP)

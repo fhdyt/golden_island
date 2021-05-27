@@ -236,7 +236,7 @@ td<?php
                             </div>
 
                             <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Total</label>
+                                <label class="col-sm-2 col-form-label text-right">Jumlah yang Harus Dibayar</label>
                                 <div class="col-sm-10">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -283,7 +283,7 @@ td<?php
 
 
                             <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Sisa Bayar</label>
+                                <label class="col-sm-2 col-form-label text-right">Sisa Hutang</label>
                                 <div class="col-sm-10">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">

@@ -36,8 +36,10 @@
 <!-- Main Footer -->
 <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-        <b>Version</b> 1.0.0
+        <b>Version</b> 1.0.0 |
+        Page Rendered<b> {elapsed_time}</b> seconds.
     </div>
+
     <strong>Copyright &copy; 2021 <a href="https://adminlte.io">Golden Island Group</a>.</strong> All rights reserved.
 </footer>
 </div>

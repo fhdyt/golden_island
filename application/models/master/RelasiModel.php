@@ -67,6 +67,7 @@ class RelasiModel extends CI_Model
         if ($this->input->post('id') == "") {
             $data = array(
                 'MASTER_RELASI_ID' => create_id(),
+                'MASTER_RELASI_QR_ID' => $this->input->post('qr_id'),
                 'MASTER_RELASI_NAMA' => $this->input->post('nama'),
                 'MASTER_RELASI_ALAMAT' => $this->input->post('alamat'),
                 'MASTER_RELASI_HP' => $this->input->post('hp'),
@@ -94,6 +95,7 @@ class RelasiModel extends CI_Model
 
             $data = array(
                 'MASTER_RELASI_ID' => $this->input->post('id'),
+                'MASTER_RELASI_QR_ID' => $this->input->post('qr_id'),
                 'MASTER_RELASI_NAMA' => $this->input->post('nama'),
                 'MASTER_RELASI_ALAMAT' => $this->input->post('alamat'),
                 'MASTER_RELASI_HP' => $this->input->post('hp'),
