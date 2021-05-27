@@ -2,31 +2,83 @@
 class HutangModel extends CI_Model
 {
 
-    public function list($supplier, $pi)
+    public function supplier_list()
     {
         $hasil = $this->db->query('SELECT * FROM 
-        HUTANG 
-        WHERE MASTER_SUPPLIER_ID="' . $supplier . '" 
-        AND NOT (HUTANG_KREDIT=0 AND HUTANG_DEBET =0)
-        AND HUTANG_REF="' . $pi . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY HUTANG_TANGGAL ASC')->result();
+        MASTER_SUPPLIER WHERE 
+        RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_SUPPLIER_NAMA')->result();
         foreach ($hasil as $row) {
-            $row->TANGGAL = tanggal($row->HUTANG_TANGGAL);
-            $row->SALDO = $row->HUTANG_DEBET - $row->HUTANG_KREDIT;
+            $kredit = $this->db->query('SELECT SUM(HUTANG_KREDIT) AS KREDIT
+                                        FROM HUTANG 
+                                        WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+
+            $debet = $this->db->query('SELECT SUM(HUTANG_DEBET) AS DEBET
+                                        FROM HUTANG 
+                                        WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+
+            $row->SALDO = $kredit[0]->KREDIT - $debet[0]->DEBET;
         }
         return $hasil;
     }
 
-    public function add($supplier, $pi)
+    public function list_hutang($supplier)
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        HUTANG 
+        WHERE MASTER_SUPPLIER_ID="' . $supplier . '" 
+        AND HUTANG_DEBET>0 AND HUTANG_KREDIT=0
+        AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY HUTANG_TANGGAL ASC')->result();
+
+        $kredit = $this->db->query('SELECT SUM(HUTANG_KREDIT) AS KREDIT
+                                        FROM HUTANG 
+                                        WHERE MASTER_SUPPLIER_ID="' . $supplier . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+        $pembayaran = $kredit[0]->KREDIT;
+        foreach ($hasil as $row) {
+            $pembayaran = $pembayaran - $row->HUTANG_DEBET;
+            if ($pembayaran >= 0) {
+                $row->STATUS = "CORET";
+                $row->PEMBAYARAN = "0";
+            } else {
+                $row->STATUS = "TIDAK";
+                $row->PEMBAYARAN = $pembayaran;
+            }
+            $row->TANGGAL = tanggal($row->HUTANG_TANGGAL);
+        }
+        return $hasil;
+    }
+
+    public function list_pembayaran($supplier)
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        HUTANG 
+        WHERE MASTER_SUPPLIER_ID="' . $supplier . '" 
+        AND HUTANG_KREDIT>0 AND HUTANG_DEBET=0
+        AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY HUTANG_TANGGAL ASC')->result();
+        foreach ($hasil as $row) {
+            $row->TANGGAL = tanggal($row->HUTANG_TANGGAL);
+        }
+        return $hasil;
+    }
+
+    public function add()
     {
         $data = array(
             'HUTANG_ID' => create_id(),
-            'HUTANG_REF' => $pi,
             'AKUN_ID' => $this->input->post('akun'),
             'HUTANG_TANGGAL' => $this->input->post('tanggal'),
-            'MASTER_SUPPLIER_ID' => $supplier,
+            'MASTER_SUPPLIER_ID' => $this->input->post('id'),
             'HUTANG_KREDIT' => str_replace(".", "", $this->input->post('rupiah')),
             'HUTANG_DEBET' => "0",
-            'HUTANG_SUMBER' => "PEMBELIAN",
+            'HUTANG_SUMBER' => "PENJUALAN",
             'HUTANG_KETERANGAN' => $this->input->post('keterangan'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),

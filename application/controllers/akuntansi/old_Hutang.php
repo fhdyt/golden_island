@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Piutang extends CI_Controller
+class Hutang extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Piutang extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('akuntansi/PiutangModel');
+        $this->load->model('akuntansi/HutangModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,65 +30,42 @@ class Piutang extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('akuntansi/piutang/v_piutang');
+        $this->load->view('akuntansi/v_hutang');
         $this->load->view('_template/footer');
     }
 
-    public function list_hutang()
+    public function list()
     {
-        $relasi = $_GET['id'];
-        $data = $this->PiutangModel->list_hutang($relasi);
-        echo json_encode($data);
-    }
-    public function list_pembayaran()
-    {
-        $relasi = $_GET['id'];
-        $data = $this->PiutangModel->list_pembayaran($relasi);
-        echo json_encode($data);
-    }
-
-    public function hutang()
-    {
-        $this->load->view('_template/header');
-        $this->load->view('akuntansi/piutang/v_hutang');
-        $this->load->view('_template/footer');
-    }
-
-    public function pembayaran()
-    {
-        $this->load->view('_template/header');
-        $this->load->view('akuntansi/piutang/v_pembayaran');
-        $this->load->view('_template/footer');
-    }
-
-    public function relasi_list()
-    {
-        $data = $this->PiutangModel->relasi_list();
+        $supplier = $_GET['supplier'];
+        $pi = $_GET['pi'];
+        $data = $this->HutangModel->list($supplier, $pi);
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->PiutangModel->add();
+        $supplier = $_GET['supplier'];
+        $pi = $_GET['pi'];
+        $data = $this->HutangModel->add($supplier, $pi);
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PiutangModel->hapus($id);
+        $data = $this->HutangModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PiutangModel->detail($id);
+        $data = $this->HutangModel->detail($id);
         echo json_encode($data);
     }
     public function pi_list()
     {
         $id = $this->uri->segment('4');
-        $data = $this->PiutangModel->pi_list($id);
+        $data = $this->HutangModel->pi_list($id);
         echo json_encode($data);
     }
 }

@@ -257,7 +257,7 @@
                     // var saldo_awal = parseInt(data['saldo_awal'][0].DEBET) - parseInt(data['saldo_awal'][0].KREDIT)
                     console.log(saldo_awal)
                     $("tbody#zone_saldo_awal").append("<tr class=''>" +
-                        "<td colspan='5'style='text-align:center; vertical-align:middle;'><b>Saldo Awal</b></td>" +
+                        "<td colspan='5' style='text-align:center; vertical-align:middle;'><b>Saldo Awal</b></td>" +
                         "<td>" + number_format(saldo_awal) + "</td>" +
                         "</tr>");
                     var saldo = 0 + parseInt(saldo_awal)

@@ -30,23 +30,46 @@ class Hutang extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('akuntansi/v_hutang');
+        $this->load->view('akuntansi/hutang/v_hutang');
         $this->load->view('_template/footer');
     }
 
-    public function list()
+    public function hutang()
     {
-        $supplier = $_GET['supplier'];
-        $pi = $_GET['pi'];
-        $data = $this->HutangModel->list($supplier, $pi);
+        $this->load->view('_template/header');
+        $this->load->view('akuntansi/hutang/v_hutang_riwayat');
+        $this->load->view('_template/footer');
+    }
+
+    public function pembayaran()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('akuntansi/hutang/v_pembayaran');
+        $this->load->view('_template/footer');
+    }
+
+    public function supplier_list()
+    {
+        $data = $this->HutangModel->supplier_list();
+        echo json_encode($data);
+    }
+
+    public function list_hutang()
+    {
+        $supplier = $_GET['id'];
+        $data = $this->HutangModel->list_hutang($supplier);
+        echo json_encode($data);
+    }
+    public function list_pembayaran()
+    {
+        $supplier = $_GET['id'];
+        $data = $this->HutangModel->list_pembayaran($supplier);
         echo json_encode($data);
     }
 
     public function add()
     {
-        $supplier = $_GET['supplier'];
-        $pi = $_GET['pi'];
-        $data = $this->HutangModel->add($supplier, $pi);
+        $data = $this->HutangModel->add();
     }
 
     public function hapus()

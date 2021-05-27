@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0"><?= $this->lang->line('Piutang'); ?></h1>
+                    <h1 class="m-0">Rincian Pembayaran</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -21,17 +21,16 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Relasi</th>
-                                <th>Saldo Piutang</th>
-                                <th></th>
+                                <th>Tanggal</th>
+                                <th>Keterangan</th>
+                                <th>Pembayaran</th>
+                                <th>Total Pembayaran</th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
                             <tr>
                             </tr>
                         </tbody>
-                        <tfoot id="total_zone_data">
-                        </tfoot>
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -49,7 +48,7 @@
     function relasi_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/akuntansi/piutang/relasi_list",
+            url: "<?php echo base_url() ?>index.php/akuntansi/hutang/list_pembayaran?id=<?= $this->uri->segment('4') ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -61,19 +60,17 @@
                 } else {
                     var no = 1
                     var saldo = 0
-                    var total_saldo = 0
+                    var total_pembayaran = 0
                     for (i = 0; i < data.length; i++) {
-
-                        total_saldo += parseInt(data[i].SALDO)
+                        total_pembayaran += parseInt(data[i].HUTANG_KREDIT)
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + "</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NAMA + "</td>" +
-                            "<td>" + number_format(data[i].SALDO) + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>akuntansi/piutang/hutang/" + data[i].MASTER_RELASI_ID + "' >Hutang</a> " +
-                            "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>akuntansi/piutang/pembayaran/" + data[i].MASTER_RELASI_ID + "' >Pembayaran</a></td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].HUTANG_KETERANGAN + "</td>" +
+                            "<td>" + number_format(data[i].HUTANG_KREDIT) + "</td>" +
+                            "<td>" + number_format(total_pembayaran) + "</td>" +
                             "</tr>");
                     }
-                    $("tfoot#total_zone_data").append("<tr><td colspan='2' style='text-align:right; vertical-align:middle;'><b>Total</b></td><td>" + number_format(total_saldo) + "</td></tr>")
                 }
             },
             error: function(x, e) {

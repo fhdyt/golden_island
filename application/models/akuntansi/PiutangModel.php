@@ -68,7 +68,7 @@ class PiutangModel extends CI_Model
         return $hasil;
     }
 
-    public function add($relasi)
+    public function add()
     {
         $data = array(
             'PIUTANG_ID' => create_id(),
