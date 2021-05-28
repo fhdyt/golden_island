@@ -207,6 +207,7 @@ class PdModel extends CI_Model
                         'MASTER_TABUNG_KODE' => kode_tabung(),
                         'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
                         'STOK_BARANG_ID' => $id_stok_barang,
+                        'MASTER_TABUNG_KEPEMILIKAN' => "MP",
 
                         'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
                         'ENTRI_USER' => $this->session->userdata('USER_ID'),

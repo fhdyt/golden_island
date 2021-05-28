@@ -62,7 +62,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Tabung</h4>
+                <h4 class="modal-title">Tambah Tabung MR</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -85,12 +85,8 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Jumlah Tabung MP</label>
-                        <input type="text" class="form-control jumlah_mp" name="jumlah_mp" id="jumlah_mp" value="" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Jumlah Tabung MR</label>
-                        <input type="text" class="form-control jumlah_mr" name="jumlah_mr" id="jumlah_mr" value="" autocomplete="off">
+                        <label for="exampleInputEmail1">Jumlah Tabung</label>
+                        <input type="text" class="form-control jumlah" name="jumlah" id="jumlah" value="" autocomplete="off">
                     </div>
 
             </div>
@@ -169,25 +165,19 @@
                                 </tfoot>
                             </table>
                             <hr>
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <button type="button" class="btn btn-primary btn_barang_mr mb-2">Tambah Tabung</button>
-                                </div>
-                            </div>
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Kepemilikan</th>
-                                        <th>Jenis</th>
                                         <th>Nomor Tabung</th>
                                         <th>Kode Tabung</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="zone_data_tabung_sj">
-                                </tbody>
-                                <tbody id="zone_data_tabung_sj_selisih">
+                                    <tr>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -298,6 +288,8 @@
 
     })
     $(function() {
+        realisasi_list()
+        realisasi_mr_list()
         surat_jalan_list()
         detail()
     });
@@ -344,9 +336,6 @@
                     $("tbody#zone_data").append(tableContent);
                     $("tfoot#total_data").append("<tr><td colspan='6' align='right'><b>Total</b></td><td><b>" + total_qty + "</b></td></tr>")
                     $(".total_tabung_sj").val(total_qty)
-
-                    realisasi_list()
-                    //realisasi_mr_list()
                 }
             },
             error: function(x, e) {
@@ -362,53 +351,60 @@
             async: false,
             dataType: 'json',
             success: function(data) {
-                $("tbody#zone_data_tabung_sj").empty();
-                $("tfoot#zone_data_tabung_sj").empty();
+                $("tbody#zone_data_realisasi").empty();
+                $("tfoot#total_data_realisasi").empty();
                 console.log(data)
                 if (data.length === 0) {
-                    $("tbody#zone_data_tabung_sj").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                    $("tbody#zone_data_realisasi").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                     $(".total_realisasi").val("0")
                 } else {
                     var no = 1
-                    $(".total_realisasi").val(data['mp'].length)
-                    $(".total_tabung_mr").val(data['mr'].length)
-                    for (i = 0; i < data['mp'].length; i++) {
-                        $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
+                    $(".total_realisasi").val(data.length)
+                    for (i = 0; i < data.length; i++) {
+                        $("tbody#zone_data_realisasi").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>MP</td>" +
-                            "<td>" + data['mp'][i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>-</td>" +
-                            "<td>-</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['mp'][i].REALISASI_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].MASTER_TABUNG_KODE + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].REALISASI_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
+
                             "</tr>");
 
                     }
-                    for (i = 0; i < data['mr'].length; i++) {
-                        $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
-                            "<td>" + no++ + ".</td>" +
-                            "<td>MR</td>" +
-                            "<td>" + data['mr'][i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>-</td>" +
-                            "<td>-</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus_mr(\"" + data['mr'][i].REALISASI_BARANG_MR_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
-                            "</tr>");
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
 
-                    }
-                    var total_tabung_tersimpan = parseInt($(".total_realisasi").val()) + parseInt($(".total_tabung_mr").val())
-                    var total_tabung_sj = parseInt($(".total_tabung_sj").val())
-                    var selisih = total_tabung_sj - total_tabung_tersimpan;
-                    console.log(parseInt($(".total_tabung_sj").val()))
-                    for (i = 0; i < selisih; i++) {
-                        $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
-                            "<td>" + no++ + ".</td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "</tr>");
+    function realisasi_mr_list() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi_tabung_mr?surat_jalan_id=<?= $this->uri->segment('4'); ?>",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#zone_data_realisasi_mr").empty();
+                console.log(data)
+                if (data.length === 0) {
+                    $("tbody#zone_data_realisasi_mr").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                    $(".total_tabung_mr").val("0")
+                } else {
+                    var no = 1
+                    var total_tabung_mr = 0
 
+                    for (i = 0; i < data.length; i++) {
+                        total_tabung_mr += parseInt(data[i].REALISASI_BARANG_MR_JUMLAH)
+                        $("tbody#zone_data_realisasi_mr").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].REALISASI_BARANG_MR_JUMLAH + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus_mr(\"" + data[i].REALISASI_BARANG_MR_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
+
+                            "</tr>");
                     }
+                    $(".total_tabung_mr").val(total_tabung_mr)
                 }
             },
             error: function(x, e) {
@@ -490,11 +486,10 @@
             }
         });
     })
-
     $('#submit_barang_mr').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
+            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang_mr?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -504,8 +499,7 @@
                 memuat()
             },
             success: function(data) {
-                realisasi_list()
-                // realisasi_mr_list()
+                realisasi_mr_list()
                 memuat()
                 Swal.fire('Berhasil', '', 'success')
                 $("#barangModal").modal("hide")
@@ -569,7 +563,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            realisasi_list()
+                            realisasi_mr_list()
                             memuat()
                             Swal.fire('Berhasil', 'Berhasil dihapus', 'success')
                         }
