@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Masuk</title>
+  <title>GMS | Masuk</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -37,6 +37,7 @@
           echo '</div>';
         }
         ?>
+        <p class="login-box-msg">Gas Management System</p>
         <form action="<?php echo base_url(); ?>index.php/login/proses" method="post">
           <div class="input-group mb-3">
             <!-- <?php echo password_hash("admin", PASSWORD_DEFAULT); ?> -->
@@ -58,7 +59,7 @@
           <div class="row">
             <!-- /.col -->
             <div class="col-12">
-              <button type="submit" class="btn btn-outline-secondary btn-block btn-lg" style=>Login</button>
+              <button type="submit" class="btn btn-secondary btn-block" style=>Login</button>
               <p class="mb-0 mt-2">
                 <a href="#" class="text-center">Lupa Password ?</a>
               </p>

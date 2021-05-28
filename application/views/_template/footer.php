@@ -4,7 +4,7 @@
             <div class="modal-body">
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>Fikri Hidayat</h3>
+                        <h3>PT. Golden Island Group <br><small>Divisi Technology Informastion</small></h3>
 
                         <p>0823 8254 7870</p>
                     </div>

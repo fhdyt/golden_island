@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Golden Island</title>
+  <title>GMS</title>
   <link href="<?php echo base_url(); ?>assets/theme/favicon.png" rel="icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -245,7 +245,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Brand Logo -->
       <a href="<?php echo base_url(); ?>" class="brand-link">
         <img src="<?php echo base_url(); ?>assets/header.png" alt="AdminLTE Logo" class="brand-image">
-        <span class="brand-text font-weight-light"><b>Golden Island</b></span>
+        <span class="brand-text font-weight-light"><b>GMS</b></span>
       </a>
 
       <!-- Sidebar -->

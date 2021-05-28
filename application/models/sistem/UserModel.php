@@ -108,7 +108,7 @@ class UserModel extends CI_Model
             }
             $result[] = $row;
         }
-        return $result;
+        return $hasil;
     }
 
     public function akses_menu($user, $menu_id)
