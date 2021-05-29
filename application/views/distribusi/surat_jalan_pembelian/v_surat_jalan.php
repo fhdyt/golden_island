@@ -62,11 +62,10 @@
                     var no = 1
                     for (i = 0; i < data.length; i++) {
                         if (data[i].SURAT_JALAN_STATUS == "close") {
-                            var status = "<span class='float-left badge bg-danger'>Close</span>"
+                            var status = "<span class='float-left badge bg-success'>Faktur Telah Diproses</span>"
                         } else {
-                            var status = "<span class='float-left badge bg-success'>Open</span>"
+                            var status = "<span class='float-left badge bg-danger'>Menunggu Faktur ...</span>"
                         }
-
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                             var riwayat_status = "<span class='float-left badge bg-danger'>Belum Teralisasi</span>"
                             var btn_cetak = ""

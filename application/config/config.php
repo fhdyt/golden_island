@@ -26,7 +26,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 if ($_SERVER['HTTP_HOST'] == "localhost") {
     $config['base_url'] = 'http://localhost/golden_island';
 } else {
-    $config['base_url'] = 'https://goldenisland.site/';
+    $config['base_url'] = 'https://gmscloud.id/';
 }
 /*
 |--------------------------------------------------------------------------

@@ -1,63 +1,3 @@
-<div class="modal fade" id="barangModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Tambah Tabung</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="submit_barang">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Jenis</label>
-                        <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;" required>
-                            <option value="">-- Jenis --</option>
-
-                            <?php
-                            foreach (tabung() as $row) {
-                            ?>
-                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
-                        <select name="tabung" id="tabung" class="form-control tabung select2" style="width: 100%;">
-
-                        </select>
-                    </div>
-                    <div class="tambah_baru">
-                        <hr>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Kode Lama</label>
-                            <input type="text" class="form-control kode" name="kode" id="kode" value="" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Kepemilikan</label>
-                            <select name="kepemilikan" id="kepemilikan" class="form-control kepemilikan select2" style="width: 100%;" required>
-                                <option value="MP">MP</option>
-                                <option value="MR">MR</option>
-                            </select>
-                            <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                        </div>
-                    </div>
-
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 <div class="modal fade" id="barangmrModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -291,6 +231,8 @@
                 text: 'Tidak dapat menambah tabung.'
             })
         } else {
+            $(".jumlah_mp").val("0")
+            $(".jumlah_mr").val("0")
             $("#barangmrModal").modal("show")
 
         }
@@ -309,6 +251,7 @@
             async: false,
             dataType: 'json',
             success: function(data) {
+                $(".jenis").empty()
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
                 memuat()
@@ -331,6 +274,7 @@
                         var barangLlength = 0;
 
                         for (var j = 0; j < detailLength; j++) {
+                            $(".jenis").append("<option value='" + data[i].BARANG[j].MASTER_BARANG_ID + "'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</option")
                             total_qty += data[i].BARANG[j].TOTAL
                             tableContent += "<tr>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data[i].BARANG[j].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
@@ -459,6 +403,8 @@
                 },
                 success: function(data) {
                     memuat()
+
+                    Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
                 }
             });
         } else {
@@ -468,27 +414,6 @@
                 text: 'Total Realisasi Tidak Sesuai'
             })
         }
-    })
-
-    $('#submit_barang').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                realisasi_list()
-                memuat()
-                Swal.fire('Berhasil', '', 'success')
-                $("#barangModal").modal("hide")
-            }
-        });
     })
 
     $('#submit_barang_mr').submit(function(e) {
@@ -507,7 +432,6 @@
                 realisasi_list()
                 // realisasi_mr_list()
                 memuat()
-                Swal.fire('Berhasil', '', 'success')
                 $("#barangModal").modal("hide")
             }
         });
