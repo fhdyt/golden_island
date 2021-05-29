@@ -52,6 +52,48 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<div class="modal fade" id="saldopiutangModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Saldo Piutang</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit_saldo_piutang">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control id" value="<?= $this->uri->segment('4'); ?>" name="id" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tanggal</label>
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>" readonly>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Rupiah</label>
+                        <input type="text" class="form-control rupiah" name="rupiah" autocomplete="off" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Keterangan</label>
+                        <input type="text" class="form-control keterangan" name="keterangan" value="TAGIHAN PIUTANG" autocomplete="off">
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -74,6 +116,7 @@
                     <div class="row mb-2">
                         <div class="col-md-4">
                             <button type="button" class="btn btn-secondary btn_akun mb-2">Bayar Piutang</button>
+                            <button type="button" class="btn btn-warning btn_saldo_piutang mb-2">Tambah Saldo</button>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
@@ -108,6 +151,9 @@
     })
     $(".btn_akun").on("click", function() {
         $("#akunModal").modal("show")
+    })
+    $(".btn_saldo_piutang").on("click", function() {
+        $("#saldopiutangModal").modal("show")
     })
 
     function relasi_list() {
@@ -161,6 +207,25 @@
         e.preventDefault();
         $.ajax({
             url: '<?php echo base_url(); ?>index.php/akuntansi/piutang/add',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                relasi_list();
+                Swal.fire('Berhasil', '', 'success')
+                $("#akunModal").modal("hide")
+            }
+        });
+    })
+    $('#submit_saldo_piutang').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/akuntansi/piutang/add_saldo',
             type: "post",
             data: new FormData(this),
             processData: false,

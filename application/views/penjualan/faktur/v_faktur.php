@@ -8,16 +8,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <td>No.</td>
                             <td>Nomor Surat Jalan</td>
+                            <td>Tanggal</td>
                             <td>Relasi</td>
                         </tr>
                     </thead>
                     <tbody id="surat_jalan_baru">
                         <tr>
+                            <td colspan="10">Memuat Surat Jalan Baru ...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -70,6 +72,7 @@
                         </thead>
                         <tbody id="zone_data">
                             <tr>
+
                             </tr>
                         </tbody>
                     </table>
@@ -84,6 +87,7 @@
 <script>
     $(".surat_jalan_baru").on("click", function() {
         $("#suratjalanModal").modal("show")
+        surat_jalan_baru_list()
     })
     $(function() {
         po_list();
@@ -112,6 +116,36 @@
                             "<td><a class='btn btn-primary btn-sm mb-2 ' href='<?= base_url(); ?>penjualan/faktur/form/" + data[i].FAKTUR_ID + "?jenis_sj=penjualan'>Lihat</a> " +
                             "<a target='_blank' class='btn btn-success btn-sm mb-2' onclick='cetak(\"" + data[i].FAKTUR_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
                             "</td>" +
+                            "</tr>");
+                    }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    function surat_jalan_baru_list() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/penjualan/faktur/surat_jalan_baru",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#surat_jalan_baru").empty();
+                console.log(data)
+                if (data.length === 0) {
+                    $("tbody#surat_jalan_baru").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else {
+                    var no = 1
+                    console.log()
+                    for (i = 0; i < data.length; i++) {
+                        $("tbody#surat_jalan_baru").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
                             "</tr>");
                     }
                 }

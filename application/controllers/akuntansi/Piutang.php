@@ -71,6 +71,10 @@ class Piutang extends CI_Controller
     {
         $data = $this->PiutangModel->add();
     }
+    public function add_saldo()
+    {
+        $data = $this->PiutangModel->add_saldo();
+    }
 
     public function hapus()
     {

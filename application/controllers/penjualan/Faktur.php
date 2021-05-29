@@ -47,6 +47,12 @@ class Faktur extends CI_Controller
         echo json_encode($data);
     }
 
+    public function surat_jalan_baru()
+    {
+        $data = $this->FakturModel->surat_jalan_baru();
+        echo json_encode($data);
+    }
+
     public function surat_jalan_list()
     {
         $id = $this->uri->segment('4');
