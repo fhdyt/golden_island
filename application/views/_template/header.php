@@ -277,7 +277,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="#" class="nav-link">
                   <i class="nav-icon <?php echo $row->APLIKASI_ICON; ?>"></i>
                   <p>
-                    <?php echo $this->lang->line($row->APLIKASI_NAMA); ?>
+                    <?php echo $row->APLIKASI_NAMA; ?>
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -294,7 +294,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="<?php echo base_url(); ?><?php echo $row->APLIKASI_LINK; ?>/<?php echo $menu->MENU_LINK; ?>" class="nav-link <?= $active; ?>">
                         <i class="far fa-circle"></i>
                         <!-- <i class="<?php echo $menu->MENU_ICON; ?>"></i> -->
-                        <p><?= $this->lang->line($menu->MENU_NAMA); ?></p>
+                        <p><?= $menu->MENU_NAMA; ?></p>
                       </a>
                     </li>
                   <?php

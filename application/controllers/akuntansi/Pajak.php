@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Buku_besar extends CI_Controller
+class Pajak extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Buku_besar extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('akuntansi/Buku_besarModel');
+        $this->load->model('akuntansi/PajakModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,53 +30,32 @@ class Buku_besar extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('akuntansi/v_buku_besar');
+        $this->load->view('akuntansi/v_pajak');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $akun = $_GET['akun'];
-        $data = $this->Buku_besarModel->list($akun);
+        $data = $this->PajakModel->list();
         echo json_encode($data);
     }
 
     public function add()
     {
-        $config['name']                    = random_string('sha1', 40);
-        $config['upload_path']          = './uploads/buku_besar';
-        $config['allowed_types']        = '*';
-        $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
-
-        $this->load->library('upload', $config);
-        $this->upload->do_upload('userfile');
-
-        if ($_FILES["userfile"]["name"] == "") {
-            $config['file_name'] = "";
-        }
-
-        $akun = $_GET['akun'];
-        $data = $this->Buku_besarModel->add($akun, $config);
-        return $data;
-    }
-
-    public function transfer()
-    {
-        $data = $this->Buku_besarModel->transfer();
-        return $data;
+        $data = $this->PajakModel->add();
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Buku_besarModel->hapus($id);
+        $data = $this->PajakModel->hapus($id);
         echo json_encode($data);
     }
 
-    public function detail()
+    public function jenis_pajak()
     {
-        $id = $this->uri->segment('4');
-        $data = $this->Buku_besarModel->detail($id);
+        $jenis = $_GET['jenis'];
+        $data = $this->PajakModel->jenis_pajak($jenis);
         echo json_encode($data);
     }
 }

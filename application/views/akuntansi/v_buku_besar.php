@@ -18,6 +18,15 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Jenis</label>
+                        <select class="form-control">
+                            <option value="Pengeluaran Harian">Pengeluaran Harian</option>
+                            <option value="Uang Jalan">Uang Jalan</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Debet</label>
                         <input type="text" class="form-control debet" name="debet" autocomplete="off" value="0" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
@@ -26,6 +35,11 @@
                         <label for="exampleInputEmail1">Kredit</label>
                         <input type="text" class="form-control kredit" name="kredit" autocomplete="off" value="0" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Gambar</label>
+                        <input type="file" name="userfile" class="form-control">
+                        <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Keterangan</label>
@@ -180,6 +194,10 @@
                             <tr>
                             </tr>
                         </tbody>
+                        <tfoot id="total_buku_besar">
+                            <tr>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <!-- /.card-body -->
@@ -237,6 +255,7 @@
             success: function(data) {
                 $("tbody#zone_saldo_awal").empty();
                 $("tbody#zone_data").empty();
+                $("tfoot#total_buku_besar").empty()
                 memuat()
                 console.log(data)
                 if (data.data.length === 0) {
@@ -257,10 +276,12 @@
                     // var saldo_awal = parseInt(data['saldo_awal'][0].DEBET) - parseInt(data['saldo_awal'][0].KREDIT)
                     console.log(saldo_awal)
                     $("tbody#zone_saldo_awal").append("<tr class=''>" +
-                        "<td colspan='5' style='text-align:center; vertical-align:middle;'><b>Saldo Awal</b></td>" +
+                        "<td colspan='5' style='text-align:right; vertical-align:middle;'><b>Saldo Awal</b></td>" +
                         "<td>" + number_format(saldo_awal) + "</td>" +
                         "</tr>");
                     var saldo = 0 + parseInt(saldo_awal)
+                    var total_debet = 0
+                    var total_kredit = 0
                     for (i = 0; i < data['data'].length; i++) {
                         saldo += data['data'][i].SALDO
 
@@ -269,9 +290,21 @@
                         } else {
                             var btn_hapus = ""
                         }
+
+                        if (data['data'][i].BUKU_BESAR_FILE == "") {
+                            var file = ""
+                        } else if (data['data'][i].BUKU_BESAR_FILE == null) {
+                            var file = ""
+                        } else {
+                            var file = "<a class='btn btn-secondary btn-xs' href='<?= base_url() ?>uploads/buku_besar/" + data['data'][i].BUKU_BESAR_FILE + "' target='_blank'><i class='fas fa-file'></i> Buka File</a>"
+                        }
+
+                        total_debet += parseInt(data['data'][i].BUKU_BESAR_DEBET)
+                        total_kredit += parseInt(data['data'][i].BUKU_BESAR_KREDIT)
+
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + data['data'][i].TANGGAL + "</td>" +
-                            "<td>" + data['data'][i].BUKU_BESAR_KETERANGAN + "</td>" +
+                            "<td>" + data['data'][i].BUKU_BESAR_KETERANGAN + "<br>" + file + "</td>" +
                             "<td>" + data['data'][i].BUKU_BESAR_SUMBER + "</td>" +
                             "<td>" + number_format(data['data'][i].BUKU_BESAR_DEBET) + "</td>" +
                             "<td>" + number_format(data['data'][i].BUKU_BESAR_KREDIT) + "</td>" +
@@ -279,6 +312,7 @@
                             btn_hapus +
                             "</tr>");
                     }
+                    $("tfoot#total_buku_besar").append("<tr><td colspan='3' style='text-align:right; vertical-align:middle;'><b>Total</b></td><td>" + number_format(total_debet) + "</td><td>" + number_format(total_kredit) + "</td></tr>")
                 }
             },
             error: function(x, e) {

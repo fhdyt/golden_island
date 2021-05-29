@@ -43,7 +43,7 @@ class Buku_besarModel extends CI_Model
         return $hasil;
     }
 
-    public function add($akun)
+    public function add($akun, $config)
     {
         $data_buku_besar = array(
             'BUKU_BESAR_ID' => create_id(),
@@ -55,6 +55,7 @@ class Buku_besarModel extends CI_Model
             'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('debet')),
             'BUKU_BESAR_SUMBER' => "BUKU BESAR",
             'BUKU_BESAR_KETERANGAN' => $this->input->post('keterangan'),
+            'BUKU_BESAR_FILE' => $config['file_name'],
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

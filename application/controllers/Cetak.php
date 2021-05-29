@@ -91,4 +91,9 @@ class Cetak extends CI_Controller
 	// 		qrcode($id);
 	// 	}
 	// }
+	public function test_qr()
+	{
+
+		qrcode("fikri hidayat");
+	}
 }

@@ -86,11 +86,11 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jumlah Tabung MP</label>
-                        <input type="text" class="form-control jumlah_mp" name="jumlah_mp" id="jumlah_mp" value="" autocomplete="off">
+                        <input type="text" class="form-control jumlah_mp" name="jumlah_mp" id="jumlah_mp" autocomplete="off" value="0" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jumlah Tabung MR</label>
-                        <input type="text" class="form-control jumlah_mr" name="jumlah_mr" id="jumlah_mr" value="" autocomplete="off">
+                        <input type="text" class="form-control jumlah_mr" name="jumlah_mr" id="jumlah_mr" autocomplete="off" value="0" required>
                     </div>
 
             </div>
@@ -131,12 +131,12 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Surat Jalan</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Tabung MP</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="custom-tabs-four-mr-tab" data-toggle="pill" href="#custom-tabs-four-mr" role="tab" aria-controls="custom-tabs-four-mr" aria-selected="false">Tabung MR</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <div class="card-body">
