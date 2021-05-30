@@ -1,5 +1,5 @@
 <?php
-class Realisasi_sjModel extends CI_Model
+class Realisasi_ttbkModel extends CI_Model
 {
 
     public function list_realisasi($surat_jalan_id)

@@ -389,6 +389,7 @@ if (empty($this->uri->segment('4'))) {
                 } else {
                     var no = 1;
                     for (i = 0; i < data.length; i++) {
+                        $(".surat_jalan option[value='" + data[i].SURAT_JALAN_ID + "']").remove();
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "</td>" +

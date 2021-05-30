@@ -55,33 +55,47 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <a href="<?= base_url(); ?>penjualan/faktur/form" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Faktur</a>
                             <a class="btn btn-success mb-2 btn-form surat_jalan_baru">Surat Jalan Baru</a>
                         </div>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                            <small class="text-muted">Tanggal Dari.</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Tanggal Sampai.</small>
+                        </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th><?= $this->lang->line('tanggal'); ?></th>
-                                <th>Nomor Surat Jalan</th>
-                                <th><?= $this->lang->line('Relasi'); ?></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="zone_data">
-                            <tr>
-
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
-                <!-- /.card-body -->
+                <table id="example2" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th><?= $this->lang->line('tanggal'); ?></th>
+                            <th>Nomor Surat Jalan</th>
+                            <th><?= $this->lang->line('Relasi'); ?></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="zone_data">
+                        <tr>
+
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
+            <!-- /.card-body -->
+        </div>
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
 <script>
@@ -93,12 +107,21 @@
         po_list();
     });
 
+    $('.filter_tanggal').on("click", function() {
+        memuat()
+        po_list()
+    });
+
     function po_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/penjualan/faktur/list",
             async: false,
             dataType: 'json',
+            data: {
+                tanggal_dari: $('.tanggal_dari').val(),
+                tanggal_sampai: $('.tanggal_sampai').val(),
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
