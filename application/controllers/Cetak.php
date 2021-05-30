@@ -27,7 +27,7 @@ class Cetak extends CI_Controller
 	{
 		parent::__construct();
 		//sudo chmod -R 755 logs
-		//sudo chmod -R 777 logs
+		//sudo chmod -R 777 golden_island/application/logs
 		//$this->load->library('ciqrcode');
 		$this->load->model('PdfModel');
 		$this->load->model('LoginModel');

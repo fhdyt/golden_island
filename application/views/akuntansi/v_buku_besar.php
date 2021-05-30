@@ -19,9 +19,10 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jenis</label>
-                        <select class="form-control">
+                        <select class="form-control" name="jenis_pengeluaran">
                             <option value="Pengeluaran Harian">Pengeluaran Harian</option>
                             <option value="Uang Jalan">Uang Jalan</option>
+                            <option value="Jaminan">Jaminan</option>
                             <option value="Lainnya">Lainnya</option>
                         </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>

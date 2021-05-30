@@ -54,6 +54,7 @@ class Buku_besarModel extends CI_Model
             'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('kredit')),
             'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('debet')),
             'BUKU_BESAR_SUMBER' => "BUKU BESAR",
+            'BUKU_BESAR_JENIS_PENGELUARAN' => $this->input->post('jenis_pengeluaran'),
             'BUKU_BESAR_KETERANGAN' => $this->input->post('keterangan'),
             'BUKU_BESAR_FILE' => $config['file_name'],
 
