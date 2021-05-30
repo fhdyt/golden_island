@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jumlah Tabung</label>
-                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" value="1" readonly>
+                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" value="1">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Kode Tabung</label>
