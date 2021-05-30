@@ -50,8 +50,15 @@
             </center>
             <br>
             <br>
-            <div class="row invoice-info">
+            <div class="row invoice-info mb-2">
                 <div class="col-sm-6 invoice-col">
+                </div>
+                <div class="col-sm-6 invoice-col text-right">
+                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->SURAT_JALAN_TANGGAL); ?>
+                </div>
+            </div>
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
                     Kepada :
                     <hr>
                     <address>
@@ -70,16 +77,7 @@
                     </address>
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-6 invoice-col text-right">
-                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->SURAT_JALAN_TANGGAL); ?>
-                </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-
-            <!-- Table row -->
-            <div class="row">
-                <div class="col-12 table-responsive">
+                <div class="col-sm-8 invoice-col text-right">
                     <table class="table table-bordered">
                         <tr>
                             <th>No.</th>
@@ -98,10 +96,14 @@
                         }
                         ?>
                     </table>
+
                 </div>
                 <!-- /.col -->
             </div>
             <!-- /.row -->
+
+            <!-- Table row -->
+
             <hr>
             <div class="row invoice-info mb-4">
                 <div class="col-sm-4 invoice-col">

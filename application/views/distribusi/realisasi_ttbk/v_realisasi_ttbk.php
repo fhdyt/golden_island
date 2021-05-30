@@ -102,12 +102,17 @@
                     for (i = 0; i < data.length; i++) {
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                             var realisasi_id = "<?= create_id(); ?>"
-                            var status = ""
+                            var status_realisasi = ""
                         } else {
                             var realisasi_id = data[i].REALISASI_ID
-                            var status = "Realisasi Selesai, Menunggu Faktur..."
+                            var status_realisasi = "Realisasi Selesai"
                         }
-                        var btn_realisasi = "<a class='btn btn-success btn-sm' href='<?php base_url(); ?>realisasi_ttbk/form/" + data[i].SURAT_JALAN_ID + "'>Realisasi</a>"
+                        if (data[i].SURAT_JALAN_STATUS == "open") {
+                            var status_faktur = ""
+                        } else {
+                            var status_faktur = "Faktur Telah Diproses"
+                        }
+                        var btn_realisasi = "<a class='btn btn-success btn-sm' href='<?php base_url(); ?>realisasi_ttbk/form/" + data[i].SURAT_JALAN_ID + "'>TTBK</a>"
 
                         if (data[i].RELASI == "") {
                             var relasi = "-"
@@ -130,7 +135,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small class+'text-muted'>" + status + "</small></td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small class='text-muted'>" + status_realisasi + "</small><br><small class='text-muted'>" + status_faktur + "</small></td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td>" + supplier + "</td>" +

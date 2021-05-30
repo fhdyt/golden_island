@@ -93,7 +93,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small class+'text-muted'>" + status + "</small></td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small class='text-muted'>" + status + "</small></td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td>" + supplier + "</td>" +
