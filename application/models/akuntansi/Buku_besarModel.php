@@ -9,9 +9,15 @@ class Buku_besarModel extends CI_Model
         // echo $this->input->post("tanggal_sampai");
         //exit;
 
-        if (!empty($tanggal_dari)) {
-            $tanggal = 'AND BUKU_BESAR_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
-            $hasil['saldo_awal'] = $this->db->query('SELECT 
+        // if (!empty($tanggal_dari)) {
+
+        // } else {
+        //     $tanggal = '';
+        //     $hasil['saldo_awal'] = "";
+        // }
+
+        $tanggal = 'AND BUKU_BESAR_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+        $hasil['saldo_awal'] = $this->db->query('SELECT 
             SUM(BUKU_BESAR_KREDIT) AS KREDIT,
             SUM(BUKU_BESAR_DEBET) AS DEBET 
             FROM 
@@ -21,12 +27,6 @@ class Buku_besarModel extends CI_Model
             AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
             AND BUKU_BESAR_TANGGAL < "' . $tanggal_dari . '"
             ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
-        } else {
-            $tanggal = '';
-            $hasil['saldo_awal'] = "";
-        }
-
-
 
         $hasil['data'] = $this->db->query('SELECT * FROM 
         BUKU_BESAR WHERE 

@@ -38,7 +38,7 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Gambar</label>
+                        <label for="exampleInputEmail1">Dokumen</label>
                         <input type="file" name="userfile" class="form-control">
                         <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
                     </div>
@@ -269,22 +269,28 @@
 
                 } else {
                     var no = 1
-                    if (data['saldo_awal'] == "") {
-                        var saldo_awal = 0
+                    if (data['saldo_awal'][0].DEBET == null) {
+                        var saldo_awal_debet = 0
                     } else {
-                        var saldo_awal = parseInt(data['saldo_awal'][0].DEBET) - parseInt(data['saldo_awal'][0].KREDIT)
+                        var saldo_awal_debet = data['saldo_awal'][0].DEBET
                     }
+                    if (data['saldo_awal'][0].KREDIT == null) {
+                        var saldo_awal_kredit = 0
+                    } else {
+                        var saldo_awal_kredit = data['saldo_awal'][0].KREDIT
+                    }
+                    var saldo_awal = parseInt(saldo_awal_debet) - parseInt(saldo_awal_kredit)
                     // var saldo_awal = parseInt(data['saldo_awal'][0].DEBET) - parseInt(data['saldo_awal'][0].KREDIT)
                     console.log(saldo_awal)
                     $("tbody#zone_saldo_awal").append("<tr class=''>" +
                         "<td colspan='5' style='text-align:right; vertical-align:middle;'><b>Saldo Awal</b></td>" +
                         "<td>" + number_format(saldo_awal) + "</td>" +
                         "</tr>");
-                    var saldo = 0 + parseInt(saldo_awal)
+                    var saldo = 0 + saldo_awal
                     var total_debet = 0
                     var total_kredit = 0
                     for (i = 0; i < data['data'].length; i++) {
-                        saldo += data['data'][i].SALDO
+                        saldo += parseInt(data['data'][i].SALDO)
 
                         if (data['data'][i].BUKU_BESAR_REF == "") {
                             var btn_hapus = ""
@@ -298,7 +304,7 @@
                         } else if (data['data'][i].BUKU_BESAR_FILE == null) {
                             var file = ""
                         } else {
-                            var file = "<a class='btn btn-secondary btn-xs' href='<?= base_url() ?>uploads/buku_besar/" + data['data'][i].BUKU_BESAR_FILE + "' target='_blank'><i class='fas fa-file'></i> Buka File</a>"
+                            var file = "<a class='btn btn-secondary btn-xs' href='<?= base_url() ?>uploads/buku_besar/" + data['data'][i].BUKU_BESAR_FILE + "' target='_blank'><i class='fas fa-file'></i> Buka Dokumen</a>"
                         }
 
                         total_debet += parseInt(data['data'][i].BUKU_BESAR_DEBET)
