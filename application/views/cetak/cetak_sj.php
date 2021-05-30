@@ -80,7 +80,7 @@
             <!-- Table row -->
             <div class="row">
                 <div class="col-12 table-responsive">
-                    <table class="table">
+                    <table class="table table-bordered">
                         <tr>
                             <th>No.</th>
                             <th>Nama Barang</th>
@@ -103,12 +103,35 @@
             </div>
             <!-- /.row -->
             <hr>
-            <div class="row invoice-info">
-                <div class="col-sm-12 invoice-col">
+            <div class="row invoice-info mb-4">
+                <div class="col-sm-4 invoice-col">
                     <?= $this->lang->line('keterangan'); ?>
                     <address>
                         <?php echo nl2br($detail[0]->SURAT_JALAN_KETERANGAN); ?>
                     </address>
+                </div>
+                <div class="col-sm-8 invoice-col">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td colspan="3" style="text-align:center"><b>Terima Tabung Kembali</b></td>
+                        </tr>
+                        <tr>
+                            <?php
+                            foreach ($barang as $row) { ?>
+                        <tr>
+                            <td style="text-align:center ;vertical-align: middle;" rowspan="2"><?= $row->MASTER_BARANG_NAMA; ?></td>
+                            <td style="text-align:center">MP</td>
+                            <td style="text-align:center">MR</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center"><br></td>
+                            <td style="text-align:center"><br></td>
+                        </tr>
+                    <?php
+                            }
+                    ?>
+                    </tr>
+                    </table>
                 </div>
             </div>
             <div class="row invoice-info">

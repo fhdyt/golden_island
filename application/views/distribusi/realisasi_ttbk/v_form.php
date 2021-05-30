@@ -53,7 +53,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Realisasi Surat Jalan</h1>
+                    <h1 class="m-0">Realisasi TTBK</h1>
                     <p class="surat_jalan_nomor">Loading...</p>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -82,9 +82,9 @@
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-four-tabContent">
                         <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
-                            <input type="hidden" class="form-control total_tabung_sj" name="total_tabung_sj" id="total_tabung_sj" value="" autocomplete="off">
-                            <input type="hidden" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
-                            <input type="hidden" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
+                            <input type="text" class="form-control total_tabung_sj" name="total_tabung_sj" id="total_tabung_sj" value="" autocomplete="off">
+                            <input type="text" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
+                            <input type="text" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -247,11 +247,10 @@
     function surat_jalan_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi?surat_jalan_id=<?= $this->uri->segment("4"); ?>",
+            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_ttbk/list_realisasi?surat_jalan_id=<?= $this->uri->segment("4"); ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
-                $(".jenis").empty()
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
                 memuat()
@@ -274,7 +273,7 @@
                         var barangLlength = 0;
 
                         for (var j = 0; j < detailLength; j++) {
-                            $(".jenis").append("<option value='" + data[i].BARANG[j].MASTER_BARANG_ID + "'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</option")
+                            //  $(".jenis").append("<option value='" + data[i].BARANG[j].MASTER_BARANG_ID + "'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</option")
                             total_qty += data[i].BARANG[j].TOTAL
                             tableContent += "<tr>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data[i].BARANG[j].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
@@ -290,7 +289,6 @@
                     $(".total_tabung_sj").val(total_qty)
 
                     realisasi_list()
-                    //realisasi_mr_list()
                 }
             },
             error: function(x, e) {
@@ -302,7 +300,7 @@
     function realisasi_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list_realisasi_tabung?surat_jalan_id=<?= $this->uri->segment('4'); ?>",
+            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_ttbk/list_realisasi_tabung?surat_jalan_id=<?= $this->uri->segment('4'); ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -323,7 +321,7 @@
                             "<td>" + data['mp'][i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>-</td>" +
                             "<td>-</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['mp'][i].REALISASI_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['mp'][i].REALISASI_TTBK_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
                             "</tr>");
 
                     }
@@ -334,22 +332,7 @@
                             "<td>" + data['mr'][i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>-</td>" +
                             "<td>-</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus_mr(\"" + data['mr'][i].REALISASI_BARANG_MR_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
-                            "</tr>");
-
-                    }
-                    var total_tabung_tersimpan = parseInt($(".total_realisasi").val()) + parseInt($(".total_tabung_mr").val())
-                    var total_tabung_sj = parseInt($(".total_tabung_sj").val())
-                    var selisih = total_tabung_sj - total_tabung_tersimpan;
-                    console.log(parseInt($(".total_tabung_sj").val()))
-                    for (i = 0; i < selisih; i++) {
-                        $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
-                            "<td>" + no++ + ".</td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus_mr(\"" + data['mr'][i].REALISASI_TTBK_BARANG_MR_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
                             "</tr>");
 
                     }
@@ -364,7 +347,7 @@
     function jenis_tabung() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/jenis_tabung?jenis=' + $(".jenis").val() + '',
+            url: '<?php echo base_url() ?>index.php/distribusi/realisasi_ttbk/jenis_tabung?jenis=' + $(".jenis").val() + '',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -385,80 +368,46 @@
     }
 
     $('.btn-realisasi').on("click", function(e) {
-        var total_tabung_sj = $(".total_tabung_sj").val()
         var total_realisasi = parseInt($(".total_realisasi").val())
         var total_tabung_mr = parseInt($(".total_tabung_mr").val())
-        if (total_tabung_sj == (total_realisasi + total_tabung_mr)) {
-            $.ajax({
-                type: "POST",
-                url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add',
-                dataType: "JSON",
-                beforeSend: function() {
-                    memuat()
-                },
-                data: {
-                    surat_jalan_id: "<?= $this->uri->segment('4'); ?>",
-                    total_realisasi: total_realisasi,
-                    total_tabung_mr: total_tabung_mr,
-                },
-                success: function(data) {
-                    memuat()
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_ttbk/add',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                surat_jalan_id: "<?= $this->uri->segment('4'); ?>",
+                total_realisasi: total_realisasi,
+                total_tabung_mr: total_tabung_mr,
+            },
+            success: function(data) {
+                memuat()
 
-                    Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
-                }
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Total Realisasi Tidak Sesuai'
-            })
-        }
+                Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
+            }
+        });
     })
 
     $('#submit_barang_mr').submit(function(e) {
         e.preventDefault();
-
-        var total_tabung_sj = parseInt($(".total_tabung_sj").val())
-        var total_input = parseInt($(".jumlah_mp").val()) + parseInt($(".jumlah_mr").val())
-
-        var total_realisasi = parseInt($(".total_realisasi").val())
-        var total_tabung_mr = parseInt($(".total_tabung_mr").val())
-        var total_sisa = total_tabung_sj - total_realisasi + total_tabung_mr
-
-        console.log(total_tabung_sj)
-        console.log(total_input)
-        console.log(total_sisa)
-        if (total_input > total_tabung_sj) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Total realisasi tidak sesuai, Periksa kembali'
-            })
-        } else if (total_input > total_sisa) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Total realisasi tidak sesuai, Periksa kembali'
-            })
-        } else {
-            $.ajax({
-                url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
-                type: "post",
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                cache: false,
-                beforeSend: function() {
-                    memuat()
-                },
-                success: function(data) {
-                    realisasi_list()
-                    memuat()
-                    $("#barangModal").modal("hide")
-                }
-            });
-        }
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_ttbk/add_barang?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                realisasi_list()
+                memuat()
+                $("#barangModal").modal("hide")
+            }
+        });
 
     })
 
@@ -474,7 +423,7 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/distribusi/realisasi_ttbk/hapus/' + id,
                     beforeSend: function() {
                         memuat()
                     },
@@ -511,7 +460,7 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/hapus_mr/' + id,
+                    url: '<?php echo base_url() ?>index.php/distribusi/realisasi_ttbk/hapus_mr/' + id,
                     beforeSend: function() {
                         memuat()
                     },
@@ -556,7 +505,7 @@
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/detail/<?= $this->uri->segment("4"); ?>',
+            url: '<?php echo base_url() ?>index.php/distribusi/realisasi_ttbk/detail/<?= $this->uri->segment("4"); ?>',
             async: false,
             dataType: 'json',
             success: function(data) {

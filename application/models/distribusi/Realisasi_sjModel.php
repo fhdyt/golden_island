@@ -131,6 +131,7 @@ class Realisasi_sjModel extends CI_Model
         );
 
         $this->db->where('JURNAL_TABUNG_REF', $this->input->post("surat_jalan_id"));
+        $this->db->where('JURNAL_TABUNG_KIRIM >', 0);
         $this->db->update('JURNAL_TABUNG', $data_edit_jurnal);
 
         $data = array(

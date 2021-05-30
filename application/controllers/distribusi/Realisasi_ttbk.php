@@ -43,72 +43,72 @@ class Realisasi_ttbk extends CI_Controller
 
     public function list()
     {
-        $data = $this->Realisasi_sjModel->list();
+        $data = $this->Realisasi_ttbkModel->list();
         echo json_encode($data);
     }
 
     public function list_realisasi()
     {
         $surat_jalan_id = $_GET['surat_jalan_id'];
-        $data = $this->Realisasi_sjModel->list_realisasi($surat_jalan_id);
+        $data = $this->Realisasi_ttbkModel->list_realisasi($surat_jalan_id);
         echo json_encode($data);
     }
 
     public function list_realisasi_tabung()
     {
         $surat_jalan_id = $_GET['surat_jalan_id'];
-        $data = $this->Realisasi_sjModel->list_realisasi_tabung($surat_jalan_id);
+        $data = $this->Realisasi_ttbkModel->list_realisasi_tabung($surat_jalan_id);
         echo json_encode($data);
     }
     public function list_realisasi_tabung_mr()
     {
         $surat_jalan_id = $_GET['surat_jalan_id'];
-        $data = $this->Realisasi_sjModel->list_realisasi_tabung_mr($surat_jalan_id);
+        $data = $this->Realisasi_ttbkModel->list_realisasi_tabung_mr($surat_jalan_id);
         echo json_encode($data);
     }
 
     public function jenis_tabung()
     {
         $jenis = $_GET['jenis'];
-        $data = $this->Realisasi_sjModel->jenis_tabung($jenis);
+        $data = $this->Realisasi_ttbkModel->jenis_tabung($jenis);
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->Realisasi_sjModel->add();
+        $data = $this->Realisasi_ttbkModel->add();
         echo json_encode($data);
     }
     public function add_barang()
     {
         $surat_jalan_id = $_GET['surat_jalan_id'];
-        $data = $this->Realisasi_sjModel->add_barang($surat_jalan_id);
+        $data = $this->Realisasi_ttbkModel->add_barang($surat_jalan_id);
         echo json_encode($data);
     }
     public function add_barang_mr()
     {
         $surat_jalan_id = $_GET['surat_jalan_id'];
-        $data = $this->Realisasi_sjModel->add_barang_mr($surat_jalan_id);
+        $data = $this->Realisasi_ttbkModel->add_barang_mr($surat_jalan_id);
         echo json_encode($data);
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Realisasi_sjModel->hapus($id);
+        $data = $this->Realisasi_ttbkModel->hapus($id);
         echo json_encode($data);
     }
     public function hapus_mr()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Realisasi_sjModel->hapus_mr($id);
+        $data = $this->Realisasi_ttbkModel->hapus_mr($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Realisasi_sjModel->detail($id);
+        $data = $this->Realisasi_ttbkModel->detail($id);
         echo json_encode($data);
     }
 }

@@ -42,8 +42,8 @@ class Realisasi_ttbkModel extends CI_Model
     public function list()
     {
         $hasil = $this->db->query('SELECT * FROM SURAT_JALAN AS SJ 
-                                    WHERE SJ.SURAT_JALAN_STATUS="open" 
-                                    AND SJ.RECORD_STATUS="AKTIF" 
+                                    WHERE 
+                                    SJ.RECORD_STATUS="AKTIF" 
                                     AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                     ORDER BY SJ.SURAT_JALAN_NOMOR DESC')->result();
         foreach ($hasil as $row) {
@@ -65,7 +65,7 @@ class Realisasi_ttbkModel extends CI_Model
     public function list_realisasi_tabung($surat_jalan_id)
     {
         $hasil['mp'] = $this->db->query('SELECT * FROM 
-                                    REALISASI_BARANG AS R
+                                    REALISASI_TTBK_BARANG AS R
                                     LEFT JOIN MASTER_BARANG AS B
                                     ON R.MASTER_BARANG_ID=B.MASTER_BARANG_ID
                                     WHERE 
@@ -75,7 +75,7 @@ class Realisasi_ttbkModel extends CI_Model
                                     AND B.RECORD_STATUS="AKTIF"
                                     AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         $hasil['mr'] = $this->db->query('SELECT * FROM 
-                                    REALISASI_BARANG_MR AS R
+                                    REALISASI_TTBK_BARANG_MR AS R
                                     LEFT JOIN MASTER_BARANG AS B
                                     ON R.MASTER_BARANG_ID=B.MASTER_BARANG_ID
                                     WHERE 
@@ -131,21 +131,21 @@ class Realisasi_ttbkModel extends CI_Model
         );
 
         $this->db->where('JURNAL_TABUNG_REF', $this->input->post("surat_jalan_id"));
+        $this->db->where('JURNAL_TABUNG_KEMBALI >', 0);
         $this->db->update('JURNAL_TABUNG', $data_edit_jurnal);
 
         $data = array(
-            'SURAT_JALAN_REALISASI_STATUS' => "selesai",
-            'SURAT_JALAN_REALISASI_JUMLAH_MP' => $this->input->post("total_realisasi"),
-            'SURAT_JALAN_REALISASI_JUMLAH_MR' => $this->input->post("total_tabung_mr"),
+            'SURAT_JALAN_REALISASI_TTBK_STATUS' => "selesai",
+            'SURAT_JALAN_REALISASI_TTBK_JUMLAH_MP' => $this->input->post("total_realisasi"),
+            'SURAT_JALAN_REALISASI_TTBK_JUMLAH_MR' => $this->input->post("total_tabung_mr"),
         );
 
         $this->db->where('SURAT_JALAN_ID', $this->input->post("surat_jalan_id"));
         $this->db->where('RECORD_STATUS', "AKTIF");
         $this->db->update('SURAT_JALAN', $data);
 
-        //$surat_jalan_barang = $this->db->query('SELECT * FROM SURAT_JALAN_BARANG WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
-        $realisasi_barang = $this->db->query('SELECT MASTER_BARANG_ID,COUNT(MASTER_BARANG_ID) AS JUMLAH FROM REALISASI_BARANG WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" GROUP BY MASTER_BARANG_ID ')->result();
-        $realisasi_barang_mr = $this->db->query('SELECT MASTER_BARANG_ID, COUNT(MASTER_BARANG_ID) AS JUMLAH FROM REALISASI_BARANG_MR WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" GROUP BY MASTER_BARANG_ID ')->result();
+        $realisasi_barang = $this->db->query('SELECT MASTER_BARANG_ID,COUNT(MASTER_BARANG_ID) AS JUMLAH FROM REALISASI_TTBK_BARANG WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" GROUP BY MASTER_BARANG_ID ')->result();
+        $realisasi_barang_mr = $this->db->query('SELECT MASTER_BARANG_ID, COUNT(MASTER_BARANG_ID) AS JUMLAH FROM REALISASI_TTBK_BARANG_MR WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" GROUP BY MASTER_BARANG_ID ')->result();
         foreach ($realisasi_barang as $mp) {
             $data_mp = array(
                 'JURNAL_TABUNG_ID' => create_id(),
@@ -153,8 +153,8 @@ class Realisasi_ttbkModel extends CI_Model
                 'MASTER_SUPPLIER_ID' => $surat_jalan[0]->MASTER_SUPPLIER_ID,
                 'MASTER_BARANG_ID' => $mp->MASTER_BARANG_ID,
                 'JURNAL_TABUNG_TANGGAL' => date("Y-m-d"),
-                'JURNAL_TABUNG_KIRIM' => $mp->JUMLAH,
-                'JURNAL_TABUNG_KEMBALI' => "",
+                'JURNAL_TABUNG_KIRIM' => "",
+                'JURNAL_TABUNG_KEMBALI' => $mp->JUMLAH,
                 'JURNAL_TABUNG_STATUS' => "MP",
                 'JURNAL_TABUNG_KETERANGAN' => "SURAT JALAN NO. " . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
                 'JURNAL_TABUNG_FILE' => "empty",
@@ -175,8 +175,8 @@ class Realisasi_ttbkModel extends CI_Model
                 'MASTER_SUPPLIER_ID' => $surat_jalan[0]->MASTER_SUPPLIER_ID,
                 'MASTER_BARANG_ID' => $mr->MASTER_BARANG_ID,
                 'JURNAL_TABUNG_TANGGAL' => date("Y-m-d"),
-                'JURNAL_TABUNG_KIRIM' => $mr->JUMLAH,
-                'JURNAL_TABUNG_KEMBALI' => "",
+                'JURNAL_TABUNG_KIRIM' => "",
+                'JURNAL_TABUNG_KEMBALI' => $mr->JUMLAH,
                 'JURNAL_TABUNG_STATUS' => "MR",
                 'JURNAL_TABUNG_KETERANGAN' => "SURAT JALAN NO. " . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
                 'JURNAL_TABUNG_FILE' => "empty",
@@ -251,7 +251,7 @@ class Realisasi_ttbkModel extends CI_Model
     {
         for ($x = 1; $x <= $this->input->post('jumlah_mp'); $x++) {
             $data = array(
-                'REALISASI_BARANG_ID' => create_id(),
+                'REALISASI_TTBK_BARANG_ID' => create_id(),
                 'SURAT_JALAN_ID' => $surat_jalan_id,
                 'MASTER_BARANG_ID' => $this->input->post('jenis'),
 
@@ -261,12 +261,12 @@ class Realisasi_ttbkModel extends CI_Model
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
-            $this->db->insert('REALISASI_BARANG', $data);
+            $this->db->insert('REALISASI_TTBK_BARANG', $data);
         }
 
         for ($x = 1; $x <= $this->input->post('jumlah_mr'); $x++) {
             $data = array(
-                'REALISASI_BARANG_MR_ID' => create_id(),
+                'REALISASI_TTBK_BARANG_MR_ID' => create_id(),
                 'SURAT_JALAN_ID' => $surat_jalan_id,
                 'MASTER_BARANG_ID' => $this->input->post('jenis'),
 
@@ -276,7 +276,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
-            $this->db->insert('REALISASI_BARANG_MR', $data);
+            $this->db->insert('REALISASI_TTBK_BARANG_MR', $data);
         }
 
         return true;
@@ -291,8 +291,8 @@ class Realisasi_ttbkModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $this->db->where('REALISASI_BARANG_ID', $id);
-        $result = $this->db->update('REALISASI_BARANG', $data);
+        $this->db->where('REALISASI_TTBK_BARANG_ID', $id);
+        $result = $this->db->update('REALISASI_TTBK_BARANG', $data);
         return $result;
     }
     public function hapus_mr($id)
@@ -304,8 +304,8 @@ class Realisasi_ttbkModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $this->db->where('REALISASI_BARANG_MR_ID', $id);
-        $result = $this->db->update('REALISASI_BARANG_MR', $data);
+        $this->db->where('REALISASI_TTBK_BARANG_MR_ID', $id);
+        $result = $this->db->update('REALISASI_TTBK_BARANG_MR', $data);
         return $result;
     }
 
