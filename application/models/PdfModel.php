@@ -32,6 +32,26 @@ class PdfModel extends CI_Model
         $hasil['supplier'] = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $hasil['detail'][0]->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         $hasil['driver'] = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_ID="' . $hasil['detail'][0]->DRIVER_ID . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil['barang_mp'] = $this->db->query('SELECT * FROM 
+                            REALISASI_BARANG AS R
+                            LEFT JOIN MASTER_BARANG AS B
+                            ON R.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+                            WHERE 
+                            R.SURAT_JALAN_ID="' . $hasil['detail'][0]->SURAT_JALAN_ID . '" 
+                            AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                            AND B.RECORD_STATUS="AKTIF"
+                            AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                            AND R.RECORD_STATUS="AKTIF"')->result();
+        $hasil['barang_mr'] = $this->db->query('SELECT * FROM 
+                            REALISASI_BARANG_MR AS R
+                            LEFT JOIN MASTER_BARANG AS B
+                            ON R.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+                            WHERE 
+                            R.SURAT_JALAN_ID="' . $hasil['detail'][0]->SURAT_JALAN_ID . '" 
+                            AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                            AND B.RECORD_STATUS="AKTIF"
+                            AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                            AND R.RECORD_STATUS="AKTIF"')->result();
         return $hasil;
     }
     public function tabung()
