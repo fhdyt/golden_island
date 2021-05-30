@@ -158,7 +158,7 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required>
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                             <small class="text-muted">Tanggal Dari.</small>
                         </div>
                         <div class="col-md-3">
@@ -286,7 +286,8 @@
                         saldo += data['data'][i].SALDO
 
                         if (data['data'][i].BUKU_BESAR_REF == "") {
-                            var btn_hapus = "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['data'][i].BUKU_BESAR_ID + "\")'><i class='fas fa-trash'></i></a></td>"
+                            var btn_hapus = ""
+                            //var btn_hapus = "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['data'][i].BUKU_BESAR_ID + "\")'><i class='fas fa-trash'></i></a></td>"
                         } else {
                             var btn_hapus = ""
                         }

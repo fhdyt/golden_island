@@ -17,7 +17,25 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>distribusi/surat_jalan/form?jenis_sj=pembelian" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a>
+
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <a href="<?= base_url(); ?>distribusi/surat_jalan/form?jenis_sj=pembelian" class="btn btn-secondary mb-2 btn-block btn-form">Tambah Surat Jalan</a>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                            <small class="text-muted">Tanggal Dari.</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Tanggal Sampai.</small>
+                        </div>
+                    </div>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -46,12 +64,21 @@
         po_list();
     });
 
+    $('.filter_tanggal').on("click", function() {
+        memuat()
+        po_list()
+    });
+
     function po_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/distribusi/surat_jalan/list?jenis_sj=pembelian",
             async: false,
             dataType: 'json',
+            data: {
+                tanggal_dari: $('.tanggal_dari').val(),
+                tanggal_sampai: $('.tanggal_sampai').val(),
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()

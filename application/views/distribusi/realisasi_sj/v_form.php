@@ -418,23 +418,35 @@
 
     $('#submit_barang_mr').submit(function(e) {
         e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                realisasi_list()
-                // realisasi_mr_list()
-                memuat()
-                $("#barangModal").modal("hide")
-            }
-        });
+        var total_tabung_sj = parseInt($(".total_tabung_sj").val())
+        var total_input = parseInt($(".jumlah_mp").val()) + parseInt($(".jumlah_mr").val())
+        console.log(total_tabung_sj)
+        console.log(total_input)
+        if (total_input == total_tabung_sj) {
+            $.ajax({
+                url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_barang?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
+                type: "post",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
+                beforeSend: function() {
+                    memuat()
+                },
+                success: function(data) {
+                    realisasi_list()
+                    memuat()
+                    $("#barangModal").modal("hide")
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Total realisasi tidak sesuai, Periksa kembali'
+            })
+        }
+
     })
 
     function hapus(id) {

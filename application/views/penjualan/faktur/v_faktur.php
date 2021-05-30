@@ -15,6 +15,7 @@
                             <td>Nomor Surat Jalan</td>
                             <td>Tanggal</td>
                             <td>Relasi</td>
+                            <td>Dibuat Oleh</td>
                         </tr>
                     </thead>
                     <tbody id="surat_jalan_baru">
@@ -26,7 +27,6 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
                 </form>
             </div>
         </div>
@@ -144,8 +144,9 @@
                         $("tbody#surat_jalan_baru").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small>Keterangan : " + data[i].SURAT_JALAN_KETERANGAN + "</small></td>" +
                             "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>" + data[i].OLEH[0].USER_NAMA + "</td>" +
                             "</tr>");
                     }
                 }

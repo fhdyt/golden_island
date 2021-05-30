@@ -112,7 +112,17 @@
                 </div>
             </div>
             <div class="row invoice-info">
-                <div class="col-6 text-center">
+                <div class="col-4 text-center">
+                    <p>Diterima oleh :</p>
+                    <br>
+                    <br>
+                    <br>
+                    <address>
+                        <b>( ............................. )</b><br>
+                        <?= $relasi[0]->MASTER_RELASI_NAMA; ?>
+                    </address>
+                </div>
+                <div class="col-4 text-center">
                     <p>Dibawa Oleh :</p>
                     <br>
                     <br>
@@ -122,7 +132,7 @@
                         <?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?>
                     </address>
                 </div>
-                <div class="col-6 text-center">
+                <div class="col-4 text-center">
                     <p>Dibuat oleh :</p>
                     <br>
                     <br>
