@@ -153,8 +153,17 @@
                     <br>
                     <br>
                     <address>
-                        <b><?= $driver[0]->MASTER_KARYAWAN_NAMA; ?></b><br>
-                        <?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?>
+                        <?php
+                        if (empty($driver)) {
+                            $nama_driver = "( ............................. )";
+                            $perusahaan = "";
+                        } else {
+                            $nama_driver = $driver[0]->MASTER_KARYAWAN_NAMA;
+                            $perusahaan = detail_perusahaan()[0]->PERUSAHAAN_NAMA;
+                        }
+                        ?>
+                        <b><?= $nama_driver; ?></b><br>
+                        <?= $perusahaan; ?>
                     </address>
                 </div>
                 <div class="col-4 text-center">

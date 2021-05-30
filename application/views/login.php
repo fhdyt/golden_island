@@ -37,7 +37,7 @@
           echo '</div>';
         }
         ?>
-        <p class="login-box-msg"><b>Gas Management System</b> <br>by PT. GOLDEN ISLAND GROUP</p>
+        <p class="login-box-msg"><b>Gas Management System (GMS)</b> <br>by PT. GOLDEN ISLAND GROUP</p>
 
         <form action="<?php echo base_url(); ?>index.php/login/proses" method="post">
           <div class="input-group mb-3">
