@@ -4,7 +4,7 @@ class Realisasi_ttbkModel extends CI_Model
 
     public function list_realisasi($surat_jalan_id)
     {
-        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $surat_jalan_id . '" AND SURAT_JALAN_STATUS="open" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC')->result();
+        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $surat_jalan_id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC')->result();
         foreach ($hasil as $row) {
             $barang = $this->db->query('SELECT * FROM 
                                                 SURAT_JALAN_BARANG AS SJ
@@ -41,10 +41,21 @@ class Realisasi_ttbkModel extends CI_Model
 
     public function list()
     {
+        $tanggal_dari = $this->input->post("tanggal_dari");
+        $tanggal_sampai = $this->input->post("tanggal_sampai");
+
+
+
+        if ($this->input->post("surat_jalan_nomor") == "") {
+            $filter = 'AND SJ.SURAT_JALAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+        } else {
+            $filter = 'AND SJ.SURAT_JALAN_NOMOR = "' . $this->input->post("surat_jalan_nomor") . '"';
+        }
         $hasil = $this->db->query('SELECT * FROM SURAT_JALAN AS SJ 
                                     WHERE 
                                     SJ.RECORD_STATUS="AKTIF" 
                                     AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                    ' . $filter . '
                                     ORDER BY SJ.SURAT_JALAN_NOMOR DESC')->result();
         foreach ($hasil as $row) {
             $driver = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_ID="' . $row->DRIVER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  LIMIT 1 ');
@@ -156,7 +167,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'JURNAL_TABUNG_KIRIM' => "",
                 'JURNAL_TABUNG_KEMBALI' => $mp->JUMLAH,
                 'JURNAL_TABUNG_STATUS' => "MP",
-                'JURNAL_TABUNG_KETERANGAN' => "SURAT JALAN NO. " . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
+                'JURNAL_TABUNG_KETERANGAN' => "TTBK SURAT JALAN NO. " . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
                 'JURNAL_TABUNG_FILE' => "empty",
                 'JURNAL_TABUNG_REF'  => $this->input->post("surat_jalan_id"),
 
@@ -178,7 +189,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'JURNAL_TABUNG_KIRIM' => "",
                 'JURNAL_TABUNG_KEMBALI' => $mr->JUMLAH,
                 'JURNAL_TABUNG_STATUS' => "MR",
-                'JURNAL_TABUNG_KETERANGAN' => "SURAT JALAN NO. " . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
+                'JURNAL_TABUNG_KETERANGAN' => "TTBK SURAT JALAN NO. " . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
                 'JURNAL_TABUNG_FILE' => "empty",
                 'JURNAL_TABUNG_REF'  => $this->input->post("surat_jalan_id"),
 

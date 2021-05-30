@@ -82,9 +82,9 @@
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-four-tabContent">
                         <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
-                            <input type="text" class="form-control total_tabung_sj" name="total_tabung_sj" id="total_tabung_sj" value="" autocomplete="off">
-                            <input type="text" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
-                            <input type="text" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
+                            <input type="hidden" class="form-control total_tabung_sj" name="total_tabung_sj" id="total_tabung_sj" value="" autocomplete="off">
+                            <input type="hidden" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
+                            <input type="hidden" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
