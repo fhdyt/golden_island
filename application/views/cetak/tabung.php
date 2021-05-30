@@ -17,41 +17,22 @@
 <body>
     <div class="container">
         <div class="row">
-            <table class="table table-bordered">
+            <table class="table">
 
 
                 <?php foreach ($tabung as $row) {
                 ?>
                     <tr>
-                        <td>
-                            <img src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $row->MASTER_TABUNG_KODE); ?>.png" class="card-img-top" alt="...">
-                        </td>
-                        <td>
-                            <img src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $row->MASTER_TABUNG_KODE); ?>.png" class="card-img-top" alt="...">
-                        </td>
-                        <td>
-                            <img src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $row->MASTER_TABUNG_KODE); ?>.png" class="card-img-top" alt="...">
+                        <td rowspan="2" style="text-align:center; vertical-align:middle">
+                            <img src="<?= base_url(); ?>uploads/perusahaan/STIKER_<?= $this->session->userdata('PERUSAHAAN_KODE'); ?>.png" class="card-img-top" alt="...">
                         </td>
                         <td>
                             <img src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $row->MASTER_TABUNG_KODE); ?>.png" class="card-img-top" alt="...">
                         </td>
                     </tr>
                     <tr>
-                        <td align="center">
-                            <h2><b><?= $row->MASTER_TABUNG_KODE; ?></b></h2>
-                            <small class="text-muted"><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></small>
-                        </td>
-                        <td align="center">
-                            <h2><b><?= $row->MASTER_TABUNG_KODE; ?></b></h2>
-                            <small class="text-muted"><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></small>
-                        </td>
-                        <td align="center">
-                            <h2><b><?= $row->MASTER_TABUNG_KODE; ?></b></h2>
-                            <small class="text-muted"><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></small>
-                        </td>
-                        <td align="center">
-                            <h2><b><?= $row->MASTER_TABUNG_KODE; ?></b></h2>
-                            <small class="text-muted"><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></small>
+                        <td style="text-align: center;">
+                            <h3><?= $row->MASTER_TABUNG_KODE ?></h3>
                         </td>
                     </tr>
 
