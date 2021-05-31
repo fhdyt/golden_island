@@ -213,13 +213,17 @@ if (empty($this->uri->segment('4'))) {
                                                     ?>
                                                 </select>
                                             </div>
-                                            <div class="col-sm-7">
+                                            <div class="col-sm-4">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
                                                     <input type="text" class="form-control bayar" name="bayar" onkeyup="kalkulasi_seluruh()" required>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="date" class="form-control tanggal_tempo" name="tanggal_tempo">
+                                                <small class="text-muted">Tanggal jatuh tempo hutang</small>
                                             </div>
                                         </div>
 
@@ -312,6 +316,7 @@ if (empty($this->uri->segment('4'))) {
                         // $(".total").val(data[0].TRANSAKSI[0].FAKTUR_TRANSAKSI_TOTAL)
                         $(".pajak").val(data[0].TRANSAKSI[0].FAKTUR_TRANSAKSI_PAJAK).trigger("change")
                         $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR))
+                        $(".tanggal_tempo").val(data[0].TRANSAKSI[0].PIUTANG_TANGGAL_TEMPO)
                     }
                     kalkulasi_seluruh()
 

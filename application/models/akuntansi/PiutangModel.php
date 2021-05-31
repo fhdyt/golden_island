@@ -52,6 +52,7 @@ class PiutangModel extends CI_Model
                 $row->PEMBAYARAN = $pembayaran;
             }
             $row->TANGGAL = tanggal($row->PIUTANG_TANGGAL);
+            $row->TANGGAL_TEMPO = tanggal($row->PIUTANG_TANGGAL_TEMPO);
         }
         return $hasil;
     }
@@ -115,6 +116,7 @@ class PiutangModel extends CI_Model
             'PIUTANG_ID' => create_id(),
             'AKUN_ID' => $this->input->post('akun'),
             'PIUTANG_TANGGAL' => $this->input->post('tanggal'),
+            'PIUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
             'MASTER_RELASI_ID' => $this->input->post('id'),
             'PIUTANG_KREDIT' => "0",
             'PIUTANG_DEBET' => str_replace(".", "", $this->input->post('rupiah')),

@@ -118,6 +118,7 @@ class FakturModel extends CI_Model
                 'AKUN_ID' => $this->input->post('akun'),
                 'MASTER_RELASI_ID' => $this->input->post('relasi'),
                 'PIUTANG_TANGGAL' => $this->input->post('tanggal'),
+                'PIUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
                 'PIUTANG_KREDIT' => "",
                 'PIUTANG_DEBET' => str_replace(".", "", $this->input->post('sisa_bayar')),
                 'PIUTANG_SUMBER' => "PENJUALAN",
@@ -177,6 +178,7 @@ class FakturModel extends CI_Model
             'FAKTUR_TRANSAKSI_PAJAK_RUPIAH' => str_replace(".", "", $this->input->post('pajak_rupiah')),
             'FAKTUR_TRANSAKSI_GRAND_TOTAL' => str_replace(".", "", $this->input->post('grand_total')),
             'PEMBELIAN_TRANSAKSI_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
+            'PIUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
