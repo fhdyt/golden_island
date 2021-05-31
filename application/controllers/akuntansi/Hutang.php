@@ -71,7 +71,10 @@ class Hutang extends CI_Controller
     {
         $data = $this->HutangModel->add();
     }
-
+    public function add_saldo()
+    {
+        $data = $this->HutangModel->add_saldo();
+    }
     public function hapus()
     {
         $id = $this->uri->segment('4');

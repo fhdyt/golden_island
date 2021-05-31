@@ -110,6 +110,28 @@ class HutangModel extends CI_Model
         return $result;
     }
 
+    public function add_saldo()
+    {
+        $data = array(
+            'HUTANG_ID' => create_id(),
+            'AKUN_ID' => $this->input->post('akun'),
+            'HUTANG_TANGGAL' => $this->input->post('tanggal'),
+            'MASTER_SUPPLIER_ID' => $this->input->post('id'),
+            'HUTANG_KREDIT' => "0",
+            'HUTANG_DEBET' => str_replace(".", "", $this->input->post('rupiah')),
+            'HUTANG_SUMBER' => "HUTANG",
+            'HUTANG_KETERANGAN' => $this->input->post('keterangan'),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('HUTANG', $data);
+        return $result;
+    }
+
     public function hapus($id)
     {
         $data = array(

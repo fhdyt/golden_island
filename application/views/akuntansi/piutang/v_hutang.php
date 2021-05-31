@@ -116,7 +116,7 @@
                     <div class="row mb-2">
                         <div class="col-md-4">
                             <button type="button" class="btn btn-secondary btn_akun mb-2">Bayar Piutang</button>
-                            <button type="button" class="btn btn-warning btn_saldo_piutang mb-2">Tambah Saldo</button>
+                            <button type="button" class="btn btn-warning btn_saldo_piutang mb-2">Tambah Piutang</button>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
