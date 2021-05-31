@@ -33,7 +33,6 @@ class Kontrol_tabungModel extends CI_Model
         WHERE 
         J.RECORD_STATUS="AKTIF" AND J.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND
         R.RECORD_STATUS="AKTIF" AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
-        ' . $filter_tanggal . '
         ' . $filter_relasi . '
         ' . $filter_status . '
         ' . $filter_tabung . '
