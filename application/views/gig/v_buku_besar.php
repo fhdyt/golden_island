@@ -123,7 +123,7 @@
     function buku_besar_list() {
         $.ajax({
             type: 'POST',
-            url: "<?php echo base_url() ?>index.php/akuntansi/buku_besar/list?akun=" + $(".akun").val() + "",
+            url: "<?php echo base_url() ?>index.php/gig/buku_besar/list?akun=" + $(".akun").val() + "",
             async: false,
             dataType: 'json',
             data: {
