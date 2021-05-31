@@ -81,13 +81,6 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Dari</label>
                         <select name="akun_dari" id="akun_dari" class="form-control akun_dari select2" style="width: 100%;" required>
-                            <option value="">-- Akun --</option>
-                            <?php foreach (akun_list() as $row) {
-                            ?>
-                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
-                            <?php
-                            }
-                            ?>
                         </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
@@ -148,14 +141,20 @@
 
                     <div class="row mb-2">
                         <div class="col-md-3">
-                            <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
-                                <option value="">-- Akun --</option>
-                                <?php foreach (akun_list() as $row) {
+                            <select name="perusahaan" id="perusahaan" class="form-control perusahaan select2" style="width: 100%;" required>
+                                <option value="">-- Perusahaan --</option>
+                                <?php
+                                foreach (perusahaan() as $row) {
                                 ?>
-                                    <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                                    <option value="<?= $row->PERUSAHAAN_KODE; ?>"><?= $row->PERUSAHAAN_NAMA; ?> (<?= $row->PERUSAHAAN_KODE; ?>)</option>
                                 <?php
                                 }
                                 ?>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -170,10 +169,6 @@
                                 </div>
                             </div>
                             <small class="text-muted">Tanggal Sampai.</small>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-secondary btn_akun mb-2 mr-2">Tambah</button>
-                            <button type="button" class="btn btn-success btn_transfer mb-2"><i class="fas fa-exchange-alt"></i> Transfer</button>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
@@ -193,6 +188,7 @@
                         </tbody>
                         <tbody id="zone_data">
                             <tr>
+                                <td colspan="10"><?= $this->lang->line('tidak_ada_data'); ?></td>
                             </tr>
                         </tbody>
                         <tfoot id="total_buku_besar">
@@ -240,7 +236,8 @@
         $(".debet").mask("#.##0", {
             reverse: true
         });
-        buku_besar_list();
+        // buku_besar_list();
+        memuat()
     });
 
     function buku_besar_list() {
@@ -252,6 +249,7 @@
             data: {
                 tanggal_dari: $('.tanggal_dari').val(),
                 tanggal_sampai: $('.tanggal_sampai').val(),
+                perusahaan: $('.perusahaan').val(),
             },
             success: function(data) {
                 $("tbody#zone_saldo_awal").empty();
@@ -277,8 +275,7 @@
                         var saldo_awal_kredit = data['saldo_awal'][0].KREDIT
                     }
                     var saldo_awal = parseInt(saldo_awal_debet) - parseInt(saldo_awal_kredit)
-                    // var saldo_awal = parseInt(data['saldo_awal'][0].DEBET) - parseInt(data['saldo_awal'][0].KREDIT)
-                    console.log(saldo_awal)
+
                     $("tbody#zone_saldo_awal").append("<tr class=''>" +
                         "<td colspan='5' style='text-align:right; vertical-align:middle;'><b>Saldo Awal</b></td>" +
                         "<td>" + number_format(saldo_awal) + "</td>" +
@@ -402,31 +399,26 @@
         })
     }
 
-    function detail(id) {
+    function akun_list(id) {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/master/kas_kecil/detail/' + id,
-            beforeSend: function() {
-                memuat()
-            },
+            url: '<?php echo base_url() ?>index.php/gig/buku_besar/akun_list/' + id,
             dataType: 'json',
             success: function(data) {
+                $(".akun").empty()
                 memuat()
-                $(".id").val(data[0].MASTER_DRIVER_ID)
-                $(".nama").val(data[0].MASTER_DRIVER_NAMA)
-                $(".alamat").val(data[0].MASTER_DRIVER_ALAMAT)
-                $(".hp").val(data[0].MASTER_DRIVER_HP)
-                $(".sim").val(data[0].MASTER_DRIVER_SIM)
-                $(".ktp").val(data[0].MASTER_DRIVER_KTP)
+                for (i = 0; i < data.length; i++) {
+                    $(".akun").append("<option value='" + data[i].AKUN_ID + "'>" + data[i].AKUN_NAMA + "</option>")
+                }
 
-                $("#driverModal").modal("show")
             },
             error: function(x, e) {} //end error
         });
     }
-    $('.akun').change(function() {
+
+    $('.perusahaan').change(function() {
         memuat()
-        buku_besar_list()
+        akun_list($(".perusahaan").val())
     });
 
     $('.filter_tanggal').on("click", function() {

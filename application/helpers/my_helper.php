@@ -239,6 +239,16 @@ if (!function_exists('kendaraan')) {
   }
 }
 
+if (!function_exists('perusahaan')) {
+  function perusahaan()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM PERUSAHAAN WHERE RECORD_STATUS="AKTIF"')->result();
+    return $hasil;
+  }
+}
+
 if (!function_exists('detail_perusahaan')) {
   function detail_perusahaan()
   {
