@@ -541,7 +541,7 @@ td<?php
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td><input type='text' class='form-control edit_harga_" + data[i].PEMBELIAN_BARANG_ID + "' id='edit_harga' id_barang='" + data[i].PEMBELIAN_BARANG_ID + "' value='" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "' onfocusout='edit_harga(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'/></td>" +
-                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_BARANG_QUANTITY + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
                             "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
                             // "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +
