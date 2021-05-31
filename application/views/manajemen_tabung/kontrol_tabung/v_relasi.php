@@ -25,7 +25,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control nama_relasi" name="nama_relasi" autocomplete="off" placeholder="Nama Relasi">
                                 <div class="input-group-append">
-                                    <button class="btn btn-success filter"><i class="fas fa-search"></i></button>
+                                    <button class="btn btn-outline-secondary filter"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
                         </div>
