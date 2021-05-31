@@ -29,6 +29,7 @@
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
+        <p class="login-box-msg"><b>Gas Management System (GMS)</b> <br>by PT. GOLDEN ISLAND GROUP</p>
         <?php
         if ($this->session->flashdata('error_login') != '') {
           echo '<div class="alert alert-danger alert-dismissible">';
@@ -37,8 +38,6 @@
           echo '</div>';
         }
         ?>
-        <p class="login-box-msg"><b>Gas Management System (GMS)</b> <br>by PT. GOLDEN ISLAND GROUP</p>
-
         <form action="<?php echo base_url(); ?>index.php/login/proses" method="post">
           <div class="input-group mb-3">
             <!-- <?php echo password_hash("admin", PASSWORD_DEFAULT); ?> -->
