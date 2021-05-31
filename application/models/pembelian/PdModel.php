@@ -99,7 +99,7 @@ class PdModel extends CI_Model
             'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('lainnya')),
             'BUKU_BESAR_DEBET' => "0",
             'BUKU_BESAR_SUMBER' => "PEMBELIAN",
-            'BUKU_BESAR_KETERANGAN' => "Pembayaran Biaya Lainnya " . $nomor_pembelian,
+            'BUKU_BESAR_KETERANGAN' => "Pembayaran Biaya Pengiriman " . $nomor_pembelian,
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

@@ -60,6 +60,7 @@
                                 <th>Debet</th>
                                 <th>Kredit</th>
                                 <th>Saldo</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="zone_saldo_awal">
@@ -158,7 +159,7 @@
 
                     $("tbody#zone_saldo_awal").append("<tr class=''>" +
                         "<td colspan='5' style='text-align:right; vertical-align:middle;'><b>Saldo Awal</b></td>" +
-                        "<td>" + number_format(saldo_awal) + "</td>" +
+                        "<td>" + number_format(saldo_awal) + "</td><td></td>" +
                         "</tr>");
                     var saldo = 0 + saldo_awal
                     var total_debet = 0
@@ -178,7 +179,7 @@
                         } else if (data['data'][i].BUKU_BESAR_FILE == null) {
                             var file = ""
                         } else {
-                            var file = "<a class='btn btn-secondary btn-xs' href='<?= base_url() ?>uploads/buku_besar/" + data['data'][i].BUKU_BESAR_FILE + "' target='_blank'><i class='fas fa-file'></i> Buka Dokumen</a>"
+                            var file = "<a class='btn btn-secondary btn-sm' href='<?= base_url() ?>uploads/buku_besar/" + data['data'][i].BUKU_BESAR_FILE + "' target='_blank'><i class='fas fa-file'></i> Buka Dokumen</a>"
                         }
 
                         total_debet += parseInt(data['data'][i].BUKU_BESAR_DEBET)
@@ -186,11 +187,12 @@
 
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + data['data'][i].TANGGAL + "</td>" +
-                            "<td>" + data['data'][i].BUKU_BESAR_KETERANGAN + "<br>" + file + "</td>" +
+                            "<td>" + data['data'][i].BUKU_BESAR_KETERANGAN + "</td>" +
                             "<td>" + data['data'][i].BUKU_BESAR_SUMBER + "</td>" +
                             "<td>" + number_format(data['data'][i].BUKU_BESAR_DEBET) + "</td>" +
                             "<td>" + number_format(data['data'][i].BUKU_BESAR_KREDIT) + "</td>" +
                             "<td>" + number_format(saldo) + "</td>" +
+                            "<td>" + file + "</td>" +
                             btn_hapus +
                             "</tr>");
                     }
