@@ -78,6 +78,7 @@ class PiModel extends CI_Model
             'PEMBELIAN_STATUS' => "open",
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
 
+
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
@@ -98,6 +99,7 @@ class PiModel extends CI_Model
             'PEMBELIAN_TRANSAKSI_UANG_MUKA' => str_replace(".", "", $this->input->post('uang_muka')),
             'PEMBELIAN_TRANSAKSI_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
             'PEMBELIAN_TRANSAKSI_BIAYA_TAMBAHAN' => str_replace(".", "", $this->input->post('biaya_tambahan')),
+            'HUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -139,6 +141,7 @@ class PiModel extends CI_Model
             'HUTANG_REF' => $this->input->post('id'),
             'AKUN_ID' => $this->input->post('akun'),
             'HUTANG_TANGGAL' => $this->input->post('tanggal'),
+            'HUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
             'HUTANG_KREDIT' => "0",
             'HUTANG_DEBET' => str_replace(".", "", $this->input->post('sisa_bayar')),

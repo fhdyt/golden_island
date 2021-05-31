@@ -452,7 +452,7 @@ if (empty($this->uri->segment('5'))) {
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "" + "</td>" +
-                            "<td>" + number_format(data[i].PEMBELIAN_BARANG_QUANTITY) + "</td>" +
+                            "<td>" + data[i].PEMBELIAN_BARANG_QUANTITY + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG_SATUAN + "</td>" +
                             "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td>" +

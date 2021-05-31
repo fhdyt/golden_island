@@ -271,7 +271,7 @@ td<?php
                                         ?>
                                     </select>
                                 </div>
-                                <div class="col-sm-7">
+                                <div class="col-sm-4">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp.</span>
@@ -279,30 +279,34 @@ td<?php
                                         <input type="text" class="form-control bayar" name="bayar" onkeyup="kalkulasi_seluruh()">
                                     </div>
                                 </div>
-                            </div>
-
-
-                            <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Sisa Hutang</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Rp.</span>
-                                        </div>
-                                        <input type="text" class="form-control sisa_bayar" name="sisa_bayar" readonly>
-                                    </div>
+                                <div class="col-sm-3">
+                                    <input type="date" class="form-control tanggal_tempo" name="tanggal_tempo">
+                                    <small class="text-muted">Tanggal jatuh tempo hutang</small>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="mb-3 row">
-                                <label class="col-sm-2 col-form-label text-right">Biaya Lainnya</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Rp.</span>
-                                        </div>
-                                        <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" readonly>
+                        </div>
+
+
+                        <div class="mb-3 row">
+                            <label class="col-sm-2 col-form-label text-right">Sisa Hutang</label>
+                            <div class="col-sm-10">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp.</span>
                                     </div>
+                                    <input type="text" class="form-control sisa_bayar" name="sisa_bayar" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="mb-3 row">
+                            <label class="col-sm-2 col-form-label text-right">Biaya Lainnya</label>
+                            <div class="col-sm-10">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp.</span>
+                                    </div>
+                                    <input type="text" class="form-control lainnya" name="lainnya" autocomplete="off" value="0" readonly>
                                 </div>
                             </div>
                         </div>
@@ -310,19 +314,20 @@ td<?php
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-default color-palette-box">
-                    <div class="card-body">
-                        <button type="submit" class="btn btn-success btn-lg"><?= $this->lang->line('simpan'); ?></button>
-                        </form>
-                    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-default color-palette-box">
+                <div class="card-body">
+                    <button type="submit" class="btn btn-success btn-lg"><?= $this->lang->line('simpan'); ?></button>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
 
-    </div><!-- /.container-fluid -->
+</div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
 </div>
@@ -414,6 +419,7 @@ td<?php
                     $(".akun").val(data[0].AKUN_ID)
                     $(".keterangan").html(data[0].PEMBELIAN_KETERANGAN)
 
+
                     if (data[0].TRANSAKSI == "") {
                         if (data[0].TRANSAKSI_PO != "") {
                             $(".pajak").val(data[0].TRANSAKSI_PO[0].PEMBELIAN_TRANSAKSI_PAJAK)
@@ -431,6 +437,7 @@ td<?php
                         $(".lainnya").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_LAINNYA))
                         $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR))
                         $(".biaya_tambahan").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BIAYA_TAMBAHAN))
+                        $(".tanggal_tempo").val(data[0].TRANSAKSI[0].HUTANG_TANGGAL_TEMPO)
                     }
 
                     if (data[0].PEMBELIAN_STATUS == "open") {

@@ -52,6 +52,7 @@ class HutangModel extends CI_Model
                 $row->PEMBAYARAN = $pembayaran;
             }
             $row->TANGGAL = tanggal($row->HUTANG_TANGGAL);
+            $row->TANGGAL_TEMPO = tanggal($row->HUTANG_TANGGAL_TEMPO);
         }
         return $hasil;
     }
@@ -116,6 +117,7 @@ class HutangModel extends CI_Model
             'HUTANG_ID' => create_id(),
             'AKUN_ID' => $this->input->post('akun'),
             'HUTANG_TANGGAL' => $this->input->post('tanggal'),
+            'HUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
             'MASTER_SUPPLIER_ID' => $this->input->post('id'),
             'HUTANG_KREDIT' => "0",
             'HUTANG_DEBET' => str_replace(".", "", $this->input->post('rupiah')),

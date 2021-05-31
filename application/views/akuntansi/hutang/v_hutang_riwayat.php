@@ -73,6 +73,11 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Tanggal Jatuh Tempo</label>
+                        <input type="date" class="form-control tanggal_tempo" name="tanggal_tempo" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Rupiah</label>
                         <input type="text" class="form-control rupiah" name="rupiah" autocomplete="off" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
@@ -124,6 +129,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Tanggal</th>
+                                <th>Jatuh Tempo</th>
                                 <th>Keterangan</th>
                                 <th>Hutang</th>
                                 <th colspan="2" align="center">Sisa Hutang</th>
@@ -189,6 +195,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + "</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].TANGGAL_TEMPO + "</td>" +
                             "<td><" + del + ">" + data[i].HUTANG_KETERANGAN + "</" + del + "></td>" +
                             "<td><" + del + ">" + number_format(data[i].HUTANG_DEBET) + "</" + del + "></td>" +
                             "<td>" + number_format(data[i].PEMBAYARAN) + "</td>" +
