@@ -45,7 +45,7 @@
                             <div class="input-group">
                                 <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary filter_tanggal"><i class="fas fa-search"></i></button>
+                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
                             <small class="text-muted">Tanggal Sampai.</small>
