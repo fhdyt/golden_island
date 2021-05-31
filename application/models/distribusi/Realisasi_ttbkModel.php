@@ -49,7 +49,7 @@ class Realisasi_ttbkModel extends CI_Model
         if ($this->input->post("surat_jalan_nomor") == "") {
             $filter = 'AND SJ.SURAT_JALAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
         } else {
-            $filter = 'AND SJ.SURAT_JALAN_NOMOR = "' . $this->input->post("surat_jalan_nomor") . '"';
+            $filter = 'AND SJ.SURAT_JALAN_NOMOR LIKE "%' . $this->input->post("surat_jalan_nomor") . '%"';
         }
         $hasil = $this->db->query('SELECT * FROM SURAT_JALAN AS SJ 
                                     WHERE 
