@@ -18,7 +18,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <select name="relasi_filter" id="relasi_filter" class="form-control relasi_filter select2" style="width: 100%;">
                                 <option value=""><?= $this->lang->line('semua'); ?></option>
                                 <?php
@@ -31,7 +31,7 @@
                             </select>
                             <small class="text-muted">Nama Relasi</small>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <select name="tabung_filter" id="tabung_filter" class="form-control tabung_filter select2" style="width: 100%;">
                                 <option value=""><?= $this->lang->line('semua'); ?></option>
                                 <?php
@@ -44,13 +44,26 @@
                             </select>
                             <small class="text-muted">Jenis Barang</small>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 mt-2">
                             <select name="status_filter" id="status_filter" class="form-control status_filter select2" style="width: 100%;">
                                 <option value=""><?= $this->lang->line('semua'); ?></option>
                                 <option value="MP">MP</option>
                                 <option value="MR">MR</option>
                             </select>
                             <small class="text-muted">Status Kepemilikan Tabung</small>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                            <small class="text-muted">Tanggal Dari.</small>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <div class="input-group">
+                                <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Tanggal Sampai.</small>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
@@ -85,10 +98,14 @@
 
     function kontrol_tabung_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'post',
             url: "<?php echo base_url() ?>index.php/laporan/kontrol_tabung/list?relasi=" + $(".relasi_filter").val() + "&tabung=" + $(".tabung_filter").val() + "&status=" + $(".status_filter").val(),
             async: false,
             dataType: 'json',
+            data: {
+                tanggal_dari: $('.tanggal_dari').val(),
+                tanggal_sampai: $('.tanggal_sampai').val(),
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
@@ -127,6 +144,11 @@
     }
 
     $('#tabung_filter,#status_filter, #relasi_filter').change(function() {
+        memuat()
+        kontrol_tabung_list()
+    });
+
+    $('.filter_tanggal').on("click", function() {
         memuat()
         kontrol_tabung_list()
     });

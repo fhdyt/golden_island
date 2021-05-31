@@ -22,12 +22,18 @@ class Kontrol_tabungModel extends CI_Model
             $filter_status = 'AND J.JURNAL_TABUNG_STATUS="' . $status . '"';
         }
 
+        $tanggal_dari = $this->input->post("tanggal_dari");
+        $tanggal_sampai = $this->input->post("tanggal_sampai");
+
+        $filter_tanggal = 'AND J.JURNAL_TABUNG_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
         $hasil = $this->db->query('SELECT * FROM 
         JURNAL_TABUNG AS J LEFT JOIN MASTER_RELASI AS R
         ON J.MASTER_RELASI_ID=R.MASTER_RELASI_ID
         WHERE 
         J.RECORD_STATUS="AKTIF" AND J.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND
         R.RECORD_STATUS="AKTIF" AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+        ' . $filter_tanggal . '
         ' . $filter_relasi . '
         ' . $filter_status . '
         ' . $filter_tabung . '
