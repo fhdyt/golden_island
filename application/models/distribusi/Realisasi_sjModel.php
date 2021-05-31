@@ -19,7 +19,7 @@ class Realisasi_sjModel extends CI_Model
                                                 AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                                 ')->result();
             foreach ($barang as $row_barang) {
-                $row_barang->TOTAL = $row_barang->SURAT_JALAN_BARANG_QUANTITY + $row_barang->SURAT_JALAN_BARANG_QUANTITY_KOSONG + $row_barang->SURAT_JALAN_BARANG_QUANTITY_KLAIM;
+                $row_barang->TOTAL = $row_barang->SURAT_JALAN_BARANG_QUANTITY - $row_barang->SURAT_JALAN_BARANG_QUANTITY_KLAIM;
             }
             $row->BARANG = $barang;
 

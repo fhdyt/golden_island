@@ -45,6 +45,49 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<div class="modal fade" id="klaimModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Klaim Tabung</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit_klaim">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Jenis</label>
+                        <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;" required>
+                            <option value="">-- Jenis --</option>
+
+                            <?php
+                            foreach (tabung() as $row) {
+                            ?>
+                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Jumlah Tabung MP</label>
+                        <input type="text" class="form-control jumlah" name="jumlah" id="jumlah" autocomplete="off" value="0" required>
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -111,7 +154,8 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-5">
-                                    <button type="button" class="btn btn-primary btn_barang_mr mb-2">Tambah Tabung</button>
+                                    <button type="button" class="btn btn-primary btn_barang_mr mb-2 mr-2">Tambah Tabung</button>
+                                    <button type="button" class="btn btn-secondary btn_klaim mb-2">Klaim Tabung</button>
                                 </div>
                             </div>
                             <table id="example2" class="table table-bordered table-hover">
@@ -239,6 +283,10 @@
 
 
     })
+    $(".btn_klaim").on("click", function() {
+        $("#klaimModal").modal("show")
+    })
+
     $(function() {
         surat_jalan_list()
         detail()
@@ -274,7 +322,7 @@
 
                         for (var j = 0; j < detailLength; j++) {
                             //  $(".jenis").append("<option value='" + data[i].BARANG[j].MASTER_BARANG_ID + "'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</option")
-                            total_qty += data[i].BARANG[j].TOTAL
+                            total_qty += parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY)
                             tableContent += "<tr>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data[i].BARANG[j].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY + "</td>" +
@@ -406,6 +454,25 @@
                 realisasi_list()
                 memuat()
                 $("#barangModal").modal("hide")
+            }
+        });
+
+    })
+    $('#submit_klaim').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_ttbk/klaim_barang?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                surat_jalan_list()
+                $("#klaimModal").modal("hide")
             }
         });
 

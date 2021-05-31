@@ -305,7 +305,7 @@ class FakturModel extends CI_Model
                 'SURAT_JALAN_ID' => $this->input->post('surat_jalan'),
                 'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
                 'FAKTUR_BARANG_JENIS' => $row->SURAT_JALAN_BARANG_JENIS,
-                'FAKTUR_BARANG_QUANTITY' => $row->SURAT_JALAN_BARANG_QUANTITY,
+                'FAKTUR_BARANG_QUANTITY' => $row->SURAT_JALAN_BARANG_QUANTITY - $row->SURAT_JALAN_BARANG_QUANTITY_KLAIM,
                 'FAKTUR_BARANG_SATUAN' => $row->SURAT_JALAN_BARANG_SATUAN,
 
                 'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),

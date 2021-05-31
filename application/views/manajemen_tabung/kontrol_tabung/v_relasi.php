@@ -17,7 +17,21 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>manajemen_tabung/kontrol_tabung/form" class="btn btn-secondary mb-2 btn-form">Tambah Saldo Kontrol Tabung</a>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="<?= base_url(); ?>manajemen_tabung/kontrol_tabung/form" class="btn btn-block btn-secondary mb-2 btn-form mr-2">Tambah Saldo Kontrol Tabung</a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control nama_relasi" name="nama_relasi" autocomplete="off" placeholder="Nama Relasi">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success filter"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -52,12 +66,27 @@
         relasi_list();
     });
 
+    $(".filter").on("click", function() {
+        memuat()
+        relasi_list();
+    })
+
+    $('.nama_relasi').keyup(function(e) {
+        if (e.keyCode == 13) {
+            memuat()
+            relasi_list()
+        }
+    });
+
     function relasi_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/manajemen_tabung/kontrol_tabung/relasi_list",
             async: false,
             dataType: 'json',
+            data: {
+                nama_relasi: $(".nama_relasi").val()
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()

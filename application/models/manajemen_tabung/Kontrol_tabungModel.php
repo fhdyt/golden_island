@@ -4,7 +4,12 @@ class Kontrol_tabungModel extends CI_Model
 
     public function relasi_list()
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_RELASI WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_RELASI_INDEX DESC ')->result();
+        if (empty($this->input->post('nama_relasi'))) {
+            $filter = '';
+        } else {
+            $filter = 'MASTER_RELASI_NAMA LIKE "%' . $this->input->post('nama_relasi') . '%" AND';
+        }
+        $hasil = $this->db->query('SELECT * FROM MASTER_RELASI WHERE ' . $filter . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_RELASI_NAMA ')->result();
         return $hasil;
     }
 

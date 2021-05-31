@@ -19,7 +19,7 @@ class Realisasi_ttbkModel extends CI_Model
                                                 AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                                 ')->result();
             foreach ($barang as $row_barang) {
-                $row_barang->TOTAL = $row_barang->SURAT_JALAN_BARANG_QUANTITY + $row_barang->SURAT_JALAN_BARANG_QUANTITY_KOSONG + $row_barang->SURAT_JALAN_BARANG_QUANTITY_KLAIM;
+                $row_barang->TOTAL = $row_barang->SURAT_JALAN_BARANG_QUANTITY - $row_barang->SURAT_JALAN_BARANG_QUANTITY_KLAIM;
             }
             $row->BARANG = $barang;
 
@@ -291,6 +291,19 @@ class Realisasi_ttbkModel extends CI_Model
         }
 
         return true;
+    }
+    public function klaim_barang($surat_jalan_id)
+    {
+        $data = array(
+
+            'SURAT_JALAN_BARANG_QUANTITY_KLAIM' => $this->input->post('jumlah'),
+        );
+
+        $this->db->where('SURAT_JALAN_ID', $surat_jalan_id);
+        $this->db->where('MASTER_BARANG_ID', $this->input->post('jenis'));
+        $this->db->where('RECORD_STATUS', "AKTIF");
+        $result = $this->db->update('SURAT_JALAN_BARANG', $data);
+        return $result;
     }
 
     public function hapus($id)
