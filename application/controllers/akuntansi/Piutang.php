@@ -89,6 +89,7 @@ class Piutang extends CI_Controller
         $data = $this->PiutangModel->detail($id);
         echo json_encode($data);
     }
+
     public function pi_list()
     {
         $id = $this->uri->segment('4');
