@@ -22,7 +22,7 @@ class Kalender extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('gig/KalenderModel');
+        $this->load->model('akuntansi/KalenderModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -31,7 +31,7 @@ class Kalender extends CI_Controller
     {
         $data['calender'] = $this->KalenderModel->list();
         $this->load->view('_template/header');
-        $this->load->view('gig/v_kalender', $data);
+        $this->load->view('akuntansi/v_kalender', $data);
         $this->load->view('_template/footer');
     }
 
