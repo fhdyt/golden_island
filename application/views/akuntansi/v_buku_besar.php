@@ -23,6 +23,7 @@
                             <option value="Pengeluaran Harian">Pengeluaran Harian</option>
                             <option value="Uang Jalan">Uang Jalan</option>
                             <option value="Jaminan">Jaminan</option>
+                            <option value="Reimburse">Reimburse</option>
                             <option value="Lainnya">Lainnya</option>
                         </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>

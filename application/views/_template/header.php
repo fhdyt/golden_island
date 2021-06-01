@@ -19,11 +19,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
-  <!-- DataTables -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/plugins/flag-icon-css/css/flag-icon.min.css">
@@ -39,16 +34,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="<?php echo base_url(); ?>assets/theme/plugins/inputmask/jquery.inputmask.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/sweetalert.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/jquery.mask.min.js" charset="utf-8"></script>
-
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-  <script src="<?php echo base_url(); ?>assets/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
   <!-- <style>
     [class*=sidebar-dark-] {
       background-color: #000000;
