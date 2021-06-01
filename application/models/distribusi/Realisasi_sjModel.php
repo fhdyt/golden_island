@@ -74,6 +74,13 @@ class Realisasi_sjModel extends CI_Model
                                     AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                     AND B.RECORD_STATUS="AKTIF"
                                     AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil['mp'] as $row) {
+            $tabung = $this->db->query('SELECT MASTER_TABUNG_KODE,MASTER_TABUNG_KODE_LAMA FROM MASTER_TABUNG WHERE
+                                    MASTER_TABUNG_ID = "' . $row->MASTER_TABUNG_ID . '"
+                                    AND RECORD_STATUS="AKTIF"
+                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+            $row->KODE_TABUNG = $tabung->result();
+        }
         $hasil['mr'] = $this->db->query('SELECT * FROM 
                                     REALISASI_BARANG_MR AS R
                                     LEFT JOIN MASTER_BARANG AS B
@@ -84,41 +91,9 @@ class Realisasi_sjModel extends CI_Model
                                     AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                     AND B.RECORD_STATUS="AKTIF"
                                     AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
-        // $hasil = $this->db->query('SELECT * FROM 
-        //                             REALISASI_BARANG AS R
-        //                             LEFT JOIN MASTER_TABUNG AS T
-        //                             ON 
-        //                             R.MASTER_TABUNG_ID = T.MASTER_TABUNG_ID
-        //                             LEFT JOIN
-        //                             MASTER_BARANG AS B
-        //                             ON T.MASTER_BARANG_ID=B.MASTER_BARANG_ID
-        //                             WHERE 
-        //                             R.SURAT_JALAN_ID="' . $surat_jalan_id . '" 
-        //                             AND (R.RECORD_STATUS="AKTIF" OR R.RECORD_STATUS="DRAFT") 
-        //                             AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
-        //                             AND B.RECORD_STATUS="AKTIF"
-        //                             AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
-        //                             AND T.RECORD_STATUS="AKTIF"
-        //                             AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+
         return $hasil;
     }
-
-    // public function list_realisasi_tabung_mr($surat_jalan_id)
-    // {
-    //     $hasil = $this->db->query('SELECT * FROM 
-    //                                 REALISASI_BARANG_MR AS R
-    //                                 LEFT JOIN MASTER_BARANG AS T
-    //                                 ON 
-    //                                 R.MASTER_BARANG_ID = T.MASTER_BARANG_ID
-    //                                 WHERE 
-    //                                 R.SURAT_JALAN_ID="' . $surat_jalan_id . '" 
-    //                                 AND R.RECORD_STATUS="AKTIF" 
-    //                                 AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
-    //                                 AND T.RECORD_STATUS="AKTIF"
-    //                                 AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
-    //     return $hasil;
-    // }
-
     public function add()
     {
         $surat_jalan = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $this->input->post('surat_jalan_id') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
@@ -280,6 +255,30 @@ class Realisasi_sjModel extends CI_Model
             $this->db->insert('REALISASI_BARANG_MR', $data);
         }
 
+        return true;
+    }
+    public function add_scan($surat_jalan_id)
+    {
+        $list = explode(PHP_EOL, $this->input->post('scan'));
+        foreach ($list as $row) {
+            $hasil = $this->db->query('SELECT * FROM MASTER_TABUNG WHERE MASTER_TABUNG_KODE="' . $row . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1');
+            if ($hasil->num_rows() == "") {
+            } else {
+                $tabung = $hasil->result();
+                $data = array(
+                    'REALISASI_BARANG_ID' => create_id(),
+                    'SURAT_JALAN_ID' => $surat_jalan_id,
+                    'MASTER_BARANG_ID' => $tabung[0]->MASTER_BARANG_ID,
+                    'MASTER_TABUNG_ID' => $tabung[0]->MASTER_TABUNG_ID,
+
+                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                    'RECORD_STATUS' => "AKTIF",
+                    'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                );
+                $this->db->insert('REALISASI_BARANG', $data);
+            }
+        }
         return true;
     }
 

@@ -42,6 +42,13 @@ class PdfModel extends CI_Model
                             AND B.RECORD_STATUS="AKTIF"
                             AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                             AND R.RECORD_STATUS="AKTIF"')->result();
+        foreach ($hasil['barang_mp'] as $row) {
+            $tabung = $this->db->query('SELECT MASTER_TABUNG_KODE,MASTER_TABUNG_KODE_LAMA FROM MASTER_TABUNG WHERE
+                                    MASTER_TABUNG_ID = "' . $row->MASTER_TABUNG_ID . '"
+                                    AND RECORD_STATUS="AKTIF"
+                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+            $row->KODE_TABUNG = $tabung->result();
+        }
         $hasil['barang_mr'] = $this->db->query('SELECT * FROM 
                             REALISASI_BARANG_MR AS R
                             LEFT JOIN MASTER_BARANG AS B

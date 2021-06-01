@@ -15,6 +15,53 @@ error_reporting(0);
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/dist/css/adminlte.min.css">
+    <style>
+        table.table-bordered {
+            border: 2px solid black !important;
+            ;
+            margin-top: 20px !important;
+            ;
+        }
+
+        table.table-bordered>thead>tr>th {
+            border: 2px solid black !important;
+            ;
+        }
+
+        table.table-bordered>tbody>tr>td {
+            border: 2px solid black !important;
+            ;
+        }
+
+        table.table-bordered>tr>td {
+            border: 2px solid black !important;
+            ;
+        }
+
+        @media print {
+            table.table-bordered {
+                border: 2px solid black !important;
+                ;
+                margin-top: 20px !important;
+                ;
+            }
+
+            table.table-bordered>thead>tr>th {
+                border: 2px solid black !important;
+                ;
+            }
+
+            table.table-bordered>tbody>tr>td {
+                border: 2px solid black !important;
+                ;
+            }
+
+            table.table-bordered>tr>td {
+                border: 2px solid black !important;
+                ;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -85,9 +132,9 @@ error_reporting(0);
                 <div class="col-sm-5 invoice-col text-right">
                     <table class="table table-bordered">
                         <tr>
-                            <th>No.</th>
-                            <th>Nama Barang</th>
-                            <th>Quantity</th>
+                            <td>No.</td>
+                            <td>Nama Barang</td>
+                            <td>Quantity</td>
                         </tr>
                         <?php
                         $no = 1;
@@ -127,41 +174,19 @@ error_reporting(0);
                     if ($cell >= (count($barang_mp) + count($barang_mr))) {
                         echo '<td>----------</td>';
                     } elseif ($cell < count($barang_mp)) {
-                        echo '<td>' . ($cell + 1) . ') ................. (MP)</td>';
+                        if (count($barang_mp[$cell]->KODE_TABUNG[0]) == 0) {
+                            echo '<td>' . ($cell + 1) . '.) ................. (MP)</td>';
+                        } else {
+                            echo '<td>' . ($cell + 1) . '.) ' . $barang_mp[$cell]->KODE_TABUNG[0]->MASTER_TABUNG_KODE . ' (MP)</td>';
+                        }
                     } else if ($cell >= count($barang_mp)) {
-                        echo '<td>' . ($cell + 1) . ') ................. (MR)</td>';
+                        echo '<td>' . ($cell + 1) . '.) ................. (MR)</td>';
                     }
                 }
                 echo '</tr>';
             }
             echo '</table>';
             ?>
-
-
-            <!-- <div class="row invoice-info mb-4 ml-2 mr-2">
-                <?php
-                $no = 1;
-                //echo count($barang_mp);
-                foreach ($barang_mp as $row) { ?>
-                    <div class="col-sm-2  invoice-col" style="border-style: solid;border-color: #dee2e6; border-width: 1px;">
-                        <?= $no++; ?>.
-                        <?= $row->MASTER_BARANG_NAMA; ?>
-                        MP
-                    </div>
-                <?php
-                }
-                ?>
-                <?php
-                foreach ($barang_mr as $row) { ?>
-                    <div class="col-sm-2  invoice-col" style="border-style: solid;border-color: #dee2e6; border-width: 1px;">
-                        <?= $no++; ?>.
-                        <?= $row->MASTER_BARANG_NAMA; ?>
-                        MP
-                    </div>
-                <?php
-                }
-                ?>
-            </div> -->
             <div class="row invoice-info mb-4">
                 <div class="col-sm-4 invoice-col">
                     <?= $this->lang->line('keterangan'); ?>

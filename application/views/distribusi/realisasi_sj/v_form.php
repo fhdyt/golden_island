@@ -45,6 +45,31 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<div class="modal fade" id="barangscanModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Scan Tabung</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <textarea name="scan_keterangan" id="scan_keterangan" class="form-control scan_keterangan" rows="10"></textarea>
+                    <!-- <input type="text" class="form-control scan_keterangan" name="scan_keterangan" id="scan_keterangan" value="" autocomplete="off"> -->
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <a class="btn btn-primary btn-scan"><?= $this->lang->line('simpan'); ?></a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -112,6 +137,7 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <button type="button" class="btn btn-primary btn_barang_mr mb-2">Tambah Tabung</button>
+                                    <button type="button" class="btn btn-success scan_barang mb-2"><i class="fas fa-qrcode"></i> Scan Tabung</button>
                                 </div>
                             </div>
                             <table id="example2" class="table table-bordered table-hover">
@@ -136,6 +162,7 @@
                             <div class="row">
                                 <div class="col-2">
                                     <button type="button" class="btn btn-secondary btn_barang mb-2">Tambah Tabung</button>
+
                                 </div>
                             </div>
                             <table id="example2" class="table table-bordered table-hover">
@@ -218,6 +245,13 @@
 
         }
 
+    })
+
+    $(".scan_barang").on("click", function() {
+        $("textarea.scan_keterangan").val("")
+        $("#barangscanModal").modal("show", function() {
+            $(this).find('textarea#scan_keterangan').focus();
+        })
     })
 
     $(".btn_barang_mr").on("click", function() {
@@ -317,12 +351,20 @@
                     $(".total_realisasi").val(data['mp'].length)
                     $(".total_tabung_mr").val(data['mr'].length)
                     for (i = 0; i < data['mp'].length; i++) {
+                        //  console.log(data['mp'][i].KODE_TABUNG[0].length)
+                        if (data['mp'][i].KODE_TABUNG.length === 0) {
+                            var kode_tabung = "-"
+                            var kode_tabung_lama = "-"
+                        } else {
+                            var kode_tabung = data['mp'][i].KODE_TABUNG[0].MASTER_TABUNG_KODE
+                            var kode_tabung_lama = data['mp'][i].KODE_TABUNG[0].MASTER_TABUNG_LAMA
+                        }
                         $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>MP</td>" +
                             "<td>" + data['mp'][i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>-</td>" +
-                            "<td>-</td>" +
+                            "<td>" + kode_tabung_lama + "</td>" +
+                            "<td>" + kode_tabung + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['mp'][i].REALISASI_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
                             "</tr>");
 
@@ -414,6 +456,25 @@
                 text: 'Total Realisasi Tidak Sesuai'
             })
         }
+    })
+
+    $('.btn-scan').on("click", function(e) {
+        // e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_scan?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                scan: $(".scan_keterangan").val(),
+            },
+            success: function(data) {
+                realisasi_list()
+                memuat()
+            }
+        });
     })
 
     $('#submit_barang_mr').submit(function(e) {

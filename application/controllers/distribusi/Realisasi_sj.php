@@ -92,6 +92,13 @@ class Realisasi_sj extends CI_Controller
         echo json_encode($data);
     }
 
+    public function add_scan()
+    {
+        $surat_jalan_id = $_GET['surat_jalan_id'];
+        $data = $this->Realisasi_sjModel->add_scan($surat_jalan_id);
+        echo json_encode($data);
+    }
+
     public function hapus()
     {
         $id = $this->uri->segment('4');
