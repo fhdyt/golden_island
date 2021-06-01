@@ -6,7 +6,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Kalender</h1>
+                    <h1 class="m-0">Kalender Jatuh Tempo</h1>
+                    <p class="">Hutang Piutang</p>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
