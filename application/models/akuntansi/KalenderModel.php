@@ -4,7 +4,7 @@ class KalenderModel extends CI_Model
 
     public function list()
     {
-        $hasil['piutang'] = $this->db->query('SELECT * FROM PIUTANG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        $hasil['piutang'] = $this->db->query('SELECT MASTER_RELASI_ID,PIUTANG_TANGGAL_TEMPO FROM PIUTANG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" GROUP BY MASTER_RELASI_ID,PIUTANG_TANGGAL_TEMPO')->result();
         foreach ($hasil['piutang'] as $row) {
             $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->RELASI = $relasi;
