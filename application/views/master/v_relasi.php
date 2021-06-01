@@ -14,7 +14,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">ID Relasi</label>
-                        <input type="text" class="form-control qr_id" name="qr_id" autocomplete="off" required>
+                        <input type="text" class="form-control qr_id" name="qr_id" autocomplete="off">
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
