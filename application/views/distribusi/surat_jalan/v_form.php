@@ -187,7 +187,7 @@ if (empty($this->uri->segment('4'))) {
                                             <input type="text" class="form-control form-control-sm quantity_barang_add_kosong" name="quantity_barang_add_kosong" autocomplete="off" value="0">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control form-control-sm quantity_barang_add_klaim" name="quantity_barang_add_klaim" autocomplete="off" value="0">
+                                            <input type="text" class="form-control form-control-sm quantity_barang_add_klaim" name="quantity_barang_add_klaim" autocomplete="off" value="0" readonly>
                                         </td>
                                         <td>
                                             <select name="satuan_barang" id="satuan_barang" class="form-control form-control-sm satuan_barang select2" style="width: 100%;">
