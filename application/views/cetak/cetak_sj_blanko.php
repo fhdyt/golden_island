@@ -220,10 +220,6 @@ error_reporting(0);
                     </div>
                 </div>
             </div>
-            <br>
-            <br>
-            <br>
-            <br>
             <div class="row invoice-info">
                 <div class="col-4 text-center">
                     <p>&nbsp;&nbsp;</p>
