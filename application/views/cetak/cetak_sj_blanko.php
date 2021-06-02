@@ -117,9 +117,9 @@ error_reporting(0);
                     </address>
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-4 invoice-col text-right">
-                </div>
                 <div class="col-sm-3 invoice-col text-right">
+                </div>
+                <div class="col-sm-4 invoice-col text-right">
                     <table class="table table-bordered">
                         <tr>
                             <td>No.</td>

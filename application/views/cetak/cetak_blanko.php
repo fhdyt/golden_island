@@ -38,6 +38,12 @@ error_reporting(0);
             ;
         }
 
+        div.kolom {
+            height: 500px;
+            border: 2px solid black;
+            margin-bottom: 50px;
+        }
+
         @media print {
             table.table-bordered {
                 border: 2px solid black !important;
@@ -131,11 +137,7 @@ error_reporting(0);
             <!-- Table row -->
 
             <hr>
-            <table class="table table-bordered">
-                <tr>
-                    <td><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td>
-                </tr>
-            </table>
+            <div class="kolom"></div>
             <div class="row invoice-info">
                 <div class="col-4 text-center">
                     <p>Diterima oleh :</p>
