@@ -95,7 +95,7 @@ error_reporting(0);
                     $jenis = "Pembelian";
                 }
                 ?>
-                <h3><b>Surat Jalan</b></h3>
+                <h3><b> &nbsp;&nbsp;</b></h3>
                 <h4></h4>
             </center>
             <br>
@@ -115,20 +115,14 @@ error_reporting(0);
                         <strong>&nbsp;&nbsp;</strong><br>
                         &nbsp;&nbsp;<br>
                         &nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;<br>
                     </address>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col text-right">
                 </div>
                 <div class="col-sm-3 invoice-col text-right">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td style="text-align:center">Nama Barang</td>
-                            <td style="text-align:center">Quantity</td>
-                        </tr>
-                        <td><br><br><br></td>
-                        <td><br><br><br></td>
-                    </table>
 
                 </div>
                 <!-- /.col -->
@@ -149,30 +143,39 @@ error_reporting(0);
                     <br>
                     <br>
                     <br>
-                    <address>
-                        <b>&nbsp;&nbsp;</b><br>
-                        &nbsp;&nbsp;
-                    </address>
+                    <br>
+                    <br>
+                    <br>
                 </div>
                 <div class="col-4 text-center">
                     <p>Dibawa Oleh :</p>
                     <br>
                     <br>
                     <br>
-                    <address>
-                        <b>&nbsp;&nbsp;</b><br>
-                        &nbsp;&nbsp;
-                    </address>
+                    <br>
+                    <br>
+                    <br>
                 </div>
                 <div class="col-4 text-center">
                     <p>Dibuat oleh :</p>
                     <br>
                     <br>
                     <br>
-                    <address>
-                        <b>&nbsp;&nbsp;</b><br>
-                        &nbsp;&nbsp;
-                    </address>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <hr>
+            <div class="row invoice-info">
+                <div class="col-4 text-center">
+                    Asli (Putih) : Administrasi
+                </div>
+                <div class="col-4 text-center">
+                    Tembusan (Merah) : Penagihan
+                </div>
+                <div class="col-4 text-center">
+                    (Kuning) : Akuntansi
                 </div>
             </div>
 
