@@ -309,7 +309,7 @@
 
                         for (var j = 0; j < detailLength; j++) {
                             $(".jenis").append("<option value='" + data[i].BARANG[j].MASTER_BARANG_ID + "'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</option")
-                            total_qty += parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY)
+                            total_qty += parseInt(data[i].BARANG[j].TOTAL)
                             tableContent += "<tr>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data[i].BARANG[j].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY + "</td>" +

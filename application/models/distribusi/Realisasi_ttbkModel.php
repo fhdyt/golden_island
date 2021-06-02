@@ -19,7 +19,7 @@ class Realisasi_ttbkModel extends CI_Model
                                                 AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                                 ')->result();
             foreach ($barang as $row_barang) {
-                $row_barang->TOTAL = $row_barang->SURAT_JALAN_BARANG_QUANTITY - $row_barang->SURAT_JALAN_BARANG_QUANTITY_KLAIM;
+                $row_barang->TOTAL = ($row_barang->SURAT_JALAN_BARANG_QUANTITY + $row_barang->SURAT_JALAN_BARANG_QUANTITY_KOSONG) - $row_barang->SURAT_JALAN_BARANG_QUANTITY_KLAIM;
             }
             $row->BARANG = $barang;
 
@@ -163,7 +163,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'MASTER_RELASI_ID' => $surat_jalan[0]->MASTER_RELASI_ID,
                 'MASTER_SUPPLIER_ID' => $surat_jalan[0]->MASTER_SUPPLIER_ID,
                 'MASTER_BARANG_ID' => $mp->MASTER_BARANG_ID,
-                'JURNAL_TABUNG_TANGGAL' => date("Y-m-d"),
+                'JURNAL_TABUNG_TANGGAL' => $surat_jalan[0]->SURAT_JALAN_TANGGAL,
                 'JURNAL_TABUNG_KIRIM' => "",
                 'JURNAL_TABUNG_KEMBALI' => $mp->JUMLAH,
                 'JURNAL_TABUNG_STATUS' => "MP",
@@ -185,7 +185,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'MASTER_RELASI_ID' => $surat_jalan[0]->MASTER_RELASI_ID,
                 'MASTER_SUPPLIER_ID' => $surat_jalan[0]->MASTER_SUPPLIER_ID,
                 'MASTER_BARANG_ID' => $mr->MASTER_BARANG_ID,
-                'JURNAL_TABUNG_TANGGAL' => date("Y-m-d"),
+                'JURNAL_TABUNG_TANGGAL' => $surat_jalan[0]->SURAT_JALAN_TANGGAL,
                 'JURNAL_TABUNG_KIRIM' => "",
                 'JURNAL_TABUNG_KEMBALI' => $mr->JUMLAH,
                 'JURNAL_TABUNG_STATUS' => "MR",
