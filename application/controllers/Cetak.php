@@ -52,6 +52,13 @@ class Cetak extends CI_Controller
 		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
 		$this->load->view('cetak/cetak_sj', $data);
 	}
+	public function cetak_sj_blanko()
+	{
+		$id = $this->uri->segment('3');
+		$data = $this->PdfModel->cetak_sj($id);
+		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
+		$this->load->view('cetak/cetak_sj_blanko', $data);
+	}
 	public function cetak_blanko()
 	{
 		$this->load->view('cetak/cetak_blanko');
