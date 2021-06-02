@@ -70,12 +70,12 @@ error_reporting(0);
         <section class="invoice">
             <!-- title row -->
             <div class="row">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+                <br>&nbsp;&nbsp;
+                <br>&nbsp;&nbsp;
+                <br>&nbsp;&nbsp;
+                <br>&nbsp;&nbsp;
+                <br>&nbsp;&nbsp;
+                <br>&nbsp;&nbsp;
             </div>
             <center>
                 <?php
