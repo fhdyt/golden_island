@@ -42,6 +42,7 @@ error_reporting(0);
             height: 600px;
             /* border: 2px solid black; */
             margin-bottom: 50px;
+            padding: 30px;
         }
 
         @media print {
@@ -76,12 +77,18 @@ error_reporting(0);
         <section class="invoice">
             <!-- title row -->
             <div class="row">
-                <br>&nbsp;&nbsp;
-                <br>&nbsp;&nbsp;
-                <br>&nbsp;&nbsp;
-                <br>&nbsp;&nbsp;
-                <br>&nbsp;&nbsp;
-                <br>&nbsp;&nbsp;
+                <div class="col-10 text-left">
+                    <br>&nbsp;&nbsp;
+                    <br>&nbsp;&nbsp;
+                    <br>&nbsp;&nbsp;
+                    <br>&nbsp;&nbsp;
+                    <br>&nbsp;&nbsp;
+                    <br>&nbsp;&nbsp;
+                </div>
+
+                <div class="col-2 text-left">
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->SURAT_JALAN_NOMOR); ?>.png" height="90px" />
+                </div>
             </div>
             <center>
                 <?php
