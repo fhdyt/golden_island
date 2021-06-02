@@ -116,7 +116,6 @@ error_reporting(0);
                         &nbsp;&nbsp;<br>
                         &nbsp;&nbsp;<br>
                         &nbsp;&nbsp;<br>
-                        &nbsp;&nbsp;<br>
                     </address>
                 </div>
                 <!-- /.col -->
@@ -144,13 +143,11 @@ error_reporting(0);
                     <br>
                     <br>
                     <br>
-                    <br>
-                    <br>
+
                 </div>
                 <div class="col-4 text-center">
                     <p>Dibawa Oleh :</p>
-                    <br>
-                    <br>
+
                     <br>
                     <br>
                     <br>
@@ -158,8 +155,7 @@ error_reporting(0);
                 </div>
                 <div class="col-4 text-center">
                     <p>Dibuat oleh :</p>
-                    <br>
-                    <br>
+
                     <br>
                     <br>
                     <br>
