@@ -40,7 +40,7 @@ error_reporting(0);
 
         div.kolom {
             height: 600px;
-            border: 2px solid black;
+            /* border: 2px solid black; */
             margin-bottom: 50px;
         }
 
