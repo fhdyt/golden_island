@@ -38,6 +38,12 @@ error_reporting(0);
             ;
         }
 
+        div.kolom {
+            height: 600px;
+            border: 2px solid black;
+            margin-bottom: 50px;
+        }
+
         @media print {
             table.table-bordered {
                 border: 2px solid black !important;
@@ -147,68 +153,71 @@ error_reporting(0);
             <!-- Table row -->
 
             <hr>
-            <?php
+            <div class="kolom">
+                <?php
 
-            $numcols = 6;
+                $numcols = 6;
 
-            $numrows = ceil((count($barang_mp) + count($barang_mr)) / $numcols);
+                $numrows = ceil((count($barang_mp) + count($barang_mr)) / $numcols);
 
-            echo '<table class="table table-bordered">';
-            $no = 1;
-            for ($r = 0; $r < $numrows; $r++) {
-                echo '<tr>';
-                for ($c = 0; $c < $numcols; $c++) {
+                echo '<table class="table table-bordered">';
+                $no = 1;
+                for ($r = 0; $r < $numrows; $r++) {
+                    echo '<tr>';
+                    for ($c = 0; $c < $numcols; $c++) {
 
-                    $cell = $r + $c * $numrows;
-                    $cell_mr = 0;
-                    if ($cell >= (count($barang_mp) + count($barang_mr))) {
-                        echo '<td>----------</td>';
-                    } elseif ($cell < count($barang_mp)) {
-                        if (count($barang_mp[$cell]->KODE_TABUNG[0]) == 0) {
-                            echo '<td>' . ($cell + 1) . '.) ................. (MP)</td>';
-                        } else {
-                            echo '<td>' . ($cell + 1) . '.) ' . $barang_mp[$cell]->KODE_TABUNG[0]->MASTER_TABUNG_KODE . ' (MP)</td>';
-                        }
-                    } else if ($cell >= count($barang_mp)) {
-                        echo '<td>' . ($cell + 1) . '.) ................. (MR)</td>';
-                    }
-                }
-                echo '</tr>';
-            }
-            echo '</table>';
-            ?>
-            <div class="row invoice-info mb-4">
-                <div class="col-sm-4 invoice-col">
-                    <?= $this->lang->line('keterangan'); ?>
-                    <address>
-                        <?php echo nl2br($detail[0]->SURAT_JALAN_KETERANGAN); ?>
-                    </address>
-                </div>
-                <div class="col-sm-3 invoice-col">
-                </div>
-                <div class="col-sm-5 invoice-col">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td style="text-align:center"><b>Terima Tabung Kembali</b></td>
-                            <td style="text-align:center">MP</td>
-                            <td style="text-align:center">MR</td>
-                        </tr>
-                        <tr>
-                            <?php
-                            foreach ($barang as $row) { ?>
-                        <tr>
-                            <td style="text-align:center ;vertical-align: middle;" rowspan="2"><?= $row->MASTER_BARANG_NAMA; ?></td>
-
-                        </tr>
-                        <tr>
-                            <td style="text-align:center"><br></td>
-                            <td style="text-align:center"><br></td>
-                        </tr>
-                    <?php
+                        $cell = $r + $c * $numrows;
+                        $cell_mr = 0;
+                        if ($cell >= (count($barang_mp) + count($barang_mr))) {
+                            echo '<td>----------</td>';
+                        } elseif ($cell < count($barang_mp)) {
+                            if (count($barang_mp[$cell]->KODE_TABUNG[0]) == 0) {
+                                echo '<td>' . ($cell + 1) . '.) ................. (MP)</td>';
+                            } else {
+                                echo '<td>' . ($cell + 1) . '.) ' . $barang_mp[$cell]->KODE_TABUNG[0]->MASTER_TABUNG_KODE . ' (MP)</td>';
                             }
-                    ?>
-                    </tr>
-                    </table>
+                        } else if ($cell >= count($barang_mp)) {
+                            echo '<td>' . ($cell + 1) . '.) ................. (MR)</td>';
+                        }
+                    }
+                    echo '</tr>';
+                }
+                echo '</table>';
+                ?>
+
+                <div class="row invoice-info mb-4">
+                    <div class="col-sm-4 invoice-col">
+                        <?= $this->lang->line('keterangan'); ?>
+                        <address>
+                            <?php echo nl2br($detail[0]->SURAT_JALAN_KETERANGAN); ?>
+                        </address>
+                    </div>
+                    <div class="col-sm-3 invoice-col">
+                    </div>
+                    <div class="col-sm-5 invoice-col">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="text-align:center"><b>Terima Tabung Kembali</b></td>
+                                <td style="text-align:center">MP</td>
+                                <td style="text-align:center">MR</td>
+                            </tr>
+                            <tr>
+                                <?php
+                                foreach ($barang as $row) { ?>
+                            <tr>
+                                <td style="text-align:center ;vertical-align: middle;" rowspan="2"><?= $row->MASTER_BARANG_NAMA; ?></td>
+
+                            </tr>
+                            <tr>
+                                <td style="text-align:center"><br></td>
+                                <td style="text-align:center"><br></td>
+                            </tr>
+                        <?php
+                                }
+                        ?>
+                        </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
             <br>
