@@ -127,12 +127,11 @@ error_reporting(0);
                     </address>
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-2 invoice-col text-right">
+                <div class="col-sm-4 invoice-col text-right">
                 </div>
-                <div class="col-sm-5 invoice-col text-right">
+                <div class="col-sm-3 invoice-col text-right">
                     <table class="table table-bordered">
                         <tr>
-                            <td>No.</td>
                             <td>Nama Barang</td>
                             <td>Quantity</td>
                         </tr>
@@ -140,7 +139,6 @@ error_reporting(0);
                         $no = 1;
                         foreach ($barang as $row) { ?>
                             <tr>
-                                <td><?= $no++; ?>.</td>
                                 <td><?= $row->MASTER_BARANG_NAMA; ?></td>
                                 <td><?= number_format($row->SURAT_JALAN_BARANG_QUANTITY, 0, ",", "."); ?></td>
                             </tr>
@@ -194,18 +192,21 @@ error_reporting(0);
                         <?php echo nl2br($detail[0]->SURAT_JALAN_KETERANGAN); ?>
                     </address>
                 </div>
-                <div class="col-sm-8 invoice-col">
+                <div class="col-sm-3 invoice-col">
+                </div>
+                <div class="col-sm-5 invoice-col">
                     <table class="table table-bordered">
                         <tr>
-                            <td colspan="3" style="text-align:center"><b>Terima Tabung Kembali</b></td>
+                            <td style="text-align:center"><b>Terima Tabung Kembali</b></td>
+                            <td style="text-align:center">MP</td>
+                            <td style="text-align:center">MR</td>
                         </tr>
                         <tr>
                             <?php
                             foreach ($barang as $row) { ?>
                         <tr>
                             <td style="text-align:center ;vertical-align: middle;" rowspan="2"><?= $row->MASTER_BARANG_NAMA; ?></td>
-                            <td style="text-align:center">MP</td>
-                            <td style="text-align:center">MR</td>
+
                         </tr>
                         <tr>
                             <td style="text-align:center"><br></td>
