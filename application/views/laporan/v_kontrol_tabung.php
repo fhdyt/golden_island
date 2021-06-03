@@ -72,6 +72,7 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th><?= $this->lang->line('Relasi'); ?></th>
+                                <th><?= $this->lang->line('Supplier'); ?></th>
                                 <th>Kirim</th>
                                 <th>Kembali</th>
                                 <th>Total</th>
@@ -122,10 +123,22 @@
                         else {
                             var img = "<img src='<?= base_url(); ?>uploads/kontrol_tabung/" + data[i].JURNAL_TABUNG_FILE + "' width='50'><br><a href='<?= base_url(); ?>uploads/kontrol_tabung/" + data[i].JURNAL_TABUNG_FILE + "' target='_blank'> Buka Gambar</a>"
                         }
+
+                        if (data[i].RELASI_NAMA.length == 0) {
+                            var relasi = "-"
+                        } else {
+                            var relasi = data[i].RELASI_NAMA[0].MASTER_RELASI_NAMA
+                        }
+                        if (data[i].SUPPLIER_NAMA.length == 0) {
+                            var supplier = "-"
+                        } else {
+                            var supplier = data[i].SUPPLIER_NAMA[0].MASTER_SUPPLIER_NAMA
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td><b>" + data[i].TANGGAL + "</b><br>" + data[i].NAMA_BARANG[0].MASTER_BARANG_NAMA + " (<small>" + data[i].JURNAL_TABUNG_STATUS + "</small>)</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>" + relasi + "</td>" +
+                            "<td>" + supplier + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KIRIM + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KEMBALI + "</td>" +
                             "<td>" + total + "</td>" +

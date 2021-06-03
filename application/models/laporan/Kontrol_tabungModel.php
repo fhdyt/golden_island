@@ -7,39 +7,40 @@ class Kontrol_tabungModel extends CI_Model
         if (empty($relasi)) {
             $filter_relasi = "";
         } else {
-            $filter_relasi = 'AND R.MASTER_RELASI_ID="' . $relasi . '"';
+            $filter_relasi = 'AND MASTER_RELASI_ID="' . $relasi . '"';
         }
 
         if (empty($tabung)) {
             $filter_tabung = "";
         } else {
-            $filter_tabung = 'AND J.MASTER_BARANG_ID="' . $tabung . '"';
+            $filter_tabung = 'AND MASTER_BARANG_ID="' . $tabung . '"';
         }
 
         if (empty($status)) {
             $filter_status = "";
         } else {
-            $filter_status = 'AND J.JURNAL_TABUNG_STATUS="' . $status . '"';
+            $filter_status = 'AND JURNAL_TABUNG_STATUS="' . $status . '"';
         }
 
         $tanggal_dari = $this->input->post("tanggal_dari");
         $tanggal_sampai = $this->input->post("tanggal_sampai");
 
-        $filter_tanggal = 'AND J.JURNAL_TABUNG_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+        $filter_tanggal = 'AND JURNAL_TABUNG_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
 
         $hasil = $this->db->query('SELECT * FROM 
-        JURNAL_TABUNG AS J LEFT JOIN MASTER_RELASI AS R
-        ON J.MASTER_RELASI_ID=R.MASTER_RELASI_ID
-        WHERE 
-        J.RECORD_STATUS="AKTIF" AND J.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND
-        R.RECORD_STATUS="AKTIF" AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+        JURNAL_TABUNG 
+        WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
         ' . $filter_tanggal . '
         ' . $filter_relasi . '
         ' . $filter_status . '
         ' . $filter_tabung . '
-        ORDER BY J.JURNAL_TABUNG_TANGGAL ASC ')->result();
+        ORDER BY JURNAL_TABUNG_TANGGAL ASC ')->result();
         foreach ($hasil as $row) {
             $nama_barang = $this->db->query('SELECT MASTER_BARANG_NAMA FROM MASTER_BARANG WHERE MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+            $relasi_nama = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+            $supplier_nama = $this->db->query('SELECT MASTER_SUPPLIER_NAMA FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+            $row->RELASI_NAMA = $relasi_nama->result();
+            $row->SUPPLIER_NAMA = $supplier_nama->result();
             $row->NAMA_BARANG = $nama_barang->result();
             $row->TANGGAL = tanggal($row->JURNAL_TABUNG_TANGGAL);
             $row->TOTAL = $row->JURNAL_TABUNG_KIRIM - $row->JURNAL_TABUNG_KEMBALI;
