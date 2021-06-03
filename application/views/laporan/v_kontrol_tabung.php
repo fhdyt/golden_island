@@ -72,7 +72,7 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th><?= $this->lang->line('Relasi'); ?></th>
-                                <th><?= $this->lang->line('Supplier'); ?></th>
+                                <th>Supplier</th>
                                 <th>Kirim</th>
                                 <th>Kembali</th>
                                 <th>Total</th>
