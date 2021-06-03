@@ -51,6 +51,14 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Kepemilikan</label>
+                        <select name="kepemilikan" id="kepemilikan" class="form-control kepemilikan select2" style="width: 100%;" required>
+                            <option value="MP">MP</option>
+                            <option value="MR">MR</option>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Keterangan</label>
                         <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off">
                     </div>

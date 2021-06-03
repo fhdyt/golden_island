@@ -37,7 +37,7 @@ class TitipanModel extends CI_Model
             'JURNAL_TABUNG_TANGGAL' => $this->input->post('tanggal'),
             'JURNAL_TABUNG_KIRIM' => "0",
             'JURNAL_TABUNG_KEMBALI' => $this->input->post('jumlah'),
-            'JURNAL_TABUNG_STATUS' => "MP",
+            'JURNAL_TABUNG_STATUS' => $this->input->post('kepemilikan'),
             'JURNAL_TABUNG_KETERANGAN' => $this->input->post('keterangan'),
             'JURNAL_TABUNG_FILE' => "empty",
             'JURNAL_TABUNG_TITIPAN' => "Yes",
