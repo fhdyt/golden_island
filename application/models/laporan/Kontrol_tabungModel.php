@@ -29,7 +29,10 @@ class Kontrol_tabungModel extends CI_Model
 
         $hasil = $this->db->query('SELECT * FROM 
         JURNAL_TABUNG 
-        WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+        WHERE 
+        NOT JURNAL_TABUNG_REF="SALDO_AWAL"
+        AND
+        RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
         ' . $filter_tanggal . '
         ' . $filter_relasi . '
         ' . $filter_status . '
