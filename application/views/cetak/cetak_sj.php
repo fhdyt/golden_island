@@ -16,6 +16,13 @@ error_reporting(0);
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/dist/css/adminlte.min.css">
     <style>
+        html,
+        body {
+            display: block;
+            font-family: sans-serif;
+            margin: 0;
+        }
+
         table.table-bordered {
             border: 2px solid black !important;
             ;
@@ -43,7 +50,7 @@ error_reporting(0);
             html,
             body {
                 display: block;
-                font-family: "Sans Serif";
+                font-family: sans-serif;
                 margin: 0;
             }
 
@@ -119,7 +126,6 @@ error_reporting(0);
             <div class="row invoice-info">
                 <div class="col-sm-5 invoice-col">
                     Kepada :
-                    <hr>
                     <address>
                         <?php
                         if ($detail[0]->SURAT_JALAN_JENIS == "penjualan") { ?>
@@ -139,7 +145,7 @@ error_reporting(0);
                 <div class="col-sm-4 invoice-col text-right">
                 </div>
                 <div class="col-sm-3 invoice-col text-right">
-                    <table class="table table-bordered">
+                    <table class="table">
                         <tr>
                             <td>Nama Barang</td>
                             <td>Quantity</td>
@@ -204,7 +210,7 @@ error_reporting(0);
                 <div class="col-sm-3 invoice-col">
                 </div>
                 <div class="col-sm-5 invoice-col">
-                    <table class="table table-bordered">
+                    <table class="table">
                         <tr>
                             <td style="text-align:center"><b>Terima Tabung Kembali</b></td>
                             <td style="text-align:center">MP</td>

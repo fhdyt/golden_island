@@ -32,6 +32,7 @@ if (empty($this->uri->segment('4'))) {
                             <form id="submit">
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
                                 <input type="hidden" class="form-control jenis_sj" name="jenis_sj" value="<?= $_GET['jenis_sj']; ?>" autocomplete="off">
+                                <input type="hidden" class="form-control status_surat_jalan_realisasi" name="status_surat_jalan_realisasi" autocomplete="off">
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -283,9 +284,11 @@ if (empty($this->uri->segment('4'))) {
 
                     if (data[0].SURAT_JALAN_STATUS == "open") {
                         $(".btn-faktur").attr("hidden", false)
+                        $(".status_surat_jalan_realisasi").val("selesai")
                     } else {
                         $(".btn-faktur").attr("hidden", true)
-                        $("a.btn-danger").removeAttr("onclick")
+                        $("tbody#zone_data_isi, a.btn-danger").removeAttr("onclick")
+                        $("button").prop("disabled", true)
                         $("button").prop("disabled", true)
                         $("input").attr("disabled", true)
                         $("select").attr("disabled", true)
@@ -390,6 +393,12 @@ if (empty($this->uri->segment('4'))) {
                     var total = 0
                     for (i = 0; i < data.isi.length; i++) {
                         total += parseInt(data.isi[i].SURAT_JALAN_BARANG_QUANTITY);
+
+                        if ($(".status_surat_jalan_realisasi").val() == "selesai") {
+                            var btn_hapus = ""
+                        } else {
+                            var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data.isi[i].SURAT_JALAN_BARANG_ID + "\")'><i class='fas fa-trash'></i>"
+                        }
                         $("tbody#zone_data_isi").append("<tr class=''>" +
                             "<td>" + no_isi++ + ".</td>" +
                             "<td>" + data.isi[i].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data.isi[i].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
@@ -397,7 +406,7 @@ if (empty($this->uri->segment('4'))) {
                             "<td>" + number_format(data.isi[i].SURAT_JALAN_BARANG_QUANTITY_KOSONG) + "</td>" +
                             "<td>" + number_format(data.isi[i].SURAT_JALAN_BARANG_QUANTITY_KLAIM) + "</td>" +
                             "<td>" + data.isi[i].SURAT_JALAN_BARANG_SATUAN + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data.isi[i].SURAT_JALAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<td>" + btn_hapus + " " +
                             "</td>" +
                             "</tr>");
                     }
