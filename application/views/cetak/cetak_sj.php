@@ -43,7 +43,7 @@ error_reporting(0);
             html,
             body {
                 display: block;
-                font-family: "Calibri";
+                font-family: "Sans Serif";
                 margin: 0;
             }
 
