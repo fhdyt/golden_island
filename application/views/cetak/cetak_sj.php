@@ -49,30 +49,34 @@ error_reporting(0);
 
             html,
             body {
-                display: block;
+                /* display: block; */
                 font-family: sans-serif;
                 margin: 0;
             }
 
+            /* @page {
+                size: 21.59cm 13.97cm;
+            } */
+
             table.table-bordered {
-                border: 2px solid black !important;
+                border: 2px solid white !important;
                 ;
                 margin-top: 20px !important;
                 ;
             }
 
             table.table-bordered>thead>tr>th {
-                border: 2px solid black !important;
+                border: 2px solid white !important;
                 ;
             }
 
             table.table-bordered>tbody>tr>td {
-                border: 2px solid black !important;
+                border: 2px solid white !important;
                 ;
             }
 
             table.table-bordered>tr>td {
-                border: 2px solid black !important;
+                border: 2px solid white !important;
                 ;
             }
 
@@ -102,7 +106,7 @@ error_reporting(0);
                 <!-- /.col -->
             </div>
             <!-- info row -->
-            <hr>
+            <br>
             <center>
                 <?php
                 if ($detail[0]->SURAT_JALAN_JENIS == "penjualan") {
@@ -145,7 +149,7 @@ error_reporting(0);
                 <div class="col-sm-4 invoice-col text-right">
                 </div>
                 <div class="col-sm-3 invoice-col text-right">
-                    <table class="table">
+                    <table class="table table-bordered">
                         <tr>
                             <td>Nama Barang</td>
                             <td>Quantity</td>
@@ -176,7 +180,7 @@ error_reporting(0);
 
             $numrows = ceil((count($barang_mp) + count($barang_mr)) / $numcols);
 
-            echo '<table class="table">';
+            echo '<table class="table table-bordered">';
             $no = 1;
             for ($r = 0; $r < $numrows; $r++) {
                 echo '<tr>';
@@ -210,7 +214,7 @@ error_reporting(0);
                 <div class="col-sm-3 invoice-col">
                 </div>
                 <div class="col-sm-5 invoice-col">
-                    <table class="table">
+                    <table class="table table-bordered">
                         <tr>
                             <td style="text-align:center"><b>Terima Tabung Kembali</b></td>
                             <td style="text-align:center">MP</td>
