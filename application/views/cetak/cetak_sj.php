@@ -39,6 +39,14 @@ error_reporting(0);
         }
 
         @media print {
+
+            html,
+            body {
+                display: block;
+                font-family: "Calibri";
+                margin: 0;
+            }
+
             table.table-bordered {
                 border: 2px solid black !important;
                 ;
@@ -60,6 +68,7 @@ error_reporting(0);
                 border: 2px solid black !important;
                 ;
             }
+
         }
     </style>
 </head>
@@ -161,7 +170,7 @@ error_reporting(0);
 
             $numrows = ceil((count($barang_mp) + count($barang_mr)) / $numcols);
 
-            echo '<table class="table table-bordered">';
+            echo '<table class="table">';
             $no = 1;
             for ($r = 0; $r < $numrows; $r++) {
                 echo '<tr>';
