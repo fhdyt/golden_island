@@ -10,8 +10,7 @@ class PajakModel extends CI_Model
                                         LEFT JOIN PEMBELIAN AS P
                                         ON T.PI_ID=P.PI_ID
                                         WHERE 
-                                        P.MASTER_SUPPLIER_ID="' . $this->input->post('relasi_supplier') . '"
-                                        AND MONTH(P.PEMBELIAN_TANGGAL) = ' . $this->input->post('bulan') . ' 
+                                        MONTH(P.PEMBELIAN_TANGGAL) = ' . $this->input->post('bulan') . ' 
                                         AND YEAR(P.PEMBELIAN_TANGGAL) = ' . $this->input->post('tahun') . ' 
                                         AND T.RECORD_STATUS="AKTIF" 
                                         AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
@@ -24,8 +23,7 @@ class PajakModel extends CI_Model
                                         LEFT JOIN FAKTUR AS F
                                         ON T.FAKTUR_ID=F.FAKTUR_ID
                                         WHERE 
-                                        F.MASTER_RELASI_ID="' . $this->input->post('relasi_supplier') . '"
-                                        AND MONTH(F.FAKTUR_TANGGAL) = ' . $this->input->post('bulan') . ' 
+                                        MONTH(F.FAKTUR_TANGGAL) = ' . $this->input->post('bulan') . ' 
                                         AND YEAR(F.FAKTUR_TANGGAL) = ' . $this->input->post('tahun') . ' 
                                         AND T.RECORD_STATUS="AKTIF" 
                                         AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
