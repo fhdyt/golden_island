@@ -58,7 +58,7 @@ if (empty($this->uri->segment('4'))) {
                                                     <option value="">-- Pilih Relasi --</option>
                                                     <?php foreach (relasi_list() as $row) {
                                                     ?>
-                                                        <option value="<?= $row->MASTER_RELASI_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?></option>
+                                                        <option value="<?= $row->MASTER_RELASI_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?> - <?= $row->MASTER_RELASI_QR_ID; ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -237,7 +237,6 @@ if (empty($this->uri->segment('4'))) {
 
 <script>
     $(function() {
-
         detail()
         barang_list()
     });
