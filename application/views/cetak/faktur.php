@@ -69,7 +69,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-6 invoice-col text-right">
-                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->FAKTUR_TANGGAL); ?>
+                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?>, <?= tanggal($detail[0]->FAKTUR_TANGGAL); ?>
                 </div>
                 <!-- /.col -->
             </div>

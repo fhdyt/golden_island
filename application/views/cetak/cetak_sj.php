@@ -125,7 +125,7 @@ error_reporting(0);
                 <div class="col-sm-6 invoice-col">
                 </div>
                 <div class="col-sm-6 invoice-col text-right">
-                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?> ,<?= tanggal($detail[0]->SURAT_JALAN_TANGGAL); ?>
+                    <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?>, <?= tanggal($detail[0]->SURAT_JALAN_TANGGAL); ?>
                 </div>
             </div>
             <div class="row invoice-info">
