@@ -16,6 +16,7 @@ class FakturModel extends CI_Model
         }
         return $hasil;
     }
+
     public function surat_jalan_baru()
     {
         $hasil = $this->db->query('SELECT * FROM 

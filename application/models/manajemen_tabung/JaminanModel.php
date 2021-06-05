@@ -4,51 +4,88 @@ class JaminanModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM PAJAK WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PAJAK_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY FAKTUR_JAMINAN_TANGGAL DESC ')->result();
+        foreach ($hasil as $row) {
+            $row->NAMA_RELASI = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->TANGGAL = tanggal($row->MASTER_RELASI_ID);
+            $row->SURAT_JALAN = $this->db->query('SELECT SURAT_JALAN_NOMOR FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();;
+        }
         return $hasil;
     }
 
     public function add()
     {
-        if ($this->input->post('id') == "") {
-            $data = array(
-                'PAJAK_ID' => create_id(),
-                'PAJAK_NAMA' => $this->input->post('nama'),
-                'PAJAK_NILAI' => $this->input->post('nilai'),
+        $data_surat_jalan = array(
+            'SURAT_JALAN_STATUS' => "close",
+        );
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
+        $this->db->where('SURAT_JALAN_ID', $this->input->post('surat_jalan'));
+        $this->db->update('SURAT_JALAN', $data_surat_jalan);
 
-            $result = $this->db->insert('PAJAK', $data);
-            return $result;
-        } else {
-            $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
-                'EDIT_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "EDIT",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
+        $data_edit_buku_besar = array(
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+        $this->db->where('BUKU_BESAR_REF', $this->input->post('surat_jalan'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
 
-            $this->db->where('PAJAK_ID', $this->input->post('id'));
-            $edit = $this->db->update('PAJAK', $data_edit);
+        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $this->input->post('surat_jalan') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  LIMIT 1 ')->result();
+        $data = array(
+            'FAKTUR_JAMINAN_ID' => $this->input->post('id'),
+            'MASTER_RELASI_ID' => $hasil[0]->MASTER_RELASI_ID,
+            'AKUN_ID' => $this->input->post('akun'),
+            'FAKTUR_JAMINAN_NOMOR' => nomor_jaminan($this->input->post('tanggal')),
+            'SURAT_JALAN_ID' => $this->input->post('surat_jalan'),
+            'FAKTUR_JAMINAN_TANGGAL' => $this->input->post('tanggal'),
+            'FAKTUR_JAMINAN_KETERANGAN' => "JAMINAN TABUNG NO." . $hasil[0]->SURAT_JALAN_NOMOR . "",
+            'FAKTUR_JAMINAN_JUMLAH' => str_replace(".", "", $this->input->post('jumlah')),
+            'FAKTUR_JAMINAN_HARGA' => str_replace(".", "", $this->input->post('harga')),
+            'FAKTUR_JAMINAN_TOTAL_RUPIAH' => str_replace(".", "", $this->input->post('total')),
 
-            $data = array(
-                'PAJAK_ID' => $this->input->post('id'),
-                'PAJAK_NAMA' => $this->input->post('nama'),
-                'PAJAK_NILAI' => $this->input->post('nilai'),
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
+        $this->db->insert('FAKTUR_JAMINAN', $data);
 
-            $result = $this->db->insert('PAJAK', $data);
-            return $result;
+        $data_buku_besar = array(
+            'BUKU_BESAR_ID' => create_id(),
+            'BUKU_BESAR_REF' => $this->input->post('id'),
+            'AKUN_ID' => $this->input->post('akun'),
+            'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
+            'BUKU_BESAR_KREDIT' => "0",
+            'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('total')),
+            'BUKU_BESAR_SUMBER' => "JAMINAN",
+            'BUKU_BESAR_KETERANGAN' => "JAMINAN TABUNG NO." . $hasil[0]->SURAT_JALAN_NOMOR . "",
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('BUKU_BESAR', $data_buku_besar);
+        return $result;
+    }
+
+    public function surat_jalan_list()
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        SURAT_JALAN
+        WHERE SURAT_JALAN_STATUS="open" AND SURAT_JALAN_JENIS="penjualan" AND SURAT_JALAN_REALISASI_STATUS="selesai" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil as $row) {
+            $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
+            $oleh = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+            $row->RELASI = $relasi;
+            $row->OLEH = $oleh;
         }
+        return $hasil;
     }
 
     public function hapus($id)

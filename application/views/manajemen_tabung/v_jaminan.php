@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Pajak</h4>
+                <h4 class="modal-title">Tambah Jaminan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,22 +13,52 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
-                        <input type="text" class="form-control nama" name="nama" autocomplete="off">
+                        <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" value="<?= date("Y-m-d"); ?>" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-
-                        <label for="exampleInputEmail1">Nilai</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control nilai" name="nilai" autocomplete="off">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">%</span>
-                            </div>
-                        </div>
+                        <label for="exampleInputEmail1">Nomor Surat Jalan</label>
+                        <select name="surat_jalan" id="surat_jalan" class="form-control form-control-sm surat_jalan select2" style="width: 100%;">
+                            <option value="">-- Surat Jalan --</option>
+                            <?php
+                            foreach ($surat_jalan as $row) { ?>
+                                <option value="<?= $row->SURAT_JALAN_ID ?>"><?= $row->SURAT_JALAN_NOMOR ?></option>
+                            <?php }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
-
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Jumlah</label>
+                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" required onkeyup="kalkulasi_seluruh()">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Harga</label>
+                        <input type="text" class="form-control harga" name="harga" autocomplete="off" required onkeyup="kalkulasi_seluruh()">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Akun</label>
+                        <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                            <option value="">-- Akun --</option>
+                            <?php foreach (akun_list() as $row) {
+                            ?>
+                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Total</label>
+                        <input type="text" class="form-control total" name="total" autocomplete="off" readonly>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
             </div>
+
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
                 <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
@@ -59,13 +89,16 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Pajak</button>
+                    <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Jaminan</button>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
-                                <th>Nilai (%)</th>
+                                <th>Surat Jalan</th>
+                                <th>Jumlah</th>
+                                <th>Harga</th>
+                                <th>Total</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -89,13 +122,22 @@
         $("#pajakModal").modal("show")
     })
     $(function() {
-        pajak_list();
+        jaminan_list();
+        $(".jumlah").mask("#.##0", {
+            reverse: true
+        });
+        $(".harga").mask("#.##0", {
+            reverse: true
+        });
+        $(".total").mask("#.##0", {
+            reverse: true
+        });
     });
 
-    function pajak_list() {
+    function jaminan_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/konfigurasi/pajak/list",
+            url: "<?php echo base_url() ?>index.php/manajemen_tabung/jaminan/list",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -109,10 +151,11 @@
                     for (i = 0; i < data.length; i++) {
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].PAJAK_NAMA + "</td>" +
-                            "<td>" + data[i].PAJAK_NILAI + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PAJAK_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].PAJAK_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
+                            "<td>" + data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td>" + data[i].FAKTUR_JAMINAN_JUMLAH + "</td>" +
+                            "<td>" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "</td>" +
+                            "<td>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
                             "</tr>");
                     }
                 }
@@ -126,7 +169,7 @@
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/konfigurasi/pajak/add',
+            url: '<?php echo base_url(); ?>index.php/manajemen_tabung/jaminan/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -136,7 +179,7 @@
                 memuat()
             },
             success: function(data) {
-                pajak_list();
+                jaminan_list();
                 Swal.fire('Berhasil', 'Pajak berhasil ditambahkan', 'success')
                 $("#pajakModal").modal("hide")
             }
@@ -197,5 +240,13 @@
             },
             error: function(x, e) {} //end error
         });
+    }
+
+    function kalkulasi_seluruh() {
+        var harga = parseInt($(".harga").val().split('.').join(""))
+        var jumlah = parseInt($(".jumlah").val().split('.').join(""))
+
+        var total = harga * jumlah
+        $(".total").val(number_format(total))
     }
 </script>

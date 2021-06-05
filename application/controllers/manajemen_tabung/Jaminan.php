@@ -29,8 +29,9 @@ class Jaminan extends CI_Controller
 
     public function index()
     {
+        $data['surat_jalan'] = $this->JaminanModel->surat_jalan_list();
         $this->load->view('_template/header');
-        $this->load->view('manajemen_tabung/v_jaminan');
+        $this->load->view('manajemen_tabung/v_jaminan', $data);
         $this->load->view('_template/footer');
     }
 
