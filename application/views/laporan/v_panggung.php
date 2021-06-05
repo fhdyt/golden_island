@@ -190,8 +190,8 @@
                             var saldo_kembali_mr = parseInt(data[i].SALDO_MR[0].KEMBALI)
                         }
 
-                        total_mp = saldo_awal_mp + saldo_kembali_mp + saldo_kirim_mp
-                        total_mr = saldo_awal_mr + saldo_kembali_mr + saldo_kirim_mr
+                        total_mp = saldo_awal_mp + saldo_kembali_mp - saldo_kirim_mp
+                        total_mr = saldo_awal_mr + saldo_kembali_mr - saldo_kirim_mr
                         // total_mp = saldo_awal_mp + saldo_kirim_mp + saldo_kembali_mp
                         // total_mr = saldo_awal_mr + saldo_kirim_mr + saldo_kembali_mr
 
