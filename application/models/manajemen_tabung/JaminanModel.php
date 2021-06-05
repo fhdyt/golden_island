@@ -33,14 +33,15 @@ class JaminanModel extends CI_Model
         $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
 
         $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $this->input->post('surat_jalan') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  LIMIT 1 ')->result();
+        $nomor_jaminan = nomor_jaminan($this->input->post('tanggal'));
         $data = array(
             'FAKTUR_JAMINAN_ID' => $this->input->post('id'),
             'MASTER_RELASI_ID' => $hasil[0]->MASTER_RELASI_ID,
             'AKUN_ID' => $this->input->post('akun'),
-            'FAKTUR_JAMINAN_NOMOR' => nomor_jaminan($this->input->post('tanggal')),
+            'FAKTUR_JAMINAN_NOMOR' => $nomor_jaminan,
             'SURAT_JALAN_ID' => $this->input->post('surat_jalan'),
             'FAKTUR_JAMINAN_TANGGAL' => $this->input->post('tanggal'),
-            'FAKTUR_JAMINAN_KETERANGAN' => "JAMINAN TABUNG NO." . $hasil[0]->SURAT_JALAN_NOMOR . "",
+            'FAKTUR_JAMINAN_KETERANGAN' => "JAMINAN TABUNG NO." . $nomor_jaminan . "",
             'FAKTUR_JAMINAN_JUMLAH' => str_replace(".", "", $this->input->post('jumlah')),
             'FAKTUR_JAMINAN_HARGA' => str_replace(".", "", $this->input->post('harga')),
             'FAKTUR_JAMINAN_TOTAL_RUPIAH' => str_replace(".", "", $this->input->post('total')),
@@ -61,6 +62,7 @@ class JaminanModel extends CI_Model
             'BUKU_BESAR_KREDIT' => "0",
             'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('total')),
             'BUKU_BESAR_SUMBER' => "JAMINAN",
+            'BUKU_BESAR_JENIS_PENGELUARAN' => "Jaminan",
             'BUKU_BESAR_KETERANGAN' => "JAMINAN TABUNG NO." . $hasil[0]->SURAT_JALAN_NOMOR . "",
 
             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),

@@ -103,4 +103,24 @@ class PdfModel extends CI_Model
         $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
+
+    public function faktur_jaminan($id)
+    {
+        $hasil['detail'] = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE FAKTUR_JAMINAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['surat_jalan'] = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $hasil['detail'][0]->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['barang'] = $this->db->query('SELECT * 
+                                        FROM SURAT_JALAN_BARANG AS SJ
+                                        LEFT JOIN MASTER_BARANG AS B
+                                        ON SJ.MASTER_BARANG_ID=B.MASTER_BARANG_ID 
+                                        WHERE 
+                                        SJ.SURAT_JALAN_ID ="' . $hasil['detail'][0]->SURAT_JALAN_ID . '" 
+                                        AND SJ.RECORD_STATUS="AKTIF" 
+                                        AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        AND B.RECORD_STATUS="AKTIF" 
+                                        AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        LIMIT 1')->result();
+        $hasil['relasi'] = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $hasil['detail'][0]->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
+    }
 }

@@ -156,6 +156,9 @@
                             "<td>" + data[i].FAKTUR_JAMINAN_JUMLAH + "</td>" +
                             "<td>" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "</td>" +
                             "<td>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
+                            "<td>" +
+                            "<a target='_blank' class='btn btn-success btn-sm mb-2' onclick='cetak(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
+                            "</td>" +
                             "</tr>");
                     }
                 }
@@ -168,79 +171,41 @@
 
     $('#submit').submit(function(e) {
         e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/manajemen_tabung/jaminan/add',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                jaminan_list();
-                Swal.fire('Berhasil', 'Pajak berhasil ditambahkan', 'success')
-                $("#pajakModal").modal("hide")
-            }
-        });
-    })
-
-    function hapus(id) {
-        console.log(id)
         Swal.fire({
-            title: '<?= $this->lang->line('hapus'); ?> ?',
+            title: 'Proses Jaminan ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
+            confirmButtonText: `Simpan`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {
+
                 $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/konfigurasi/pajak/hapus/' + id,
+                    url: '<?php echo base_url(); ?>index.php/manajemen_tabung/jaminan/add',
+                    type: "post",
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
                     beforeSend: function() {
                         memuat()
                     },
-                    dataType: 'json',
                     success: function(data) {
-                        if (data.length === 0) {} else {
-                            pajak_list();
-                            Swal.fire('Berhasil', 'Pajak Berhasil dihapus', 'success')
-                        }
-                    },
-                    error: function(x, e) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Proses Gagal'
-                        })
-                    } //end error
+                        jaminan_list();
+                        Swal.fire('Berhasil', 'Pajak berhasil ditambahkan', 'success')
+                        $("#pajakModal").modal("hide")
+                    }
                 });
-
             }
+
+
         })
+    })
+
+    function cetak(id) {
+        window.open('<?= base_url(); ?>cetak/faktur_jaminan/' + id + '');
     }
 
-    function detail(id) {
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/konfigurasi/pajak/detail/' + id,
-            beforeSend: function() {
-                memuat()
-            },
-            dataType: 'json',
-            success: function(data) {
-                memuat()
-                $(".id").val(data[0].PAJAK_ID)
-                $(".nama").val(data[0].PAJAK_NAMA)
-                $(".nilai").val(data[0].PAJAK_NILAI)
-
-                $("#pajakModal").modal("show")
-            },
-            error: function(x, e) {} //end error
-        });
-    }
 
     function kalkulasi_seluruh() {
         var harga = parseInt($(".harga").val().split('.').join(""))
