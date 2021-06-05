@@ -25,10 +25,6 @@
                                 <option value="pengeluaran">Pengeluaran</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <select name="relasi_supplier" id="relasi_supplier" class="form-control relasi_supplier select2" style="width: 100%;">
-                            </select>
-                        </div>
                         <div class="col-md-2">
                             <select name="bulan" id="bulan" class="form-control select2 bulan" style="width: 100%;">
                                 <?php
@@ -152,39 +148,6 @@
         });
     }
 
-
-
-
-    $('#jenis_pajak').change(function() {
-        jenis_pajak($("#jenis_pajak").val())
-    });
-
-    function jenis_pajak(jenis) {
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/akuntansi/pajak/jenis_pajak?jenis=' + jenis,
-            beforeSend: function() {
-                memuat()
-            },
-            dataType: 'json',
-            success: function(data) {
-                memuat()
-                $(".relasi_supplier").empty()
-                if (data.length === 0) {
-
-                } else {
-                    for (i = 0; i < data.length; i++) {
-                        if (jenis == "masukan") {
-                            $(".relasi_supplier").append("<option value='" + data[i].MASTER_SUPPLIER_ID + "'>" + data[i].MASTER_SUPPLIER_NAMA + "</option>")
-                        } else if (jenis == "pengeluaran") {
-                            $(".relasi_supplier").append("<option value='" + data[i].MASTER_RELASI_ID + "'>" + data[i].MASTER_RELASI_NAMA + "</option>")
-                        }
-                    }
-                }
-            },
-            error: function(x, e) {} //end error
-        });
-    }
 
     $(".filter").on("click", function() {
         memuat()
