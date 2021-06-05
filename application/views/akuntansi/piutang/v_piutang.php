@@ -55,15 +55,18 @@
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
-                console.log(data)
+                // console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
                     var saldo = 0
                     var total_saldo = 0
+                    data = jQuery.grep(data, function(value) {
+                        return value.SALDO != "0";
+                    });
+                    console.log(data)
                     for (i = 0; i < data.length; i++) {
-
                         total_saldo += parseInt(data[i].SALDO)
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + "</td>" +
