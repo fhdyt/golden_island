@@ -89,7 +89,8 @@ error_reporting(0);
         <!-- Main content -->
         <section class="invoice">
             <!-- title row -->
-            <div class="row">
+            <br>
+            <div class="row mt-5">
                 <div class="col-2 text-right">
                     <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= detail_perusahaan()[0]->PERUSAHAAN_KODE; ?>.png" height="90px" alt="">
                 </div>
@@ -277,6 +278,11 @@ error_reporting(0);
                         <b><?= $oleh[0]->USER_NAMA; ?></b><br>
                         <?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?>
                     </address>
+                </div>
+            </div>
+            <div class="row invoice-info mt-5">
+                <div class="col-12 text-center">
+                    <p>Claim hanya dapat dilayani dalam waktu 1x24 Jam sejak barang diterima.</p>
                 </div>
             </div>
 
