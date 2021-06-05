@@ -146,7 +146,7 @@
                             "</td>" +
                             "</tr>");
                     }
-                    $("tbody#zone_data").append("<tr><td colspan='5' align='right'><b>Total</b></td><td colspan='4'><b>" + total + "</b></td></tr>")
+                    $("tbody#zone_data").append("<tr><td colspan='6' align='right'><b>Total</b></td><td colspan='4'><b>" + total + "</b></td></tr>")
 
                 }
             },

@@ -38,6 +38,10 @@
                         <input type="text" class="form-control kode_lama" name="kode_lama" autocomplete="off">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Kode Produksi</label>
+                        <input type="text" class="form-control kode_produksi" name="kode_produksi" autocomplete="off">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Kepemilikan</label>
                         <select name="kepemilikan" id="kepemilikan" class="form-control kepemilikan select2" style="width: 100%;" required>
                             <option value="MP">MP</option>
@@ -265,6 +269,7 @@
                 $(".kode").val(data[0].MASTER_TABUNG_KODE)
                 $(".jumlah").val("1")
                 $(".kode_lama").val(data[0].MASTER_TABUNG_KODE_LAMA)
+                $(".kode_produksi").val(data[0].MASTER_TABUNG_KODE_PRODUKSI)
                 $(".tabung").val(data[0].MASTER_BARANG_ID).trigger('change')
                 $(".kepemilikan").val(data[0].MASTER_TABUNG_KEPEMILIKAN).trigger('change')
 

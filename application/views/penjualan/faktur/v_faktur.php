@@ -81,6 +81,7 @@
                             <th><?= $this->lang->line('tanggal'); ?></th>
                             <th>Nomor Surat Jalan</th>
                             <th><?= $this->lang->line('Relasi'); ?></th>
+                            <th>Total</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -136,6 +137,7 @@
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].FAKTUR_NOMOR + "</td>" +
                             "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>Rp. " + number_format(data[i].TRANSAKSI[0].FAKTUR_TRANSAKSI_GRAND_TOTAL) + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mb-2 ' href='<?= base_url(); ?>penjualan/faktur/form/" + data[i].FAKTUR_ID + "?jenis_sj=penjualan'>Lihat</a> " +
                             "<a target='_blank' class='btn btn-success btn-sm mb-2' onclick='cetak(\"" + data[i].FAKTUR_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
                             "</td>" +
