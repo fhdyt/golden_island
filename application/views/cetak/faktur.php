@@ -157,7 +157,14 @@
             </div>
             <div class="row invoice-info">
                 <div class="col-6 text-center">
-
+                    <p>Diterima oleh :</p>
+                    <br>
+                    <br>
+                    <br>
+                    <address>
+                        <b>( ............................. )</b>
+                        <?= $relasi[0]->MASTER_RELASI_NAMA; ?>
+                    </address>
                 </div>
                 <div class="col-6 text-center">
                     <p>Dibuat oleh :</p>
