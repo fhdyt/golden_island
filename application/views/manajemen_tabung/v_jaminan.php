@@ -70,6 +70,66 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<div class="modal fade" id="selesaijaminanModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Selesai Jaminan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="submit_selesai">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control id_jaminan" name="id_jaminan" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Akun</label>
+                        <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                            <option value="">-- Akun --</option>
+                            <?php foreach (akun_list() as $row) {
+                            ?>
+                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <hr>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Jumlah</td>
+                            <td>Harga</td>
+                            <td>Total</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="jumlah_jaminan"></p>
+                            </td>
+                            <td>
+                                <p class="harga_jaminan"></p>
+                            </td>
+                            <td>
+                                <p class="total_jaminan"></p>
+                            </td>
+                        </tr>
+
+                    </table>
+            </div>
+
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary">Jaminan Selesai</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -96,6 +156,7 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Surat Jalan</th>
+                                <th>Tanggal</th>
                                 <th>Jumlah</th>
                                 <th>Harga</th>
                                 <th>Total</th>
@@ -149,15 +210,26 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
-                        $("tbody#zone_data").append("<tr class=''>" +
+                        if (data[i].FAKTUR_JAMINAN_STATUS == "selesai") {
+                            var tr = "table-success"
+                            var status = "<small class='text-muted'>Jaminan Telah Selesai</small>"
+                            var btn = ""
+                        } else {
+                            var tr = "table-default"
+                            var status = ""
+                            var btn = "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'><i class='fas fa-edit'></i> Selesai Jaminan</a>"
+                        }
+                        $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA + "</td>" +
-                            "<td>" + data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR + "<br>" + status + "</td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].FAKTUR_JAMINAN_JUMLAH + "</td>" +
                             "<td>" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "</td>" +
                             "<td>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
                             "<td>" +
-                            "<a target='_blank' class='btn btn-success btn-sm mb-2' onclick='cetak(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
+                            "<a target='_blank' class='btn btn-success btn-sm' onclick='cetak(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
+                            btn +
                             "</td>" +
                             "</tr>");
                     }
@@ -192,13 +264,42 @@
                     },
                     success: function(data) {
                         jaminan_list();
-                        Swal.fire('Berhasil', 'Pajak berhasil ditambahkan', 'success')
+                        Swal.fire('Berhasil', 'Jaminan berhasil ditambahkan', 'success')
                         $("#pajakModal").modal("hide")
                     }
                 });
             }
+        })
+    })
 
+    $('#submit_selesai').submit(function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Proses Jaminan ?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `Simpan`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
 
+                $.ajax({
+                    url: '<?php echo base_url(); ?>index.php/manajemen_tabung/jaminan/selesai',
+                    type: "post",
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
+                    success: function(data) {
+                        jaminan_list();
+                        Swal.fire('Berhasil', 'Jaminan berhasil diselesaikan', 'success')
+                        $("#pajakModal").modal("hide")
+                    }
+                });
+            }
         })
     })
 
@@ -213,5 +314,26 @@
 
         var total = harga * jumlah
         $(".total").val(number_format(total))
+    }
+
+    function detail(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/manajemen_tabung/jaminan/detail/' + id,
+            beforeSend: function() {
+                memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                memuat()
+                console.log(data)
+                $(".id_jaminan").val(data[0].FAKTUR_JAMINAN_ID)
+                $("p.jumlah_jaminan").html(data[0].FAKTUR_JAMINAN_JUMLAH)
+                $("p.harga_jaminan").html(number_format(data[0].FAKTUR_JAMINAN_HARGA))
+                $("p.total_jaminan").html(number_format(data[0].FAKTUR_JAMINAN_TOTAL_RUPIAH))
+                $("#selesaijaminanModal").modal("show")
+            },
+            error: function(x, e) {} //end error
+        });
     }
 </script>

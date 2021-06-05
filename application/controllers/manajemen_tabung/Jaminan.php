@@ -45,6 +45,10 @@ class Jaminan extends CI_Controller
     {
         $data = $this->JaminanModel->add();
     }
+    public function selesai()
+    {
+        $data = $this->JaminanModel->selesai();
+    }
 
     public function hapus()
     {

@@ -449,7 +449,7 @@
                     total_tabung_mr: total_tabung_mr,
                 },
                 success: function(data) {
-                    memuat()
+                    surat_jalan_list()
 
                     Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
                 }
