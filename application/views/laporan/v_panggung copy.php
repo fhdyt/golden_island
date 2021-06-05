@@ -95,24 +95,56 @@
                             <button type="button" class="btn btn-secondary btn_pajak mb-2">Saldo Panggung</button>
                         </div>
                     </div>
-
-                    <table id="example2" class="table table-bordered">
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            <select name="tabung_filter" id="tabung_filter" class="form-control tabung_filter select2" style="width: 100%;">
+                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <?php
+                                foreach (tabung($relasi[0]->MASTER_RELASI_ID) as $row) {
+                                ?>
+                                    <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <small class="text-muted">Jenis Barang</small>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                            <small class="text-muted">Tanggal Dari.</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Tanggal Sampai.</small>
+                        </div>
+                    </div>
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Jenis</th>
-                                <th>Status</th>
-                                <th>Saldo Awal</th>
-                                <th>Saldo Kirim</th>
-                                <th>Saldo Kembali</th>
-                                <th>Saldo</th>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
+                                <th><?= $this->lang->line('Relasi'); ?></th>
+                                <th>Supplier</th>
+                                <th>Kirim</th>
+                                <th>Kembali</th>
+                                <th>Total</th>
+                                <th><?= $this->lang->line('keterangan'); ?></th>
                             </tr>
                         </thead>
-                        <tbody id="zone_data">
+                        <tbody id="zone_data_saldo_awal">
                             <tr>
                             </tr>
                         </tbody>
-                        <tbody id="total_saldo_panggung">
+                        <tbody id="zone_data_saldo_panggung">
+                            <tr>
+                            </tr>
+                        </tbody>
+                        <tbody id="zone_data">
                             <tr>
                             </tr>
                         </tbody>
@@ -131,83 +163,66 @@
         saldo_awal_list()
     })
     $(function() {
-        barang_list();
+        saldo_list();
     });
 
-    function barang_list() {
+    function saldo_list() {
         $.ajax({
             type: 'POST',
             url: "<?php echo base_url() ?>index.php/laporan/panggung/list",
             async: false,
             dataType: 'json',
+            data: {
+                tanggal_dari: $('.tanggal_dari').val(),
+                tanggal_sampai: $('.tanggal_sampai').val(),
+                tabung: $('.tabung_filter').val(),
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
-                $("tbody#total_saldo_panggung").empty()
+                $("tbody#zone_data_saldo_awal").empty()
+                console.log(data['saldo_awal'])
                 memuat()
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
-                    var no = 1
-                    var total_mp = 0
-                    var total_mr = 0
-
-                    var total = 0
-
-                    console.log(data)
-                    for (i = 0; i < data.length; i++) {
-                        if (data[i].SALDO_AWAL_MP.length == 0) {
-                            var saldo_awal_mp = 0
-                        } else {
-                            var saldo_awal_mp = parseInt(data[i].SALDO_AWAL_MP[0].JURNAL_TABUNG_KEMBALI)
-                        }
-                        if (data[i].SALDO_AWAL_MR.length == 0) {
-                            var saldo_awal_mr = 0
-                        } else {
-                            var saldo_awal_mr = parseInt(data[i].SALDO_AWAL_MR[0].JURNAL_TABUNG_KEMBALI)
-                        }
-
-
-                        if (data[i].SALDO_MP[0].KIRIM == null) {
-                            var saldo_kirim_mp = 0
-                        } else {
-                            var saldo_kirim_mp = parseInt(data[i].SALDO_MP[0].KIRIM)
-                        }
-                        if (data[i].SALDO_MP[0].KEMBALI == null) {
-                            var saldo_kembali_mp = 0
-                        } else {
-                            var saldo_kembali_mp = parseInt(data[i].SALDO_MP[0].KEMBALI)
-                        }
-
-
-                        if (data[i].SALDO_MR[0].KIRIM == null) {
-                            var saldo_kirim_mr = 0
-                        } else {
-                            var saldo_kirim_mr = parseInt(data[i].SALDO_MR[0].KIRIM)
-                        }
-                        if (data[i].SALDO_MR[0].KEMBALI == null) {
-                            var saldo_kembali_mr = 0
-                        } else {
-                            var saldo_kembali_mr = parseInt(data[i].SALDO_MR[0].KEMBALI)
-                        }
-
-                        total_mp = saldo_awal_mp + saldo_kirim_mp + saldo_kembali_mp
-                        total_mr = saldo_awal_mr + saldo_kirim_mr + saldo_kembali_mr
-
-                        total += total_mp + total_mr
-                        $("tbody#zone_data").append("<tr >" +
-                            "<td rowspan='3' style='text-align:center; vertical-align:middle;'>" + no++ + ".</td>" +
-                            "<td rowspan='3' style='text-align:center; vertical-align:middle;'>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "</tr>" +
-                            "<tr class='table-success'><td>MP</td><td>" + number_format(saldo_awal_mp) + "</td><td>" + number_format(saldo_kirim_mp) + "</td><td>" + number_format(saldo_kembali_mp) + "</td><td>" + number_format(total_mp) + "</td>" +
-                            "<tr class='table-warning'><td>MR</td><td>" + number_format(saldo_awal_mr) + "</td><td>" + number_format(saldo_kirim_mr) + "</td><td>" + number_format(saldo_kembali_mr) + "</td><td>" + number_format(total_mr) + "</td>" +
-                            "</tr>");
-
-
+                    if (data['saldo_awal'].length === 0) {
+                        var saldo_awal = 0
+                    } else {
+                        var saldo_awal = data['saldo_awal'][0].JURNAL_TABUNG_KEMBALI
                     }
-                    $("tbody#total_saldo_panggung").append("<tr class=''>" +
-                        "<td colspan='6' style='text-align:right; vertical-align:middle;'><b>Total Panggung</b></td>" +
-                        "<td>" + number_format(total) + "</td>" +
+
+                    $("tbody#zone_data_saldo_awal").append("<tr class=''>" +
+                        "<td colspan='6' style='text-align:right; vertical-align:middle;'><b>Saldo Awal</b></td>" +
+                        "<td>" + number_format(saldo_awal) + "</td>" +
                         "</tr>");
+
+                    var no = 1
+                    var total = 0 + parseInt(saldo_awal);
+
+                    for (i = 0; i < data['list'].length; i++) {
+                        if (data['list'][i].RELASI_NAMA.length == 0) {
+                            var relasi = "-"
+                        } else {
+                            var relasi = data['list'][i].RELASI_NAMA[0].MASTER_RELASI_NAMA
+                        }
+                        if (data['list'][i].SUPPLIER_NAMA.length == 0) {
+                            var supplier = "-"
+                        } else {
+                            var supplier = data['list'][i].SUPPLIER_NAMA[0].MASTER_SUPPLIER_NAMA
+                        }
+                        total += data['list'][i].TOTAL
+                        $("tbody#zone_data").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td><b>" + data['list'][i].TANGGAL + "</b><br>" + data['list'][i].NAMA_BARANG[0].MASTER_BARANG_NAMA + " (<small>" + data['list'][i].JURNAL_TABUNG_STATUS + "</small>)</td>" +
+                            "<td>" + relasi + "</td>" +
+                            "<td>" + supplier + "</td>" +
+                            "<td>" + data['list'][i].JURNAL_TABUNG_KIRIM + "</td>" +
+                            "<td>" + data['list'][i].JURNAL_TABUNG_KEMBALI + "</td>" +
+                            "<td>" + total + "</td>" +
+                            "<td>" + data['list'][i].JURNAL_TABUNG_KETERANGAN + "</td>" +
+                            "</td>" +
+                            "</tr>");
+                    }
                 }
             },
             error: function(x, e) {
