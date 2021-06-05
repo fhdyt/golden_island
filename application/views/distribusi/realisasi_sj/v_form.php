@@ -302,8 +302,13 @@
                         var rowspan = 0;
                         var detailLength = data[i].BARANG.length;
                         rowspan += detailLength;
+                        if (data[i].SURAT_JALAN_REALISASI_STATUS == "selesai") {
+                            var btn_cetak = "<a class='btn btn-success btn-xs mt-2' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'><i class='right fas fa-print'></i> Cetak Surat Jalan</a>"
+                        } else {
+                            var btn_cetak = ""
+                        }
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "</td></tr>";
+                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "<br>" + btn_cetak + "</td></tr>";
                         console.log(detailLength)
                         var barangLlength = 0;
 
