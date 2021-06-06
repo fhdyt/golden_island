@@ -285,7 +285,7 @@
             async: false,
             dataType: 'json',
             success: function(data) {
-                $(".jenis").empty()
+                // $(".jenis").empty()
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
                 memuat()
@@ -313,7 +313,7 @@
                         var barangLlength = 0;
 
                         for (var j = 0; j < detailLength; j++) {
-                            $(".jenis").append("<option value='" + data[i].BARANG[j].MASTER_BARANG_ID + "'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</option")
+                            //$(".jenis").append("<option value='" + data[i].BARANG[j].MASTER_BARANG_ID + "'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + "</option")
                             total_qty += parseInt(data[i].BARANG[j].TOTAL)
                             tableContent += "<tr>" +
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data[i].BARANG[j].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
