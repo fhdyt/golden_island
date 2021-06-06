@@ -9,7 +9,7 @@ class PanggungModel extends CI_Model
                                                     WHERE 
                                                     MASTER_BARANG_JENIS="gas"
                                                     AND RECORD_STATUS="AKTIF" 
-                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_NAMA')->result();
         foreach ($hasil as $row) {
             $row->SALDO_AWAL_MP = $this->db->query('SELECT * FROM 
                                                     JURNAL_TABUNG 
