@@ -292,21 +292,24 @@
     })
 
     $(".btn_barang_mr").on("click", function() {
-        var total_tabung_sj = $(".total_tabung_sj").val()
-        var total_realisasi = parseInt($(".total_realisasi").val())
-        var total_tabung_mr = parseInt($(".total_tabung_mr").val())
-        if (total_tabung_sj == (total_realisasi + total_tabung_mr)) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Tidak dapat menambah tabung.'
-            })
-        } else {
-            $(".jumlah_mp").val("0")
-            $(".jumlah_mr").val("0")
-            $("#barangmrModal").modal("show")
+        $(".jumlah_mp").val("0")
+        $(".jumlah_mr").val("0")
+        $("#barangmrModal").modal("show")
+        // var total_tabung_sj = $(".total_tabung_sj").val()
+        // var total_realisasi = parseInt($(".total_realisasi").val())
+        // var total_tabung_mr = parseInt($(".total_tabung_mr").val())
+        // if (total_tabung_sj == (total_realisasi + total_tabung_mr)) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Oops...',
+        //         text: 'Tidak dapat menambah tabung.'
+        //     })
+        // } else {
+        //     $(".jumlah_mp").val("0")
+        //     $(".jumlah_mr").val("0")
+        //     $("#barangmrModal").modal("show")
 
-        }
+        // }
 
 
     })
