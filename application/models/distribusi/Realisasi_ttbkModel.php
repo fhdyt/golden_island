@@ -85,6 +85,13 @@ class Realisasi_ttbkModel extends CI_Model
                                     AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                     AND B.RECORD_STATUS="AKTIF"
                                     AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil['mp'] as $row) {
+            $tabung = $this->db->query('SELECT MASTER_TABUNG_KODE,MASTER_TABUNG_KODE_LAMA FROM MASTER_TABUNG WHERE
+                                    MASTER_TABUNG_ID = "' . $row->MASTER_TABUNG_ID . '"
+                                    AND RECORD_STATUS="AKTIF"
+                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+            $row->KODE_TABUNG = $tabung->result();
+        }
         $hasil['mr'] = $this->db->query('SELECT * FROM 
                                     REALISASI_TTBK_BARANG_MR AS R
                                     LEFT JOIN MASTER_BARANG AS B
@@ -292,6 +299,32 @@ class Realisasi_ttbkModel extends CI_Model
 
         return true;
     }
+
+    public function add_scan($surat_jalan_id)
+    {
+        $list = explode(PHP_EOL, $this->input->post('scan'));
+        foreach ($list as $row) {
+            $hasil = $this->db->query('SELECT * FROM MASTER_TABUNG WHERE MASTER_TABUNG_KODE="' . $row . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1');
+            if ($hasil->num_rows() == "") {
+            } else {
+                $tabung = $hasil->result();
+                $data = array(
+                    'REALISASI_TTBK_BARANG_ID' => create_id(),
+                    'SURAT_JALAN_ID' => $surat_jalan_id,
+                    'MASTER_BARANG_ID' => $tabung[0]->MASTER_BARANG_ID,
+                    'MASTER_TABUNG_ID' => $tabung[0]->MASTER_TABUNG_ID,
+
+                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                    'RECORD_STATUS' => "AKTIF",
+                    'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                );
+                $this->db->insert('REALISASI_TTBK_BARANG', $data);
+            }
+        }
+        return true;
+    }
+
     public function klaim_barang($surat_jalan_id)
     {
         $data = array(

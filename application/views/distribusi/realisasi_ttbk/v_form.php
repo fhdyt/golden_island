@@ -179,7 +179,7 @@
                             </table>
                             <hr>
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-12">
                                     <button type="button" class="btn btn-primary btn_barang_mr mb-2 mr-2">Tambah Tabung</button>
                                     <button type="button" class="btn btn-success scan_barang mb-2 mr-2"><i class="fas fa-qrcode"></i> Scan Tabung</button>
                                     <button type="button" class="btn btn-secondary btn_klaim mb-2">Klaim Tabung</button>
@@ -416,12 +416,20 @@
                     $(".total_realisasi").val(data['mp'].length)
                     $(".total_tabung_mr").val(data['mr'].length)
                     for (i = 0; i < data['mp'].length; i++) {
+                        if (data['mp'][i].KODE_TABUNG.length === 0) {
+                            var kode_tabung = "-"
+                            var kode_tabung_lama = "-"
+                        } else {
+                            var kode_tabung = data['mp'][i].KODE_TABUNG[0].MASTER_TABUNG_KODE
+                            var kode_tabung_lama = data['mp'][i].KODE_TABUNG[0].MASTER_TABUNG_KODE_LAMA
+                        }
+
                         $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>MP</td>" +
                             "<td>" + data['mp'][i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>-</td>" +
-                            "<td>-</td>" +
+                            "<td>" + kode_tabung_lama + "</td>" +
+                            "<td>" + kode_tabung + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['mp'][i].REALISASI_TTBK_BARANG_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
                             "</tr>");
 

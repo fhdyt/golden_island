@@ -362,7 +362,7 @@
                             var kode_tabung_lama = "-"
                         } else {
                             var kode_tabung = data['mp'][i].KODE_TABUNG[0].MASTER_TABUNG_KODE
-                            var kode_tabung_lama = data['mp'][i].KODE_TABUNG[0].MASTER_TABUNG_LAMA
+                            var kode_tabung_lama = data['mp'][i].KODE_TABUNG[0].MASTER_TABUNG_KODE_LAMA
                         }
                         $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
