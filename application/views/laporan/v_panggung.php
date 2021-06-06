@@ -102,9 +102,6 @@
                                 <th>No.</th>
                                 <th>Jenis</th>
                                 <th>Status</th>
-                                <th>Saldo Awal</th>
-                                <th>Saldo Kirim</th>
-                                <th>Saldo Kembali</th>
                                 <th>Saldo</th>
                             </tr>
                         </thead>
@@ -200,8 +197,8 @@
                             "<td rowspan='3' style='text-align:center; vertical-align:middle;'>" + no++ + ".</td>" +
                             "<td rowspan='3' style='text-align:center; vertical-align:middle;'>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "</tr>" +
-                            "<tr class='table-success'><td>MP</td><td>" + number_format(saldo_awal_mp) + "</td><td>" + number_format(saldo_kirim_mp) + "</td><td>" + number_format(saldo_kembali_mp) + "</td><td>" + number_format(total_mp) + "</td>" +
-                            "<tr class='table-warning'><td>MR</td><td>" + number_format(saldo_awal_mr) + "</td><td>" + number_format(saldo_kirim_mr) + "</td><td>" + number_format(saldo_kembali_mr) + "</td><td>" + number_format(total_mr) + "</td>" +
+                            "<tr class='table-success'><td>MP</td><td>" + number_format(total_mp) + "</td>" +
+                            "<tr class='table-warning'><td>MR</td><td>" + number_format(total_mr) + "</td>" +
                             "</tr>");
 
 
