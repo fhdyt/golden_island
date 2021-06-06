@@ -26,12 +26,8 @@ class PenjualanModel extends CI_Model
                                                         AND SJ.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
                                                         AND B.RECORD_STATUS="AKTIF" 
                                                         AND B.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
-            $faktur = $this->db->query('SELECT FAKTUR_ID FROM FAKTUR_SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
-            if (empty($faktur)) {
-                foreach ($barang as $row_barang) {
-                    $row_barang->HARGA_BARANG = array();
-                }
-            } else {
+            if ($row->SURAT_JALAN_STATUS == "close") {
+                $faktur = $this->db->query('SELECT FAKTUR_ID FROM FAKTUR_SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
                 foreach ($barang as $row_barang) {
                     $row_barang->HARGA_BARANG = $this->db->query('SELECT * FROM FAKTUR_BARANG
                                                                     WHERE
@@ -40,7 +36,12 @@ class PenjualanModel extends CI_Model
                                                                     AND RECORD_STATUS="AKTIF" 
                                                                     AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
                 }
+            } else {
+                foreach ($barang as $row_barang) {
+                    $row_barang->HARGA_BARANG = array();
+                }
             }
+
 
             $row->BARANG = $barang;
         }
