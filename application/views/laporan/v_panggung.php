@@ -204,7 +204,7 @@
 
                     }
                     $("tbody#total_saldo_panggung").append("<tr class=''>" +
-                        "<td colspan='6' style='text-align:right; vertical-align:middle;'><b>Total Panggung</b></td>" +
+                        "<td colspan='' style='text-align:right; vertical-align:middle;'><b>Total Panggung</b></td>" +
                         "<td>" + number_format(total) + "</td>" +
                         "</tr>");
                 }
