@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Dokumen</label>
-                        <input type="file" name="userfile" class="form-control">
+                        <input type="file" name="userfile" class="form-control" required>
                         <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
                     </div>
                     <div class="form-group">

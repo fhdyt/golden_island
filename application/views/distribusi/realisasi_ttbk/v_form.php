@@ -45,6 +45,32 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<!-- /.modal -->
+<div class="modal fade" id="barangscanModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Scan Tabung</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <textarea name="scan_keterangan" id="scan_keterangan" class="form-control scan_keterangan" rows="10"></textarea>
+                    <!-- <input type="text" class="form-control scan_keterangan" name="scan_keterangan" id="scan_keterangan" value="" autocomplete="off"> -->
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <a class="btn btn-primary btn-scan"><?= $this->lang->line('simpan'); ?></a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <div class="modal fade" id="klaimModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -155,6 +181,7 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <button type="button" class="btn btn-primary btn_barang_mr mb-2 mr-2">Tambah Tabung</button>
+                                    <button type="button" class="btn btn-success scan_barang mb-2 mr-2"><i class="fas fa-qrcode"></i> Scan Tabung</button>
                                     <button type="button" class="btn btn-secondary btn_klaim mb-2">Klaim Tabung</button>
                                 </div>
                             </div>
@@ -285,6 +312,32 @@
     })
     $(".btn_klaim").on("click", function() {
         $("#klaimModal").modal("show")
+    })
+
+    $(".scan_barang").on("click", function() {
+        $("textarea.scan_keterangan").val("")
+        $("#barangscanModal").modal("show", function() {
+            $(this).find('textarea#scan_keterangan').focus();
+        })
+    })
+
+    $('.btn-scan').on("click", function(e) {
+        // e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_ttbk/add_scan?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                scan: $(".scan_keterangan").val(),
+            },
+            success: function(data) {
+                realisasi_list()
+                memuat()
+            }
+        });
     })
 
     $(function() {
