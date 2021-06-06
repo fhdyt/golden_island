@@ -27,7 +27,19 @@ class PenjualanModel extends CI_Model
                                                         AND B.RECORD_STATUS="AKTIF" 
                                                         AND B.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
             if ($row->SURAT_JALAN_STATUS == "close") {
-                $faktur = $this->db->query('SELECT FAKTUR_ID FROM FAKTUR_SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
+                $faktur = $this->db->query('SELECT 
+                                            FSJ.FAKTUR_ID 
+                                            FROM 
+                                            FAKTUR AS F
+                                            LEFT JOIN
+                                            FAKTUR_SURAT_JALAN AS FSJ
+                                            ON F.FAKTUR_ID=FSJ.FAKTUR_ID
+                                            WHERE FSJ.SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" 
+                                            AND F.RECORD_STATUS="AKTIF" 
+                                            AND F.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
+                                            AND FSJ.RECORD_STATUS="AKTIF" 
+                                            AND FSJ.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
+                                            LIMIT 1')->result();
                 foreach ($barang as $row_barang) {
                     $row_barang->HARGA_BARANG = $this->db->query('SELECT * FROM FAKTUR_BARANG
                                                                     WHERE
