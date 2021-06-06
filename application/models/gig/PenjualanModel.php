@@ -47,10 +47,16 @@ class PenjualanModel extends CI_Model
                                                                     AND RECORD_STATUS="AKTIF" 
                                                                     AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
                 }
+                $row->BAYAR = $this->db->query('SELECT * FROM FAKTUR_TRANSAKSI
+                                                                    WHERE
+                                                                    FAKTUR_ID="' . $faktur[0]->FAKTUR_ID . '"
+                                                                    AND RECORD_STATUS="AKTIF" 
+                                                                    AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
             } else {
                 foreach ($barang as $row_barang) {
                     $row_barang->HARGA_BARANG = array();
                 }
+                $row->BAYAR = array();
             }
 
 

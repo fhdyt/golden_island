@@ -89,6 +89,7 @@
                                 <th style="vertical-align: middle;">No.</th>
                                 <th style="text-align: center; vertical-align: middle;">Nomor Surat Jalan</th>
                                 <th style="text-align: center; vertical-align: middle;">Nama Relasi</th>
+                                <th style="text-align: center; vertical-align: middle;">Bayar</th>
                                 <th style="text-align: center; vertical-align: middle;">Jenis Barang</th>
                                 <th style="text-align: center; vertical-align: middle;">Quantity<br><small class="text-muted">Quantity Isi - Quantity Klaim</small></th>
                                 <th style="text-align: center; vertical-align: middle;">Harga</th>
@@ -148,9 +149,17 @@
                         var rowspan = 0;
                         var detailLength = data[i].BARANG.length;
                         rowspan += detailLength;
+
+
+                        if (data[i].BAYAR.length === 0) {
+                            total_bayar = 0
+                        } else {
+                            total_bayar = parseInt(data[i].BAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR)
+                        }
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + number_format(total_bayar) + "</td>" +
                             "</tr>";
                         var barangLlength = 0;
 
@@ -171,10 +180,9 @@
                                 "<td rowspan=" + parseInt(1 + barangLlength) + ">" + number_format(total_harga) + "</td>" +
                                 "</tr>";
                         }
-
                     }
                     $("tbody#zone_data").append(tableContent);
-                    $("tbody#zone_data_total").append("<tr><td colspan='6' style='text-align:right'><b>Total</b></td><td>" + number_format(total_seluruh_penjualan) + "</td></tr>");
+                    $("tbody#zone_data_total").append("<tr><td colspan='3' style='text-align:right'><b>Total</b></td><td>" + number_format(total_seluruh_penjualan) + "</td></tr>");
                 }
             },
             error: function(x, e) {
