@@ -105,10 +105,8 @@
 
                         if (data[i].SURAT_JALAN_REALISASI_TTBK_STATUS != "selesai") {
                             var riwayat_status_ttbk = "<span class='float-left badge bg-danger'>TTBK Belum Teralisasi</span>"
-                            var btn_cetak = ""
                         } else {
                             var riwayat_status_ttbk = "<span class='float-left badge bg-success'>TTBK Telah terealisasi</span>"
-                            var btn_cetak = "<a class='btn btn-success btn-sm' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
 
                         }
 
