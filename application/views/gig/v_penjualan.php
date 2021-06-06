@@ -83,7 +83,7 @@
                             <small class="text-muted">Tanggal Penjualan.</small>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th style="vertical-align: middle;">No.</th>
