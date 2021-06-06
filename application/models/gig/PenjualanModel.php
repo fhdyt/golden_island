@@ -10,7 +10,6 @@ class PenjualanModel extends CI_Model
                             WHERE 
                             SURAT_JALAN_TANGGAL = "' . $this->input->post('tanggal') . '"
                             AND SURAT_JALAN_JENIS = "penjualan"
-                            AND (SURAT_JALAN_REALISASI_STATUS="selesai" OR SURAT_JALAN_REALISASI_TTBK_STATUS="selesai")
                             AND RECORD_STATUS="AKTIF" 
                             AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
                             ORDER BY SURAT_JALAN_NOMOR ')->result();
