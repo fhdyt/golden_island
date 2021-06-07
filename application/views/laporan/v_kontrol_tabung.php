@@ -116,6 +116,8 @@
                 } else {
                     var no = 1
                     var total = 0
+                    var total_kirim = 0
+                    var total_kembali = 0
                     for (i = 0; i < data.length; i++) {
                         total += data[i].TOTAL
                         if (data[i].JURNAL_TABUNG_FILE == "empty")
@@ -134,6 +136,9 @@
                         } else {
                             var supplier = data[i].SUPPLIER_NAMA[0].MASTER_SUPPLIER_NAMA
                         }
+
+                        total_kirim += parseInt(data[i].JURNAL_TABUNG_KIRIM)
+                        total_kembali += parseInt(data[i].JURNAL_TABUNG_KEMBALI)
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td><b>" + data[i].TANGGAL + "</b><br>" + data[i].NAMA_BARANG[0].MASTER_BARANG_NAMA + " (<small>" + data[i].JURNAL_TABUNG_STATUS + "</small>)</td>" +
@@ -146,7 +151,7 @@
                             "</td>" +
                             "</tr>");
                     }
-                    $("tbody#zone_data").append("<tr><td colspan='6' align='right'><b>Total</b></td><td colspan='4'><b>" + total + "</b></td></tr>")
+                    $("tbody#zone_data").append("<tr><td colspan='4' align='right'><b>Total</b></td><td><b>" + total_kirim + "</b></td><td><b>" + total_kembali + "</b></td><td><b>" + total + "</b></td><td></td></tr>")
 
                 }
             },

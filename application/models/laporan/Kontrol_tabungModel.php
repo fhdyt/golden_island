@@ -46,7 +46,7 @@ class Kontrol_tabungModel extends CI_Model
             $row->SUPPLIER_NAMA = $supplier_nama->result();
             $row->NAMA_BARANG = $nama_barang->result();
             $row->TANGGAL = tanggal($row->JURNAL_TABUNG_TANGGAL);
-            $row->TOTAL = $row->JURNAL_TABUNG_KIRIM - $row->JURNAL_TABUNG_KEMBALI;
+            $row->TOTAL = $row->JURNAL_TABUNG_KEMBALI - $row->JURNAL_TABUNG_KIRIM;
         }
         return $hasil;
     }
