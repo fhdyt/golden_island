@@ -174,7 +174,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'JURNAL_TABUNG_KIRIM' => "",
                 'JURNAL_TABUNG_KEMBALI' => $mp->JUMLAH,
                 'JURNAL_TABUNG_STATUS' => "MP",
-                'JURNAL_TABUNG_KETERANGAN' => "SURAT JALAN NO. " . $surat_jalan[0]->SURAT_JALAN_NOMOR . " (TTBK)",
+                'JURNAL_TABUNG_KETERANGAN' => "" . $surat_jalan[0]->SURAT_JALAN_NOMOR . " (TTBK)",
                 'JURNAL_TABUNG_FILE' => "empty",
                 'JURNAL_TABUNG_REF'  => $this->input->post("surat_jalan_id"),
 
