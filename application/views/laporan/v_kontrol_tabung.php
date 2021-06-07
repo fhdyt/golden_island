@@ -174,5 +174,5 @@
     setInterval(function() {
         memuat()
         kontrol_tabung_list()
-    }, 60000);
+    }, 30000);
 </script>
