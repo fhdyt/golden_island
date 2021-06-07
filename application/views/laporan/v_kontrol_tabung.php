@@ -151,7 +151,7 @@
                             "</td>" +
                             "</tr>");
                     }
-                    $("tbody#zone_data").append("<tr><td colspan='4' align='right'><b>Total</b></td><td><b>" + total_kirim + "</b></td><td><b>" + total_kembali + "</b></td><td><b>" + total + "</b></td><td></td></tr>")
+                    $("tbody#zone_data").append("<tr><td colspan='4' align='right'><b>Total</b></td><td><b>" + total_kirim + "</b></td><td><b>" + total_kembali + "</b></td><td><b>" + total + "</b></td><td><small class='text-muted'>Autorefresh setiap 30 Detik...</small></td></tr>")
 
                 }
             },
