@@ -11,7 +11,7 @@ if (empty($this->uri->segment('4'))) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <form id="submit">
+                <form id="sdf">
                     <div class="form-group">
                         <input type="text" class="form-control qr_id" name="qr_id" autocomplete="off" autofocus>
                     </div>

@@ -170,4 +170,9 @@
         memuat()
         kontrol_tabung_list()
     });
+
+    setTimeout(function() {
+        memuat()
+        kontrol_tabung_list()
+    }, 1000);
 </script>
