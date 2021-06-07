@@ -90,11 +90,11 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <div class="row mb-2">
+                    <!-- <div class="row mb-2">
                         <div class="col-md-3">
                             <button type="button" class="btn btn-secondary btn_pajak mb-2">Saldo Panggung</button>
                         </div>
-                    </div>
+                    </div> -->
 
                     <table id="example2" class="table table-bordered">
                         <thead>
@@ -110,6 +110,32 @@
                             </tr>
                         </tbody>
                         <tbody id="total_saldo_panggung">
+                            <tr>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" style="text-align: right;">
+                                    <input type="hidden" class="form-control total_tabung_panggung" name="total_tabung_panggung" id="total_tabung_panggung" value="" autocomplete="off">
+                                    <button type="button" class="btn btn-secondary mb-2 verifikasi_panggung">Verifikasi Saldo Panggung</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <table id="example2" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="4" style="text-align: center;"><?= tanggal(date("Y-m-d")) ?></th>
+                            </tr>
+                            <tr>
+                                <th>No.</th>
+                                <th>Oleh</th>
+                                <th>Tanggal</th>
+                                <th>Jumlah Saat Verfikasi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="verifikasi_list">
                             <tr>
                             </tr>
                         </tbody>
@@ -129,6 +155,7 @@
     })
     $(function() {
         barang_list();
+        verifikasi_list();
     });
 
     function barang_list() {
@@ -203,6 +230,7 @@
 
 
                     }
+                    $(".total_tabung_panggung").val(total)
                     $("tbody#total_saldo_panggung").append("<tr class=''>" +
                         "<td colspan='3' style='text-align:right; vertical-align:middle;'><b>Total Panggung</b></td>" +
                         "<td>" + number_format(total) + "</td>" +
@@ -250,6 +278,40 @@
         });
     }
 
+    function verifikasi_list() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url() ?>index.php/laporan/panggung/verifikasi_list",
+            async: false,
+            dataType: 'json',
+            data: {
+                tanggal_dari: $('.tanggal_dari').val(),
+                tanggal_sampai: $('.tanggal_sampai').val(),
+                jenis: $('.jenis').val(),
+            },
+            success: function(data) {
+                $("tbody#verifikasi_list").empty();
+                console.log(data)
+                if (data.length === 0) {
+                    $("tbody#verifikasi_list").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else {
+                    var no = 1
+                    for (i = 0; i < data.length; i++) {
+                        $("tbody#verifikasi_list").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].USER[0].USER_NAMA + "</td>" +
+                            "<td>" + data[i].VERIFIKASI_PANGGUNG_TANGGAL + "</td>" +
+                            "<td>" + data[i].VERIFIKASI_PANGGUNG_TOTAL + "</td>" +
+                            "</tr>");
+                    }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -271,27 +333,28 @@
         });
     })
 
-    function hapus(id) {
-        console.log(id)
+    $(".verifikasi_panggung").on("click", function() {
         Swal.fire({
-            title: '<?= $this->lang->line('hapus'); ?> ?',
+            title: 'Verifikasi Saldo Panggung ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
+            confirmButtonText: `Verfikasi`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/konfigurasi/pajak/hapus/' + id,
+                    type: 'POST',
+                    url: '<?php echo base_url() ?>index.php/laporan/panggung/verifikasi',
                     beforeSend: function() {
                         memuat()
                     },
                     dataType: 'json',
+                    data: {
+                        total: $(".total_tabung_panggung").val()
+                    },
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            pajak_list();
-                            Swal.fire('Berhasil', 'Pajak Berhasil dihapus', 'success')
+                            Swal.fire('Berhasil', 'Saldo panggung berhasil terverifikasi', 'success')
                         }
                     },
                     error: function(x, e) {
@@ -305,7 +368,7 @@
 
             }
         })
-    }
+    })
 
     function detail(id) {
         $.ajax({

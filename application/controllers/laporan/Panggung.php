@@ -39,6 +39,11 @@ class Panggung extends CI_Controller
         $data = $this->PanggungModel->list();
         echo json_encode($data);
     }
+    public function verifikasi_list()
+    {
+        $data = $this->PanggungModel->verifikasi_list();
+        echo json_encode($data);
+    }
     public function saldo_awal_list()
     {
         $data = $this->PanggungModel->saldo_awal_list();
@@ -48,6 +53,11 @@ class Panggung extends CI_Controller
     public function add()
     {
         $data = $this->PanggungModel->add();
+    }
+    public function verifikasi()
+    {
+        $data = $this->PanggungModel->verifikasi();
+        echo json_encode($data);
     }
 
     public function hapus()

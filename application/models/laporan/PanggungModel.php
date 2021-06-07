@@ -128,6 +128,22 @@ class PanggungModel extends CI_Model
         $resutl = $this->db->insert('JURNAL_TABUNG', $data_mp);
     }
 
+    public function verifikasi()
+    {
+        $data_mp = array(
+            'VERIFIKASI_PANGGUNG_ID' => create_id(),
+            'VERIFIKASI_PANGGUNG_TOTAL' => $this->input->post('total'),
+            'VERIFIKASI_PANGGUNG_TANGGAL' => date("Y-m-d h:i:sa"),
+
+            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+        $result = $this->db->insert('VERIFIKASI_PANGGUNG', $data_mp);
+        return $result;
+    }
+
     public function hapus($id)
     {
         $data = array(
@@ -142,6 +158,18 @@ class PanggungModel extends CI_Model
         return $result;
     }
 
+    public function verifikasi_list()
+    {
+        $hasil = $this->db->query('SELECT * 
+                                    FROM VERIFIKASI_PANGGUNG 
+                                    WHERE VERIFIKASI_PANGGUNG_TANGGAL LIKE "%' . date("Y-m-d") . '%" 
+                                    AND RECORD_STATUS="AKTIF" 
+                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil as $row) {
+            $row->USER = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->ENTRI_USER . '" AND RECORD_STATUS="AKTIF"')->result();
+        }
+        return $hasil;
+    }
     public function detail($id)
     {
         $hasil = $this->db->query('SELECT * FROM PAJAK WHERE PAJAK_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
