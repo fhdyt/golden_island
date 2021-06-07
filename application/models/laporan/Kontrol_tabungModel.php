@@ -37,7 +37,7 @@ class Kontrol_tabungModel extends CI_Model
         ' . $filter_relasi . '
         ' . $filter_status . '
         ' . $filter_tabung . '
-        ORDER BY JURNAL_TABUNG_TANGGAL, JURNAL_TABUNG_REF ASC ')->result();
+        ORDER BY JURNAL_TABUNG_KETERANGAN ASC ')->result();
         foreach ($hasil as $row) {
             $nama_barang = $this->db->query('SELECT MASTER_BARANG_NAMA FROM MASTER_BARANG WHERE MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
             $relasi_nama = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
