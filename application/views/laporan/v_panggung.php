@@ -290,7 +290,6 @@
                 jenis: $('.jenis').val(),
             },
             success: function(data) {
-                memuat()
                 $("tbody#verifikasi_list").empty();
                 console.log(data)
                 if (data.length === 0) {
@@ -356,6 +355,7 @@
                     success: function(data) {
                         if (data.length === 0) {} else {
                             verifikasi_list()
+                            memuat()
                             Swal.fire('Berhasil', 'Saldo panggung berhasil terverifikasi', 'success')
                         }
                     },
