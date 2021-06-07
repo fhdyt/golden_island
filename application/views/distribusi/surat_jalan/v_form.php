@@ -7,6 +7,27 @@ if (empty($this->uri->segment('4'))) {
 
 ?>
 
+<div class="modal fade" id="relasiModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="submit">
+                    <div class="form-group">
+                        <input type="text" class="form-control qr_id" name="qr_id" autocomplete="off" autofocus>
+                    </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -33,6 +54,7 @@ if (empty($this->uri->segment('4'))) {
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
                                 <input type="hidden" class="form-control jenis_sj" name="jenis_sj" value="<?= $_GET['jenis_sj']; ?>" autocomplete="off">
                                 <input type="hidden" class="form-control status_surat_jalan_realisasi" name="status_surat_jalan_realisasi" autocomplete="off">
+
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -223,7 +245,7 @@ if (empty($this->uri->segment('4'))) {
             <div class="col-md-12">
                 <div class="card card-default color-palette-box">
                     <div class="card-body">
-                        <button type="submit" class="btn btn-success btn-lg"><?= $this->lang->line('simpan'); ?></button>
+                        <button type="submit" class="btn btn-success btn-lg simpan_surat_jalan"><?= $this->lang->line('simpan'); ?></button>
                         </form>
                     </div>
                 </div>
@@ -239,7 +261,19 @@ if (empty($this->uri->segment('4'))) {
     $(function() {
         detail()
         barang_list()
+        // $("#relasiModal").modal("show")
+
+        // $('#relasiModal').on('shown.bs.modal', function(e) {
+        //     console.log("adfadf")
+        // })
+        // setTimeout(function() {
+        //     $('.qr_id').focus();
+        // }, 1000);
     });
+
+    // $('.qr_id').keyup(function(e) {
+    //     if (e.keyCode == 13) {}
+    // });
 
     $('#submit').submit(function(e) {
         e.preventDefault();
