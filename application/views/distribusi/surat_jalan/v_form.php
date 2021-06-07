@@ -428,7 +428,7 @@ if (empty($this->uri->segment('4'))) {
                         total += parseInt(data.isi[i].SURAT_JALAN_BARANG_QUANTITY);
 
                         if ($(".status_surat_jalan_realisasi").val() == "selesai") {
-                            var btn_hapus = ""
+                            var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data.isi[i].SURAT_JALAN_BARANG_ID + "\")'><i class='fas fa-trash'></i>"
                         } else {
                             var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data.isi[i].SURAT_JALAN_BARANG_ID + "\")'><i class='fas fa-trash'></i>"
                         }
