@@ -154,7 +154,7 @@ class Realisasi_sjModel extends CI_Model
                 'JURNAL_TABUNG_KIRIM' => $mr->JUMLAH,
                 'JURNAL_TABUNG_KEMBALI' => "",
                 'JURNAL_TABUNG_STATUS' => "MR",
-                'JURNAL_TABUNG_KETERANGAN' => "SURAT JALAN NO. " . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
+                'JURNAL_TABUNG_KETERANGAN' => "" . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
                 'JURNAL_TABUNG_FILE' => "empty",
                 'JURNAL_TABUNG_REF'  => $this->input->post("surat_jalan_id"),
 
