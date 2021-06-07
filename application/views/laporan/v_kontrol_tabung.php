@@ -171,8 +171,8 @@
         kontrol_tabung_list()
     });
 
-    setTimeout(function() {
+    setInterval(function() {
         memuat()
         kontrol_tabung_list()
-    }, 1000);
+    }, 60000);
 </script>
