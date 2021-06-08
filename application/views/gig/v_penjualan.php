@@ -250,6 +250,7 @@
                     $("tbody#zone_data_barang").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
+                    var total_seluruh = 0
                     for (i = 0; i < data.length; i++) {
                         if (data[i].QTY[0].QTY == null) {
                             var qty = 0
@@ -267,13 +268,14 @@
                         data = jQuery.grep(data, function(value) {
                             return value.TOTAL != "0";
                         });
-
+                        total_seluruh += total
                         $("tbody#zone_data_barang").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + total + "</td>" +
+                            "<td style='text-align:right'>" + total + "</td>" +
                             "</tr>");
                     }
+                    $("tbody#zone_data_barang_total").append("<tr><td colspan='2' style='text-align:right'><b>Total</b></td><td style='text-align:right'>" + number_format(total_seluruh) + "</td></tr>");
                 }
             },
             error: function(x, e) {
