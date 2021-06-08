@@ -54,7 +54,7 @@ class PenjualanModel extends CI_Model
                                             AND FSJ.RECORD_STATUS="AKTIF" 
                                             AND FSJ.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
 
-                $barang = $this->db->query('SELECT * FROM FAKTUR_BARANG WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" 
+                $barang = $this->db->query('SELECT * FROM FAKTUR_BARANG WHERE FAKTUR_ID="' . $faktur[0]->FAKTUR_ID . '" AND SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" 
                                             AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" ')->result();
                 foreach ($barang as $row_barang) {
                     $row_barang->NAMA_BARANG = $this->db->query('SELECT MASTER_BARANG_NAMA FROM MASTER_BARANG WHERE MASTER_BARANG_ID="' . $row_barang->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
