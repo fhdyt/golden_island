@@ -171,8 +171,8 @@
         kontrol_tabung_list()
     });
 
-    setInterval(function() {
-        memuat()
-        kontrol_tabung_list()
-    }, 30000);
+    // setInterval(function() {
+    //     memuat()
+    //     kontrol_tabung_list()
+    // }, 30000);
 </script>
