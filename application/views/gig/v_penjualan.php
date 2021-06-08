@@ -193,7 +193,7 @@
 
                             } else if (data[i].SURAT_JALAN_STATUS == "close") {
                                 var quantity = data[i].BARANG[j].FAKTUR_BARANG_QUANTITY
-                                var harga = data[i].BARANG[j].HARGA_BARANG[0].FAKTUR_BARANG_HARGA
+                                var harga = data[i].BARANG[j].FAKTUR_BARANG_HARGA
                                 var terbayar = 0
 
                             } else {
