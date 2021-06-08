@@ -107,6 +107,12 @@
                             var realisasi_id = data[i].REALISASI_ID
                             var status_realisasi = "Realisasi Selesai"
                         }
+
+                        if (data[i].SURAT_JALAN_REALISASI_TTBK_STATUS != "selesai") {
+                            var status_realisasi_ttbk = ""
+                        } else {
+                            var status_realisasi_ttbk = "Realisasi TTBK Selesai"
+                        }
                         if (data[i].SURAT_JALAN_STATUS == "open") {
                             var status_faktur = ""
                         } else {
@@ -135,7 +141,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small class='text-muted'>" + status_realisasi + "</small><br><small class='text-muted'>" + status_faktur + "</small></td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small class='text-muted'>" + status_realisasi + "</small><br><small class='text-muted'>" + status_realisasi_ttbk + "</small><br><small class='text-muted'>" + status_faktur + "</small></td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td>" + supplier + "</td>" +
