@@ -89,11 +89,13 @@
                                 <th style="vertical-align: middle;">No.</th>
                                 <th style="text-align: center; vertical-align: middle;">Nomor Surat Jalan</th>
                                 <th style="text-align: center; vertical-align: middle;">Nama Relasi</th>
-                                <th style="text-align: center; vertical-align: middle;">Bayar</th>
                                 <th style="text-align: center; vertical-align: middle;">Jenis Barang</th>
                                 <th style="text-align: center; vertical-align: middle;">Quantity<br><small class="text-muted">Quantity Isi - Quantity Klaim</small></th>
                                 <th style="text-align: center; vertical-align: middle;">Harga</th>
-                                <th style="text-align: center; vertical-align: middle;">Total</th>
+                                <th style="text-align: center; vertical-align: middle;">Total Perbarang</th>
+                                <th style="text-align: center; vertical-align: middle;">Total Bayar</th>
+                                <th style="text-align: center; vertical-align: middle;">Terbayar</th>
+                                <th style="text-align: center; vertical-align: middle;">Piutang</th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
@@ -144,45 +146,66 @@
                     var tableContent = "";
                     var no = 1
                     var total_seluruh_penjualan = 0
-                    console.log(data.length)
+                    var total_terbayar = 0
+                    var total_piutang = 0
                     for (i = 0; i < data.length; i++) {
                         var rowspan = 0;
                         var detailLength = data[i].BARANG.length;
                         rowspan += detailLength;
 
-
-                        if (data[i].BAYAR.length === 0) {
-                            total_bayar = 0
+                        if (data[i].TERBAYAR.length == 0) {
+                            var terbayar = 0
+                            var piutang = data[i].TOTAL
                         } else {
-                            total_bayar = parseInt(data[i].BAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR)
+                            var terbayar = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
+                            var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar)
                         }
+                        total_terbayar += parseInt(terbayar)
+                        total_piutang += parseInt(piutang)
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + number_format(total_bayar) + "</td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + number_format(data[i].TOTAL) + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + number_format(terbayar) + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + number_format(piutang) + "</td>" +
                             "</tr>";
                         var barangLlength = 0;
 
                         for (var j = 0; j < detailLength; j++) {
-                            total = parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY) - parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM)
-                            if (data[i].BARANG[j].HARGA_BARANG.length === 0) {
-                                harga = 0
-                                total_harga = 0
+                            if (data[i].SURAT_JALAN_STATUS == "open") {
+                                var quantity = parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY) - parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM)
+                                if (data[i].BARANG[j].HARGA_BARANG.length == 0) {
+                                    var harga = 0
+                                } else {
+                                    var harga = data[i].BARANG[j].HARGA_BARANG[0].MASTER_HARGA_HARGA
+                                }
+
+                                var terbayar = 0
+
+                            } else if (data[i].SURAT_JALAN_STATUS == "close") {
+                                var quantity = data[i].BARANG[j].FAKTUR_BARANG_QUANTITY
+                                var harga = data[i].BARANG[j].HARGA_BARANG[0].FAKTUR_BARANG_HARGA
+                                var terbayar = 0
+
                             } else {
-                                harga = data[i].BARANG[j].HARGA_BARANG[0].FAKTUR_BARANG_HARGA
-                                total_harga = total * parseInt(data[i].BARANG[j].HARGA_BARANG[0].FAKTUR_BARANG_HARGA)
+                                var quantity = 0
+                                var harga = 0
                             }
-                            total_seluruh_penjualan += total_harga
+                            var total_harga = quantity * harga
                             tableContent += "<tr>" +
-                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + data[i].BARANG[j].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data[i].BARANG[j].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
-                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + total + "</td>" +
-                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + number_format(harga) + "</td>" +
-                                "<td rowspan=" + parseInt(1 + barangLlength) + ">" + number_format(total_harga) + "</td>" +
+                                "<td>" + data[i].BARANG[j].NAMA_BARANG[0].MASTER_BARANG_NAMA + "</td>" +
+                                "<td>" + quantity + "</td>" +
+                                "<td>" + number_format(harga) + "</td>" +
+                                "<td>" + number_format(total_harga) + "</td>" +
                                 "</tr>";
                         }
                     }
                     $("tbody#zone_data").append(tableContent);
-                    $("tbody#zone_data_total").append("<tr><td colspan='3' style='text-align:right'><b>Total</b></td><td>" + number_format(total_seluruh_penjualan) + "</td></tr>");
+                    $("tbody#zone_data_total").append("<tr><td colspan='8' style='text-align:right'><b>Total</b></td><td>" + number_format(total_terbayar) + "</td><td>" + number_format(total_piutang) + "</td></tr>");
                 }
             },
             error: function(x, e) {

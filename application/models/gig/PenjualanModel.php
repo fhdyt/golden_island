@@ -15,7 +15,11 @@ class PenjualanModel extends CI_Model
                             ORDER BY SURAT_JALAN_NOMOR ')->result();
         foreach ($hasil as $row) {
             $row->RELASI = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
-            $barang = $this->db->query('SELECT * FROM
+
+            $total_perbarang = 0;
+            if ($row->SURAT_JALAN_STATUS == "open") {
+
+                $barang = $this->db->query('SELECT * FROM
                                                         SURAT_JALAN_BARANG AS SJ 
                                                         LEFT JOIN
                                                         MASTER_BARANG AS B
@@ -25,7 +29,18 @@ class PenjualanModel extends CI_Model
                                                         AND SJ.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
                                                         AND B.RECORD_STATUS="AKTIF" 
                                                         AND B.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
-            if ($row->SURAT_JALAN_STATUS == "close") {
+                foreach ($barang as $row_barang) {
+                    $row_barang->NAMA_BARANG = $this->db->query('SELECT MASTER_BARANG_NAMA FROM MASTER_BARANG WHERE MASTER_BARANG_ID="' . $row_barang->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
+                    $row_barang->HARGA_BARANG = $this->db->query('SELECT * FROM MASTER_HARGA WHERE MASTER_BARANG_ID="' . $row_barang->MASTER_BARANG_ID . '" AND MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
+                    if (count($row_barang->HARGA_BARANG) == 0) {
+                        $total_perbarang = 0;
+                    } else {
+                        $total_perbarang += $row_barang->HARGA_BARANG[0]->MASTER_HARGA_HARGA * ($row_barang->SURAT_JALAN_BARANG_QUANTITY - $row_barang->SURAT_JALAN_BARANG_QUANTITY_KLAIM);
+                    }
+                }
+
+                $terbayar = array();
+            } else if ($row->SURAT_JALAN_STATUS == "close") {
                 $faktur = $this->db->query('SELECT 
                                             FSJ.FAKTUR_ID 
                                             FROM 
@@ -37,30 +52,25 @@ class PenjualanModel extends CI_Model
                                             AND F.RECORD_STATUS="AKTIF" 
                                             AND F.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
                                             AND FSJ.RECORD_STATUS="AKTIF" 
-                                            AND FSJ.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
-                                            LIMIT 1')->result();
+                                            AND FSJ.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
+
+                $barang = $this->db->query('SELECT * FROM FAKTUR_BARANG WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" 
+                                            AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" ')->result();
                 foreach ($barang as $row_barang) {
-                    $row_barang->HARGA_BARANG = $this->db->query('SELECT * FROM FAKTUR_BARANG
+                    $row_barang->NAMA_BARANG = $this->db->query('SELECT MASTER_BARANG_NAMA FROM MASTER_BARANG WHERE MASTER_BARANG_ID="' . $row_barang->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
+                    $row_barang->HARGA_BARANG = $this->db->query('SELECT * FROM FAKTUR_BARANG WHERE MASTER_BARANG_ID="' . $row_barang->MASTER_BARANG_ID . '" AND SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
+                    $total_perbarang += $row_barang->HARGA_BARANG[0]->FAKTUR_BARANG_QUANTITY * $row_barang->HARGA_BARANG[0]->FAKTUR_BARANG_HARGA;
+                }
+                $terbayar = $this->db->query('SELECT * FROM FAKTUR_TRANSAKSI
                                                                     WHERE
                                                                     FAKTUR_ID="' . $faktur[0]->FAKTUR_ID . '"
-                                                                    AND MASTER_BARANG_ID="' . $row_barang->MASTER_BARANG_ID . '"
                                                                     AND RECORD_STATUS="AKTIF" 
                                                                     AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
-                }
-                $row->BAYAR = $this->db->query('SELECT * FROM FAKTUR_TRANSAKSI
-                                                                    WHERE
-                                                                    FAKTUR_ID="' . $faktur[0]->FAKTUR_ID . '"
-                                                                    AND RECORD_STATUS="AKTIF" 
-                                                                    AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
-            } else {
-                foreach ($barang as $row_barang) {
-                    $row_barang->HARGA_BARANG = array();
-                }
-                $row->BAYAR = array();
             }
 
-
             $row->BARANG = $barang;
+            $row->TOTAL = $total_perbarang;
+            $row->TERBAYAR = $terbayar;
         }
         return $hasil;
     }

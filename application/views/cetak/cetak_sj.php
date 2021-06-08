@@ -134,7 +134,7 @@ error_reporting(0);
                     <address>
                         <?php
                         if ($detail[0]->SURAT_JALAN_JENIS == "penjualan") { ?>
-                            <strong><?= $relasi[0]->MASTER_RELASI_NAMA; ?></strong><br>
+                            <strong><?= $relasi[0]->MASTER_RELASI_NAMA; ?> - <?= $relasi[0]->MASTER_RELASI_QR_ID; ?></strong><br>
                             <?= $relasi[0]->MASTER_RELASI_ALAMAT; ?><br>
                             Telp : <?= $relasi[0]->MASTER_RELASI_HP; ?><br>
                         <?php } else { ?>
