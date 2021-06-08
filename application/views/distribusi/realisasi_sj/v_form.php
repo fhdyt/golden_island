@@ -603,8 +603,8 @@
     }
 
     $('.jenis').change(function() {
-        jenis_tabung()
-        tambah_tabung_baru()
+        // jenis_tabung()
+        // tambah_tabung_baru()
     });
     $('.tabung').change(function() {
         tambah_tabung_baru()
