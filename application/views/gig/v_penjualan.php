@@ -167,16 +167,13 @@
                         }
                         total_terbayar += parseInt(terbayar)
                         total_piutang += parseInt(piutang)
-                        tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + number_format(data[i].TOTAL) + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + number_format(terbayar) + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + number_format(piutang) + "</td>" +
+                        tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + no++ + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td colspan='4'></td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(data[i].TOTAL) + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(terbayar) + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(piutang) + "</td>" +
                             "</tr>";
                         var barangLlength = 0;
 
@@ -203,14 +200,14 @@
                             var total_harga = quantity * harga
                             tableContent += "<tr>" +
                                 "<td>" + data[i].BARANG[j].NAMA_BARANG[0].MASTER_BARANG_NAMA + "</td>" +
-                                "<td>" + quantity + "</td>" +
-                                "<td>" + number_format(harga) + "</td>" +
-                                "<td>" + number_format(total_harga) + "</td>" +
+                                "<td style='text-align:right'>" + quantity + "</td>" +
+                                "<td style='text-align:right'>" + number_format(harga) + "</td>" +
+                                "<td style='text-align:right'>" + number_format(total_harga) + "</td>" +
                                 "</tr>";
                         }
                     }
                     $("tbody#zone_data").append(tableContent);
-                    $("tbody#zone_data_total").append("<tr><td colspan='8' style='text-align:right'><b>Total</b></td><td>" + number_format(total_terbayar) + "</td><td>" + number_format(total_piutang) + "</td></tr>");
+                    $("tbody#zone_data_total").append("<tr><td colspan='8' style='text-align:right'><b>Total</b></td><td style='text-align:right'>" + number_format(total_terbayar) + "</td><td style='text-align:right'>" + number_format(total_piutang) + "</td></tr>");
                 }
             },
             error: function(x, e) {
