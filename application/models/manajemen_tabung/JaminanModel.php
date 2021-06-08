@@ -79,12 +79,12 @@ class JaminanModel extends CI_Model
     {
         $hasil = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE FAKTUR_JAMINAN_ID="' . $this->input->post('id_jaminan') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  LIMIT 1 ')->result();
 
-        $data_edit_jaminan = array(
-            'FAKTUR_JAMINAN_STATUS' => "selesai",
-        );
-        $this->db->where('FAKTUR_JAMINAN_ID', $this->input->post('id_jaminan'));
-        $this->db->where('RECORD_STATUS', 'AKTIF');
-        $this->db->update('FAKTUR_JAMINAN', $data_edit_jaminan);
+        // $data_edit_jaminan = array(
+        //     'FAKTUR_JAMINAN_STATUS' => "selesai",
+        // );
+        // $this->db->where('FAKTUR_JAMINAN_ID', $this->input->post('id_jaminan'));
+        // $this->db->where('RECORD_STATUS', 'AKTIF');
+        // $this->db->update('FAKTUR_JAMINAN', $data_edit_jaminan);
 
 
         $data_buku_besar = array(

@@ -92,8 +92,8 @@
                                 <th style="text-align: center; vertical-align: middle;">Jenis Barang</th>
                                 <th style="text-align: center; vertical-align: middle;">Qty</th>
                                 <th style="text-align: center; vertical-align: middle;">Harga</th>
-                                <th style="text-align: center; vertical-align: middle;">Total Perbarang</th>
-                                <th style="text-align: center; vertical-align: middle;">Terbayar</th>
+                                <th style="text-align: center; vertical-align: middle;">Total</th>
+                                <th style="text-align: center; vertical-align: middle;">Tunai</th>
                                 <th style="text-align: center; vertical-align: middle;">Piutang</th>
                             </tr>
                         </thead>
