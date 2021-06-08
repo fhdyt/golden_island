@@ -159,6 +159,11 @@
                         } else {
                             var terbayar = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
                             var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar)
+                            if (piutang < 0) {
+                                piutang = 0
+                            } else {
+                                piutang = piutang
+                            }
                         }
                         total_terbayar += parseInt(terbayar)
                         total_piutang += parseInt(piutang)
