@@ -148,6 +148,9 @@ class PenjualanModel extends CI_Model
                                         AND SJ.RECORD_STATUS="AKTIF" 
                                         AND SJ.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
             $row->QTY = $barang;
+            $qty = $barang[0]->QTY;
+            $qty_klaim = $barang[0]->QTY_KLAIM;
+            $row->TOTAL = $qty - $qty_klaim;
         }
         return $hasil;
     }

@@ -263,6 +263,11 @@
                             var qty_klaim = data[i].QTY[0].QTY_KLAIM
                         }
                         var total = parseInt(qty) - parseInt(qty_klaim)
+
+                        data = jQuery.grep(data, function(value) {
+                            return value.TOTAL != "0";
+                        });
+
                         $("tbody#zone_data_barang").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
