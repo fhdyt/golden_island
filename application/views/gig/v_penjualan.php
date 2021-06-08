@@ -156,7 +156,7 @@
                             var terbayar = 0
                             var piutang = data[i].TOTAL
                         } else {
-                            var terbayar = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
+                            var terbayar = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_BAYAR;
                             var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar)
                             if (piutang < 0) {
                                 piutang = 0
