@@ -245,6 +245,7 @@
             },
             success: function(data) {
                 $("tbody#zone_data_barang").empty();
+                $("tbody#zone_data_barang_total").empty();
                 console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data_barang").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
