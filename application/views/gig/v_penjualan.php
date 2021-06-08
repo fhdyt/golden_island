@@ -90,10 +90,9 @@
                                 <th style="text-align: center; vertical-align: middle;">Nomor Surat Jalan</th>
                                 <th style="text-align: center; vertical-align: middle;">Nama Relasi</th>
                                 <th style="text-align: center; vertical-align: middle;">Jenis Barang</th>
-                                <th style="text-align: center; vertical-align: middle;">Quantity<br><small class="text-muted">Quantity Isi - Quantity Klaim</small></th>
+                                <th style="text-align: center; vertical-align: middle;">Qty</th>
                                 <th style="text-align: center; vertical-align: middle;">Harga</th>
                                 <th style="text-align: center; vertical-align: middle;">Total Perbarang</th>
-                                <th style="text-align: center; vertical-align: middle;">Total Bayar</th>
                                 <th style="text-align: center; vertical-align: middle;">Terbayar</th>
                                 <th style="text-align: center; vertical-align: middle;">Piutang</th>
                             </tr>
@@ -171,7 +170,6 @@
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
                             "<td colspan='4'></td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(data[i].TOTAL) + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(terbayar) + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(piutang) + "</td>" +
                             "</tr>";
@@ -207,7 +205,7 @@
                         }
                     }
                     $("tbody#zone_data").append(tableContent);
-                    $("tbody#zone_data_total").append("<tr><td colspan='8' style='text-align:right'><b>Total</b></td><td style='text-align:right'>" + number_format(total_terbayar) + "</td><td style='text-align:right'>" + number_format(total_piutang) + "</td></tr>");
+                    $("tbody#zone_data_total").append("<tr><td colspan='7' style='text-align:right'><b>Total</b></td><td style='text-align:right'>" + number_format(total_terbayar) + "</td><td style='text-align:right'>" + number_format(total_piutang) + "</td></tr>");
                 }
             },
             error: function(x, e) {
