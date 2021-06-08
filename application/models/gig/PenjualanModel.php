@@ -132,9 +132,23 @@ class PenjualanModel extends CI_Model
         return $result;
     }
 
-    public function detail($id)
+    public function barang_list()
     {
-        $hasil = $this->db->query('SELECT * FROM PAJAK WHERE PAJAK_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"')->result();
+        foreach ($hasil as $row) {
+            $barang = $this->db->query('SELECT SUM(SJB.SURAT_JALAN_BARANG_QUANTITY) AS QTY, SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS QTY_KLAIM FROM 
+                                        SURAT_JALAN_BARANG SJB LEFT JOIN SURAT_JALAN AS SJ
+                                        ON SJB.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                        WHERE 
+                                        SJ.SURAT_JALAN_JENIS="penjualan"
+                                        AND SJB.MASTER_BARANG_ID ="' . $row->MASTER_BARANG_ID . '"
+                                        AND SJ.SURAT_JALAN_TANGGAL="' . $this->input->post('tanggal') . '"
+                                        AND SJB.RECORD_STATUS="AKTIF" 
+                                        AND SJB.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
+                                        AND SJ.RECORD_STATUS="AKTIF" 
+                                        AND SJ.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" LIMIT 1')->result();
+            $row->QTY = $barang;
+        }
         return $hasil;
     }
 }

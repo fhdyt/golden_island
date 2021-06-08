@@ -106,6 +106,24 @@
                             </tr>
                         </tbody>
                     </table>
+                    <hr>
+                    <table id="example2" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Jenis Barang</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zone_data_barang">
+                            <tr>
+                            </tr>
+                        </tbody>
+                        <tbody id="zone_data_barang_total">
+                            <tr>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -215,6 +233,51 @@
         });
     }
 
+    function barang_list() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url() ?>index.php/gig/penjualan/barang_list",
+            async: false,
+            dataType: 'json',
+            data: {
+                tanggal: $(".tanggal").val(),
+                perusahaan: $(".perusahaan").val()
+            },
+            success: function(data) {
+                $("tbody#zone_data_barang").empty();
+                console.log(data)
+                if (data.length === 0) {
+                    $("tbody#zone_data_barang").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else {
+                    var no = 1
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].QTY[0].QTY == null) {
+                            var qty = 0
+                        } else {
+                            var qty = data[i].QTY[0].QTY
+                        }
+
+                        if (data[i].QTY[0].QTY_KLAIM == null) {
+                            var qty_klaim = 0
+                        } else {
+                            var qty_klaim = data[i].QTY[0].QTY_KLAIM
+                        }
+                        var total = parseInt(qty) - parseInt(qty_klaim)
+                        $("tbody#zone_data_barang").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + total + "</td>" +
+                            "</tr>");
+                    }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -301,6 +364,7 @@
         } else {
             memuat()
             penjualan_list()
+            barang_list()
         }
 
     });
