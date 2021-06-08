@@ -112,7 +112,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Jenis Barang</th>
-                                <th>Saldo</th>
+                                <th style="text-align:right">Saldo</th>
                             </tr>
                         </thead>
                         <tbody id="zone_data_barang">
