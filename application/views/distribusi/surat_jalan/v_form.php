@@ -317,7 +317,7 @@ if (empty($this->uri->segment('4'))) {
 
                     if (data[0].SURAT_JALAN_STATUS == "open") {
                         $(".btn-faktur").attr("hidden", false)
-                        $(".status_surat_jalan_realisasi").val("selesai")
+                        //$(".status_surat_jalan_realisasi").val("selesai")
                     } else {
                         $(".btn-faktur").attr("hidden", true)
                         $("tbody#zone_data_isi, a.btn-danger").removeAttr("onclick")
@@ -333,6 +333,7 @@ if (empty($this->uri->segment('4'))) {
                         $("button").prop("disabled", true)
                         $("input").attr("disabled", true)
                         $("select").attr("disabled", true)
+                        $(".status_surat_jalan_realisasi").val("selesai")
                     } else {}
 
                     detail_jenis_barang()
@@ -428,7 +429,7 @@ if (empty($this->uri->segment('4'))) {
                         total += parseInt(data.isi[i].SURAT_JALAN_BARANG_QUANTITY);
 
                         if ($(".status_surat_jalan_realisasi").val() == "selesai") {
-                            var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data.isi[i].SURAT_JALAN_BARANG_ID + "\")'><i class='fas fa-trash'></i>"
+                            var btn_hapus = ""
                         } else {
                             var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data.isi[i].SURAT_JALAN_BARANG_ID + "\")'><i class='fas fa-trash'></i>"
                         }

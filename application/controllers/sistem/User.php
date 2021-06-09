@@ -49,6 +49,11 @@ class User extends CI_Controller
         $data = $this->UserModel->add();
     }
 
+    public function ganti_password()
+    {
+        $data = $this->UserModel->ganti_password();
+    }
+
     public function hapus()
     {
         $id = $this->uri->segment('4');

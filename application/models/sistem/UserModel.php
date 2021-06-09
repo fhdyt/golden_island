@@ -72,6 +72,19 @@ class UserModel extends CI_Model
         return $result;
     }
 
+    public function ganti_password()
+    {
+        $data = array(
+            'USER_PASSWORD' => password_hash($this->input->post('konfirmasi_password_baru'), PASSWORD_DEFAULT),
+            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+        );
+
+        $this->db->where('USER_ID', $this->session->userdata('USER_ID'));
+        $result = $this->db->update('USER', $data);
+        return $result;
+    }
+
     public function ganti_bahasa($id, $lang)
     {
         $data = array(
