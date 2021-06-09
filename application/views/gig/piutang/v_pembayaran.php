@@ -43,6 +43,7 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
+        detail()
         relasi_list()
     })
 
