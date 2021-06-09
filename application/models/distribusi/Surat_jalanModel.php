@@ -31,8 +31,14 @@ class Surat_jalanModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'AKTIF');
         $this->db->update('SURAT_JALAN', $data_edit_aktif);
 
+        if ($this->input->post('jenis_sj') == "penjualan") {
+            $sj = "SJ";
+        } else {
+            $sj = "SJP";
+        }
+
         if ($this->input->post('nomor_surat_jalan') == "") {
-            $nomor_surat_jalan = nomor_surat_jalan("SJ", $this->input->post('tanggal'));
+            $nomor_surat_jalan = nomor_surat_jalan($sj, $this->input->post('tanggal'));
         } else {
             $nomor_surat_jalan = $this->input->post('nomor_surat_jalan');
         }
