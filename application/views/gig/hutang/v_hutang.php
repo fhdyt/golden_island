@@ -81,7 +81,7 @@
 
     function hutang_list(perusahaan) {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/gig/hutang/supplier_list",
             async: false,
             dataType: 'json',
@@ -90,6 +90,7 @@
             },
             success: function(data) {
                 $("tbody#zone_data").empty();
+                $("tfoot#total_zone_data").empty();
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
