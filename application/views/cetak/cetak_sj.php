@@ -226,16 +226,12 @@ error_reporting(0);
                             foreach ($barang as $row) { ?>
                         <tr>
                             <td style="text-align:center ;vertical-align: middle;" rowspan="2"><?= $row->MASTER_BARANG_NAMA; ?></td>
-
-                        </tr>
-                        <tr>
-                            <td style="text-align:center"><br></td>
-                            <td style="text-align:center"><br></td>
-                        </tr>
-                    <?php
+                            <td style="text-align:center ;vertical-align: middle;">.....</td>
+                            <td style="text-align:center ;vertical-align: middle;">.....</td>
+                        <?php
                             }
-                    ?>
-                    </tr>
+                        ?>
+                        </tr>
                     </table>
                 </div>
             </div>
