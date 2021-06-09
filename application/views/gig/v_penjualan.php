@@ -257,8 +257,6 @@
                             return value.TOTAL != "0";
                         });
 
-                        var total = parseInt(qty) - parseInt(qty_klaim)
-
                         total_seluruh += data[i].TOTAL
                         $("tbody#zone_data_barang").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
