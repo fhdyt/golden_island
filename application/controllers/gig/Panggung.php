@@ -22,7 +22,7 @@ class Panggung extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('panggung/PanggungModel');
+        $this->load->model('gig/PanggungModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,7 +30,7 @@ class Panggung extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('panggung/v_panggung');
+        $this->load->view('gig/v_panggung');
         $this->load->view('_template/footer');
     }
 
