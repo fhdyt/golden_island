@@ -23,13 +23,17 @@ class Realisasi_sjModel extends CI_Model
             }
             $row->BARANG = $barang;
 
-            $tanggal_hari_ini = strtotime(date("Y-m-d h:i:sa"));
-            $tanggal_entri = strtotime($row->SURAT_JALAN_REALISASI_TANGGAL);
-            $timediff = $tanggal_hari_ini - $tanggal_entri;
-            if ($timediff > 86400) {
-                $row->EXPIRED = "EXPIRED";
-            } else {
+            if (empty($row->SURAT_JALAN_REALISASI_TANGGAL)) {
                 $row->EXPIRED = "";
+            } else {
+                $tanggal_hari_ini = strtotime(date("Y-m-d h:i:sa"));
+                $tanggal_entri = strtotime($row->SURAT_JALAN_REALISASI_TANGGAL);
+                $timediff = $tanggal_hari_ini - $tanggal_entri;
+                if ($timediff > 86400) {
+                    $row->EXPIRED = "EXPIRED";
+                } else {
+                    $row->EXPIRED = "";
+                }
             }
 
             $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
