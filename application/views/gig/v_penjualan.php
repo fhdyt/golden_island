@@ -253,27 +253,17 @@
                     var no = 1
                     var total_seluruh = 0
                     for (i = 0; i < data.length; i++) {
-                        if (data[i].QTY[0].QTY == null) {
-                            var qty = 0
-                        } else {
-                            var qty = data[i].QTY[0].QTY
-                        }
-
-                        if (data[i].QTY[0].QTY_KLAIM == null) {
-                            var qty_klaim = 0
-                        } else {
-                            var qty_klaim = data[i].QTY[0].QTY_KLAIM
-                        }
-                        var total = parseInt(qty) - parseInt(qty_klaim)
-
                         data = jQuery.grep(data, function(value) {
                             return value.TOTAL != "0";
                         });
-                        total_seluruh += total
+
+                        var total = parseInt(qty) - parseInt(qty_klaim)
+
+                        total_seluruh += data[i].TOTAL
                         $("tbody#zone_data_barang").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td style='text-align:right'>" + total + "</td>" +
+                            "<td style='text-align:right'>" + data[i].TOTAL + "</td>" +
                             "</tr>");
                     }
                     $("tbody#zone_data_barang_total").append("<tr><td colspan='2' style='text-align:right'><b>Total</b></td><td style='text-align:right'>" + number_format(total_seluruh) + "</td></tr>");
