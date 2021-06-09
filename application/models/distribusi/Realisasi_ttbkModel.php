@@ -23,7 +23,7 @@ class Realisasi_ttbkModel extends CI_Model
             }
             $row->BARANG = $barang;
 
-            if (empty($row->SURAT_JALAN_REALISASI_TTBK_TANGGAL)) {
+            if (empty($row->SURAT_JALAN_REALISASI_TTBK_TANGGAL) or $row->SURAT_JALAN_REALISASI_TTBK_TANGGAL == "0000-00-00 00:00:00") {
                 $row->EXPIRED = "";
             } else {
                 $tanggal_hari_ini = strtotime(date("Y-m-d h:i:sa"));
