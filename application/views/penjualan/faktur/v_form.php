@@ -448,7 +448,7 @@ if (empty($this->uri->segment('4'))) {
                     }
                     $(".total").val(number_format(total_rp))
                     kalkulasi_seluruh()
-                    $("tfoot#total_rp").append("<tr><td colspan='3' align='right'><b>Total</b></td><td align='right'>" + number_format(total_qty) + "</td><td></td><td align='right'>" + number_format(total_rp) + "</td></tr>")
+                    $("tfoot#total_rp").append("<tr><td colspan='2' align='right'><b>Total</b></td><td align='right'>" + number_format(total_qty) + "</td><td></td><td align='right'>" + number_format(total_rp) + "</td></tr>")
                 }
             },
             error: function(x, e) {
