@@ -86,7 +86,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-secondary btn_kontrol_tabung mb-2">Tambah Saldo</button>
+                            <!-- <button type="button" class="btn btn-secondary btn_kontrol_tabung mb-2">Tambah Saldo</button> -->
                         </div>
                         <div class="col-md-4">
                             <select name="tabung_filter" id="tabung_filter" class="form-control tabung_filter select2" style="width: 100%;">
