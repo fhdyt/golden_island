@@ -18,7 +18,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <select name="perusahaan" id="perusahaan" class="form-control perusahaan select2" style="width: 100%;" required>
                                 <option value="">-- Perusahaan --</option>
                                 <?php

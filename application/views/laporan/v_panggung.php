@@ -117,6 +117,7 @@
                             <tr>
                                 <td colspan="5" style="text-align: right;">
                                     <input type="hidden" class="form-control total_tabung_panggung" name="total_tabung_panggung" id="total_tabung_panggung" value="" autocomplete="off">
+                                    <a href="<?= base_url(); ?>cetak/cetak_panggung" class="btn btn-success mb-2 verifikasi_panggung">Print</a>
                                     <button type="button" class="btn btn-secondary mb-2 verifikasi_panggung">Verifikasi Saldo Panggung</button>
                                     <br>
                                     <a class="refresh">Perbarui</a>
@@ -232,8 +233,7 @@
                             "<td rowspan='3' style='text-align:center; vertical-align:middle;'>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "</tr>" +
                             "<tr class='table-success'><td>MP</td><td>" + number_format(total_mp) + "</td>" +
-                            "<tr class='table-warning'><td>MR</td><td>" + number_format(total_mr) + "</td>" +
-                            "</tr>");
+                            "<tr class='table-warning'><td>MR</td><td>" + number_format(total_mr) + "</td>");
 
 
                     }
