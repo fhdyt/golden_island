@@ -6,20 +6,20 @@ class HutangModel extends CI_Model
     {
         $hasil = $this->db->query('SELECT * FROM 
         MASTER_SUPPLIER WHERE 
-        RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_SUPPLIER_NAMA')->result();
+        RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" ORDER BY MASTER_SUPPLIER_NAMA')->result();
         foreach ($hasil as $row) {
             $kredit = $this->db->query('SELECT SUM(HUTANG_KREDIT) AS KREDIT
                                         FROM HUTANG 
                                         WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '"
                                         AND RECORD_STATUS="AKTIF" 
-                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"
                                         ')->result();
 
             $debet = $this->db->query('SELECT SUM(HUTANG_DEBET) AS DEBET
                                         FROM HUTANG 
                                         WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '"
                                         AND RECORD_STATUS="AKTIF" 
-                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '"
                                         ')->result();
 
             $row->SALDO = $kredit[0]->KREDIT - $debet[0]->DEBET;
@@ -33,14 +33,12 @@ class HutangModel extends CI_Model
         HUTANG 
         WHERE MASTER_SUPPLIER_ID="' . $supplier . '" 
         AND HUTANG_DEBET>0 AND HUTANG_KREDIT=0
-        AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY HUTANG_TANGGAL ASC')->result();
+        AND RECORD_STATUS="AKTIF" ORDER BY HUTANG_TANGGAL ASC')->result();
 
         $kredit = $this->db->query('SELECT SUM(HUTANG_KREDIT) AS KREDIT
                                         FROM HUTANG 
                                         WHERE MASTER_SUPPLIER_ID="' . $supplier . '"
-                                        AND RECORD_STATUS="AKTIF" 
-                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
-                                        ')->result();
+                                        AND RECORD_STATUS="AKTIF" ')->result();
         $pembayaran = $kredit[0]->KREDIT;
         foreach ($hasil as $row) {
             $pembayaran = $pembayaran - $row->HUTANG_DEBET;
@@ -63,7 +61,7 @@ class HutangModel extends CI_Model
         HUTANG 
         WHERE MASTER_SUPPLIER_ID="' . $supplier . '" 
         AND HUTANG_KREDIT>0 AND HUTANG_DEBET=0
-        AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY HUTANG_TANGGAL ASC')->result();
+        AND RECORD_STATUS="AKTIF" ORDER BY HUTANG_TANGGAL ASC')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->HUTANG_TANGGAL);
         }
@@ -111,52 +109,10 @@ class HutangModel extends CI_Model
         return $result;
     }
 
-    public function add_saldo()
-    {
-        $data = array(
-            'HUTANG_ID' => create_id(),
-            'AKUN_ID' => $this->input->post('akun'),
-            'HUTANG_TANGGAL' => $this->input->post('tanggal'),
-            'HUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
-            'MASTER_SUPPLIER_ID' => $this->input->post('id'),
-            'HUTANG_KREDIT' => "0",
-            'HUTANG_DEBET' => str_replace(".", "", $this->input->post('rupiah')),
-            'HUTANG_SUMBER' => "HUTANG",
-            'HUTANG_KETERANGAN' => $this->input->post('keterangan'),
-
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
-            'ENTRI_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "AKTIF",
-            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-        );
-
-        $result = $this->db->insert('HUTANG', $data);
-        return $result;
-    }
-
-    public function hapus($id)
-    {
-        $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
-            'DELETE_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "DELETE",
-            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-        );
-
-        $this->db->where('AKUN_ID', $id);
-        $result = $this->db->update('AKUN', $data);
-        return $result;
-    }
 
     public function detail($id)
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
-        return $hasil;
-    }
-
-    public function pi_list($id)
-    {
-        $hasil = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_JENIS="PI" AND MASTER_SUPPLIER_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
 }
