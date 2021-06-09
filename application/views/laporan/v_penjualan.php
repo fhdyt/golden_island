@@ -126,8 +126,22 @@
                         }
                         total_terbayar += parseInt(terbayar)
                         total_piutang += parseInt(piutang)
+
+                        if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
+                            var riwayat_status = "<small class='text-danger'>Belum Realisasi</small>"
+                        } else {
+                            var riwayat_status = "<small class='text-success'>Telah Terealisasi</small>"
+                        }
+
+                        if (data[i].SURAT_JALAN_REALISASI_TTBK_STATUS != "selesai") {
+                            var riwayat_status_ttbk = "<small class='text-danger'>TTBK Belum Realisasi</small>"
+                        } else {
+                            var riwayat_status_ttbk = "<small class='text-success'>TTBK Telah terealisasi</small>"
+
+                        }
+
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + no++ + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'><b>" + data[i].SURAT_JALAN_NOMOR + "</b><br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
                             "<td colspan='4'></td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(terbayar) + "</td>" +
