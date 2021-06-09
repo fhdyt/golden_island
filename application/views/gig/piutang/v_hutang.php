@@ -254,7 +254,7 @@
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/akuntansi/piutang/detail/<?= $this->uri->segment("4"); ?>',
+            url: '<?php echo base_url() ?>index.php/gig/piutang/detail/<?= $this->uri->segment("4"); ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
