@@ -154,6 +154,7 @@
                             <input type="hidden" class="form-control total_tabung_sj" name="total_tabung_sj" id="total_tabung_sj" value="" autocomplete="off">
                             <input type="hidden" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
                             <input type="hidden" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
+                            <input type="hidden" class="form-control expired" name="expired" id="expired" value="" autocomplete="off">
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -179,7 +180,7 @@
                             </table>
                             <hr>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 btn-tambah-realisasi">
                                     <button type="button" class="btn btn-primary btn_barang_mr mb-2 mr-2">Tambah Tabung</button>
                                     <button type="button" class="btn btn-success scan_barang mb-2 mr-2"><i class="fas fa-qrcode"></i> Scan Tabung</button>
                                     <button type="button" class="btn btn-secondary btn_klaim mb-2">Klaim Tabung</button>
@@ -368,6 +369,12 @@
                     var no = 1
                     var total_qty = 0
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].EXPIRED == "EXPIRED") {
+                            $(".btn-tambah-realisasi").attr("hidden", true)
+                            $(".btn-realisasi").attr("hidden", true)
+                            $(".expired").val(data[i].EXPIRED)
+                        }
+
                         var rowspan = 0;
                         var detailLength = data[i].BARANG.length;
                         rowspan += detailLength;
