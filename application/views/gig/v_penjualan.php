@@ -224,7 +224,12 @@
                         }
                     }
                     $("tbody#zone_data").append(tableContent);
-                    $("tbody#zone_data_total").append("<tr><td colspan='7' style='text-align:right'><b>Total</b></td><td style='text-align:right'>" + number_format(total_terbayar) + "</td><td style='text-align:right'>" + number_format(total_piutang) + "</td></tr>");
+                    $("tbody#zone_data_total").append("<tr>" +
+                        "<td colspan='7' style='text-align:right'><b>Total</b></td><td style='text-align:right'>" + number_format(total_terbayar) + "</td><td style='text-align:right'>" + number_format(total_piutang) + "</td>" +
+                        "</tr>" +
+                        "<tr>" +
+                        "<td colspan='7' style='text-align:right'><b>Total Penjualan</b></td><td colspan='2' style='text-align:center'>" + number_format(total_terbayar + total_piutang) + "</td>" +
+                        "</tr>");
                 }
             },
             error: function(x, e) {

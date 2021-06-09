@@ -43,7 +43,7 @@ if (empty($this->uri->segment('4'))) {
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
-                                            <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" value="<?= date("Y-m-d"); ?>" required>
+                                            <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" value="<?= date("Y-m-d"); ?>" readonly required>
                                             <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                         </div>
                                     </div>
