@@ -1,104 +1,3 @@
-<div class="modal fade" id="akunModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Bayar Hutang</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="submit">
-                    <div class="form-group">
-                        <input type="hidden" class="form-control id" value="<?= $this->uri->segment('4'); ?>" name="id" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Tanggal</label>
-                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>" readonly>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Akun</label>
-                        <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
-                            <option value="">-- Akun --</option>
-                            <?php foreach (akun_list() as $row) {
-                            ?>
-                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Rupiah</label>
-                        <input type="text" class="form-control rupiah" name="rupiah" autocomplete="off" required>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Keterangan</label>
-                        <input type="text" class="form-control keterangan" name="keterangan" value="Pembayaran Hutang" autocomplete="off">
-                    </div>
-
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<div class="modal fade" id="saldopiutangModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Tambah Saldo Hutang</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="submit_saldo_piutang">
-                    <div class="form-group">
-                        <input type="hidden" class="form-control id" value="<?= $this->uri->segment('4'); ?>" name="id" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Tanggal</label>
-                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>" readonly>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Tanggal Jatuh Tempo</label>
-                        <input type="date" class="form-control tanggal_tempo" name="tanggal_tempo" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Rupiah</label>
-                        <input type="text" class="form-control rupiah" name="rupiah" autocomplete="off" required>
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Keterangan</label>
-                        <input type="text" class="form-control keterangan" name="keterangan" value="TAGIHAN HUTANG" autocomplete="off">
-                    </div>
-
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -255,7 +154,7 @@
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/akuntansi/hutang/detail/<?= $this->uri->segment("4"); ?>',
+            url: '<?php echo base_url() ?>index.php/gig/hutang/detail/<?= $this->uri->segment("4"); ?>',
             async: false,
             dataType: 'json',
             success: function(data) {

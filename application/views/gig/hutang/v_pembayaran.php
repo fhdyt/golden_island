@@ -6,6 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1 class="m-0">Rincian Pembayaran</h1>
+                    <p class="nama_relasi">Loading...</p>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -42,6 +43,7 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
+        detail()
         relasi_list()
     })
 
@@ -76,6 +78,24 @@
             error: function(x, e) {
                 console.log("Gagal")
             }
+        });
+    }
+
+    function detail() {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/gig/hutang/detail/<?= $this->uri->segment("4"); ?>',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                console.log(data)
+                if (data.length == 0) {} else {
+                    $("p.nama_relasi").html(data[0].MASTER_SUPPLIER_NAMA)
+                }
+
+
+            },
+            error: function(x, e) {} //end error
         });
     }
 </script>
