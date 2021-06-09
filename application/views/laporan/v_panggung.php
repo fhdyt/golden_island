@@ -117,7 +117,7 @@
                             <tr>
                                 <td colspan="5" style="text-align: right;">
                                     <input type="hidden" class="form-control total_tabung_panggung" name="total_tabung_panggung" id="total_tabung_panggung" value="" autocomplete="off">
-                                    <a href="<?= base_url(); ?>cetak/cetak_panggung" class="btn btn-success mb-2 verifikasi_panggung">Print</a>
+                                    <a href="<?= base_url(); ?>cetak/cetak_panggung" class="btn btn-success mb-2" target="_blank">Print</a>
                                     <button type="button" class="btn btn-secondary mb-2 verifikasi_panggung">Verifikasi Saldo Panggung</button>
                                     <br>
                                     <a class="refresh">Perbarui</a>
