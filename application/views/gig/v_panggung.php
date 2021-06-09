@@ -79,6 +79,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <h1 class="m-0">Panggung</h1>
+                    <small class="text-muted">PT. GOLDEN ISLAND GROUP</small>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
