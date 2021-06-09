@@ -83,6 +83,7 @@
                             $total_mp = $saldo_awal_mp + ($saldo_kembali_mp - $saldo_kirim_mp);
                             $total_mr = $saldo_awal_mr + ($saldo_kembali_mr - $saldo_kirim_mr);
                             $total += $total_mp + $total_mr;
+
                             echo "<tr>";
                             echo "<td rowspan='3'>" . $no++ . "</td>";
                             echo "<td rowspan='3'>" . $row->MASTER_BARANG_NAMA . "</td>";
