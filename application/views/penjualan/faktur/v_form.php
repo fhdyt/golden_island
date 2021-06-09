@@ -120,7 +120,6 @@ if (empty($this->uri->segment('4'))) {
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama Barang</th>
-                                        <th>Jenis</th>
                                         <th>Quantity</th>
                                         <th>Harga</th>
                                         <th>Total</th>
@@ -442,7 +441,6 @@ if (empty($this->uri->segment('4'))) {
                         $("tbody#zone_data_barang").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + data[i].FAKTUR_BARANG_JENIS + "</td>" +
                             "<td align='right'>" + data[i].FAKTUR_BARANG_QUANTITY + "</td>" +
                             "<td align='right'>" + number_format(harga) + "</td>" +
                             "<td align='right'>" + number_format(total) + "</td>" +
