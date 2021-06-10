@@ -225,7 +225,7 @@ error_reporting(0);
                             <?php
                             foreach ($barang as $row) { ?>
                         <tr>
-                            <td style="text-align:center ;vertical-align: middle;" rowspan="2"><?= $row->MASTER_BARANG_NAMA; ?></td>
+                            <td style="text-align:center ;vertical-align: middle;"><?= $row->MASTER_BARANG_NAMA; ?></td>
                             <td style="text-align:center ;vertical-align: middle;">.....</td>
                             <td style="text-align:center ;vertical-align: middle;">.....</td>
                         <?php
