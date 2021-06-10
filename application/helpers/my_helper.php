@@ -446,6 +446,28 @@ if (!function_exists('nomor_jaminan')) {
     }
   }
 }
+
+if (!function_exists('nomor_titipan')) {
+  function nomor_titipan($tanggal)
+  {
+    $CI = &get_instance();
+
+    $bulan = date("m", strtotime($tanggal));
+    $tahun = date("y", strtotime($tanggal));
+    $nomor = "TTP/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM JURNAL_TABUNG WHERE JURNAL_TABUNG_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY JURNAL_TABUNG_NOMOR DESC ')->result();
+    if (empty($hasil)) {
+      return "0001/TTP/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    } else {
+      $nomor = explode("/", $hasil[0]->JURNAL_TABUNG_NOMOR);
+      $nomorbaru = $nomor[0] + 1;
+      return sprintf("%04d", $nomorbaru) . "/TTP/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    }
+  }
+}
+
 if (!function_exists('nomor_pembelian')) {
   function nomor_pembelian($pembelian, $tanggal)
   {

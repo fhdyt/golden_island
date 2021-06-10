@@ -14,7 +14,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
-                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>" readonly>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
@@ -99,6 +99,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>Nomor</th>
                                 <th>Tanggal</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Jenis</th>
@@ -148,6 +149,7 @@
                         var btn_cetak = "<a class='btn btn-success btn-sm' target='_blank' href='<?= base_url(); ?>cetak/cetak_titipan/" + data[i].JURNAL_TABUNG_ID + "'><i class='right fas fa-print'></i> Cetak</a>"
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].JURNAL_TABUNG_NOMOR + "</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +

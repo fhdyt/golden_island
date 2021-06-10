@@ -21,7 +21,7 @@ class TitipanModel extends CI_Model
                                     AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                     AND B.RECORD_STATUS="AKTIF" 
                                     AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
-                                    ORDER BY J.JURNAL_TABUNG_TANGGAL DESC ')->result();
+                                    ORDER BY J.JURNAL_TABUNG_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->JURNAL_TABUNG_TANGGAL);
         }
@@ -34,6 +34,7 @@ class TitipanModel extends CI_Model
             'JURNAL_TABUNG_ID' => create_id(),
             'MASTER_RELASI_ID' => $this->input->post('relasi'),
             'MASTER_BARANG_ID' => $this->input->post('jenis'),
+            'JURNAL_TABUNG_NOMOR' => nomor_titipan($this->input->post('tanggal')),
             'JURNAL_TABUNG_TANGGAL' => $this->input->post('tanggal'),
             'JURNAL_TABUNG_KIRIM' => "0",
             'JURNAL_TABUNG_KEMBALI' => $this->input->post('jumlah'),

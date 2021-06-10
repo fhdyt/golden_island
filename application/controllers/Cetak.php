@@ -118,7 +118,7 @@ class Cetak extends CI_Controller
 	{
 		$id = $this->uri->segment('3');
 		$data = $this->PdfModel->cetak_titipan($id);
-		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
+		qrcode($data['detail'][0]->JURNAL_TABUNG_NOMOR);
 		$this->load->view('cetak/cetak_titipan', $data);
 	}
 
