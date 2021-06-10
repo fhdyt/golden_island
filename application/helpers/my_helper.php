@@ -440,7 +440,7 @@ if (!function_exists('nomor_jaminan')) {
     if (empty($hasil)) {
       return "0001/JMN/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
     } else {
-      $nomor = explode("/", $hasil[0]->FAKTUR_NOMOR);
+      $nomor = explode("/", $hasil[0]->FAKTUR_JAMINAN_NOMOR);
       $nomorbaru = $nomor[0] + 1;
       return sprintf("%04d", $nomorbaru) . "/JMN/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
     }

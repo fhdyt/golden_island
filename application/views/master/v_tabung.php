@@ -14,7 +14,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jenis Tabung</label>
-                        <select name="tabung" id="tabung" class="form-control tabung select2" style="width: 100%;">
+                        <select name="tabung" id="tabung" class="form-control tabung select2" style="width: 100%;" required>
                             <option value="">-- Jenis --</option>
                             <?php foreach (tabung() as $row) {
                             ?>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jumlah Tabung</label>
-                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" value="1">
+                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" value="1" readonly>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Kode Tabung</label>
@@ -40,6 +40,10 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Kode Produksi</label>
                         <input type="text" class="form-control kode_produksi" name="kode_produksi" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Tahun</label>
+                        <input type="text" class="form-control tahun" name="tahun" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Kepemilikan</label>
@@ -270,6 +274,7 @@
                 $(".jumlah").val("1")
                 $(".kode_lama").val(data[0].MASTER_TABUNG_KODE_LAMA)
                 $(".kode_produksi").val(data[0].MASTER_TABUNG_KODE_PRODUKSI)
+                $(".tahun").val(data[0].MASTER_TABUNG_TAHUN)
                 $(".tabung").val(data[0].MASTER_BARANG_ID).trigger('change')
                 $(".kepemilikan").val(data[0].MASTER_TABUNG_KEPEMILIKAN).trigger('change')
 
