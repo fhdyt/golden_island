@@ -145,6 +145,7 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        var btn_cetak = "<a class='btn btn-success btn-sm' target='_blank' href='<?= base_url(); ?>cetak/cetak_titipan/" + data[i].JURNAL_TABUNG_ID + "'><i class='right fas fa-print'></i> Cetak</a>"
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
@@ -152,7 +153,7 @@
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KEMBALI + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a></td> " +
+                            "<td><a class='btn btn-danger btn-sm mr-2' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a>" + btn_cetak + "</td> " +
                             "</tr>");
                     }
                 }

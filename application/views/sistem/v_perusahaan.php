@@ -32,6 +32,10 @@
                         <label for="exampleInputEmail1">Telp</label>
                         <input type="text" class="form-control telp" name="telp" value="" autocomplete="off">
                     </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Telp</label>
+                        <input type="text" class="form-control bank" name="bank" value="" autocomplete="off">
+                    </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
@@ -203,6 +207,7 @@
                 $(".alamat").val(data[0].PERUSAHAAN_ALAMAT)
                 $(".kota").val(data[0].PERUSAHAAN_KOTA)
                 $(".telp").val(data[0].PERUSAHAAN_TELP)
+                $(".bank").val(data[0].PERUSAHAAN_BANK)
 
                 $("#perusahaanModal").modal("show")
             },

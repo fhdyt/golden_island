@@ -45,6 +45,7 @@ class Cetak extends CI_Controller
 		qrcode($data['detail'][0]->PEMBELIAN_NOMOR);
 		$this->load->view('cetak/cetak_po', $data);
 	}
+
 	public function cetak_sj()
 	{
 		$id = $this->uri->segment('3');
@@ -52,6 +53,7 @@ class Cetak extends CI_Controller
 		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
 		$this->load->view('cetak/cetak_sj', $data);
 	}
+
 	public function cetak_sj_blanko()
 	{
 		$id = $this->uri->segment('3');
@@ -110,6 +112,14 @@ class Cetak extends CI_Controller
 		$data = $this->PdfModel->faktur($id);
 		qrcode($data['detail'][0]->FAKTUR_NOMOR);
 		$this->load->view('cetak/tt', $data);
+	}
+
+	public function cetak_titipan()
+	{
+		$id = $this->uri->segment('3');
+		$data = $this->PdfModel->cetak_titipan($id);
+		qrcode($data['detail'][0]->SURAT_JALAN_NOMOR);
+		$this->load->view('cetak/cetak_titipan', $data);
 	}
 
 	// public function member()

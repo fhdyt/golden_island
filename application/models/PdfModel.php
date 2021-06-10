@@ -123,4 +123,30 @@ class PdfModel extends CI_Model
         $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
+
+    public function cetak_titipan($id)
+    {
+        $hasil['detail'] = $this->db->query('SELECT * 
+                                    FROM 
+                                    JURNAL_TABUNG AS J
+                                    LEFT JOIN MASTER_RELASI AS R
+                                    ON
+                                    J.MASTER_RELASI_ID=R.MASTER_RELASI_ID
+                                    LEFT JOIN
+                                    MASTER_BARANG AS B
+                                    ON
+                                    J.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+                                    WHERE J.JURNAL_TABUNG_ID="' . $id . '"
+                                    AND J.RECORD_STATUS="AKTIF" 
+                                    AND J.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                    AND R.RECORD_STATUS="AKTIF" 
+                                    AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                    AND B.RECORD_STATUS="AKTIF" 
+                                    AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                    LIMIT 1')->result();
+
+        $hasil['relasi'] = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $hasil['detail'][0]->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
+    }
 }
