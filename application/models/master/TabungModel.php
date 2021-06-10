@@ -16,7 +16,7 @@ class TabungModel extends CI_Model
         T.RECORD_STATUS="AKTIF" AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
         AND B.RECORD_STATUS="AKTIF" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
         ' . $filter_tabung . '
-        ORDER BY T.MASTER_TABUNG_KODE DESC')->result();
+        ORDER BY T.MASTER_TABUNG_KODE')->result();
         foreach ($hasil as $row) {
             $riwayat_tabung = $this->db->query('SELECT RIWAYAT_TABUNG_STATUS FROM RIWAYAT_TABUNG WHERE MASTER_TABUNG_ID="' . $row->MASTER_TABUNG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY RIWAYAT_TABUNG_INDEX DESC LIMIT 1');
             if ($riwayat_tabung->num_rows() > 0) {
