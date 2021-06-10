@@ -107,7 +107,6 @@
                             var riwayat_status_ttbk = "<span class='float-left badge bg-danger'>TTBK Belum Teralisasi</span>"
                         } else {
                             var riwayat_status_ttbk = "<span class='float-left badge bg-success'>TTBK Telah terealisasi</span>"
-
                         }
 
                         if (data[i].RELASI == "") {

@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>pembelian/pd/form_pd" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a>
+                    <!-- <a href="<?= base_url(); ?>pembelian/pd/form_pd" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a> -->
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>

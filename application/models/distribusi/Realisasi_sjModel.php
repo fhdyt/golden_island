@@ -273,14 +273,16 @@ class Realisasi_sjModel extends CI_Model
     }
     public function add_scan($surat_jalan_id)
     {
+        $surat_jalan = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $surat_jalan_id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         $list = explode(PHP_EOL, $this->input->post('scan'));
         foreach ($list as $row) {
             $hasil = $this->db->query('SELECT * FROM MASTER_TABUNG WHERE MASTER_TABUNG_KODE="' . $row . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1');
             if ($hasil->num_rows() == "") {
             } else {
                 $tabung = $hasil->result();
+                $id_realisasi = create_id();
                 $data = array(
-                    'REALISASI_BARANG_ID' => create_id(),
+                    'REALISASI_BARANG_ID' => $id_realisasi,
                     'SURAT_JALAN_ID' => $surat_jalan_id,
                     'MASTER_BARANG_ID' => $tabung[0]->MASTER_BARANG_ID,
                     'MASTER_TABUNG_ID' => $tabung[0]->MASTER_TABUNG_ID,
@@ -291,6 +293,25 @@ class Realisasi_sjModel extends CI_Model
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
                 );
                 $this->db->insert('REALISASI_BARANG', $data);
+
+                $data_riwayat_tabung = array(
+                    'RIWAYAT_TABUNG_ID' => create_id(),
+                    'MASTER_TABUNG_ID' => $tabung[0]->MASTER_TABUNG_ID,
+                    'RIWAYAT_TABUNG_TANGGAL' => $surat_jalan[0]->SURAT_JALAN_TANGGAL,
+                    'RIWAYAT_TABUNG_STATUS' => '1',
+                    'RIWAYAT_TABUNG_KIRIM' => '1',
+                    'RIWAYAT_TABUNG_KEMBALI' => '0',
+                    'MASTER_RELASI_ID' => $surat_jalan[0]->MASTER_RELASI_ID,
+                    'MASTER_SUPPLIER_ID' => $surat_jalan[0]->MASTER_SUPPLIER_ID,
+                    'RIWAYAT_TABUNG_KETERANGAN' => $surat_jalan[0]->SURAT_JALAN_NOMOR,
+                    'RIWAYAT_TABUNG_REF' => $id_realisasi,
+
+                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                    'RECORD_STATUS' => "AKTIF",
+                    'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                );
+                $this->db->insert('RIWAYAT_TABUNG', $data_riwayat_tabung);
             }
         }
         return true;
@@ -298,6 +319,16 @@ class Realisasi_sjModel extends CI_Model
 
     public function hapus($id)
     {
+        $data = array(
+            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('RIWAYAT_TABUNG_REF', $id);
+        $this->db->update('RIWAYAT_TABUNG', $data);
+
         $data = array(
             'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),

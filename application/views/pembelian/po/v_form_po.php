@@ -92,7 +92,7 @@ if (empty($this->uri->segment('5'))) {
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
-                                            <textarea name="keterangan" id="keterangan" class="form-control keterangan" rows="6"><?= keterangan_pembelian(); ?></textarea>
+                                            <textarea name="keterangan" id="keterangan" class="form-control keterangan" rows="6"></textarea>
                                             <small class="text-muted">Kosongkan jika tidak diperlukan.</small>
                                         </div>
                                     </div>

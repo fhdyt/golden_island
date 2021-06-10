@@ -25,6 +25,9 @@
                                 <th>Status</th>
                                 <th>Relasi</th>
                                 <th>Supplier</th>
+                                <th>Kirim</th>
+                                <th>Kembali</th>
+                                <th>Keterangan</th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
@@ -70,12 +73,26 @@
                         } else {
                             var supplier = data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA
                         }
+
+                        if (data[i].RIWAYAT_TABUNG_KIRIM == "1") {
+                            var kirim = "<i class='fas fa-check-circle'></i>"
+                        } else {
+                            var kirim = "-"
+                        }
+                        if (data[i].RIWAYAT_TABUNG_KEMBALI == "1") {
+                            var kembali = "<i class='fas fa-check-circle'></i>"
+                        } else {
+                            var kembali = "-"
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].RIWAYAT_TABUNG_STATUS + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td>" + supplier + "</td>" +
+                            "<td>" + kirim + "</td>" +
+                            "<td>" + kembali + "</td>" +
+                            "<td>" + data[i].RIWAYAT_TABUNG_KETERANGAN + "</td>" +
                             "</tr>");
                     }
                 }

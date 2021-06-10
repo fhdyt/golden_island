@@ -144,7 +144,7 @@ class TabungModel extends CI_Model
 
     public function list_riwayat($id)
     {
-        $hasil = $this->db->query('SELECT * FROM RIWAYAT_TABUNG WHERE MASTER_TABUNG_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil = $this->db->query('SELECT * FROM RIWAYAT_TABUNG WHERE MASTER_TABUNG_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY RIWAYAT_TABUNG_INDEX')->result();
         foreach ($hasil as $row_sj) {
             $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row_sj->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  LIMIT 1 ')->result();
             $row_sj->RELASI = $relasi;

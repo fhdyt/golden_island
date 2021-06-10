@@ -103,6 +103,12 @@
 
                         }
 
+                        if (data[i].SURAT_JALAN_REALISASI_TTBK_STATUS != "selesai") {
+                            var riwayat_status_ttbk = "<span class='float-left badge bg-danger'>TTBK Belum Teralisasi</span>"
+                        } else {
+                            var riwayat_status_ttbk = "<span class='float-left badge bg-success'>TTBK Telah terealisasi</span>"
+                        }
+
 
                         if (data[i].SUPPLIER == "") {
                             var supplier = "-"
@@ -112,7 +118,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
                             "<td>" + supplier + "</td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
                             btn_cetak +
