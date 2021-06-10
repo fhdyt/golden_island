@@ -168,7 +168,7 @@ class Realisasi_ttbkModel extends CI_Model
 
         $data = array(
             'SURAT_JALAN_REALISASI_TTBK_STATUS' => "selesai",
-            'SURAT_JALAN_REALISASI_TTBK_TANGGAL' => date("Y-m-d h:i:sa"),
+            'SURAT_JALAN_REALISASI_TTBK_TANGGAL' => date("Y-m-d G:i:s"),
             'SURAT_JALAN_REALISASI_TTBK_JUMLAH_MP' => $this->input->post("total_realisasi"),
             'SURAT_JALAN_REALISASI_TTBK_JUMLAH_MR' => $this->input->post("total_tabung_mr"),
         );
