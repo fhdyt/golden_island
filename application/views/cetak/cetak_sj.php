@@ -279,6 +279,7 @@ error_reporting(0);
             <div class="row invoice-info mt-5">
                 <div class="col-12 text-center">
                     <p>Claim hanya dapat dilayani dalam waktu 1x24 Jam sejak barang diterima.</p>
+                    <p>Transfer hanya melalui <?= detail_perusahaan()[0]->PERUSAHAAN_BANK; ?></p>
                 </div>
             </div>
 

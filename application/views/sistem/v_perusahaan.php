@@ -33,7 +33,7 @@
                         <input type="text" class="form-control telp" name="telp" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Telp</label>
+                        <label for="exampleInputEmail1">Bank</label>
                         <input type="text" class="form-control bank" name="bank" value="" autocomplete="off">
                     </div>
             </div>
