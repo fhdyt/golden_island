@@ -13,7 +13,7 @@ if (empty($this->uri->segment('4'))) {
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Form Produksi</h1>
+                    <h1 class="m-0">Selesai Produksi</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -26,6 +26,7 @@ if (empty($this->uri->segment('4'))) {
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <form id="submit">
+                        <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
                         <div class="row" hidden>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -460,7 +461,7 @@ if (empty($this->uri->segment('4'))) {
             },
             success: function(data) {
                 detail();
-                window.location.href = '<?= base_url(); ?>produksi/produksi/form/<?= $id; ?>'
+                window.location.href = '<?= base_url(); ?>produksi/produksi/form_selesai/<?= $id; ?>'
             }
         });
     })

@@ -102,13 +102,12 @@ class ProduksiModel extends CI_Model
     {
 
         $data_edit = array(
-            'PRODUKSI_LEVEL_AWAL' => $this->input->post('level_awal'),
-            'PRODUKSI_LEVEL_AWAL_FILE' => $config['file_name'],
+            'PRODUKSI_LEVEL_AKHIR' => $this->input->post('level_awal'),
+            'PRODUKSI_LEVEL_AKHIR_FILE' => $config['file_name'],
         );
 
         $this->db->where('PRODUKSI_ID', $this->input->post('id'));
         $result = $this->db->update('PRODUKSI', $data_edit);
-
         return $result;
     }
 
