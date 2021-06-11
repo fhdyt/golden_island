@@ -13,7 +13,7 @@ class Surat_jalanModel extends CI_Model
             $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
-            $row->JAM = date("G:i", strtotime($row->ENTRI_WAKTU));
+            $row->JAM = jam($row->ENTRI_WAKTU);
             $row->RELASI = $relasi;
             $row->SUPPLIER = $supplier;
         }

@@ -42,6 +42,13 @@ if (!function_exists('tanggal')) {
   }
 }
 
+if (!function_exists('jam')) {
+  function jam($jam)
+  {
+    $jam_convert = date("G:i", strtotime($jam));
+    return $jam_convert;
+  }
+}
 if (!function_exists('hari')) {
   function hari($tanggal)
   {
