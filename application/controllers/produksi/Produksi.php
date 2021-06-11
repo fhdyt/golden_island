@@ -39,7 +39,19 @@ class Produksi extends CI_Controller
         $this->load->view('produksi/produksi/v_form');
         $this->load->view('_template/footer');
     }
+    public function form_selesai()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('produksi/produksi/v_form_selesai');
+        $this->load->view('_template/footer');
+    }
 
+    public function jenis_barang()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->ProduksiModel->jenis_barang($id);
+        echo json_encode($data);
+    }
     public function list()
     {
         $data = $this->ProduksiModel->list();
@@ -62,7 +74,40 @@ class Produksi extends CI_Controller
 
     public function add()
     {
-        $data = $this->ProduksiModel->add();
+        if ($this->input->post('userfile_name') == "" and $_FILES["userfile"]["name"] == "") {
+            $config['file_name'] = $this->input->post('userfile_name');
+        } else  if ($this->input->post('userfile_name') != "" and $_FILES["userfile"]["name"] == "") {
+            $config['file_name'] = $this->input->post('userfile_name');
+        } else {
+            $config['name']                    = random_string('sha1', 40);
+            $config['upload_path']          = './uploads/produksi';
+            $config['allowed_types']        = '*';
+            $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
+
+            $this->load->library('upload', $config);
+            $this->upload->do_upload('userfile');
+        }
+        $data = $this->ProduksiModel->add($config);
+        echo json_encode($data);
+    }
+
+    public function add_selesai()
+    {
+        if ($this->input->post('userfile_name') == "" and $_FILES["userfile"]["name"] == "") {
+            $config['file_name'] = $this->input->post('userfile_name');
+        } else  if ($this->input->post('userfile_name') != "" and $_FILES["userfile"]["name"] == "") {
+            $config['file_name'] = $this->input->post('userfile_name');
+        } else {
+            $config['name']                    = random_string('sha1', 40);
+            $config['upload_path']          = './uploads/produksi';
+            $config['allowed_types']        = '*';
+            $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
+
+            $this->load->library('upload', $config);
+            $this->upload->do_upload('userfile');
+        }
+        $data = $this->ProduksiModel->add_selesai($config);
+        echo json_encode($data);
     }
 
     public function add_barang()

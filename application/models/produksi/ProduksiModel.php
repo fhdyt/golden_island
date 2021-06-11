@@ -4,7 +4,23 @@ class ProduksiModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM PAJAK WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PAJAK_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM 
+                                    PRODUKSI AS P
+                                    LEFT JOIN MASTER_BARANG AS B
+                                    ON
+                                    P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+                                    WHERE 
+                                    P.RECORD_STATUS="AKTIF" 
+                                    AND 
+                                    P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                    AND
+                                    B.RECORD_STATUS="AKTIF" 
+                                    AND 
+                                    B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                    ORDER BY P.PRODUKSI_TANGGAL DESC ')->result();
+        foreach ($hasil as $row) {
+            $row->TANGGAL = tanggal($row->PRODUKSI_TANGGAL);
+        }
         return $hasil;
     }
 
@@ -24,6 +40,17 @@ class ProduksiModel extends CI_Model
         return $hasil;
     }
 
+    public function jenis_barang($id)
+    {
+        $hasil = $this->db->query('SELECT * 
+                                       FROM MASTER_BARANG 
+                                        WHERE 
+                                        MASTER_BARANG_BAHAN="' . $id . '"
+                                        AND RECORD_STATUS="AKTIF"
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        return $hasil;
+    }
+
     public function list_karyawan($id)
     {
         $hasil = $this->db->query('SELECT * 
@@ -40,47 +67,49 @@ class ProduksiModel extends CI_Model
         return $hasil;
     }
 
-    public function add()
+    public function add($config)
     {
-        if ($this->input->post('id') == "") {
-            $data = array(
-                'PAJAK_ID' => create_id(),
-                'PAJAK_NAMA' => $this->input->post('nama'),
-                'PAJAK_NILAI' => $this->input->post('nilai'),
 
-                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
+        $data_edit = array(
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
 
-            $result = $this->db->insert('PAJAK', $data);
-            return $result;
-        } else {
-            $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d G:i:s"),
-                'EDIT_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "EDIT",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
+        $this->db->where('PRODUKSI_ID', $this->input->post('id'));
+        $this->db->update('PRODUKSI', $data_edit);
 
-            $this->db->where('PAJAK_ID', $this->input->post('id'));
-            $edit = $this->db->update('PAJAK', $data_edit);
+        $data = array(
+            'PRODUKSI_ID' => $this->input->post('id'),
+            'PRODUKSI_NOMOR' => nomor_produksi($this->input->post('tanggal')),
+            'PRODUKSI_TANGGAL' => $this->input->post('tanggal'),
+            'MASTER_BARANG_ID' => $this->input->post('jenis'),
+            'PRODUKSI_LEVEL_AWAL' => $this->input->post('level_awal'),
+            'PRODUKSI_LEVEL_AWAL_FILE' => $config['file_name'],
 
-            $data = array(
-                'PAJAK_ID' => $this->input->post('id'),
-                'PAJAK_NAMA' => $this->input->post('nama'),
-                'PAJAK_NILAI' => $this->input->post('nilai'),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
 
-                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
+        $result = $this->db->insert('PRODUKSI', $data);
+        return $result;
+    }
 
-            $result = $this->db->insert('PAJAK', $data);
-            return $result;
-        }
+    public function add_selesai($config)
+    {
+
+        $data_edit = array(
+            'PRODUKSI_LEVEL_AWAL' => $this->input->post('level_awal'),
+            'PRODUKSI_LEVEL_AWAL_FILE' => $config['file_name'],
+        );
+
+        $this->db->where('PRODUKSI_ID', $this->input->post('id'));
+        $result = $this->db->update('PRODUKSI', $data_edit);
+
+        return $result;
     }
 
     public function add_barang()
@@ -150,7 +179,10 @@ class ProduksiModel extends CI_Model
 
     public function detail($id)
     {
-        $hasil = $this->db->query('SELECT * FROM PAJAK WHERE PAJAK_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil = $this->db->query('SELECT * FROM PRODUKSI WHERE PRODUKSI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        foreach ($hasil as $row) {
+            $row->TANGGAL = date("Y-m-d", strtotime($row->PRODUKSI_TANGGAL));
+        }
         return $hasil;
     }
 }

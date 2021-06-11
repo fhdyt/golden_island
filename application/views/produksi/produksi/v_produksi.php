@@ -22,8 +22,11 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th><?= $this->lang->line('nama'); ?></th>
-                                <th>Nilai (%)</th>
+                                <th>Nomor Produksi</th>
+                                <th>Tanggal</th>
+                                <th>Jenis Bahan</th>
+                                <th>Level Awal</th>
+                                <th>Level Akhir</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -53,7 +56,7 @@
     function pajak_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/konfigurasi/pajak/list",
+            url: "<?php echo base_url() ?>index.php/produksi/produksi/list",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -67,10 +70,14 @@
                     for (i = 0; i < data.length; i++) {
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].PAJAK_NAMA + "</td>" +
-                            "<td>" + data[i].PAJAK_NILAI + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PAJAK_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].PAJAK_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
+                            "<td>" + data[i].PRODUKSI_NOMOR + "</td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].PRODUKSI_LEVEL_AWAL + "</td>" +
+                            "<td>" + data[i].PRODUKSI_LEVEL_AKHIR + "</td>" +
+                            "<td><a class='btn btn-primary btn-sm mr-2 ' href='<?= base_url(); ?>produksi/produksi/form/" + data[i].PRODUKSI_ID + "/'>Lihat</a> " +
+                            "<a class='btn btn-success btn-sm ' href='<?= base_url(); ?>produksi/produksi/form_selesai/" + data[i].PRODUKSI_ID + "/'>Selesai Produksi</a> " +
+                            "</td>" +
                             "</tr>");
                     }
                 }

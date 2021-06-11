@@ -24,6 +24,7 @@ class BarangModel extends CI_Model
                 'MASTER_BARANG_KETERANGAN' => $this->input->post('keterangan'),
                 'MASTER_BARANG_TOTAL' => $this->input->post('total'),
                 'MASTER_BARANG_SATUAN' => $this->input->post('satuan'),
+                'MASTER_BARANG_BAHAN' => $this->input->post('bahan'),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -51,6 +52,7 @@ class BarangModel extends CI_Model
                 'MASTER_BARANG_KETERANGAN' => $this->input->post('keterangan'),
                 'MASTER_BARANG_TOTAL' => $this->input->post('total'),
                 'MASTER_BARANG_SATUAN' => $this->input->post('satuan'),
+                'MASTER_BARANG_BAHAN' => $this->input->post('bahan'),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),

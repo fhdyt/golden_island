@@ -50,6 +50,20 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Bahan</label>
+                        <select name="bahan" id="bahan" name="bahan" class="form-control bahan select2" style="width: 100%;">
+                            <option value="">-- Bahan --</option>
+                            <?php
+                            foreach (tangki() as $row) {
+                            ?>
+                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                         <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
                     </div>
@@ -246,6 +260,7 @@
                 $("#barangModal").modal("show")
                 $(".jenis").val(data[0].MASTER_BARANG_JENIS).trigger('change')
                 $(".satuan").val(data[0].MASTER_BARANG_SATUAN).trigger('change')
+                $(".bahan").val(data[0].MASTER_BARANG_BAHAN).trigger('change')
                 $(".id").val(data[0].MASTER_BARANG_ID)
                 $(".nama").val(data[0].MASTER_BARANG_NAMA)
                 $(".keterangan").val(data[0].MASTER_BARANG_KETERANGAN)

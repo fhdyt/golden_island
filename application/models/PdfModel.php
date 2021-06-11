@@ -126,7 +126,8 @@ class PdfModel extends CI_Model
 
     public function cetak_titipan($id)
     {
-        $hasil['detail'] = $this->db->query('SELECT * 
+        $hasil['detail'] = $this->db->query('SELECT *,
+        J.ENTRI_USER AS USER
                                     FROM 
                                     JURNAL_TABUNG AS J
                                     LEFT JOIN MASTER_RELASI AS R
@@ -146,7 +147,7 @@ class PdfModel extends CI_Model
                                     LIMIT 1')->result();
 
         $hasil['relasi'] = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $hasil['detail'][0]->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
-        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
 }
