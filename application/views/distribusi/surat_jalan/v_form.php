@@ -113,7 +113,7 @@ if (empty($this->uri->segment('4'))) {
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Driver</label>
                                             <select name="driver" id="driver" class="form-control driver select2" style="width: 100%;">
-                                                <option value=""></option>
+                                                <option value="">-</option>
 
                                                 <?php
                                                 foreach (driver() as $row) {
@@ -130,7 +130,7 @@ if (empty($this->uri->segment('4'))) {
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Kendaraan</label>
                                             <select name="kendaraan" id="kendaraan" class="form-control kendaraan select2" style="width: 100%;">
-                                                <option value=""></option>
+                                                <option value="">-</option>
 
                                                 <?php
                                                 foreach (Kendaraan() as $row) {

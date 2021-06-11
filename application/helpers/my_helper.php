@@ -229,6 +229,16 @@ if (!function_exists('driver')) {
     return $hasil;
   }
 }
+
+if (!function_exists('karyawan_produksi')) {
+  function karyawan_produksi()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_JABATAN="Produksi" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+    return $hasil;
+  }
+}
 if (!function_exists('kendaraan')) {
   function kendaraan()
   {
@@ -443,6 +453,27 @@ if (!function_exists('nomor_jaminan')) {
       $nomor = explode("/", $hasil[0]->FAKTUR_JAMINAN_NOMOR);
       $nomorbaru = $nomor[0] + 1;
       return sprintf("%04d", $nomorbaru) . "/JMN/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    }
+  }
+}
+
+if (!function_exists('nomor_produksi')) {
+  function nomor_produksi($tanggal)
+  {
+    $CI = &get_instance();
+
+    $bulan = date("m", strtotime($tanggal));
+    $tahun = date("y", strtotime($tanggal));
+    $nomor = "PRO/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM PRODUKSI WHERE PRODUKSI_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PRODUKSI_NOMOR DESC ')->result();
+    if (empty($hasil)) {
+      return "0001/PRO/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    } else {
+      $nomor = explode("/", $hasil[0]->PRODUKSI_NOMOR);
+      $nomorbaru = $nomor[0] + 1;
+      return sprintf("%04d", $nomorbaru) . "/PRO/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
     }
   }
 }

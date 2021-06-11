@@ -32,6 +32,24 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Total</label>
+                        <input type="text" class="form-control total" name="total" autocomplete="off" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Satuan</label>
+                        <select name="satuan" id="satuan" name="satuan" class="form-control satuan select2" style="width: 100%;">
+                            <option value="">-- Satuan --</option>
+                            <?php foreach (satuan() as $row) {
+                            ?>
+                                <option value="<?= $row->SATUAN_NAMA; ?>"><?= $row->SATUAN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                         <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
                     </div>
@@ -227,8 +245,11 @@
                 memuat()
                 $("#barangModal").modal("show")
                 $(".jenis").val(data[0].MASTER_BARANG_JENIS).trigger('change')
+                $(".satuan").val(data[0].MASTER_BARANG_SATUAN).trigger('change')
                 $(".id").val(data[0].MASTER_BARANG_ID)
                 $(".nama").val(data[0].MASTER_BARANG_NAMA)
+                $(".keterangan").val(data[0].MASTER_BARANG_KETERANGAN)
+                $(".total").val(data[0].MASTER_BARANG_TOTAL)
 
 
             },
