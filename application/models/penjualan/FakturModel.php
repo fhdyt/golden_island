@@ -49,7 +49,7 @@ class FakturModel extends CI_Model
         }
 
         $data_edit_aktif = array(
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -59,7 +59,7 @@ class FakturModel extends CI_Model
         $this->db->update('FAKTUR', $data_edit_aktif);
 
         $data_edit_transaksi = array(
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -69,7 +69,7 @@ class FakturModel extends CI_Model
         $this->db->update('FAKTUR_TRANSAKSI', $data_edit_transaksi);
 
         $data_edit_piutang = array(
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -79,7 +79,7 @@ class FakturModel extends CI_Model
         $this->db->update('PIUTANG', $data_edit_piutang);
 
         $data_edit_buku_besar = array(
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -128,7 +128,7 @@ class FakturModel extends CI_Model
                 'MASTER_RELASI_ID' => $this->input->post('relasi'),
 
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -148,7 +148,7 @@ class FakturModel extends CI_Model
             'BUKU_BESAR_SUMBER' => "PENJUALAN",
             'BUKU_BESAR_KETERANGAN' => "PENJUALAN " . $nomor_faktur,
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -164,7 +164,7 @@ class FakturModel extends CI_Model
             'MASTER_RELASI_ID' => $this->input->post('relasi'),
             'AKUN_ID' => $this->input->post('akun'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -182,7 +182,7 @@ class FakturModel extends CI_Model
             'PEMBELIAN_TRANSAKSI_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
             'PIUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -199,7 +199,7 @@ class FakturModel extends CI_Model
         WHERE FAKTUR_SURAT_JALAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
 
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -209,7 +209,7 @@ class FakturModel extends CI_Model
         $this->db->update('FAKTUR_SURAT_JALAN', $data);
 
         $data_barang = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -291,7 +291,7 @@ class FakturModel extends CI_Model
             'FAKTUR_ID' => $this->input->post('id'),
             'SURAT_JALAN_ID' => $this->input->post('surat_jalan'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -312,7 +312,7 @@ class FakturModel extends CI_Model
                 'FAKTUR_BARANG_QUANTITY' => $row->SURAT_JALAN_BARANG_QUANTITY - $row->SURAT_JALAN_BARANG_QUANTITY_KLAIM,
                 'FAKTUR_BARANG_SATUAN' => $row->SURAT_JALAN_BARANG_SATUAN,
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -336,7 +336,7 @@ class FakturModel extends CI_Model
                 'FAKTUR_ID' => $this->input->post('id'),
                 'SURAT_JALAN_ID' => $row_sj->SURAT_JALAN_ID,
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -357,7 +357,7 @@ class FakturModel extends CI_Model
                     'FAKTUR_BARANG_QUANTITY' => $row->SURAT_JALAN_BARANG_QUANTITY - $row->SURAT_JALAN_BARANG_QUANTITY_KLAIM,
                     'FAKTUR_BARANG_SATUAN' => $row->SURAT_JALAN_BARANG_SATUAN,
 
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),

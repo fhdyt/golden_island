@@ -26,7 +26,7 @@ class MenuModel extends CI_Model
                 'MENU_LINK' => $this->input->post('link'),
                 'MENU_ICON' => $this->input->post('icon'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
             );
@@ -35,7 +35,7 @@ class MenuModel extends CI_Model
             return $result;
         } else {
             $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+                'EDIT_WAKTU' => date("Y-m-d G:i:s"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
             );
@@ -50,7 +50,7 @@ class MenuModel extends CI_Model
                 'MENU_LINK' => $this->input->post('link'),
                 'MENU_ICON' => $this->input->post('icon'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
             );
@@ -63,7 +63,7 @@ class MenuModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
         );

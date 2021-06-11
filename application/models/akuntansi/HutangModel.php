@@ -82,7 +82,7 @@ class HutangModel extends CI_Model
             'HUTANG_SUMBER' => "PENJUALAN",
             'HUTANG_KETERANGAN' => $this->input->post('keterangan'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -101,7 +101,7 @@ class HutangModel extends CI_Model
             'BUKU_BESAR_SUMBER' => "PEMBELIAN",
             'BUKU_BESAR_KETERANGAN' => $this->input->post('keterangan'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -124,7 +124,7 @@ class HutangModel extends CI_Model
             'HUTANG_SUMBER' => "HUTANG",
             'HUTANG_KETERANGAN' => $this->input->post('keterangan'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -137,7 +137,7 @@ class HutangModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),

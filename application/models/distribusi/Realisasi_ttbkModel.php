@@ -26,7 +26,7 @@ class Realisasi_ttbkModel extends CI_Model
             if (empty($row->SURAT_JALAN_REALISASI_TTBK_TANGGAL) or $row->SURAT_JALAN_REALISASI_TTBK_TANGGAL == "0000-00-00 00:00:00") {
                 $row->EXPIRED = "";
             } else {
-                $tanggal_hari_ini = strtotime(date("Y-m-d h:i:sa"));
+                $tanggal_hari_ini = strtotime(date("Y-m-d G:i:s"));
                 $tanggal_entri = strtotime($row->SURAT_JALAN_REALISASI_TTBK_TANGGAL);
                 $timediff = $tanggal_hari_ini - $tanggal_entri;
                 if ($timediff > 86400) {
@@ -156,7 +156,7 @@ class Realisasi_ttbkModel extends CI_Model
         $surat_jalan = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $this->input->post('surat_jalan_id') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
 
         $data_edit_jurnal = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -193,7 +193,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'JURNAL_TABUNG_FILE' => "empty",
                 'JURNAL_TABUNG_REF'  => $this->input->post("surat_jalan_id"),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -215,7 +215,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'JURNAL_TABUNG_FILE' => "empty",
                 'JURNAL_TABUNG_REF'  => $this->input->post("surat_jalan_id"),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -240,7 +240,7 @@ class Realisasi_ttbkModel extends CI_Model
     //             'MASTER_TABUNG_KEPEMILIKAN' => $this->input->post('kepemilikan'),
     //             'STOK_BARANG_ID' => "",
 
-    //             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+    //             'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
     //             'ENTRI_USER' => $this->session->userdata('USER_ID'),
     //             'RECORD_STATUS' => "AKTIF",
     //             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -254,7 +254,7 @@ class Realisasi_ttbkModel extends CI_Model
     //             'RIWAYAT_TABUNG_STATUS' => '0',
     //             'RIWAYAT_TABUNG_KETERANGAN' => '',
 
-    //             'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+    //             'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
     //             'ENTRI_USER' => $this->session->userdata('USER_ID'),
     //             'RECORD_STATUS' => "AKTIF",
     //             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -270,7 +270,7 @@ class Realisasi_ttbkModel extends CI_Model
     //         'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
     //         'MASTER_TABUNG_ID' => $id_tabung_realisasi,
 
-    //         'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+    //         'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
     //         'ENTRI_USER' => $this->session->userdata('USER_ID'),
     //         'RECORD_STATUS' => "AKTIF",
     //         'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -288,7 +288,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'SURAT_JALAN_ID' => $surat_jalan_id,
                 'MASTER_BARANG_ID' => $this->input->post('jenis'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -303,7 +303,7 @@ class Realisasi_ttbkModel extends CI_Model
                 'SURAT_JALAN_ID' => $surat_jalan_id,
                 'MASTER_BARANG_ID' => $this->input->post('jenis'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -331,7 +331,7 @@ class Realisasi_ttbkModel extends CI_Model
                     'MASTER_BARANG_ID' => $tabung[0]->MASTER_BARANG_ID,
                     'MASTER_TABUNG_ID' => $tabung[0]->MASTER_TABUNG_ID,
 
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -350,7 +350,7 @@ class Realisasi_ttbkModel extends CI_Model
                     'RIWAYAT_TABUNG_KETERANGAN' => $surat_jalan[0]->SURAT_JALAN_NOMOR,
                     'RIWAYAT_TABUNG_REF' => $id_realisasi,
 
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -378,7 +378,7 @@ class Realisasi_ttbkModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -388,7 +388,7 @@ class Realisasi_ttbkModel extends CI_Model
         $this->db->update('RIWAYAT_TABUNG', $data);
 
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -401,7 +401,7 @@ class Realisasi_ttbkModel extends CI_Model
     public function hapus_mr($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),

@@ -92,9 +92,9 @@ class PanggungModel extends CI_Model
         $data_mp = array(
             'VERIFIKASI_PANGGUNG_ID' => create_id(),
             'VERIFIKASI_PANGGUNG_TOTAL' => $this->input->post('total'),
-            'VERIFIKASI_PANGGUNG_TANGGAL' => date("Y-m-d h:i:sa"),
+            'VERIFIKASI_PANGGUNG_TANGGAL' => date("Y-m-d G:i:s"),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -106,7 +106,7 @@ class PanggungModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),

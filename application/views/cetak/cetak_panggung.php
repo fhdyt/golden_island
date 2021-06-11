@@ -33,7 +33,7 @@
             <!-- Table row -->
             <div class="row">
                 <div class="col-12 table-responsive">
-                    <h3><?= date("Y-m-d h:i:sa"); ?></h3>
+                    <h3><?= date("Y-m-d G:i:s"); ?></h3>
                     <table border="2">
                         <tr>
                             <th>No.</th>

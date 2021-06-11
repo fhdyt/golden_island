@@ -16,7 +16,7 @@ class PdModel extends CI_Model
     public function add($config)
     {
         $data_edit_aktif = array(
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -27,7 +27,7 @@ class PdModel extends CI_Model
         $this->db->update('PEMBELIAN', $data_edit_aktif);
 
         $data_edit_aktif_transaksi = array(
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -38,7 +38,7 @@ class PdModel extends CI_Model
         $this->db->update('PEMBELIAN_TRANSAKSI', $data_edit_aktif_transaksi);
 
         $data_edit_buku_besar = array(
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -68,7 +68,7 @@ class PdModel extends CI_Model
             'PEMBELIAN_FILE' => $config['file_name'],
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -82,7 +82,7 @@ class PdModel extends CI_Model
             'PEMBELIAN_JENIS' => "PD",
             'PEMBELIAN_TRANSAKSI_LAINNYA' => str_replace(".", "", $this->input->post('lainnya')),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -101,7 +101,7 @@ class PdModel extends CI_Model
             'BUKU_BESAR_SUMBER' => "PEMBELIAN",
             'BUKU_BESAR_KETERANGAN' => "Pembayaran Biaya Pengiriman " . $nomor_pembelian,
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -111,7 +111,7 @@ class PdModel extends CI_Model
 
         if ($this->input->post('jenis') == "gas") {
             $data_edit_stok = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+                'EDIT_WAKTU' => date("Y-m-d G:i:s"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -137,7 +137,7 @@ class PdModel extends CI_Model
                     'STOK_BARANG_KELUAR' => 0,
                     'STOK_BARANG_POSISI' => "GUDANG",
 
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -154,7 +154,7 @@ class PdModel extends CI_Model
 
             foreach ($hasil as $row) {
                 $data = array(
-                    'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+                    'DELETE_WAKTU' => date("Y-m-d G:i:s"),
                     'DELETE_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "DELETE",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -165,7 +165,7 @@ class PdModel extends CI_Model
             }
 
             $data_edit_stok = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+                'EDIT_WAKTU' => date("Y-m-d G:i:s"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -193,7 +193,7 @@ class PdModel extends CI_Model
                     'STOK_BARANG_KELUAR' => 0,
                     'STOK_BARANG_POSISI' => "GUDANG",
 
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -209,7 +209,7 @@ class PdModel extends CI_Model
                         'STOK_BARANG_ID' => $id_stok_barang,
                         'MASTER_TABUNG_KEPEMILIKAN' => "MP",
 
-                        'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                        'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                         'ENTRI_USER' => $this->session->userdata('USER_ID'),
                         'RECORD_STATUS' => "AKTIF",
                         'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -224,7 +224,7 @@ class PdModel extends CI_Model
                         'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
                         'RIWAYAT_TABUNG_KETERANGAN' => 'PEMBELIAN',
 
-                        'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                        'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                         'ENTRI_USER' => $this->session->userdata('USER_ID'),
                         'RECORD_STATUS' => "AKTIF",
                         'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -240,7 +240,7 @@ class PdModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -288,7 +288,7 @@ class PdModel extends CI_Model
             'PEMBELIAN_BARANG_QUANTITY' => $this->input->post('quantity_barang'),
             'PEMBELIAN_BARANG_TOTAL' => "0",
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -326,7 +326,7 @@ class PdModel extends CI_Model
                     'MASTER_TABUNG_KODE' => kode_tabung(),
                     'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
                     'PEMBELIAN_NOMOR_SURAT' => "",
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -395,7 +395,7 @@ class PdModel extends CI_Model
                 'PEMBELIAN_STATUS' => "open",
                 'MASTER_SUPPLIER_ID' => $hasil[0]->MASTER_SUPPLIER_ID,
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -422,7 +422,7 @@ class PdModel extends CI_Model
                     'PEMBELIAN_BARANG_QUANTITY' =>  $row->PEMBELIAN_BARANG_QUANTITY,
                     'PEMBELIAN_BARANG_TOTAL' => $total,
 
-                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),

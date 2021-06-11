@@ -19,7 +19,7 @@ class UserModel extends CI_Model
                 'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
                 'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
             );
@@ -34,7 +34,7 @@ class UserModel extends CI_Model
                 'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
                 'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
             );
@@ -49,7 +49,7 @@ class UserModel extends CI_Model
             //     'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
             //     'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
 
-            //     'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            //     'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             //     'ENTRI_USER' => $this->session->userdata('USER_ID'),
             //     'RECORD_STATUS' => "AKTIF",
             // );
@@ -62,7 +62,7 @@ class UserModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
         );
@@ -76,7 +76,7 @@ class UserModel extends CI_Model
     {
         $data = array(
             'USER_PASSWORD' => password_hash($this->input->post('konfirmasi_password_baru'), PASSWORD_DEFAULT),
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
         );
 
@@ -137,7 +137,7 @@ class UserModel extends CI_Model
                 'MENU_ID' => $menu_id,
                 'APLIKASI_ID' => $menu[0]->APLIKASI_ID,
                 'USER_AKSES_LINK' => $aplikasi[0]->APLIKASI_LINK . '/' . $menu[0]->MENU_LINK,
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
             );
@@ -147,7 +147,7 @@ class UserModel extends CI_Model
         } else {
             $data_menu = $hasil->result();
             $data = array(
-                'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+                'DELETE_WAKTU' => date("Y-m-d G:i:s"),
                 'DELETE_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "DELETE",
             );

@@ -32,7 +32,7 @@ class TangkiModel extends CI_Model
                 'MASTER_TANGKI_SATUAN' => $this->input->post('satuan'),
                 'MASTER_TANGKI_KAPASITAS' => $this->input->post('kapasitas'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -48,7 +48,7 @@ class TangkiModel extends CI_Model
                 'RIWAYAT_TANGKI_KETERANGAN' => "",
 
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -57,7 +57,7 @@ class TangkiModel extends CI_Model
             return $result;
         } else {
             $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+                'EDIT_WAKTU' => date("Y-m-d G:i:s"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -74,10 +74,10 @@ class TangkiModel extends CI_Model
                 'MASTER_TANGKI_SATUAN' => $this->input->post('satuan'),
                 'MASTER_TANGKI_KAPASITAS' => $this->input->post('kapasitas'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -91,7 +91,7 @@ class TangkiModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),

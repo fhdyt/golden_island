@@ -23,7 +23,7 @@ class JaminanModel extends CI_Model
         $this->db->update('SURAT_JALAN', $data_surat_jalan);
 
         $data_edit_buku_besar = array(
-            'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -46,7 +46,7 @@ class JaminanModel extends CI_Model
             'FAKTUR_JAMINAN_HARGA' => str_replace(".", "", $this->input->post('harga')),
             'FAKTUR_JAMINAN_TOTAL_RUPIAH' => str_replace(".", "", $this->input->post('total')),
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -65,7 +65,7 @@ class JaminanModel extends CI_Model
             'BUKU_BESAR_JENIS_PENGELUARAN' => "Jaminan",
             'BUKU_BESAR_KETERANGAN' => "JAMINAN NO." . $nomor_jaminan . "",
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -98,7 +98,7 @@ class JaminanModel extends CI_Model
             'BUKU_BESAR_JENIS_PENGELUARAN' => "Jaminan",
             'BUKU_BESAR_KETERANGAN' => "SELESAI JAMINAN TABUNG NO. " . $hasil[0]->FAKTUR_JAMINAN_NOMOR . "",
 
-            'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "AKTIF",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -126,7 +126,7 @@ class JaminanModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),

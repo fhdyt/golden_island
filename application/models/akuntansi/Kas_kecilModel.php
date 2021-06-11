@@ -21,7 +21,7 @@ class Kas_kecilModel extends CI_Model
                 'KAS_KECIL_KETERANGAN' => $this->input->post('keterangan'),
                 'KAS_KECIL_RUPIAH' => str_replace(".", "", $this->input->post('rupiah')),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -31,7 +31,7 @@ class Kas_kecilModel extends CI_Model
             return $result;
         } else {
             $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+                'EDIT_WAKTU' => date("Y-m-d G:i:s"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -47,7 +47,7 @@ class Kas_kecilModel extends CI_Model
                 'KAS_KECIL_KETERANGAN' => $this->input->post('keterangan'),
                 'KAS_KECIL_RUPIAH' => $this->input->post('rupiah'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -61,7 +61,7 @@ class Kas_kecilModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),

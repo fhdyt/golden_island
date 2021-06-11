@@ -25,7 +25,7 @@ class KalenderModel extends CI_Model
                 'PAJAK_NAMA' => $this->input->post('nama'),
                 'PAJAK_NILAI' => $this->input->post('nilai'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -35,7 +35,7 @@ class KalenderModel extends CI_Model
             return $result;
         } else {
             $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d h:i:sa"),
+                'EDIT_WAKTU' => date("Y-m-d G:i:s"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "EDIT",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -49,7 +49,7 @@ class KalenderModel extends CI_Model
                 'PAJAK_NAMA' => $this->input->post('nama'),
                 'PAJAK_NILAI' => $this->input->post('nilai'),
 
-                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
                 'RECORD_STATUS' => "AKTIF",
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
@@ -63,7 +63,7 @@ class KalenderModel extends CI_Model
     public function hapus($id)
     {
         $data = array(
-            'DELETE_WAKTU' => date("Y-m-d h:i:sa"),
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
             'RECORD_STATUS' => "DELETE",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
