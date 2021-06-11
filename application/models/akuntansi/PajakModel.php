@@ -1,7 +1,6 @@
 <?php
 class PajakModel extends CI_Model
 {
-
     public function list()
     {
         if ($this->input->post('jenis_pajak') == "masukan") {
