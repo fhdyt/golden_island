@@ -182,64 +182,25 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
             <!-- Table row -->
 
             <hr>
-            <table class="table table-bordered">
-                <tr>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                </tr>
-                <tr>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                </tr>
-                <tr>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                </tr>
-                <tr>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                </tr>
-                <tr>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                </tr>
-                <tr>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                </tr>
-                <tr>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                    <td>.....</td>
-                </tr>
-            </table>
+            <?php
+            $data = range(1, 42);
+
+            $numcols = 6;
+
+            $numrows = ceil(count($data) / $numcols);
+
+            echo '<table class="table table-bordered">';
+
+            for ($r = 0; $r < $numrows; $r++) {
+                echo '<tr>';
+                for ($c = 0; $c < $numcols; $c++) {
+                    $cell = isset($data[$r + $c * $numrows]) ? $data[$r + $c * $numrows] : ' ';
+                    echo '<td>', $cell, '.) ................. </td>';
+                }
+                echo '</tr>';
+            }
+            echo '</table>';
+            ?>
             <div class="row invoice-info mb-4">
                 <div class="col-sm-4 invoice-col">
                     <?= $this->lang->line('keterangan'); ?>
