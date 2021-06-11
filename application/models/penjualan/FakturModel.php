@@ -322,4 +322,50 @@ class FakturModel extends CI_Model
         }
         return true;
     }
+
+    public function add_surat_jalan_semua()
+    {
+        $surat_jalan = $this->db->query('SELECT * FROM 
+        SURAT_JALAN
+        WHERE MASTER_RELASI_ID="' . $this->input->post('relasi') . '" AND SURAT_JALAN_STATUS="open" AND SURAT_JALAN_JENIS="penjualan" AND SURAT_JALAN_REALISASI_STATUS="selesai" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+
+        foreach ($surat_jalan as $row_sj) {
+
+            $data = array(
+                'FAKTUR_SURAT_JALAN_ID' => create_id(),
+                'FAKTUR_ID' => $this->input->post('id'),
+                'SURAT_JALAN_ID' => $row_sj->SURAT_JALAN_ID,
+
+                'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+
+            $this->db->insert('FAKTUR_SURAT_JALAN', $data);
+
+            $hasil = $this->db->query('SELECT * FROM 
+        SURAT_JALAN_BARANG
+        WHERE SURAT_JALAN_ID="' . $row_sj->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            foreach ($hasil as $row) {
+                $data = array(
+                    'FAKTUR_BARANG_ID' => create_id(),
+                    'FAKTUR_ID' => $this->input->post('id'),
+                    'SURAT_JALAN_ID' => $row_sj->SURAT_JALAN_ID,
+                    'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
+                    'FAKTUR_BARANG_JENIS' => $row->SURAT_JALAN_BARANG_JENIS,
+                    'FAKTUR_BARANG_QUANTITY' => $row->SURAT_JALAN_BARANG_QUANTITY - $row->SURAT_JALAN_BARANG_QUANTITY_KLAIM,
+                    'FAKTUR_BARANG_SATUAN' => $row->SURAT_JALAN_BARANG_SATUAN,
+
+                    'ENTRI_WAKTU' => date("Y-m-d h:i:sa"),
+                    'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                    'RECORD_STATUS' => "AKTIF",
+                    'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                );
+
+                $this->db->insert('FAKTUR_BARANG', $data);
+            }
+        }
+        return true;
+    }
 }

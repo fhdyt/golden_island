@@ -99,6 +99,7 @@ if (empty($this->uri->segment('4'))) {
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-secondary btn-sm btn-add-surat-jalan"><i class="nav-icon fas fa-plus"></i></button>
+                                            <button type="button" class="btn btn-primary btn-sm btn-add-surat-jalan-semua"><i class="nav-icon fas fa-reply-all"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -372,6 +373,39 @@ if (empty($this->uri->segment('4'))) {
                 kalkulasi_seluruh()
             }
         });
+    })
+
+    $('.btn-add-surat-jalan-semua').on("click", function(e) {
+        Swal.fire({
+            title: 'Tambah semua surat jalan ?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `Tambah`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo base_url(); ?>index.php/penjualan/faktur/add_surat_jalan_semua',
+                    dataType: "JSON",
+                    beforeSend: function() {
+                        memuat()
+                    },
+                    data: {
+                        id: "<?= $id; ?>",
+                        relasi: $('.relasi').val(),
+                    },
+                    success: function(data) {
+                        memuat()
+                        surat_jalan_list()
+                        barang_list()
+                        kalkulasi_seluruh()
+                    }
+                });
+
+            }
+        })
+
     })
 
 
