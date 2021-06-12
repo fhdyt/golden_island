@@ -111,6 +111,17 @@ class Realisasi_sjModel extends CI_Model
     {
         $surat_jalan = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $this->input->post('surat_jalan_id') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
 
+        $data_edit_panggung = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('PANGGUNG_REF', $this->input->post("surat_jalan_id"));
+        $this->db->where('PANGGUNG_STATUS', 'out');
+        $this->db->update('PANGGUNG', $data_edit_panggung);
+
         $data_edit_jurnal = array(
             'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
@@ -133,9 +144,9 @@ class Realisasi_sjModel extends CI_Model
         $this->db->where('RECORD_STATUS', "AKTIF");
         $this->db->update('SURAT_JALAN', $data);
 
-        //$surat_jalan_barang = $this->db->query('SELECT * FROM SURAT_JALAN_BARANG WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
         $realisasi_barang = $this->db->query('SELECT MASTER_BARANG_ID,COUNT(MASTER_BARANG_ID) AS JUMLAH FROM REALISASI_BARANG WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" GROUP BY MASTER_BARANG_ID ')->result();
         $realisasi_barang_mr = $this->db->query('SELECT MASTER_BARANG_ID, COUNT(MASTER_BARANG_ID) AS JUMLAH FROM REALISASI_BARANG_MR WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" GROUP BY MASTER_BARANG_ID ')->result();
+
         foreach ($realisasi_barang as $mp) {
             $data_mp = array(
                 'JURNAL_TABUNG_ID' => create_id(),
@@ -180,70 +191,76 @@ class Realisasi_sjModel extends CI_Model
             $this->db->insert('JURNAL_TABUNG', $data_mr);
         }
 
+        //panggung
+        $realisasi_barang_panggung = $this->db->query('SELECT * FROM REALISASI_BARANG WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+        $realisasi_barang_mr_panggung = $this->db->query('SELECT * FROM REALISASI_BARANG_MR WHERE SURAT_JALAN_ID="' . $this->input->post("surat_jalan_id") . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+
+        $jumlah_mp = 0;
+        $jumlah_mr = 0;
+        foreach ($realisasi_barang_panggung as $mp) {
+            $jumlah_mp += 1;
+            $data_panggung_mp = array(
+                'PANGGUNG_ID' => create_id(),
+                'MASTER_RELASI_ID' => $surat_jalan[0]->MASTER_RELASI_ID,
+                'MASTER_SUPPLIER_ID' => $surat_jalan[0]->MASTER_SUPPLIER_ID,
+                'MASTER_BARANG_ID' => $mp->MASTER_BARANG_ID,
+                'PANGGUNG_TANGGAL' => $surat_jalan[0]->SURAT_JALAN_TANGGAL,
+                'PANGGUNG_STATUS' => "out",
+                'PANGGUNG_STATUS_ISI' => $mp->REALISASI_BARANG_STATUS,
+                'PANGGUNG_JUMLAH' => 1,
+                'PANGGUNG_STATUS_KEPEMILIKAN' => "MP",
+                'PANGGUNG_KETERANGAN' => "" . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
+                'PANGGUNG_REF'  => $this->input->post("surat_jalan_id"),
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('PANGGUNG', $data_panggung_mp);
+        }
+
+        foreach ($realisasi_barang_mr_panggung as $mr) {
+            $jumlah_mr += 1;
+            $data_panggung_mr = array(
+                'PANGGUNG_ID' => create_id(),
+                'MASTER_RELASI_ID' => $surat_jalan[0]->MASTER_RELASI_ID,
+                'MASTER_SUPPLIER_ID' => $surat_jalan[0]->MASTER_SUPPLIER_ID,
+                'MASTER_BARANG_ID' => $mr->MASTER_BARANG_ID,
+                'PANGGUNG_TANGGAL' => $surat_jalan[0]->SURAT_JALAN_TANGGAL,
+                'PANGGUNG_STATUS' => "out",
+                'PANGGUNG_STATUS_ISI' => $mr->REALISASI_BARANG_MR_STATUS,
+                'PANGGUNG_JUMLAH' => 1,
+                'PANGGUNG_STATUS_KEPEMILIKAN' => "MR",
+                'PANGGUNG_KETERANGAN' => "" . $surat_jalan[0]->SURAT_JALAN_NOMOR . "",
+                'PANGGUNG_REF'  => $this->input->post("surat_jalan_id"),
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('PANGGUNG', $data_panggung_mr);
+        }
 
 
         return true;
     }
 
-    // public function add_barang($surat_jalan_id)
-    // {
-    //     if ($this->input->post('tabung') == "baru") {
-    //         $id_tabung_realisasi = create_id();
-    //         $data_tabung = array(
-    //             'MASTER_TABUNG_ID' => $id_tabung_realisasi,
-    //             'MASTER_TABUNG_KODE' => kode_tabung(),
-    //             'MASTER_TABUNG_KODE_LAMA' => $this->input->post('kode'),
-    //             'MASTER_BARANG_ID' => $this->input->post('jenis'),
-    //             'MASTER_TABUNG_KEPEMILIKAN' => $this->input->post('kepemilikan'),
-    //             'STOK_BARANG_ID' => "",
-
-    //             'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-    //             'ENTRI_USER' => $this->session->userdata('USER_ID'),
-    //             'RECORD_STATUS' => "AKTIF",
-    //             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-    //         );
-    //         $this->db->insert('MASTER_TABUNG', $data_tabung);
-
-    //         $data_riwayat_tabung = array(
-    //             'RIWAYAT_TABUNG_ID' => create_id(),
-    //             'MASTER_TABUNG_ID' => $id_tabung_realisasi,
-    //             'RIWAYAT_TABUNG_TANGGAL' => date("Y-m-d"),
-    //             'RIWAYAT_TABUNG_STATUS' => '0',
-    //             'RIWAYAT_TABUNG_KETERANGAN' => '',
-
-    //             'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-    //             'ENTRI_USER' => $this->session->userdata('USER_ID'),
-    //             'RECORD_STATUS' => "AKTIF",
-    //             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-    //         );
-    //         $this->db->insert('RIWAYAT_TABUNG', $data_riwayat_tabung);
-    //     } else {
-    //         $id_tabung_realisasi = $this->input->post('tabung');
-    //     }
-    //     $hasil = $this->db->query('SELECT * FROM MASTER_TABUNG WHERE MASTER_TABUNG_ID="' . $this->input->post('tabung') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
-    //     $data = array(
-    //         'REALISASI_BARANG_ID' => create_id(),
-    //         'SURAT_JALAN_ID' => $surat_jalan_id,
-    //         'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
-    //         'MASTER_TABUNG_ID' => $id_tabung_realisasi,
-
-    //         'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-    //         'ENTRI_USER' => $this->session->userdata('USER_ID'),
-    //         'RECORD_STATUS' => "AKTIF",
-    //         'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-    //     );
-
-    //     $result = $this->db->insert('REALISASI_BARANG', $data);
-    //     return $result;
-    // }
-
     public function add_barang($surat_jalan_id)
     {
+        if ($this->input->post('isi') == "on") {
+            $isi = "1";
+        } else {
+            $isi = "0";
+        }
+
         for ($x = 1; $x <= $this->input->post('jumlah_mp'); $x++) {
             $data = array(
                 'REALISASI_BARANG_ID' => create_id(),
                 'SURAT_JALAN_ID' => $surat_jalan_id,
                 'MASTER_BARANG_ID' => $this->input->post('jenis'),
+                'REALISASI_BARANG_STATUS' => $isi,
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -259,6 +276,7 @@ class Realisasi_sjModel extends CI_Model
                 'REALISASI_BARANG_MR_ID' => create_id(),
                 'SURAT_JALAN_ID' => $surat_jalan_id,
                 'MASTER_BARANG_ID' => $this->input->post('jenis'),
+                'REALISASI_BARANG_MR_STATUS' => $isi,
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),

@@ -15,12 +15,12 @@ class JaminanModel extends CI_Model
 
     public function add()
     {
-        $data_surat_jalan = array(
-            'SURAT_JALAN_STATUS' => "open",
-        );
+        // $data_surat_jalan = array(
+        //     'SURAT_JALAN_STATUS' => "open",
+        // );
 
-        $this->db->where('SURAT_JALAN_ID', $this->input->post('surat_jalan'));
-        $this->db->update('SURAT_JALAN', $data_surat_jalan);
+        // $this->db->where('SURAT_JALAN_ID', $this->input->post('surat_jalan'));
+        // $this->db->update('SURAT_JALAN', $data_surat_jalan);
 
         $data_edit_buku_besar = array(
             'EDIT_WAKTU' => date("Y-m-d G:i:s"),

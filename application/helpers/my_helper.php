@@ -97,7 +97,7 @@ if (!function_exists('jam')) {
 if (!function_exists('create_id')) {
   function create_id()
   {
-    $time = date("Ymdhi");
+    $time = date("YmdGis");
     return random_string('sha1', 5) . $time;
   }
 }

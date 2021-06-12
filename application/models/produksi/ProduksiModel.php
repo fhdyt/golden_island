@@ -10,6 +10,8 @@ class ProduksiModel extends CI_Model
                                     ON
                                     P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
                                     WHERE 
+                                    P.PRODUKSI_TANGGAL = "' . $this->input->post('tanggal') . '"
+                                    AND
                                     P.RECORD_STATUS="AKTIF" 
                                     AND 
                                     P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
@@ -100,6 +102,29 @@ class ProduksiModel extends CI_Model
 
     public function add_selesai($config)
     {
+        $data_edit_panggung = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('PANGGUNG_REF', $this->input->post('id'));
+        $this->db->where('PANGGUNG_STATUS', 'in');
+        $this->db->update('PANGGUNG', $data_edit_panggung);
+
+        $data_edit_barang = array(
+            'RECORD_STATUS' => "AKTIF",
+        );
+        $this->db->where('PRODUKSI_BARANG_ID', $this->input->post('id'));
+        $this->db->update('PRODUKSI_BARANG', $data_edit_barang);
+
+        $data_edit_karyawan = array(
+            'RECORD_STATUS' => "AKTIF",
+        );
+        $this->db->where('PRODUKSI_KARYAWAN_ID', $this->input->post('id'));
+        $this->db->update('PRODUKSI_KARYAWAN', $data_edit_karyawan);
+
 
         $data_edit = array(
             'PRODUKSI_LEVEL_AKHIR' => $this->input->post('level_awal'),
@@ -107,8 +132,40 @@ class ProduksiModel extends CI_Model
         );
 
         $this->db->where('PRODUKSI_ID', $this->input->post('id'));
-        $result = $this->db->update('PRODUKSI', $data_edit);
-        return $result;
+        $this->db->update('PRODUKSI', $data_edit);
+
+        $barang = $this->db->query('SELECT * 
+                                        FROM PRODUKSI_BARANG AS P
+                                        LEFT JOIN MASTER_BARANG AS B
+                                        ON P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+                                        WHERE 
+                                        P.PRODUKSI_ID="' . $this->input->post('id') . '"
+                                        AND (P.RECORD_STATUS="AKTIF"  OR P.RECORD_STATUS="DRAFT")
+                                        AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        AND B.RECORD_STATUS="AKTIF" 
+                                        AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        ORDER BY P.PRODUKSI_BARANG_INDEX DESC ')->result();
+        foreach ($barang as $row) {
+            $data_panggung_mp = array(
+                'PANGGUNG_ID' => create_id(),
+                'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
+                'PANGGUNG_TANGGAL' => $this->input->post("tanggal"),
+                'PANGGUNG_STATUS' => "in",
+                'PANGGUNG_STATUS_ISI' => 1,
+                'PANGGUNG_JUMLAH' => $row->PRODUKSI_BARANG_TOTAL,
+                'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_BARANG_KEPEMILIKAN,
+                'PANGGUNG_KETERANGAN' => "" . $this->input->post("nomor_produksi") . "",
+                'PANGGUNG_REF'  => $this->input->post("id"),
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('PANGGUNG', $data_panggung_mp);
+        }
+
+        return true;
     }
 
     public function add_barang()

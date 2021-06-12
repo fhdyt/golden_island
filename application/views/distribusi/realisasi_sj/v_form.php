@@ -32,6 +32,16 @@
                         <label for="exampleInputEmail1">Jumlah Tabung MR</label>
                         <input type="text" class="form-control jumlah_mr" name="jumlah_mr" id="jumlah_mr" autocomplete="off" value="0" required>
                     </div>
+                    <div class="form-group">
+                        <div class="form-group clearfix">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="isi" name="isi">
+                                <label for="isi">
+                                    ISI
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
             </div>
             <div class="modal-footer justify-content-between">
@@ -295,11 +305,13 @@
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
 
-
                     var tableContent = "";
                     var no = 1
                     var total_qty = 0
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].SURAT_JALAN_JENIS == "penjualan") {
+                            $('#isi').prop('checked', true);
+                        }
                         if (data[i].EXPIRED == "EXPIRED") {
                             $(".btn-tambah-realisasi").attr("hidden", true)
                             $(".btn-realisasi").attr("hidden", true)
@@ -376,10 +388,16 @@
                         } else {
                             var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data['mp'][i].REALISASI_BARANG_ID + "\")'><i class='fas fa-trash'></i></a>"
                         }
+
+                        if (data['mp'][i].REALISASI_BARANG_STATUS == "1") {
+                            var isi_kosong = "<p class='text-success'>Isi</p>"
+                        } else {
+                            var isi_kosong = "<p class='text-danger'>Kosong</p>"
+                        }
                         $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>MP</td>" +
-                            "<td>" + data['mp'][i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data['mp'][i].MASTER_BARANG_NAMA + "<br>" + isi_kosong + "</td>" +
                             "<td>" + kode_tabung_lama + "</td>" +
                             "<td>" + kode_tabung + "</td>" +
                             "<td>" + btn_hapus + "</td> " +
@@ -387,10 +405,16 @@
 
                     }
                     for (i = 0; i < data['mr'].length; i++) {
+                        if (data['mr'][i].REALISASI_BARANG_MR_STATUS == "1") {
+                            var isi_kosong = "<p class='text-success'>Isi</p>"
+                        } else {
+                            var isi_kosong = "<p class='text-danger'>Kosong</p>"
+                        }
+
                         $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>MR</td>" +
-                            "<td>" + data['mr'][i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data['mr'][i].MASTER_BARANG_NAMA + "<br>" + isi_kosong + "</td>" +
                             "<td>-</td>" +
                             "<td>-</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus_mr(\"" + data['mr'][i].REALISASI_BARANG_MR_ID + "\")'><i class='fas fa-trash'></i></a></td> " +

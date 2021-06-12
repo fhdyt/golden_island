@@ -17,7 +17,20 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <a href="<?= base_url(); ?>produksi/produksi/form" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Produksi</a>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <a href="<?= base_url(); ?>produksi/produksi/form" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Produksi</a>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Tanggal Penjualan.</small>
+                        </div>
+                    </div>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -50,15 +63,18 @@
         $("#pajakModal").modal("show")
     })
     $(function() {
-        pajak_list();
+        produksi_list();
     });
 
-    function pajak_list() {
+    function produksi_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/produksi/produksi/list",
             async: false,
             dataType: 'json',
+            data: {
+                tanggal: $(".tanggal").val()
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
@@ -101,7 +117,7 @@
                 memuat()
             },
             success: function(data) {
-                pajak_list();
+                produksi_list();
                 Swal.fire('Berhasil', 'Pajak berhasil ditambahkan', 'success')
                 $("#pajakModal").modal("hide")
             }
@@ -127,7 +143,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            pajak_list();
+                            produksi_list();
                             Swal.fire('Berhasil', 'Pajak Berhasil dihapus', 'success')
                         }
                     },
@@ -163,4 +179,9 @@
             error: function(x, e) {} //end error
         });
     }
+
+    $('.filter_tanggal').on("click", function() {
+        memuat()
+        produksi_list()
+    });
 </script>

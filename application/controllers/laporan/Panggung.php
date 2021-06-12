@@ -39,6 +39,11 @@ class Panggung extends CI_Controller
         $data = $this->PanggungModel->list();
         echo json_encode($data);
     }
+    public function ex_list()
+    {
+        $data = $this->PanggungModel->ex_list();
+        echo json_encode($data);
+    }
     public function verifikasi_list()
     {
         $data = $this->PanggungModel->verifikasi_list();

@@ -2,6 +2,97 @@
 class PanggungModel extends CI_Model
 {
 
+
+    public function ex_list()
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+                                                    MASTER_BARANG 
+                                                    WHERE 
+                                                    MASTER_BARANG_JENIS="gas"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_NAMA')->result();
+        foreach ($hasil as $row) {
+
+            $row->SALDO_MP_ISI_OUT = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
+                                                    PANGGUNG 
+                                                    WHERE
+                                                    MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '"
+                                                    AND PANGGUNG_STATUS_KEPEMILIKAN="MP"
+                                                    AND PANGGUNG_STATUS="out"
+                                                    AND PANGGUNG_STATUS_ISI="1"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->SALDO_MP_KOSONG_OUT = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
+                                                    PANGGUNG 
+                                                    WHERE
+                                                    MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '"
+                                                    AND PANGGUNG_STATUS_KEPEMILIKAN="MP"
+                                                    AND PANGGUNG_STATUS="out"
+                                                    AND PANGGUNG_STATUS_ISI="0"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+
+
+
+            $row->SALDO_MR_ISI_OUT = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
+                                                    PANGGUNG 
+                                                    WHERE
+                                                    MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '"
+                                                    AND PANGGUNG_STATUS_KEPEMILIKAN="MR"
+                                                    AND PANGGUNG_STATUS="out"
+                                                    AND PANGGUNG_STATUS_ISI="1"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->SALDO_MR_KOSONG_OUT = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
+                                                    PANGGUNG 
+                                                    WHERE
+                                                    MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '"
+                                                    AND PANGGUNG_STATUS_KEPEMILIKAN="MR"
+                                                    AND PANGGUNG_STATUS="out"
+                                                    AND PANGGUNG_STATUS_ISI="0"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+
+            $row->SALDO_MP_ISI_IN = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
+                                                    PANGGUNG 
+                                                    WHERE
+                                                    MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '"
+                                                    AND PANGGUNG_STATUS_KEPEMILIKAN="MP"
+                                                    AND PANGGUNG_STATUS="in"
+                                                    AND PANGGUNG_STATUS_ISI="1"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->SALDO_MP_KOSONG_IN = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
+                                                    PANGGUNG 
+                                                    WHERE
+                                                    MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '"
+                                                    AND PANGGUNG_STATUS_KEPEMILIKAN="MP"
+                                                    AND PANGGUNG_STATUS="in"
+                                                    AND PANGGUNG_STATUS_ISI="0"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+
+            $row->SALDO_MR_ISI_IN = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
+                                                    PANGGUNG 
+                                                    WHERE
+                                                    MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '"
+                                                    AND PANGGUNG_STATUS_KEPEMILIKAN="MR"
+                                                    AND PANGGUNG_STATUS="in"
+                                                    AND PANGGUNG_STATUS_ISI="1"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->SALDO_MR_KOSONG_IN = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
+                                                    PANGGUNG 
+                                                    WHERE
+                                                    MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '"
+                                                    AND PANGGUNG_STATUS_KEPEMILIKAN="MR"
+                                                    AND PANGGUNG_STATUS="in"
+                                                    AND PANGGUNG_STATUS_ISI="0"
+                                                    AND RECORD_STATUS="AKTIF" 
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+        }
+        return $hasil;
+    }
     public function list()
     {
         $hasil = $this->db->query('SELECT * FROM 
