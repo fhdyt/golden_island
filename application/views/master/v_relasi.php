@@ -121,9 +121,14 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].SELISIH_TANGGAL.length == 0) {
+                            var selisih_tanggal = "Belum melakukan pemesanan."
+                        } else {
+                            var selisih_tanggal = data[i].SELISIH_TANGGAL
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NAMA + "<br><small class='text-muted'>" + data[i].MASTER_RELASI_QR_ID + "</small></td>" +
+                            "<td>" + data[i].MASTER_RELASI_NAMA + "<br><p class='text-success'>" + data[i].MASTER_RELASI_QR_ID + "</p><small class='text-muted'>Pemesanan Terakhir : " + selisih_tanggal + "</small></td>" +
                             "<td>" + data[i].MASTER_RELASI_ALAMAT + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_HP + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_NPWP + "</td>" +
@@ -131,7 +136,6 @@
                             // "<a class='btn btn-danger btn-sm mb-2' onclick='hapus(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm mb-2' onclick='detail(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-edit'></i></a> " +
                             "<a class='btn btn-primary btn-sm mb-2' href='<?php echo base_url(); ?>master/relasi/harga_relasi/" + data[i].MASTER_RELASI_ID + "'><i class='fas fa-tag'></i> Harga</a> " +
-                            "<a class='btn btn-secondary btn-sm mb-2' href='<?php echo base_url(); ?>master/relasi/kontrol_tabung/" + data[i].MASTER_RELASI_ID + "'><i class='fas fa-vial'></i> Tabung</a></td>" +
                             "</tr>");
                     }
                 }
