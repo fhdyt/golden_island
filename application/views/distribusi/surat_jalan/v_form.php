@@ -241,7 +241,7 @@ if (empty($this->uri->segment('4'))) {
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row tombol_simpan">
             <div class="col-md-12">
                 <div class="card card-default color-palette-box">
                     <div class="card-body">
@@ -443,6 +443,11 @@ if (empty($this->uri->segment('4'))) {
                             "<td>" + btn_hapus + " " +
                             "</td>" +
                             "</tr>");
+                    }
+                    if (total < 1) {
+                        $(".tombol_simpan").attr("hidden", true)
+                    } else {
+                        $(".tombol_simpan").attr("hidden", false)
                     }
                 }
             },
