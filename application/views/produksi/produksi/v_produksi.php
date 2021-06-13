@@ -40,6 +40,7 @@
                                 <th>Jenis Bahan</th>
                                 <th>Level Awal</th>
                                 <th>Level Akhir</th>
+                                <th>G/L</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -84,13 +85,24 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].PRODUKSI_G_L == null) {
+                            var g_l = "-"
+                        } else {
+                            var g_l = data[i].PRODUKSI_G_L
+                        }
+                        if (data[i].PRODUKSI_LEVEL_AKHIR == null) {
+                            var level_akhir = "-"
+                        } else {
+                            var level_akhir = data[i].PRODUKSI_LEVEL_AKHIR
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].PRODUKSI_NOMOR + "</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + data[i].PRODUKSI_LEVEL_AWAL + "</td>" +
-                            "<td>" + data[i].PRODUKSI_LEVEL_AKHIR + "</td>" +
+                            "<td>" + level_akhir + "</td>" +
+                            "<td>" + g_l + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mr-2 ' href='<?= base_url(); ?>produksi/produksi/form/" + data[i].PRODUKSI_ID + "/'>Lihat</a> " +
                             "<a class='btn btn-success btn-sm ' href='<?= base_url(); ?>produksi/produksi/form_selesai/" + data[i].PRODUKSI_ID + "/'>Selesai Produksi</a> " +
                             "</td>" +

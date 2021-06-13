@@ -65,12 +65,28 @@ if (empty($this->uri->segment('4'))) {
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
+                            <hr>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Level Akhir</label>
-                                    <input type="text" class="form-control level_akhir" name="level_akhir" autocomplete="off">
+                                    <label for="exampleInputEmail1">Koversi</label>
+                                    <select name="konversi" id="konversi" name="konversi" class="form-control konversi select2" style="width: 100%;">
+                                        <?php
+                                        foreach (konversi() as $row) {
+                                        ?>
+                                            <option value="<?= $row->KONVERSI_NILAI; ?>"><?= $row->KONVERSI_NAMA; ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Level Akhir <small>Kg</small></label>
+                                    <input type="text" class="form-control level_akhir" name="level_akhir" autocomplete="off" onkeyup="kalkulasi()" required>
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
@@ -82,14 +98,36 @@ if (empty($this->uri->segment('4'))) {
                                     <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">G/L</label>
-                                    <input type="text" class="form-control g_l" name="g_l" autocomplete="off">
+                                    <label for="exampleInputEmail1">Terpakai <small>m3</small></label>
+                                    <input type="text" class="form-control terpakai" name="terpakai" autocomplete="off" readonly required>
+                                    <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">G/L <small>m3</small></label>
+                                    <input type="text" class="form-control g_l" name="g_l" autocomplete="off" readonly required>
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Total Kapasitas</label>
+                                    <input type="text" class="form-control total_kapasitas" name="total_kapasitas" autocomplete="off" readonly required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Total Tabung</label>
+                                    <input type="text" class="form-control total_tabung" name="total_tabung" autocomplete="off" readonly required>
+                                </div>
+                            </div>
+                        </div>
+
                         <hr>
                         <div class="row">
                             <div class="col-md-12 mb-2">
@@ -187,22 +225,23 @@ if (empty($this->uri->segment('4'))) {
                                 </table>
                             </div>
                         </div>
-
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-default color-palette-box">
-                        <div class="card-body">
-                            <button type="submit" class="btn btn-success btn-lg simpan_surat_jalan"><?= $this->lang->line('simpan'); ?></button>
-                            </form>
-                        </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-default color-palette-box">
+                    <div class="card-body">
+                        <button type="submit" class="btn btn-success btn-lg simpan_surat_jalan"><?= $this->lang->line('simpan'); ?></button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- /.card-body -->
 </div>
@@ -230,6 +269,7 @@ if (empty($this->uri->segment('4'))) {
                     $(".jenis").val(data[0].MASTER_BARANG_ID).trigger('change')
                     $(".level_awal").val(data[0].PRODUKSI_LEVEL_AWAL)
                     $(".level_akhir").val(data[0].PRODUKSI_LEVEL_AKHIR)
+                    $(".konversi").val(data[0].PRODUKSI_KONVERSI_NILAI).trigger("change")
                     if (data[0].PRODUKSI_LEVEL_AKHIR_FILE == "") {} else {
                         $(".link_dokument").html("Lihat Dokumen")
                         $(".link_dokument").attr("href", "<?= base_url(); ?>uploads/produksi/" + data[0].PRODUKSI_LEVEL_AKHIR_FILE + "")
@@ -286,28 +326,37 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 memuat()
                 barang_list()
+
             }
         });
     })
 
     $('.btn-add-karyawan').on("click", function(e) {
-        $.ajax({
-            type: "POST",
-            url: '<?php echo base_url(); ?>index.php/produksi/produksi/add_karyawan',
-            dataType: "JSON",
-            beforeSend: function() {
-                memuat()
-            },
-            data: {
-                id: "<?= $id; ?>",
-                karyawan_produksi: $('.karyawan_produksi').val(),
-                total_produksi: $('.total_produksi').val(),
-            },
-            success: function(data) {
-                memuat()
-                karyawan_list()
-            }
-        });
+        if (parseInt($('.total_produksi').val()) > parseInt($(".total_tabung").val())) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Melebih total Produksi'
+            })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo base_url(); ?>index.php/produksi/produksi/add_karyawan',
+                dataType: "JSON",
+                beforeSend: function() {
+                    memuat()
+                },
+                data: {
+                    id: "<?= $id; ?>",
+                    karyawan_produksi: $('.karyawan_produksi').val(),
+                    total_produksi: $('.total_produksi').val(),
+                },
+                success: function(data) {
+                    memuat()
+                    karyawan_list()
+                }
+            });
+        }
     })
 
     function barang_list() {
@@ -325,7 +374,9 @@ if (empty($this->uri->segment('4'))) {
                 } else {
                     var no_isi = 1
                     var total = 0
+                    var kapasitas = 0
                     for (i = 0; i < data.length; i++) {
+                        kapasitas += parseInt(data[i].MASTER_BARANG_TOTAL) * parseInt(data[i].PRODUKSI_BARANG_TOTAL)
                         total += parseInt(data[i].PRODUKSI_BARANG_TOTAL)
                         var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PRODUKSI_BARANG_ID + "\")'><i class='fas fa-trash'></i>"
                         $("tbody#zone_data_barang").append("<tr class=''>" +
@@ -337,10 +388,13 @@ if (empty($this->uri->segment('4'))) {
                             "</td>" +
                             "</tr>");
                     }
+                    $(".total_kapasitas").val(kapasitas)
+                    $(".total_tabung").val(total)
                     $("tfoot#zone_total_barang").append("<tr class=''>" +
                         "<td colspan='3' style='text-align:right'>Total.</td>" +
                         "<td>" + total + "</td>" +
                         "</tr>");
+                    kalkulasi()
                 }
             },
             error: function(x, e) {
@@ -465,4 +519,19 @@ if (empty($this->uri->segment('4'))) {
             }
         });
     })
+
+    function kalkulasi() {
+        var level_awal = parseInt($(".level_awal").val())
+
+        var level_akhir = parseInt($(".level_akhir").val())
+
+        var total_kapasitas = parseInt($(".total_kapasitas").val())
+
+        var konversi = $(".konversi").val()
+        var terpakai = (level_awal - level_akhir) * konversi
+        var g_l = total_kapasitas - terpakai
+
+        $(".terpakai").val(terpakai)
+        $(".g_l").val(g_l)
+    }
 </script>

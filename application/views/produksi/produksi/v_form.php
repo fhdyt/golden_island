@@ -39,7 +39,7 @@ if (empty($this->uri->segment('4'))) {
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
-                                    <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                    <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>" readonly>
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@ if (empty($this->uri->segment('4'))) {
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Level Awal</label>
+                                    <label for="exampleInputEmail1">Level Awal <small>Kg</small></label>
                                     <input type="text" class="form-control level_awal" name="level_awal" autocomplete="off">
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>

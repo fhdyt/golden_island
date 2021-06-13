@@ -426,7 +426,7 @@ if (empty($this->uri->segment('4'))) {
                     var no_klaim = 1
                     var total = 0
                     for (i = 0; i < data.isi.length; i++) {
-                        total += parseInt(data.isi[i].SURAT_JALAN_BARANG_QUANTITY);
+                        total += parseInt(data.isi[i].SURAT_JALAN_BARANG_QUANTITY) + parseInt(data.isi[i].SURAT_JALAN_BARANG_QUANTITY_KOSONG);
 
                         if ($(".status_surat_jalan_realisasi").val() == "selesai") {
                             var btn_hapus = ""

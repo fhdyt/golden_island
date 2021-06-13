@@ -1,8 +1,8 @@
-<div class="modal fade" id="relasiModal">
+<div class="modal fade" id="pajakModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Relasi</h4>
+                <h4 class="modal-title">Tambah Konversi</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,33 +13,47 @@
                         <input type="hidden" class="form-control id" name="id" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">ID Relasi</label>
-                        <input type="text" class="form-control qr_id" name="qr_id" autocomplete="off">
-                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                    </div>
-                    <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
-                        <input type="text" class="form-control nama" name="nama" autocomplete="off" required>
+                        <input type="text" class="form-control nama" name="nama" autocomplete="off">
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><?= $this->lang->line('alamat'); ?></label>
-                        <input type="text" class="form-control alamat" name="alamat" autocomplete="off">
+                        <label for="exampleInputEmail1">Dari</label>
+                        <select name="dari" id="dari" class="form-control dari select2" style="width: 100%;">
+                            <option value="">-- Satuan --</option>
+                            <?php foreach (satuan() as $row) {
+                            ?>
+                                <option value="<?= $row->SATUAN_NAMA; ?>"><?= $row->SATUAN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">No. HP</label>
-                        <input type="text" class="form-control hp" name="hp" autocomplete="off">
+                        <label for="exampleInputEmail1">Ke</label>
+                        <select name="ke" id="ke" class="form-control ke select2" style="width: 100%;">
+                            <option value="">-- Satuan --</option>
+                            <?php foreach (satuan() as $row) {
+                            ?>
+                                <option value="<?= $row->SATUAN_NAMA; ?>"><?= $row->SATUAN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">NPWP</label>
-                        <input type="text" class="form-control npwp" name="npwp" autocomplete="off">
+
+                        <label for="exampleInputEmail1">Nilai</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control nilai" name="nilai" autocomplete="off">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">KTP</label>
-                        <input type="text" class="form-control ktp" name="ktp" autocomplete="off">
-                    </div>
+
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
@@ -59,7 +73,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0"><?= $this->lang->line('Relasi'); ?></h1>
+                    <h1 class="m-0">Konversi</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -71,27 +85,15 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <div class="row mb-2">
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-secondary btn_relasi mb-2">Tambah Relasi</button>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="text" class="form-control nama_relasi" name="nama_relasi" autocomplete="off" placeholder="Nama Relasi">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary filter"><i class="fas fa-search"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
+                    <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Koversi</button>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
-                                <th><?= $this->lang->line('alamat'); ?></th>
+                                <th>Dari</th>
+                                <th>Ke</th>
+                                <th>Nilai (%)</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -109,35 +111,21 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-    $(".btn_relasi").on("click", function() {
+    $(".btn_pajak").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
-        $("#relasiModal").modal("show")
+        $("#pajakModal").modal("show")
     })
     $(function() {
-        relasi_list();
+        pajak_list();
     });
 
-    $(".filter").on("click", function() {
-        memuat()
-        relasi_list();
-    })
-    $('.nama_relasi').keyup(function(e) {
-        if (e.keyCode == 13) {
-            memuat()
-            relasi_list()
-        }
-    });
-
-    function relasi_list() {
+    function pajak_list() {
         $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url() ?>index.php/master/relasi/list",
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/konfigurasi/konversi/list",
             async: false,
             dataType: 'json',
-            data: {
-                nama_relasi: $(".nama_relasi").val()
-            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
@@ -147,20 +135,14 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
-                        if (data[i].SELISIH_TANGGAL.length == 0) {
-                            var selisih_tanggal = "Belum melakukan pemesanan."
-                        } else {
-                            var selisih_tanggal = data[i].SELISIH_TANGGAL
-                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NAMA + "<br><p class='text-success'>" + data[i].MASTER_RELASI_QR_ID + "</p><small class='text-muted'>Pemesanan Terakhir : " + selisih_tanggal + "</small></td>" +
-                            "<td>" + data[i].MASTER_RELASI_ALAMAT + "<br>(" + data[i].MASTER_RELASI_HP + ")</td>" +
-                            "<td></td>" +
-                            "<td>" +
-                            // "<a class='btn btn-danger btn-sm mb-2' onclick='hapus(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "<a class='btn btn-warning btn-sm mb-2' onclick='detail(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-edit'></i></a> " +
-                            "<a class='btn btn-primary btn-sm mb-2' href='<?php echo base_url(); ?>master/relasi/harga_relasi/" + data[i].MASTER_RELASI_ID + "'><i class='fas fa-tag'></i> Harga</a> " +
+                            "<td>" + data[i].KONVERSI_NAMA + "</td>" +
+                            "<td>" + data[i].KONVERSI_DARI + "</td>" +
+                            "<td>" + data[i].KONVERSI_KE + "</td>" +
+                            "<td>" + data[i].KONVERSI_NILAI + "</td>" +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].KONVERSI_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].KONVERSI_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
                     }
                 }
@@ -171,15 +153,10 @@
         });
     }
 
-    // $("form#submit").on("submit", function(e) {
-
-    //     console.log($(this).serialize())
-    // })
-
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/master/relasi/add',
+            url: '<?php echo base_url(); ?>index.php/konfigurasi/konversi/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -189,9 +166,9 @@
                 memuat()
             },
             success: function(data) {
-                relasi_list();
-                Swal.fire('Berhasil', 'Relasi berhasil ditambahkan', 'success')
-                $("#relasiModal").modal("hide")
+                pajak_list();
+                Swal.fire('Berhasil', 'Konversi berhasil ditambahkan', 'success')
+                $("#pajakModal").modal("hide")
             }
         });
     })
@@ -208,15 +185,15 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/master/relasi/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/konfigurasi/konversi/hapus/' + id,
                     beforeSend: function() {
                         memuat()
                     },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            relasi_list();
-                            Swal.fire('Berhasil', 'Relasi Berhasil dihapus', 'success')
+                            pajak_list();
+                            Swal.fire('Berhasil', 'Pajak Berhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {
@@ -235,22 +212,20 @@
     function detail(id) {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/master/relasi/detail/' + id,
+            url: '<?php echo base_url() ?>index.php/konfigurasi/konversi/detail/' + id,
             beforeSend: function() {
                 memuat()
             },
             dataType: 'json',
             success: function(data) {
                 memuat()
-                $(".id").val(data[0].MASTER_RELASI_ID)
-                $(".qr_id").val(data[0].MASTER_RELASI_QR_ID)
-                $(".nama").val(data[0].MASTER_RELASI_NAMA)
-                $(".alamat").val(data[0].MASTER_RELASI_ALAMAT)
-                $(".hp").val(data[0].MASTER_RELASI_HP)
-                $(".npwp").val(data[0].MASTER_RELASI_NPWP)
-                $(".ktp").val(data[0].MASTER_RELASI_KTP)
+                $(".id").val(data[0].KONVERSI_ID)
+                $(".nama").val(data[0].KONVERSI_NAMA)
+                $(".dari").val(data[0].KONVERSI_DARI).trigger("change")
+                $(".ke").val(data[0].KONVERSI_KE).trigger("change")
+                $(".nilai").val(data[0].KONVERSI_NILAI)
 
-                $("#relasiModal").modal("show")
+                $("#pajakModal").modal("show")
             },
             error: function(x, e) {} //end error
         });

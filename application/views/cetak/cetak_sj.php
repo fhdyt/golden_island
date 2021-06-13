@@ -160,7 +160,7 @@ error_reporting(0);
                         foreach ($barang as $row) { ?>
                             <tr>
                                 <td><?= $row->MASTER_BARANG_NAMA; ?></td>
-                                <td><?= number_format($row->SURAT_JALAN_BARANG_QUANTITY, 0, ",", "."); ?></td>
+                                <td><?= number_format(($row->SURAT_JALAN_BARANG_QUANTITY + $row->SURAT_JALAN_BARANG_QUANTITY_KOSONG), 0, ",", "."); ?></td>
                             </tr>
                         <?php
                         }

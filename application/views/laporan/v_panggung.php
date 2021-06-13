@@ -265,7 +265,7 @@
                         panggung_mr_kosong = mr_kosong_in - mr_kosong_out
 
                         total_mp = panggung_mp_isi + panggung_mp_kosong
-                        total_mr = panggung_mp_isi + panggung_mp_kosong
+                        total_mr = panggung_mr_isi + panggung_mr_kosong
 
                         total_seluruh += total_mp + total_mr
                         $("tbody#zone_data").append("<tr class=''>" +

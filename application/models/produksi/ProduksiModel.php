@@ -116,19 +116,24 @@ class ProduksiModel extends CI_Model
         $data_edit_barang = array(
             'RECORD_STATUS' => "AKTIF",
         );
-        $this->db->where('PRODUKSI_BARANG_ID', $this->input->post('id'));
+        $this->db->where('PRODUKSI_ID', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'DRAFT');
         $this->db->update('PRODUKSI_BARANG', $data_edit_barang);
 
         $data_edit_karyawan = array(
             'RECORD_STATUS' => "AKTIF",
         );
-        $this->db->where('PRODUKSI_KARYAWAN_ID', $this->input->post('id'));
+        $this->db->where('PRODUKSI_ID', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'DRAFT');
         $this->db->update('PRODUKSI_KARYAWAN', $data_edit_karyawan);
 
 
         $data_edit = array(
-            'PRODUKSI_LEVEL_AKHIR' => $this->input->post('level_awal'),
+            'PRODUKSI_KONVERSI_NILAI' => $this->input->post('konversi'),
+            'PRODUKSI_LEVEL_AKHIR' => $this->input->post('level_akhir'),
             'PRODUKSI_LEVEL_AKHIR_FILE' => $config['file_name'],
+            'PRODUKSI_LEVEL_TERPAKAI' => $this->input->post('terpakai'),
+            'PRODUKSI_G_L' => $this->input->post('g_l'),
         );
 
         $this->db->where('PRODUKSI_ID', $this->input->post('id'));
@@ -238,6 +243,8 @@ class ProduksiModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM PRODUKSI WHERE PRODUKSI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = date("Y-m-d", strtotime($row->PRODUKSI_TANGGAL));
+            $row->KONVERSI = $this->db->query('SELECT * FROM KONVERSI WHERE KONVERSI_DARI LIKE "%kg%" AND KONVERSI_KE LIKE "%m3%" AND RECORD_STATUS="AKTIF"
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         }
         return $hasil;
     }

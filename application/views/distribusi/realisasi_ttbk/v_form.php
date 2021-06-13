@@ -171,7 +171,7 @@
                                         <th rowspan="2" style="vertical-align: middle;">No.</th>
                                         <th rowspan="2" style="text-align: center; vertical-align: middle;">Nomor Surat Jalan</th>
                                         <th rowspan="2" style="text-align: center; vertical-align: middle;">Jenis Barang</th>
-                                        <th colspan="3" style="text-align: center; vertical-align: middle;">Quantity</th>
+                                        <th colspan="3" style="text-align: center; vertical-align: middle;">Quantity Surat Jalan</th>
                                         <th rowspan="2" style="text-align: center; vertical-align: middle;">Total</th>
                                     </tr>
                                     <tr>

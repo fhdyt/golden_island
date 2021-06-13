@@ -4,7 +4,13 @@ class RelasiModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_RELASI WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_RELASI_NAMA')->result();
+        if (empty($this->input->post('nama_relasi'))) {
+            $filter = '';
+        } else {
+            $filter = 'MASTER_RELASI_NAMA LIKE "%' . $this->input->post('nama_relasi') . '%" AND';
+        }
+
+        $hasil = $this->db->query('SELECT * FROM MASTER_RELASI WHERE ' . $filter . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_RELASI_NAMA')->result();
         foreach ($hasil as $row) {
             $surat_jalan = $this->db->query('SELECT SURAT_JALAN_TANGGAL FROM SURAT_JALAN WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_TANGGAL DESC LIMIT 1')->result();
             if (empty($surat_jalan)) {

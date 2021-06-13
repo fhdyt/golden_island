@@ -153,6 +153,14 @@ if (!function_exists('satuan')) {
     return $CI->SatuanModel->list();
   }
 }
+if (!function_exists('konversi')) {
+  function konversi()
+  {
+    $CI = &get_instance();
+    $CI->load->model('konfigurasi/KonversiModel');
+    return $CI->KonversiModel->list();
+  }
+}
 
 if (!function_exists('bulan')) {
   function bulan()
