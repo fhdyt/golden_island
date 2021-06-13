@@ -1,8 +1,9 @@
-<div class="modal fade" id="pajakModal">
+<!-- /.modal -->
+<div class="modal fade" id="peralihanModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Titipan</h4>
+                <h4 class="modal-title">Peralihan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -10,20 +11,19 @@
             <div class="modal-body">
                 <form id="submit">
                     <div class="form-group">
-                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
-                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>" readonly>
+                        <label for="exampleInputEmail1">Tanggal</label>
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required readonly value="<?= date("Y-m-d"); ?>">
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1"><?= $this->lang->line('Relasi'); ?></label>
-                        <select name="relasi" id="relasi" class="form-control relasi select2" style="width: 100%;" required>
-                            <option value="">-- Pilih Relasi --</option>
-                            <?php foreach (relasi_list() as $row) {
+                        <label for="exampleInputEmail1">Dari</label>
+                        <select name="dari" id="dari" class="form-control dari select2" style="width: 100%;" required>
+                            <option value="">-- Jenis --</option>
+
+                            <?php
+                            foreach (tabung() as $row) {
                             ?>
-                                <option value="<?= $row->MASTER_RELASI_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?></option>
+                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
                             <?php
                             }
                             ?>
@@ -31,8 +31,8 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Jenis</label>
-                        <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;" required>
+                        <label for="exampleInputEmail1">Ke</label>
+                        <select name="ke" id="ke" class="form-control ke select2" style="width: 100%;" required>
                             <option value="">-- Jenis --</option>
 
                             <?php
@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jumlah</label>
-                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" required value="0">
+                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" value="0" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
@@ -92,7 +92,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Titipan Tabung</h1>
+                    <h1 class="m-0">Peralihan Tabung</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -104,16 +104,15 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Titipan</button>
+                    <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Peralihan</button>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nomor</th>
                                 <th>Tanggal</th>
-                                <th><?= $this->lang->line('nama'); ?></th>
-                                <th>Jenis</th>
-                                <th>Jumlah</th>
+                                <th>Barang</th>
+                                <th>Keluar</th>
+                                <th>Masuk</th>
                                 <th>Keterangan</th>
                                 <th></th>
                             </tr>
@@ -135,16 +134,16 @@
     $(".btn_pajak").on("click", function() {
         $("#submit").trigger("reset");
         $(".id").val("")
-        $("#pajakModal").modal("show")
+        $("#peralihanModal").modal("show")
     })
     $(function() {
-        pajak_list();
+        peralihan_list();
     });
 
-    function pajak_list() {
+    function peralihan_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/distribusi/titipan/list",
+            url: "<?php echo base_url() ?>index.php/manajemen_tabung/peralihan/list",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -156,16 +155,14 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
-                        var btn_cetak = "<a class='btn btn-success btn-sm' target='_blank' href='<?= base_url(); ?>cetak/cetak_titipan/" + data[i].JURNAL_TABUNG_ID + "'><i class='right fas fa-print'></i> Cetak</a>"
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].JURNAL_TABUNG_NOMOR + "</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].JURNAL_TABUNG_KIRIM + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KEMBALI + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm mr-2' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a>" + btn_cetak + "</td> " +
+                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "</tr>");
                     }
                 }
@@ -179,7 +176,7 @@
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/distribusi/titipan/add',
+            url: '<?php echo base_url(); ?>index.php/manajemen_tabung/peralihan/add',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -189,9 +186,9 @@
                 memuat()
             },
             success: function(data) {
-                pajak_list();
-                Swal.fire('Berhasil', 'Titipan berhasil ditambahkan', 'success')
-                $("#pajakModal").modal("hide")
+                peralihan_list();
+                Swal.fire('Berhasil', 'Peralihan berhasil ditambahkan', 'success')
+                $("#peralihanModal").modal("hide")
             }
         });
     })
@@ -208,15 +205,15 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/distribusi/titipan/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/manajemen_tabung/peralihan/hapus/' + id,
                     beforeSend: function() {
                         memuat()
                     },
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
-                            pajak_list();
-                            Swal.fire('Berhasil', 'Titipan Berhasil dihapus', 'success')
+                            peralihan_list();
+                            Swal.fire('Berhasil', 'Peralihan Berhasil dihapus', 'success')
                         }
                     },
                     error: function(x, e) {

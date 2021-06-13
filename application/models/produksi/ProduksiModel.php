@@ -110,7 +110,6 @@ class ProduksiModel extends CI_Model
         );
 
         $this->db->where('PANGGUNG_REF', $this->input->post('id'));
-        $this->db->where('PANGGUNG_STATUS', 'in');
         $this->db->update('PANGGUNG', $data_edit_panggung);
 
         $data_edit_barang = array(
@@ -151,6 +150,24 @@ class ProduksiModel extends CI_Model
                                         AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                         ORDER BY P.PRODUKSI_BARANG_INDEX DESC ')->result();
         foreach ($barang as $row) {
+            $data_panggung_mp_out = array(
+                'PANGGUNG_ID' => create_id(),
+                'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
+                'PANGGUNG_TANGGAL' => $this->input->post("tanggal"),
+                'PANGGUNG_STATUS' => "out",
+                'PANGGUNG_STATUS_ISI' => 0,
+                'PANGGUNG_JUMLAH' => $row->PRODUKSI_BARANG_TOTAL,
+                'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_BARANG_KEPEMILIKAN,
+                'PANGGUNG_KETERANGAN' => "" . $this->input->post("nomor_produksi") . "",
+                'PANGGUNG_REF'  => $this->input->post("id"),
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('PANGGUNG', $data_panggung_mp_out);
+
             $data_panggung_mp = array(
                 'PANGGUNG_ID' => create_id(),
                 'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
