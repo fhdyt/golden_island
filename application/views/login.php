@@ -16,19 +16,31 @@
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/theme/dist/css/adminlte.min.css">
 </head>
 <style>
-  .login-page {
+  /* .login-page {
     background-color: #343A40;
+  } */
+
+  body {
+    background-image: url("<?php echo base_url(); ?>assets/bg2.jpg");
+
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 </style>
 
 <body class="hold-transition login-page">
   <div class="login-box">
-    <div class="login-logo">
+    <!-- <div class="login-logo">
       <img src="<?php echo base_url(); ?>assets/header.png" height="90px" alt="">
-    </div>
+    </div> -->
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
+        <div class="login-logo">
+          <img src="<?php echo base_url(); ?>assets/header.png" height="90px" alt="">
+        </div>
         <p class="login-box-msg"><b>Gas Management System (GMS)</b> <br>by PT. GOLDEN ISLAND GROUP</p>
         <?php
         if ($this->session->flashdata('error_login') != '') {

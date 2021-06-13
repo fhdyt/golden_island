@@ -48,6 +48,13 @@ if (empty($this->uri->segment('4'))) {
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
+                    <div class="row mb-2 btn-realisasi" hidden>
+                        <div class="col-md-12">
+                            <a class="btn btn-outline-success sm" href="<?= base_url(); ?>distribusi/realisasi_sj/form/<?= $id; ?>">Realisasi Surat Jalan</a>
+                            <a class="btn btn-outline-success sm" href="<?= base_url(); ?>distribusi/realisasi_ttbk/form/<?= $id; ?>">Realisasi TTBK</a>
+                            <hr>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <form id="submit">
@@ -245,7 +252,11 @@ if (empty($this->uri->segment('4'))) {
             <div class="col-md-12">
                 <div class="card card-default color-palette-box">
                     <div class="card-body">
-                        <button type="submit" class="btn btn-success btn-lg simpan_surat_jalan"><?= $this->lang->line('simpan'); ?></button>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success btn-lg simpan_surat_jalan"><?= $this->lang->line('simpan'); ?></button>
+                            </div>
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -306,6 +317,7 @@ if (empty($this->uri->segment('4'))) {
                     detail_jenis_barang()
                     barang_list()
                 } else {
+                    $(".btn-realisasi").attr("hidden", false)
                     $(".nomor_surat_jalan").val(data[0].SURAT_JALAN_NOMOR)
                     $(".tanggal").val(data[0].SURAT_JALAN_TANGGAL)
                     $(".jenis_sj").val(data[0].SURAT_JALAN_JENIS)

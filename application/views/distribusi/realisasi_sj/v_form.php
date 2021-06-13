@@ -69,7 +69,18 @@
                     <textarea name="scan_keterangan" id="scan_keterangan" class="form-control scan_keterangan" rows="10"></textarea>
                     <!-- <input type="text" class="form-control scan_keterangan" name="scan_keterangan" id="scan_keterangan" value="" autocomplete="off"> -->
                 </div>
+                <div class="form-group">
+                    <div class="form-group clearfix">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="isi_scan" name="isi_scan">
+                            <label for="isi_scan">
+                                ISI
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
                 <a class="btn btn-primary btn-scan"><?= $this->lang->line('simpan'); ?></a>
@@ -320,13 +331,16 @@
                         var rowspan = 0;
                         var detailLength = data[i].BARANG.length;
                         rowspan += detailLength;
+                        console.log("rowspan " + rowspan)
                         if (data[i].SURAT_JALAN_REALISASI_STATUS == "selesai") {
                             var btn_cetak = "<a class='btn btn-success btn-xs mt-2' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'><i class='right fas fa-print'></i> Cetak Surat Jalan</a>"
+                            var btn_ttbk = "<a class='btn btn-secondary btn-xs mt-2' href='<?= base_url(); ?>distribusi/realisasi_ttbk/form/" + data[i].SURAT_JALAN_ID + "'>Realisasi TTBK</a>"
                         } else {
                             var btn_cetak = ""
+                            var btn_ttbk = ""
                         }
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "<br>" + btn_cetak + "</td></tr>";
+                            "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "<br>" + btn_cetak + "<br>" + btn_ttbk + "</td></tr>";
                         console.log(detailLength)
                         var barangLlength = 0;
 
@@ -501,6 +515,12 @@
 
     $('.btn-scan').on("click", function(e) {
         // e.preventDefault();
+        if ($('#isi_scan').is(":checked") == true) {
+            var isi_val = "on"
+        } else {
+            var isi_val = ""
+        }
+        console.log(isi_val)
         $.ajax({
             type: "POST",
             url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_scan?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
@@ -510,6 +530,7 @@
             },
             data: {
                 scan: $(".scan_keterangan").val(),
+                isi: isi_val,
             },
             success: function(data) {
                 realisasi_list()

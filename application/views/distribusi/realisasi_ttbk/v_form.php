@@ -70,6 +70,16 @@
                     <textarea name="scan_keterangan" id="scan_keterangan" class="form-control scan_keterangan" rows="10"></textarea>
                     <!-- <input type="text" class="form-control scan_keterangan" name="scan_keterangan" id="scan_keterangan" value="" autocomplete="off"> -->
                 </div>
+                <div class="form-group">
+                    <div class="form-group clearfix">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="isi_scan" name="isi_scan">
+                            <label for="isi_scan">
+                                ISI
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
@@ -337,6 +347,11 @@
 
     $('.btn-scan').on("click", function(e) {
         // e.preventDefault();
+        if ($('#isi_scan').is(":checked") == true) {
+            var isi_val = "on"
+        } else {
+            var isi_val = ""
+        }
         $.ajax({
             type: "POST",
             url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_ttbk/add_scan?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
@@ -346,6 +361,7 @@
             },
             data: {
                 scan: $(".scan_keterangan").val(),
+                isi: isi_val
             },
             success: function(data) {
                 realisasi_list()

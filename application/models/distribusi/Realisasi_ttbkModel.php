@@ -332,6 +332,12 @@ class Realisasi_ttbkModel extends CI_Model
 
     public function add_scan($surat_jalan_id)
     {
+        if ($this->input->post('isi') == "on") {
+            $isi = "1";
+        } else {
+            $isi = "0";
+        }
+
         $surat_jalan = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $surat_jalan_id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
         $list = explode(PHP_EOL, $this->input->post('scan'));
         foreach ($list as $row) {
@@ -345,6 +351,7 @@ class Realisasi_ttbkModel extends CI_Model
                     'SURAT_JALAN_ID' => $surat_jalan_id,
                     'MASTER_BARANG_ID' => $tabung[0]->MASTER_BARANG_ID,
                     'MASTER_TABUNG_ID' => $tabung[0]->MASTER_TABUNG_ID,
+                    'REALISASI_TTBK_BARANG_STATUS' => $isi,
 
                     'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
