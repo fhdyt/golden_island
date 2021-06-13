@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0"><?= $this->lang->line('Kontrol Tabung'); ?></h1>
+                    <h1 class="m-0">Jurnal Tabung</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -94,13 +94,13 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
-        kontrol_tabung_list();
+        jurnal_tabung_list();
     });
 
-    function kontrol_tabung_list() {
+    function jurnal_tabung_list() {
         $.ajax({
             type: 'post',
-            url: "<?php echo base_url() ?>index.php/laporan/kontrol_tabung/list?relasi=" + $(".relasi_filter").val() + "&tabung=" + $(".tabung_filter").val() + "&status=" + $(".status_filter").val(),
+            url: "<?php echo base_url() ?>index.php/laporan/jurnal_tabung/list?relasi=" + $(".relasi_filter").val() + "&tabung=" + $(".tabung_filter").val() + "&status=" + $(".status_filter").val(),
             async: false,
             dataType: 'json',
             data: {
@@ -123,7 +123,7 @@
                         if (data[i].JURNAL_TABUNG_FILE == "empty")
                             var img = ""
                         else {
-                            var img = "<img src='<?= base_url(); ?>uploads/kontrol_tabung/" + data[i].JURNAL_TABUNG_FILE + "' width='50'><br><a href='<?= base_url(); ?>uploads/kontrol_tabung/" + data[i].JURNAL_TABUNG_FILE + "' target='_blank'> Buka Gambar</a>"
+                            var img = "<img src='<?= base_url(); ?>uploads/jurnal_tabung/" + data[i].JURNAL_TABUNG_FILE + "' width='50'><br><a href='<?= base_url(); ?>uploads/jurnal_tabung/" + data[i].JURNAL_TABUNG_FILE + "' target='_blank'> Buka Gambar</a>"
                         }
 
                         if (data[i].RELASI_NAMA.length == 0) {
@@ -163,16 +163,16 @@
 
     $('#tabung_filter,#status_filter, #relasi_filter').change(function() {
         memuat()
-        kontrol_tabung_list()
+        jurnal_tabung_list()
     });
 
     $('.filter_tanggal').on("click", function() {
         memuat()
-        kontrol_tabung_list()
+        jurnal_tabung_list()
     });
 
     // setInterval(function() {
     //     memuat()
-    //     kontrol_tabung_list()
+    //     jurnal_tabung_list()
     // }, 30000);
 </script>

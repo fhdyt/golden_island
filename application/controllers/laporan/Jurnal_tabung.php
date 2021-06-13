@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kontrol_tabung extends CI_Controller
+class Jurnal_tabung extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Kontrol_tabung extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('laporan/Kontrol_tabungModel');
+        $this->load->model('laporan/Jurnal_tabungModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,7 +30,7 @@ class Kontrol_tabung extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('laporan/v_kontrol_tabung');
+        $this->load->view('laporan/v_jurnal_tabung');
         $this->load->view('_template/footer');
     }
 
@@ -39,26 +39,26 @@ class Kontrol_tabung extends CI_Controller
         $relasi = $_GET['relasi'];
         $tabung = $_GET['tabung'];
         $status = $_GET['status'];
-        $data = $this->Kontrol_tabungModel->list($relasi, $tabung, $status);
+        $data = $this->Jurnal_tabungModel->list($relasi, $tabung, $status);
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->Kontrol_tabungModel->add();
+        $data = $this->Jurnal_tabungModel->add();
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Kontrol_tabungModel->hapus($id);
+        $data = $this->Jurnal_tabungModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->Kontrol_tabungModel->detail($id);
+        $data = $this->Jurnal_tabungModel->detail($id);
         echo json_encode($data);
     }
 }

@@ -1,5 +1,5 @@
 <?php
-class Kontrol_tabungModel extends CI_Model
+class Jurnal_tabungModel extends CI_Model
 {
 
     public function list($relasi, $tabung, $status)
