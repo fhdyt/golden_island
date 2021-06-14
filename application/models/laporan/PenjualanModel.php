@@ -4,11 +4,16 @@ class PenjualanModel extends CI_Model
 
     public function list()
     {
+        $tanggal_dari = $this->input->post("tanggal_dari");
+        $tanggal_sampai = $this->input->post("tanggal_sampai");
+
+        $filter_tanggal = 'SURAT_JALAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
         $hasil = $this->db->query('SELECT * 
                             FROM 
                             SURAT_JALAN 
                             WHERE 
-                            SURAT_JALAN_TANGGAL = "' . $this->input->post('tanggal') . '"
+                            ' . $filter_tanggal . '
                             AND SURAT_JALAN_JENIS = "penjualan"
                             AND RECORD_STATUS="AKTIF" 
                             AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
@@ -71,6 +76,7 @@ class PenjualanModel extends CI_Model
             $row->BARANG = $barang;
             $row->TOTAL = $total_perbarang;
             $row->TERBAYAR = $terbayar;
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
         }
         return $hasil;
     }
@@ -136,13 +142,18 @@ class PenjualanModel extends CI_Model
     {
         $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         foreach ($hasil as $row) {
+            $tanggal_dari = $this->input->post("tanggal_dari");
+            $tanggal_sampai = $this->input->post("tanggal_sampai");
+
+            $filter_tanggal = 'SJ.SURAT_JALAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
             $barang = $this->db->query('SELECT SUM(SJB.SURAT_JALAN_BARANG_QUANTITY) AS QTY, SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS QTY_KLAIM FROM 
                                         SURAT_JALAN_BARANG SJB LEFT JOIN SURAT_JALAN AS SJ
                                         ON SJB.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
                                         WHERE 
                                         SJ.SURAT_JALAN_JENIS="penjualan"
                                         AND SJB.MASTER_BARANG_ID ="' . $row->MASTER_BARANG_ID . '"
-                                        AND SJ.SURAT_JALAN_TANGGAL="' . $this->input->post('tanggal') . '"
+                                        AND ' . $filter_tanggal . '
                                         AND SJB.RECORD_STATUS="AKTIF" 
                                         AND SJB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                         AND SJ.RECORD_STATUS="AKTIF" 
@@ -151,6 +162,48 @@ class PenjualanModel extends CI_Model
             $qty = $barang[0]->QTY;
             $qty_klaim = $barang[0]->QTY_KLAIM;
             $row->TOTAL = $qty - $qty_klaim;
+        }
+        return $hasil;
+    }
+    public function grafik_list()
+    {
+        $tanggal_dari = $this->input->post("tanggal_dari");
+        $tanggal_sampai = $this->input->post("tanggal_sampai");
+
+        $filter_tanggal = 'SURAT_JALAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
+        $hasil = $this->db->query('SELECT SURAT_JALAN_TANGGAL 
+                            FROM 
+                            SURAT_JALAN 
+                            WHERE 
+                            ' . $filter_tanggal . '
+                            AND SURAT_JALAN_JENIS = "penjualan"
+                            AND RECORD_STATUS="AKTIF" 
+                            AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                            GROUP BY SURAT_JALAN_TANGGAL ')->result();
+        foreach ($hasil as $row) {
+            $surat_jalan = $this->db->query('SELECT 
+                                            SUM(F.PEMBELIAN_TRANSAKSI_BAYAR) AS BAYAR
+                                            FROM 
+                                            FAKTUR_TRANSAKSI AS F
+                                            LEFT JOIN
+                                            FAKTUR_SURAT_JALAN AS FSJ
+                                            ON F.FAKTUR_ID=FSJ.FAKTUR_ID
+                                            LEFT JOIN 
+                                            SURAT_JALAN AS SJ
+                                            ON
+                                            FSJ.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                            WHERE SJ.SURAT_JALAN_TANGGAL="' . $row->SURAT_JALAN_TANGGAL . '" 
+                                            AND F.RECORD_STATUS="AKTIF" 
+                                            AND F.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                            AND FSJ.RECORD_STATUS="AKTIF" 
+                                            AND FSJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $total_bayar = 0;
+            foreach ($surat_jalan as $row_sj) {
+                $total_bayar += $row_sj->BAYAR;
+            }
+            $row->TOTAL = $total_bayar;
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
         }
         return $hasil;
     }

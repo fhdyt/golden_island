@@ -44,6 +44,11 @@ class Penjualan extends CI_Controller
         $data = $this->PenjualanModel->barang_list();
         echo json_encode($data);
     }
+    public function grafik_list()
+    {
+        $data = $this->PenjualanModel->grafik_list();
+        echo json_encode($data);
+    }
 
     public function add()
     {

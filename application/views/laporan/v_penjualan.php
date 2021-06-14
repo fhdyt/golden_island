@@ -1,3 +1,4 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -18,9 +19,13 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                            <small class="text-muted">Tanggal Dari.</small>
+                        </div>
+                        <div class="col-md-6">
                             <div class="input-group">
-                                <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                                 <div class="input-group-append">
                                     <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                                 </div>
@@ -69,6 +74,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <hr>
+
+                    <canvas id="myChart"></canvas>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -81,6 +89,7 @@
     $(function() {
         penjualan_list()
         barang_list()
+        grafik()
     });
 
     function penjualan_list() {
@@ -90,14 +99,14 @@
             async: false,
             dataType: 'json',
             data: {
-                tanggal: $(".tanggal").val(),
+                tanggal_dari: $(".tanggal_dari").val(),
+                tanggal_sampai: $(".tanggal_sampai").val(),
                 perusahaan: $(".perusahaan").val()
             },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 $("tbody#zone_data_total").empty();
                 memuat()
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
@@ -143,7 +152,7 @@
                         var btn_cetak = "<a class='btn btn-success btn-xs' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Lihat Surat Jalan</a>"
 
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + no++ + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'><b>" + data[i].SURAT_JALAN_NOMOR + "</b><br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'><b>" + data[i].SURAT_JALAN_NOMOR + "</b><br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "<br>" + data[i].TANGGAL + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "<br>" + btn_cetak + "</td>" +
                             "<td colspan='4'></td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(terbayar) + "</td>" +
@@ -202,13 +211,13 @@
             async: false,
             dataType: 'json',
             data: {
-                tanggal: $(".tanggal").val(),
+                tanggal_dari: $(".tanggal_dari").val(),
+                tanggal_sampai: $(".tanggal_sampai").val(),
                 perusahaan: $(".perusahaan").val()
             },
             success: function(data) {
                 $("tbody#zone_data_barang").empty();
                 $("tbody#zone_data_barang_total").empty();
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data_barang").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
@@ -235,6 +244,59 @@
         });
     }
 
+    function grafik() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url() ?>index.php/laporan/penjualan/grafik_list",
+            async: false,
+            dataType: 'json',
+            data: {
+                tanggal_dari: $(".tanggal_dari").val(),
+                tanggal_sampai: $(".tanggal_sampai").val(),
+                perusahaan: $(".perusahaan").val()
+            },
+            success: function(data) {
+                $("tbody#zone_data_barang").empty();
+                $("tbody#zone_data_barang_total").empty();
+                console.log(data)
+                if (data.length === 0) {
+                    $("tbody#zone_data_barang").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else {
+
+                    var labels = data.map(function(e) {
+                        return e.TANGGAL;
+                    });
+
+                    var data = data.map(function(e) {
+                        return e.TOTAL;
+                    });
+
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        // The type of chart we want to create
+                        type: 'line',
+
+                        // The data for our dataset
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: "Penjualan Tunai",
+                                data: data,
+                            }]
+                        },
+
+                        // Configuration options go here
+                        options: {}
+                    });
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+
+    }
+
     function detail(id) {
         $.ajax({
             type: 'ajax',
@@ -259,5 +321,6 @@
         memuat()
         penjualan_list()
         barang_list()
+        grafik()
     });
 </script>
