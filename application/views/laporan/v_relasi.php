@@ -66,7 +66,7 @@
                     </div>
 
 
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped table-responsive">
                         <thead id="zone_header">
                             <tr>
                                 <th>No.</th>
@@ -160,7 +160,7 @@
                             "<br>" + tanggal_sj + "</td>"
 
                         theader = "<tr><td>No.</td><td>Nama</td>"
-                        for (j = 1; j < data[i].JUMLAH_TANGGAL; j++) {
+                        for (j = 1; j <= data[i].JUMLAH_TANGGAL; j++) {
                             if (data[i].TANGGAL[pad(j, 2)] == null) {
                                 var jumlah_pemesanan = "-"
                             } else {
