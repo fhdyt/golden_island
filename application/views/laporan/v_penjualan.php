@@ -30,7 +30,7 @@
                                     <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
-                            <small class="text-muted">Tanggal Penjualan.</small>
+                            <small class="text-muted">Tanggal Sampai.</small>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered">
