@@ -194,6 +194,8 @@ class PenjualanModel extends CI_Model
                                             ON
                                             FSJ.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
                                             WHERE SJ.SURAT_JALAN_TANGGAL="' . $row->SURAT_JALAN_TANGGAL . '" 
+                                            AND SJ.RECORD_STATUS="AKTIF" 
+                                            AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                             AND F.RECORD_STATUS="AKTIF" 
                                             AND F.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                             AND FSJ.RECORD_STATUS="AKTIF" 
