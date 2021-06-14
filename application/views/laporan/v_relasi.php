@@ -1,3 +1,8 @@
+<style>
+    .table {
+        font-size: 11px;
+    }
+</style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -18,7 +23,39 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-12">
+                        <div class="col-md-2">
+                            <select name="bulan" id="bulan" class="form-control select2 bulan" style="width: 100%;">
+                                <?php
+                                foreach (bulan() as $value => $text) {
+                                    if ($value == date("m")) {
+                                        $select = "selected";
+                                    } else {
+                                        $select = "";
+                                    }
+                                ?>
+                                    <option value="<?= $value; ?>" <?= $select; ?>><?= $text; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="tahun" id="tahun" class="form-control select2 tahun" style="width: 100%;">
+                                <?php
+                                foreach (tahun() as $value => $text) {
+                                    if ($value == date("Y")) {
+                                        $select = "selected";
+                                    } else {
+                                        $select = "";
+                                    }
+                                ?>
+                                    <option value="<?= $value; ?>" <?= $select; ?>><?= $text; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
                             <div class="input-group">
                                 <input type="text" class="form-control nama_relasi" name="nama_relasi" autocomplete="off" placeholder="Nama Relasi">
                                 <div class="input-group-append">
@@ -30,7 +67,7 @@
 
 
                     <table id="example2" class="table table-bordered table-striped">
-                        <thead>
+                        <thead id="zone_header">
                             <tr>
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
@@ -58,6 +95,7 @@
     })
     $(function() {
         relasi_list();
+
     });
 
     $(".filter").on("click", function() {
@@ -71,6 +109,11 @@
         }
     });
 
+    function pad(str, max) {
+        str = str.toString();
+        return str.length < max ? pad("0" + str, max) : str;
+    }
+
     function relasi_list() {
         $.ajax({
             type: 'POST',
@@ -78,16 +121,21 @@
             async: false,
             dataType: 'json',
             data: {
+                bulan: $(".bulan").val(),
+                tahun: $(".tahun").val(),
                 nama_relasi: $(".nama_relasi").val()
             },
             success: function(data) {
                 $("tbody#zone_data").empty();
+                $("thead#zone_header").empty();
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
+                    var theader = ""
+                    var tbody = ""
                     for (i = 0; i < data.length; i++) {
                         if (data[i].SELISIH_TANGGAL.length == 0) {
                             var selisih_tanggal = "-"
@@ -105,13 +153,35 @@
                         } else {
                             var hp = data[i].MASTER_RELASI_HP
                         }
-                        $("tbody#zone_data").append("<tr class=''>" +
-                            "<td>" + no++ + ".</td>" +
+
+                        tbody += "<tr>"
+                        tbody += "<td>" + no++ + ".</td>" +
                             "<td><b>" + data[i].MASTER_RELASI_NAMA + "</b><br><p class='text-success'>" + data[i].MASTER_RELASI_QR_ID + "</p><small class='text-muted'>Pemesanan Terakhir :<br> " + selisih_tanggal + "</small>" +
-                            "<br>" + tanggal_sj + "</td>" +
-                            "<td>" + data[i].MASTER_RELASI_ALAMAT + "<br>" + hp + "</td>" +
-                            "</tr>");
+                            "<br>" + tanggal_sj + "</td>"
+
+                        theader = "<tr><td>No.</td><td>Nama</td>"
+                        for (j = 1; j < data[i].JUMLAH_TANGGAL; j++) {
+                            if (data[i].TANGGAL[pad(j, 2)] == null) {
+                                var jumlah_pemesanan = "-"
+                            } else {
+                                var jumlah_pemesanan = data[i].TANGGAL[pad(j, 2)]
+                            }
+                            theader += "<td>" + j + "</td>"
+                            tbody += "<td>" + jumlah_pemesanan + "</td>"
+                        }
+                        theader += "</tr>"
+                        tbody += "</tr>"
+
+                        // $("tbody#zone_data").append("<tr class=''>" +
+                        //     "<td>" + no++ + ".</td>" +
+                        //     "<td><b>" + data[i].MASTER_RELASI_NAMA + "</b><br><p class='text-success'>" + data[i].MASTER_RELASI_QR_ID + "</p><small class='text-muted'>Pemesanan Terakhir :<br> " + selisih_tanggal + "</small>" +
+                        //     "<br>" + tanggal_sj + "</td>" +
+                        //     "<td>" + data[i].MASTER_RELASI_ALAMAT + "<br>" + hp + "</td>" +
+
+                        //     "</tr>");
                     }
+                    $("thead#zone_header").append(theader);
+                    $("tbody#zone_data").append(tbody);
                 }
             },
             error: function(x, e) {

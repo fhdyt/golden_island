@@ -11,7 +11,37 @@ class RelasiModel extends CI_Model
         }
 
         $hasil = $this->db->query('SELECT * FROM MASTER_RELASI WHERE ' . $filter . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_RELASI_NAMA')->result();
+
         foreach ($hasil as $row) {
+
+            $begin = new DateTime("" . $this->input->post('tahun') . "-" . $this->input->post('bulan') . "-01");
+            $tanggal_terakhir = date("t", strtotime("" . $this->input->post('tahun') . "-" . $this->input->post('bulan') . "-01"));
+            $end   = new DateTime("" . $this->input->post('tahun') . "-" . $this->input->post('bulan') . "-" . $tanggal_terakhir . "");
+
+            for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
+                $jumlah_pemesanan = $this->db->query('SELECT SUM(SB.SURAT_JALAN_BARANG_QUANTITY) AS JUMLAH
+                                                        FROM SURAT_JALAN_BARANG AS SB
+                                                        LEFT JOIN
+                                                        SURAT_JALAN AS SJ
+                                                        ON
+                                                        SB.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                                        WHERE 
+                                                        SJ.SURAT_JALAN_TANGGAL="' . $i->format("Y-m-d") . '" 
+                                                        AND 
+                                                        SJ.MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" 
+                                                        AND 
+                                                        SJ.RECORD_STATUS="AKTIF" 
+                                                        AND 
+                                                        SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                                        AND 
+                                                        SB.RECORD_STATUS="AKTIF" 
+                                                        AND 
+                                                        SB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                                        ')->result();
+                $tanggal[$i->format("d")] = $jumlah_pemesanan[0]->JUMLAH;
+            }
+            $row->TANGGAL = $tanggal;
+            $row->JUMLAH_TANGGAL = $tanggal_terakhir;
             $surat_jalan = $this->db->query('SELECT SURAT_JALAN_TANGGAL FROM SURAT_JALAN WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_TANGGAL DESC LIMIT 1')->result();
             if (empty($surat_jalan)) {
                 $row->SELISIH_TANGGAL = array();
