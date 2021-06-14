@@ -1,6 +1,6 @@
 <style>
     .table {
-        font-size: 11px;
+        font-size: 10px;
     }
 </style>
 <!-- Content Wrapper. Contains page content -->
@@ -157,9 +157,10 @@
                         tbody += "<tr>"
                         tbody += "<td>" + no++ + ".</td>" +
                             "<td><b>" + data[i].MASTER_RELASI_NAMA + "</b><br><p class='text-success'>" + data[i].MASTER_RELASI_QR_ID + "</p><small class='text-muted'>Pemesanan Terakhir :<br> " + selisih_tanggal + "</small>" +
-                            "<br>" + tanggal_sj + "</td>"
+                            "<br>" + tanggal_sj + "</td>" +
+                            "<td>" + hp + "</td>"
 
-                        theader = "<tr><td>No.</td><td>Nama</td>"
+                        theader = "<tr><td>No.</td><td>Nama</td><td>Telp</td>"
                         for (j = 1; j <= data[i].JUMLAH_TANGGAL; j++) {
                             if (data[i].TANGGAL[pad(j, 2)] == null) {
                                 var jumlah_pemesanan = "-"
