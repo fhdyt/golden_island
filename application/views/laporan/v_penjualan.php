@@ -33,8 +33,6 @@
                             <small class="text-muted">Tanggal Penjualan.</small>
                         </div>
                     </div>
-                    <canvas id="myChart"></canvas>
-                    <hr>
                     <table id="example2" class="table table-bordered">
                         <thead>
                             <tr>
@@ -59,6 +57,8 @@
                         </tbody>
                     </table>
                     <hr>
+                    <canvas id="myChart"></canvas>
+                    <hr>
                     <table id="example2" class="table table-bordered">
                         <thead>
                             <tr>
@@ -76,6 +76,7 @@
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
                 <!-- /.card-body -->
             </div>
