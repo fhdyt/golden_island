@@ -349,6 +349,7 @@
                             labels: labels,
                             datasets: [{
                                 label: "Penjualan Tunai",
+                                fill: false,
                                 data: data,
                             }]
                         },
