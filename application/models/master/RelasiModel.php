@@ -7,7 +7,7 @@ class RelasiModel extends CI_Model
         if (empty($this->input->post('nama_relasi'))) {
             $filter = '';
         } else {
-            $filter = 'MASTER_RELASI_NAMA LIKE "%' . $this->input->post('nama_relasi') . '%" AND';
+            $filter = 'MASTER_RELASI_ID= "' . $this->input->post('nama_relasi') . '" AND';
         }
 
         $hasil = $this->db->query('SELECT * FROM MASTER_RELASI WHERE ' . $filter . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_RELASI_NAMA')->result();

@@ -149,7 +149,26 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Jaminan</button>
+                    <div class="row mb-2">
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Jaminan</button>
+                        </div>
+                        <div class="col-md-9">
+                            <select name="relasi" id="relasi" class="form-control relasi select2" style="width: 100%;" required>
+                                <option value="">-- Pilih Relasi --</option>
+                                <?php foreach (relasi_list() as $row) {
+                                ?>
+                                    <option value="<?= $row->MASTER_RELASI_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?> - <?= $row->MASTER_RELASI_QR_ID; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <small class="text-muted">Nama Relasi.</small>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-outline-secondary filter"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -195,12 +214,27 @@
         });
     });
 
+    $(".filter").on("click", function() {
+        memuat()
+        jaminan_list();
+    })
+    $('.nama_relasi').keyup(function(e) {
+        if (e.keyCode == 13) {
+            memuat()
+            jaminan_list()
+        }
+    });
+
+
     function jaminan_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/manajemen_tabung/jaminan/list",
             async: false,
             dataType: 'json',
+            data: {
+                nama_relasi: $(".relasi").val()
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
