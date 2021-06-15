@@ -107,6 +107,7 @@
                 $("tbody#zone_data").empty();
                 $("tbody#zone_data_total").empty();
                 memuat()
+                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
@@ -123,6 +124,7 @@
                         if (data[i].TERBAYAR.length == 0) {
                             var terbayar = 0
                             var piutang = data[i].TOTAL
+                            var btn_faktur_cetak = "<a class='btn btn-danger btn-xs'>Belum Ada Faktur</a>"
                         } else {
                             var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
                             var terbayar = data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR;
@@ -130,8 +132,9 @@
                             if (piutang < 0) {
                                 piutang = 0
                             } else {
-                                piutang = piutang
+                                piutang = data[i].TOTAL
                             }
+                            var btn_faktur_cetak = "<a class='btn btn-primary btn-xs' target='_blank' href='<?= base_url(); ?>cetak/faktur/" + data[i].TERBAYAR[0].FAKTUR_ID + "'>Lihat Faktur Penjualan</a>"
                         }
                         total_terbayar += parseInt(terbayar)
                         total_piutang += parseInt(piutang)
@@ -153,7 +156,7 @@
 
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + no++ + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'><b>" + data[i].SURAT_JALAN_NOMOR + "</b><br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "<br>" + data[i].TANGGAL + "</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "<br>" + btn_cetak + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "<br>" + btn_cetak + "<br>" + btn_faktur_cetak + "</td>" +
                             "<td colspan='4'></td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(terbayar) + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(piutang) + "</td>" +

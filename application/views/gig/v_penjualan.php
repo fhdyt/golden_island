@@ -180,7 +180,7 @@
                             if (piutang < 0) {
                                 piutang = 0
                             } else {
-                                piutang = piutang
+                                piutang = data[i].TOTAL
                             }
                         }
                         total_terbayar += parseInt(terbayar)
