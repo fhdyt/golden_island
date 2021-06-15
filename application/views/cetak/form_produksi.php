@@ -25,10 +25,10 @@ error_reporting(0);
             margin: 0;
         }
 
-        /* tr td {
+        tr td {
             padding: 0 !important;
             margin: 0 !important;
-        } */
+        }
 
         table.table-bordered {
             border: 2px solid black !important;
@@ -112,6 +112,7 @@ error_reporting(0);
                 <!-- /.col -->
             </div>
             <!-- info row -->
+            <br>
             <center>
                 <?php
                 if ($detail[0]->SURAT_JALAN_JENIS == "penjualan") {
@@ -125,7 +126,13 @@ error_reporting(0);
             </center>
             <br>
             <div class="row invoice-info mb-2">
-                <div class="col-sm-6 invoice-col">
+                <div class="col-sm-3 invoice-col">
+                    <h4>Level Awal</h4>
+                    <h4>............</h4>
+                </div>
+                <div class="col-sm-3 invoice-col">
+                    <h4>Level Awal</h4>
+                    <h4>............</h4>
                 </div>
                 <div class="col-sm-6 invoice-col text-right">
                     <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?>, .............................
