@@ -289,7 +289,6 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
 
 
         </section>
-        <div class="pagebreak"> </div>
         <?php
         if (empty($driver)) {
         } else {
