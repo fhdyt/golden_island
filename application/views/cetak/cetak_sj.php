@@ -293,6 +293,7 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
         if (empty($driver)) {
         } else {
         ?>
+            <hr>
             <section class="invoice">
                 <!-- title row -->
                 <center>
@@ -326,10 +327,16 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
                                 <td style="text-align:center ;vertical-align: middle;"><?= $row->MASTER_BARANG_NAMA; ?></td>
                                 <td style="text-align:center ;vertical-align: middle;">.....</td>
                                 <td style="text-align:center ;vertical-align: middle;">.....</td>
-                            <?php
-                                }
-                            ?>
                             </tr>
+                        <?php
+                                }
+                        ?>
+
+                        <tr>
+                            <td style="text-align:center ;vertical-align: middle;">.....</td>
+                            <td style="text-align:center ;vertical-align: middle;">.....</td>
+                            <td style="text-align:center ;vertical-align: middle;">.....</td>
+                        </tr>
                         </table>
 
                     </div>
