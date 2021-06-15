@@ -1,6 +1,11 @@
 <?php
 error_reporting(0);
 ?>
+
+<?php
+$no_surat_jalan = explode("/", $detail[0]->SURAT_JALAN_NOMOR);
+$no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_jalan[3];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +26,11 @@ error_reporting(0);
             display: block;
             font-family: sans-serif;
             margin: 0;
+        }
+
+        tr td {
+            padding: 0 !important;
+            margin: 0 !important;
         }
 
         table.table-bordered {
@@ -80,6 +90,18 @@ error_reporting(0);
                 ;
             }
 
+        }
+
+        /* @page {
+            size: 7in 9.25in;
+        } */
+
+        @media print {
+            .pagebreak {
+                page-break-before: always;
+            }
+
+            /* page-break-after works, as well */
         }
     </style>
 </head>
@@ -174,7 +196,6 @@ error_reporting(0);
 
             <!-- Table row -->
 
-            <hr>
             <?php
 
             $numcols = 6;
@@ -215,24 +236,7 @@ error_reporting(0);
                 <div class="col-sm-3 invoice-col">
                 </div>
                 <div class="col-sm-5 invoice-col">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td style="text-align:center"><b>Terima Tabung Kembali</b></td>
-                            <td style="text-align:center">MP</td>
-                            <td style="text-align:center">MR</td>
-                        </tr>
-                        <tr>
-                            <?php
-                            foreach ($barang as $row) { ?>
-                        <tr>
-                            <td style="text-align:center ;vertical-align: middle;"><?= $row->MASTER_BARANG_NAMA; ?></td>
-                            <td style="text-align:center ;vertical-align: middle;">.....</td>
-                            <td style="text-align:center ;vertical-align: middle;">.....</td>
-                        <?php
-                            }
-                        ?>
-                        </tr>
-                    </table>
+
                 </div>
             </div>
             <div class="row invoice-info">
@@ -285,7 +289,127 @@ error_reporting(0);
 
 
         </section>
-        <!-- /.content -->
+        <div class="pagebreak"> </div>
+        <?php
+        if (empty($driver)) {
+        } else {
+        ?>
+            <section class="invoice">
+                <!-- title row -->
+                <center>
+                    <h3><b>Tanda Terima Botol Kembali (TTBK)</b></h3>
+                    <h4>No. <?= $no_ttbk; ?></h4>
+                </center>
+                <br>
+                <br>
+                <div class="row invoice-info mb-2">
+                    <div class="col-sm-6 invoice-col">
+                    </div>
+                    <div class="col-sm-6 invoice-col text-right">
+                        <?= detail_perusahaan()[0]->PERUSAHAAN_KOTA; ?>, <?= tanggal($detail[0]->SURAT_JALAN_TANGGAL); ?>
+                    </div>
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-sm-7 invoice-col">
+
+                    </div>
+                    <div class="col-sm-5 invoice-col text-right">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="text-align:center"><b>Terima Tabung Kembali</b></td>
+                                <td style="text-align:center">MP</td>
+                                <td style="text-align:center">MR</td>
+                            </tr>
+                            <tr>
+                                <?php
+                                foreach ($barang as $row) { ?>
+                            <tr>
+                                <td style="text-align:center ;vertical-align: middle;"><?= $row->MASTER_BARANG_NAMA; ?></td>
+                                <td style="text-align:center ;vertical-align: middle;">.....</td>
+                                <td style="text-align:center ;vertical-align: middle;">.....</td>
+                            <?php
+                                }
+                            ?>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+                <!-- Table row -->
+
+                <?php
+                $data = range(1, 42);
+
+                $numcols = 6;
+
+                $numrows = ceil(count($data) / $numcols);
+
+                echo '<table class="table table-bordered table-ttbk nopadding">';
+
+                for ($r = 0; $r < $numrows; $r++) {
+                    echo '<tr>';
+                    for ($c = 0; $c < $numcols; $c++) {
+                        $cell = isset($data[$r + $c * $numrows]) ? $data[$r + $c * $numrows] : ' ';
+                        echo '<td>', $cell, '.) ................. </td>';
+                    }
+                    echo '</tr>';
+                }
+                echo '</table>';
+                ?>
+                <div class="row invoice-info mb-4">
+                    <div class="col-sm-4 invoice-col">
+                    </div>
+                    <div class="col-sm-3 invoice-col">
+                    </div>
+                    <div class="col-sm-5 invoice-col">
+                    </div>
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-4 text-center">
+                        <p>Diketahui oleh :</p>
+                        <br>
+                        <br>
+                        <br>
+                        <address>
+                            <b>( ............................. )</b><br>
+                            <?= $relasi[0]->MASTER_RELASI_NAMA; ?>
+                        </address>
+                    </div>
+                    <div class="col-4 text-center">
+                        <p>Diterima Oleh :</p>
+                        <br>
+                        <br>
+                        <br>
+                        <address>
+                            <?php
+                            if (empty($driver)) {
+                                $nama_driver = "( ............................. )";
+                                $perusahaan = "";
+                            } else {
+                                $nama_driver = $driver[0]->MASTER_KARYAWAN_NAMA;
+                                $perusahaan = detail_perusahaan()[0]->PERUSAHAAN_NAMA;
+                            }
+                            ?>
+                            <b><?= $nama_driver; ?></b><br>
+                            <?= $perusahaan; ?>
+                        </address>
+                    </div>
+                    <div class="col-4 text-center">
+                        <p>Diperiksa oleh :</p>
+                        <br>
+                        <br>
+                        <br>
+                        <address>
+                            <b><?= $oleh[0]->USER_NAMA; ?></b><br>
+                            <?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?>
+                        </address>
+                    </div>
+                </div>
+            </section>
+        <?php } ?>
     </div>
     <!-- ./wrapper -->
     <!-- Page specific script -->

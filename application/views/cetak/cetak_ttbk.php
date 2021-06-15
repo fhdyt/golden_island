@@ -259,8 +259,6 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
                     <p>Claim hanya dapat dilayani dalam waktu 1x24 Jam sejak barang diterima.</p>
                 </div>
             </div>
-
-
         </section>
         <!-- /.content -->
     </div>
