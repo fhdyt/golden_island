@@ -134,6 +134,11 @@ class Cetak extends CI_Controller
 		$this->load->view('cetak/cetak_titipan', $data);
 	}
 
+	public function form_produksi()
+	{
+		$this->load->view('cetak/form_produksi');
+	}
+
 	// public function member()
 	// {
 	// 	for ($x = 0; $x <= 100; $x++) {

@@ -18,10 +18,11 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <a href="<?= base_url(); ?>produksi/produksi/form" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Produksi</a>
+                            <a href="<?= base_url(); ?>cetak/form_produksi" target="_blank" class="btn btn-success mb-2 btn-form mr-2">Cetak Form Produksi</a>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-7">
                             <div class="input-group">
                                 <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                                 <div class="input-group-append">
