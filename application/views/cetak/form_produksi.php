@@ -131,7 +131,7 @@ error_reporting(0);
                     <h4>............</h4>
                 </div>
                 <div class="col-sm-3 invoice-col">
-                    <h4>Level Awal</h4>
+                    <h4>Level Akhir</h4>
                     <h4>............</h4>
                 </div>
                 <div class="col-sm-6 invoice-col text-right">
