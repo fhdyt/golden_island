@@ -209,4 +209,21 @@ class PenjualanModel extends CI_Model
         }
         return $hasil;
     }
+
+    public function jaminan_list()
+    {
+
+        $tanggal_dari = $this->input->post("tanggal_dari");
+        $tanggal_sampai = $this->input->post("tanggal_sampai");
+
+        $filter_tanggal = 'FAKTUR_JAMINAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
+        $hasil = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE ' . $filter_tanggal . ' AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY FAKTUR_JAMINAN_NOMOR DESC ')->result();
+        foreach ($hasil as $row) {
+            $row->NAMA_RELASI = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->TANGGAL = tanggal($row->FAKTUR_JAMINAN_TANGGAL);
+            $row->SURAT_JALAN = $this->db->query('SELECT SURAT_JALAN_NOMOR FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();;
+        }
+        return $hasil;
+    }
 }

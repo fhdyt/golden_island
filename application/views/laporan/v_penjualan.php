@@ -33,6 +33,8 @@
                             <small class="text-muted">Tanggal Sampai.</small>
                         </div>
                     </div>
+                    <hr>
+                    <h4 class="text-muted">Penjualan</h4>
                     <table id="example2" class="table table-bordered">
                         <thead>
                             <tr>
@@ -57,8 +59,29 @@
                         </tbody>
                     </table>
                     <hr>
+                    <h4 class="text-muted">Jaminan</h4>
+                    <table id="example2" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nomor Jaminan</th>
+                                <th><?= $this->lang->line('nama'); ?></th>
+                                <th>Surat Jalan</th>
+                                <th>Tanggal</th>
+                                <th>Jumlah</th>
+                                <th>Harga</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zone_data_jaminan">
+                            <tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
                     <canvas id="myChart"></canvas>
                     <hr>
+                    <h4 class="text-muted">Jumlah Penjualan</h4>
                     <table id="example2" class="table table-bordered">
                         <thead>
                             <tr>
@@ -89,6 +112,7 @@
     $(function() {
         penjualan_list()
         barang_list()
+        jaminan_list()
         grafik()
     });
 
@@ -207,6 +231,51 @@
         });
     }
 
+    function jaminan_list() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url() ?>index.php/manajemen_tabung/jaminan/list",
+            async: false,
+            dataType: 'json',
+            data: {
+                nama_relasi: $(".relasi").val()
+            },
+            success: function(data) {
+                $("tbody#zone_data_jaminan").empty();
+                if (data.length === 0) {
+                    $("tbody#zone_data_jaminan").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else {
+                    var no = 1
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].FAKTUR_JAMINAN_STATUS == "selesai") {
+                            var tr = "table-success"
+                            var status = "<small class='text-muted'>Jaminan Telah Selesai</small>"
+                            var btn = ""
+                        } else {
+                            var tr = "table-default"
+                            var status = ""
+                            var btn = "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'><i class='fas fa-edit'></i> Selesai Jaminan</a>"
+                        }
+                        $("tbody#zone_data_jaminan").append("<tr class='" + tr + "'>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].FAKTUR_JAMINAN_NOMOR + "</td>" +
+                            "<td>" + data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR + "<br>" + status + "</td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].FAKTUR_JAMINAN_JUMLAH + "</td>" +
+                            "<td>" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "</td>" +
+                            "<td>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
+                            "</tr>");
+                    }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+
     function barang_list() {
         $.ajax({
             type: 'POST',
@@ -322,6 +391,7 @@
     $('.filter_tanggal').on("click", function() {
         memuat()
         penjualan_list()
+        jaminan_list()
         barang_list()
         grafik()
     });
