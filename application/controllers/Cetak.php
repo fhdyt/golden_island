@@ -77,7 +77,7 @@ class Cetak extends CI_Controller
 	public function cetak_panggung()
 	{
 		$this->load->model('laporan/PanggungModel');
-		$data['barang'] = $this->PanggungModel->list();
+		$data['barang'] = $this->PanggungModel->ex_list();
 		$this->load->view('cetak/cetak_panggung', $data);
 	}
 

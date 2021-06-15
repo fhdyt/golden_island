@@ -38,9 +38,9 @@
                                 <th>Nomor Produksi</th>
                                 <th>Tanggal</th>
                                 <th>Jenis Bahan</th>
-                                <th>Level Awal</th>
-                                <th>Level Akhir</th>
-                                <th>G/L</th>
+                                <th>Level Awal <small class="text-muted">Kg</small></th>
+                                <th>Level Akhir <small class="text-muted">Kg</small></th>
+                                <th>G/L <small class="text-muted">M3</small></th>
                                 <th></th>
                             </tr>
                         </thead>
