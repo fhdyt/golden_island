@@ -296,7 +296,7 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
             <section class="invoice">
                 <!-- title row -->
                 <center>
-                    <h3><b>Tanda Terima Botol Kembali (TTBK)</b></h3>
+                    <h3><b>TTBK</b></h3>
                     <h4>No. <?= $no_ttbk; ?></h4>
                 </center>
                 <br>
