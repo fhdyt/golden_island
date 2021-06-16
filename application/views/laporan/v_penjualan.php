@@ -233,11 +233,12 @@
     function jaminan_list() {
         $.ajax({
             type: 'POST',
-            url: "<?php echo base_url() ?>index.php/manajemen_tabung/jaminan/list",
+            url: "<?php echo base_url() ?>index.php/laporan/penjualan/jaminan_list",
             async: false,
             dataType: 'json',
             data: {
-                nama_relasi: $(".relasi").val()
+                tanggal_dari: $(".tanggal_dari").val(),
+                tanggal_sampai: $(".tanggal_sampai").val(),
             },
             success: function(data) {
                 $("tbody#zone_data_jaminan").empty();
