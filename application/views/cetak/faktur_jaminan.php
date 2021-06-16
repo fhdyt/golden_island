@@ -52,7 +52,7 @@
             <!-- info row -->
             <hr>
             <center>
-                <h3><b>Faktur Penjualan</b></h3>
+                <h3><b>Faktur Jaminan</b></h3>
                 <h4>No. <?= $detail[0]->FAKTUR_JAMINAN_NOMOR; ?></h4>
             </center>
             <br>

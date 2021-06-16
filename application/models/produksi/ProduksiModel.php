@@ -102,6 +102,16 @@ class ProduksiModel extends CI_Model
 
     public function add_selesai($config)
     {
+        $data_edit = array(
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('PRODUKSI_ID', $this->input->post('id'));
+        $this->db->update('PRODUKSI', $data_edit);
+
         $data_edit_panggung = array(
             'DELETE_WAKTU' => date("Y-m-d G:i:s"),
             'DELETE_USER' => $this->session->userdata('USER_ID'),
@@ -127,16 +137,38 @@ class ProduksiModel extends CI_Model
         $this->db->update('PRODUKSI_KARYAWAN', $data_edit_karyawan);
 
 
-        $data_edit = array(
+        $data = array(
+            'PRODUKSI_ID' => $this->input->post('id'),
+            'PRODUKSI_NOMOR' => nomor_produksi($this->input->post('tanggal')),
+            'PRODUKSI_TANGGAL' => $this->input->post('tanggal'),
+            'MASTER_BARANG_ID' => $this->input->post('jenis'),
+            'PRODUKSI_LEVEL_AWAL' => $this->input->post('level_awal'),
+            'PRODUKSI_LEVEL_AWAL_FILE' => $config['file_name_awal'],
+
             'PRODUKSI_KONVERSI_NILAI' => $this->input->post('konversi'),
             'PRODUKSI_LEVEL_AKHIR' => $this->input->post('level_akhir'),
             'PRODUKSI_LEVEL_AKHIR_FILE' => $config['file_name'],
             'PRODUKSI_LEVEL_TERPAKAI' => $this->input->post('terpakai'),
             'PRODUKSI_G_L' => $this->input->post('g_l'),
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $this->db->where('PRODUKSI_ID', $this->input->post('id'));
-        $this->db->update('PRODUKSI', $data_edit);
+        $this->db->insert('PRODUKSI', $data);
+
+        // $data_edit = array(
+        //     'PRODUKSI_KONVERSI_NILAI' => $this->input->post('konversi'),
+        //     'PRODUKSI_LEVEL_AKHIR' => $this->input->post('level_akhir'),
+        //     'PRODUKSI_LEVEL_AKHIR_FILE' => $config['file_name'],
+        //     'PRODUKSI_LEVEL_TERPAKAI' => $this->input->post('terpakai'),
+        //     'PRODUKSI_G_L' => $this->input->post('g_l'),
+        // );
+
+        // $this->db->where('PRODUKSI_ID', $this->input->post('id'));
+        // $this->db->update('PRODUKSI', $data_edit);
 
         $barang = $this->db->query('SELECT * 
                                         FROM PRODUKSI_BARANG AS P
@@ -144,7 +176,7 @@ class ProduksiModel extends CI_Model
                                         ON P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
                                         WHERE 
                                         P.PRODUKSI_ID="' . $this->input->post('id') . '"
-                                        AND (P.RECORD_STATUS="AKTIF"  OR P.RECORD_STATUS="DRAFT")
+                                        AND (P.RECORD_STATUS="AKTIF" OR P.RECORD_STATUS="DRAFT")
                                         AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                         AND B.RECORD_STATUS="AKTIF" 
                                         AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 

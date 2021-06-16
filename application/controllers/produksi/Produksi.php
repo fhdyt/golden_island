@@ -74,6 +74,8 @@ class Produksi extends CI_Controller
 
     public function add()
     {
+
+
         if ($this->input->post('userfile_name') == "" and $_FILES["userfile"]["name"] == "") {
             $config['file_name'] = $this->input->post('userfile_name');
         } else  if ($this->input->post('userfile_name') != "" and $_FILES["userfile"]["name"] == "") {
@@ -93,6 +95,21 @@ class Produksi extends CI_Controller
 
     public function add_selesai()
     {
+        if ($this->input->post('userfile_name_awal') == "" and $_FILES["userfile_awal"]["name"] == "") {
+            $config['file_name_awal'] = $this->input->post('userfile_name_awal');
+        } else  if ($this->input->post('userfile_name_awal') != "" and $_FILES["userfile_awal"]["name"] == "") {
+            $config['file_name_awal'] = $this->input->post('userfile_name_awal');
+        } else {
+            $config['name']                    = random_string('sha1', 40);
+            $config['upload_path']          = './uploads/produksi';
+            $config['allowed_types']        = '*';
+            $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile_awal"]["name"], PATHINFO_EXTENSION);
+            $config['file_name_awal']            = $config['name'] . "." . pathinfo($_FILES["userfile_awal"]["name"], PATHINFO_EXTENSION);
+
+            $this->load->library('upload', $config);
+            $this->upload->do_upload('userfile_awal');
+        }
+
         if ($this->input->post('userfile_name') == "" and $_FILES["userfile"]["name"] == "") {
             $config['file_name'] = $this->input->post('userfile_name');
         } else  if ($this->input->post('userfile_name') != "" and $_FILES["userfile"]["name"] == "") {

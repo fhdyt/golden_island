@@ -27,7 +27,7 @@ if (empty($this->uri->segment('4'))) {
                 <div class="card-body">
                     <form id="submit">
                         <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
-                        <div class="row" hidden>
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">No Produksi</label>
@@ -58,16 +58,39 @@ if (empty($this->uri->segment('4'))) {
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Level Awal</label>
+                                    <label for="exampleInputEmail1">Level Awal <small>Kg</small></label>
                                     <input type="text" class="form-control level_awal" name="level_awal" autocomplete="off">
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Foto Level Awal</label>
+                                    <input type="hidden" name="userfile_name_awal" class="form-control userfile_name_awal">
+                                    <input type="file" name="userfile_awal" class="form-control userfile_awal">
+                                    <small class="text-muted"><a href="" target="_blank" class="link_dokument_awal"></a></small>
                                 </div>
                             </div>
                             <hr>
                         </div>
                         <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Level Akhir <small>Kg</small></label>
+                                    <input type="text" class="form-control level_akhir" name="level_akhir" autocomplete="off" onkeyup="kalkulasi()" required>
+                                    <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Foto Level Akhir</label>
+                                    <input type="hidden" name="userfile_name" class="form-control userfile_name">
+                                    <input type="file" name="userfile" class="form-control userfile">
+                                    <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Koversi</label>
@@ -85,27 +108,12 @@ if (empty($this->uri->segment('4'))) {
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Level Akhir <small>Kg</small></label>
-                                    <input type="text" class="form-control level_akhir" name="level_akhir" autocomplete="off" onkeyup="kalkulasi()" required>
-                                    <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Foto Level Akhir</label>
-                                    <input type="hidden" name="userfile_name" class="form-control userfile_name">
-                                    <input type="file" name="userfile" class="form-control userfile">
-                                    <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label for="exampleInputEmail1">Terpakai <small>m3</small></label>
                                     <input type="text" class="form-control terpakai" name="terpakai" autocomplete="off" readonly required>
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">G/L <small>m3</small></label>
                                     <input type="text" class="form-control g_l" name="g_l" autocomplete="off" readonly required>
@@ -270,11 +278,17 @@ if (empty($this->uri->segment('4'))) {
                     $(".level_awal").val(data[0].PRODUKSI_LEVEL_AWAL)
                     $(".level_akhir").val(data[0].PRODUKSI_LEVEL_AKHIR)
                     $(".konversi").val(data[0].PRODUKSI_KONVERSI_NILAI).trigger("change")
+                    if (data[0].PRODUKSI_LEVEL_AWAL_FILE == "") {} else {
+                        $(".userfile_name_awal").val(data[0].PRODUKSI_LEVEL_AWAL_FILE)
+                        $(".link_dokument_awal").html("Lihat Dokumen")
+                        $(".link_dokument_awal").attr("href", "<?= base_url(); ?>uploads/produksi/" + data[0].PRODUKSI_LEVEL_AWAL_FILE + "")
+                    }
+
                     if (data[0].PRODUKSI_LEVEL_AKHIR_FILE == "") {} else {
+                        $(".userfile_name").val(data[0].PRODUKSI_LEVEL_AKHIR_FILE)
                         $(".link_dokument").html("Lihat Dokumen")
                         $(".link_dokument").attr("href", "<?= base_url(); ?>uploads/produksi/" + data[0].PRODUKSI_LEVEL_AKHIR_FILE + "")
                     }
-                    jenis_barang(data[0].MASTER_BARANG_ID)
                     barang_list()
                     karyawan_list()
                 }
@@ -286,6 +300,11 @@ if (empty($this->uri->segment('4'))) {
             } //end error
         });
     }
+
+    $('#jenis').change(function() {
+        jenis_barang($(".jenis").val())
+    });
+
 
     function jenis_barang(id_bahan) {
         $.ajax({

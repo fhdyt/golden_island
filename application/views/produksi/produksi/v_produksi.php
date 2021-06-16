@@ -19,7 +19,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-5">
-                            <a href="<?= base_url(); ?>produksi/produksi/form" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Produksi</a>
+                            <a href="<?= base_url(); ?>produksi/produksi/form_selesai" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Produksi</a>
                             <a href="<?= base_url(); ?>cetak/form_produksi" target="_blank" class="btn btn-success mb-2 btn-form mr-2">Cetak Form Produksi</a>
                         </div>
                         <div class="col-md-7">
@@ -29,7 +29,7 @@
                                     <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
-                            <small class="text-muted">Tanggal Penjualan.</small>
+                            <small class="text-muted">Tanggal Produksi.</small>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
@@ -104,8 +104,7 @@
                             "<td>" + data[i].PRODUKSI_LEVEL_AWAL + "</td>" +
                             "<td>" + level_akhir + "</td>" +
                             "<td>" + g_l + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm mr-2 ' href='<?= base_url(); ?>produksi/produksi/form/" + data[i].PRODUKSI_ID + "/'>Lihat</a> " +
-                            "<a class='btn btn-success btn-sm ' href='<?= base_url(); ?>produksi/produksi/form_selesai/" + data[i].PRODUKSI_ID + "/'>Selesai Produksi</a> " +
+                            "<td><a class='btn btn-primary btn-sm mr-2 ' href='<?= base_url(); ?>produksi/produksi/form_selesai/" + data[i].PRODUKSI_ID + "/'>Lihat</a> " +
                             "</td>" +
                             "</tr>");
                     }
