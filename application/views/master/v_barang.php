@@ -63,6 +63,19 @@
                         </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Prioritas</label>
+                        <select name="prioritas" id="prioritas" name="prioritas" class="form-controlprioritas select2" style="width: 100%;">
+                            <option value="0">0. Sangat Rendah</option>
+                            <option value="1">1. Rendah</option>
+                            <option value="2">2. Sedang</option>
+                            <option value="3">3. Tinggi</option>
+                            <option value="4">4. Sangat Tinggi</option>
+                            <option value="5">5. Utama</option>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('keterangan'); ?></label>
                         <textarea name="keterangan" id="keterangan" class="form-control keterangan"></textarea>
@@ -124,6 +137,7 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Jenis</th>
+                                <th>Prioritas</th>
                                 <th><?= $this->lang->line('keterangan'); ?></th>
 
                                 <th></th>
@@ -178,6 +192,7 @@
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_JENIS + "</td>" +
+                            "<td>" + data[i].MASTER_BARANG_PRIORITAS + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_KETERANGAN + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-edit'></i></a> " +
@@ -261,6 +276,7 @@
                 $(".jenis").val(data[0].MASTER_BARANG_JENIS).trigger('change')
                 $(".satuan").val(data[0].MASTER_BARANG_SATUAN).trigger('change')
                 $(".bahan").val(data[0].MASTER_BARANG_BAHAN).trigger('change')
+                $(".prioritas").val(data[0].MASTER_BARANG_PRIORITAS).trigger('change')
                 $(".id").val(data[0].MASTER_BARANG_ID)
                 $(".nama").val(data[0].MASTER_BARANG_NAMA)
                 $(".keterangan").val(data[0].MASTER_BARANG_KETERANGAN)

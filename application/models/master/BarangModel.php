@@ -9,7 +9,7 @@ class BarangModel extends CI_Model
         } else {
             $filter = 'AND MASTER_BARANG_JENIS="' . $_GET['jenis'] . '"';
         }
-        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ' . $filter . '  ORDER BY MASTER_BARANG_NAMA ASC')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ' . $filter . '  ORDER BY MASTER_BARANG_PRIORITAS DESC, MASTER_BARANG_NAMA ASC')->result();
         return $hasil;
     }
 
@@ -25,6 +25,7 @@ class BarangModel extends CI_Model
                 'MASTER_BARANG_TOTAL' => $this->input->post('total'),
                 'MASTER_BARANG_SATUAN' => $this->input->post('satuan'),
                 'MASTER_BARANG_BAHAN' => $this->input->post('bahan'),
+                'MASTER_BARANG_PRIORITAS' => $this->input->post('prioritas'),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
@@ -53,6 +54,7 @@ class BarangModel extends CI_Model
                 'MASTER_BARANG_TOTAL' => $this->input->post('total'),
                 'MASTER_BARANG_SATUAN' => $this->input->post('satuan'),
                 'MASTER_BARANG_BAHAN' => $this->input->post('bahan'),
+                'MASTER_BARANG_PRIORITAS' => $this->input->post('prioritas'),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),

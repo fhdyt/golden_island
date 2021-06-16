@@ -289,7 +289,7 @@ if (!function_exists('tabung')) {
   {
     $CI = &get_instance();
     $CI->load->database();
-    $hasil = $CI->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_NAMA ASC')->result();
+    $hasil = $CI->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_PRIORITAS DESC, MASTER_BARANG_NAMA ASC')->result();
     return $hasil;
   }
 }

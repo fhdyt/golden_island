@@ -9,8 +9,9 @@ class PanggungModel extends CI_Model
                                                     MASTER_BARANG 
                                                     WHERE 
                                                     MASTER_BARANG_JENIS="gas"
+                                                    AND NOT MASTER_BARANG_PRIORITAS="0"
                                                     AND RECORD_STATUS="AKTIF" 
-                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_NAMA')->result();
+                                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_PRIORITAS DESC, MASTER_BARANG_NAMA ASC')->result();
         foreach ($hasil as $row) {
 
             $row->SALDO_MP_ISI_OUT = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS JUMLAH FROM 
