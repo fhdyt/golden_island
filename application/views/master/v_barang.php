@@ -66,7 +66,7 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">Prioritas</label>
-                        <select name="prioritas" id="prioritas" name="prioritas" class="form-controlprioritas select2" style="width: 100%;">
+                        <select name="prioritas" id="prioritas" name="prioritas" class="form-control prioritas select2" style="width: 100%;">
                             <option value="0">0. Sangat Rendah</option>
                             <option value="1">1. Rendah</option>
                             <option value="2">2. Sedang</option>
