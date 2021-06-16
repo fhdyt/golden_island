@@ -153,7 +153,11 @@
                             var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
                             var terbayar = data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR;
                             var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar)
-
+                            if (piutang < 0) {
+                                piutang = 0
+                            } else {
+                                piutang = piutang
+                            }
                             var btn_faktur_cetak = "<a class='btn btn-primary btn-xs' target='_blank' href='<?= base_url(); ?>cetak/faktur/" + data[i].TERBAYAR[0].FAKTUR_ID + "'>Lihat Faktur Penjualan</a>"
                         }
                         total_terbayar += parseInt(terbayar)
