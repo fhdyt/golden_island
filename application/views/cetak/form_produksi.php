@@ -145,83 +145,35 @@ error_reporting(0);
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Sesi</th>
+                        <th>Rak</th>
                         <th>MP</th>
                         <th>MR</th>
                         <th>Keterangan</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
+                    <?php
+                    for ($x = 1; $x <= 8; $x++) {
 
-                    </tr>
-                    <tr>
-                        <td>2. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
+                    ?>
+                        <tr>
+                            <td>1. </td>
+                            <td>.....</td>
+                            <td>.....</td>
+                            <td>.....</td>
 
-                    </tr>
-                    <tr>
-                        <td>3. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
+                        </tr>
+                        <tr>
+                            <td>2. </td>
+                            <td>.....</td>
+                            <td>.....</td>
+                            <td>.....</td>
 
-                    </tr>
-                    <tr>
-                        <td>4. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
+                        </tr>
 
-                    </tr>
-                    <tr>
-                        <td>5. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
-
-                    </tr>
-                    <tr>
-                        <td>6. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
-
-                    </tr>
-                    <tr>
-                        <td>7. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
-
-                    </tr>
-                    <tr>
-                        <td>8. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
-
-                    </tr>
-                    <tr>
-                        <td>9. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
-
-                    </tr>
-                    <tr>
-                        <td>10. </td>
-                        <td>.....</td>
-                        <td>.....</td>
-                        <td>.....</td>
-
-                    </tr>
+                    <?php
+                    }
+                    ?>
                     <tr>
                         <td style="text-align:center"><b>Total</b></td>
                         <td>.....</td>
