@@ -50,6 +50,12 @@ class Penjualan extends CI_Controller
         echo json_encode($data);
     }
 
+    public function jaminan_list()
+    {
+        $data = $this->PenjualanModel->jaminan_list();
+        echo json_encode($data);
+    }
+
     public function add()
     {
         $data = $this->PenjualanModel->add();
