@@ -158,7 +158,7 @@ class RelasiModel extends CI_Model
 
     public function harga_list($id)
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_NAMA AND MASTER_BARANG_JENIS="gas" ASC ')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_PRIORITAS DESC, MASTER_BARANG_NAMA ASC')->result();
         foreach ($hasil as $row) {
             $harga = $this->db->query('SELECT * FROM 
             MASTER_HARGA WHERE MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND MASTER_RELASI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
