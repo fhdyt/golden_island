@@ -434,6 +434,30 @@ class Realisasi_ttbkModel extends CI_Model
         return $result;
     }
 
+    public function hapus_semua($surat_jalan_id)
+    {
+        $data_mr = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('SURAT_JALAN_ID', $surat_jalan_id);
+        $this->db->update('REALISASI_TTBK_BARANG_MR', $data_mr);
+
+        $data = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('SURAT_JALAN_ID', $surat_jalan_id);
+        $this->db->update('REALISASI_TTBK_BARANG', $data);
+        return true;
+    }
+
     public function detail($id)
     {
         $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();

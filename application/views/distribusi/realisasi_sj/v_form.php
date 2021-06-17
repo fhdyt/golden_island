@@ -170,7 +170,7 @@
                                         <th>Jenis</th>
                                         <th>Nomor Tabung</th>
                                         <th>Kode Tabung</th>
-                                        <th></th>
+                                        <th><a class="btn btn-danger btn_hapus_semua btn-sm">Hapus Semua</a></th>
                                     </tr>
                                 </thead>
                                 <tbody id="zone_data_tabung_sj">
@@ -658,6 +658,43 @@
             }
         })
     }
+
+    $(".btn_hapus_semua").on("click", function() {
+        Swal.fire({
+            title: '<?= $this->lang->line('hapus'); ?> Semua ?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'ajax',
+                    url: '<?php echo base_url() ?>index.php/distribusi/realisasi_sj/hapus_semua?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
+                    beforeSend: function() {
+                        memuat()
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.length === 0) {} else {
+                            realisasi_list()
+                            memuat()
+                            Swal.fire('Berhasil', 'Berhasil dihapus', 'success')
+                        }
+                    },
+                    error: function(x, e) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Proses Gagal'
+                        })
+                    } //end error
+                });
+
+            }
+        })
+
+    })
 
     $('.jenis').change(function() {
         // jenis_tabung()
