@@ -6,7 +6,7 @@ class Log_loginModel extends CI_Model
     {
         $hasil = $this->db->query('SELECT * FROM 
                                     LOGIN_LOG LOGIN_LOG_WAKTU 
-                                    WHERE LOGIN_LOG_WAKTU="' . $this->input->post('tanggal') . '"
+                                    WHERE LOGIN_LOG_WAKTU LIKE "%' . $this->input->post('tanggal') . '%"
                                     ORDER BY LOGIN_LOG_WAKTU DESC')->result();
         foreach ($hasil as $row) {
             $row->USER_NAMA = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->USER_ID . '" AND RECORD_STATUS="AKTIF"')->result();
