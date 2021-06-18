@@ -30,7 +30,6 @@
                             <small class="text-muted">Tanggal.</small>
                         </div>
                     </div>
-                    <hr>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
