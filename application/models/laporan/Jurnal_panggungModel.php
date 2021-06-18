@@ -9,6 +9,11 @@ class Jurnal_panggungModel extends CI_Model
         } else {
             $filter_relasi = 'AND MASTER_RELASI_ID="' . $this->input->post('relasi') . '"';
         }
+        if (empty($this->input->post('supplier'))) {
+            $filter_supplier = "";
+        } else {
+            $filter_supplier = 'AND MASTER_SUPPLIER_ID="' . $this->input->post('supplier') . '"';
+        }
 
         if (empty($this->input->post('tabung'))) {
             $filter_tabung = "";
@@ -44,6 +49,7 @@ class Jurnal_panggungModel extends CI_Model
         RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
         ' . $filter_tanggal . '
         ' . $filter_relasi . '
+        ' . $filter_supplier . '
         ' . $filter_status . '
         ' . $filter_tabung . '
         ' . $filter_in_out_status . '

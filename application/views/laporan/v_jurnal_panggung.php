@@ -24,9 +24,9 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <select name="relasi_filter" id="relasi_filter" class="form-control relasi_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <option value="">-</option>
                                 <?php
                                 foreach (relasi_list() as $row) {
                                 ?>
@@ -37,9 +37,22 @@
                             </select>
                             <small class="text-muted">Nama Relasi</small>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <select name="supplier_filter" id="supplier_filter" class="form-control supplier_filter select2" style="width: 100%;">
+                                <option value="">-</option>
+                                <?php
+                                foreach (supplier_list() as $row) {
+                                ?>
+                                    <option value="<?= $row->MASTER_SUPPLIER_ID; ?>"><?= $row->MASTER_SUPPLIER_NAMA; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <small class="text-muted">Nama Supplier</small>
+                        </div>
+                        <div class="col-md-4">
                             <select name="tabung_filter" id="tabung_filter" class="form-control tabung_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <option value="">-</option>
                                 <?php
                                 foreach (tabung($relasi[0]->MASTER_RELASI_ID) as $row) {
                                 ?>
@@ -52,7 +65,7 @@
                         </div>
                         <div class="col-md-4 mt-2">
                             <select name="in_out_filter" id="in_out_filter" class="form-control in_out_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <option value="">-</option>
                                 <option value="in">Masuk</option>
                                 <option value="out">Keluar</option>
                             </select>
@@ -60,7 +73,7 @@
                         </div>
                         <div class="col-md-4 mt-2">
                             <select name="isi_kosong_filter" id="isi_kosong_filter" class="form-control isi_kosong_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <option value="">-</option>
                                 <option value="1">Isi</option>
                                 <option value="0">Kosong</option>
                             </select>
@@ -68,7 +81,7 @@
                         </div>
                         <div class="col-md-4 mt-2">
                             <select name="status_filter" id="status_filter" class="form-control status_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <option value="">-</option>
                                 <option value="MP">MP</option>
                                 <option value="MR">MR</option>
                             </select>
@@ -138,6 +151,7 @@
             async: false,
             dataType: 'json',
             data: {
+                supplier: $(".supplier_filter").val(),
                 relasi: $(".relasi_filter").val(),
                 tabung: $(".tabung_filter").val(),
                 status: $(".status_filter").val(),
