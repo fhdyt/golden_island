@@ -68,6 +68,13 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
                 size: 21.59cm 13.97cm;
             } */
 
+            table.liquid {
+                border: 2px solid black !important;
+                ;
+                margin-top: 20px !important;
+                ;
+            }
+
             table.table-bordered {
                 border: 2px solid white !important;
                 ;
@@ -182,7 +189,7 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
                         foreach ($barang as $row) { ?>
                             <tr>
                                 <td><?= $row->MASTER_BARANG_NAMA; ?></td>
-                                <td><?= number_format(($row->SURAT_JALAN_BARANG_QUANTITY + $row->SURAT_JALAN_BARANG_QUANTITY_KOSONG), 0, ",", "."); ?></td>
+                                <td><?= number_format(($row->SURAT_JALAN_BARANG_QUANTITY + $row->SURAT_JALAN_BARANG_QUANTITY_KOSONG), 0, ",", "."); ?> <?= $row->SURAT_JALAN_BARANG_SATUAN; ?></td>
                             </tr>
                         <?php
                         }
@@ -197,34 +204,49 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
             <!-- Table row -->
 
             <?php
-
-            $numcols = 6;
-
-            $numrows = ceil((count($barang_mp) + count($barang_mr)) / $numcols);
-
-            echo '<table class="table table-bordered">';
-            $no = 1;
-            for ($r = 0; $r < $numrows; $r++) {
+            if ($detail[0]->SURAT_JALAN_STATUS_JENIS == "liquid") {
+                echo '<table class="table liquid">';
                 echo '<tr>';
-                for ($c = 0; $c < $numcols; $c++) {
-
-                    $cell = $r + $c * $numrows;
-                    $cell_mr = 0;
-                    if ($cell >= (count($barang_mp) + count($barang_mr))) {
-                        echo '<td>----------</td>';
-                    } elseif ($cell < count($barang_mp)) {
-                        if (count($barang_mp[$cell]->KODE_TABUNG[0]) == 0) {
-                            echo '<td>' . ($cell + 1) . '.) ................. (MP)</td>';
-                        } else {
-                            echo '<td>' . ($cell + 1) . '.) ' . $barang_mp[$cell]->KODE_TABUNG[0]->MASTER_TABUNG_KODE . ' (MP)</td>';
-                        }
-                    } else if ($cell >= count($barang_mp)) {
-                        echo '<td>' . ($cell + 1) . '.) ................. (MR)</td>';
-                    }
-                }
+                echo '<td>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '</td>';
                 echo '</tr>';
+                echo '</table>';
+            } else {
+                $numcols = 6;
+
+                $numrows = ceil((count($barang_mp) + count($barang_mr)) / $numcols);
+
+                echo '<table class="table table-bordered">';
+                $no = 1;
+                for ($r = 0; $r < $numrows; $r++) {
+                    echo '<tr>';
+                    for ($c = 0; $c < $numcols; $c++) {
+
+                        $cell = $r + $c * $numrows;
+                        $cell_mr = 0;
+                        if ($cell >= (count($barang_mp) + count($barang_mr))) {
+                            echo '<td>----------</td>';
+                        } elseif ($cell < count($barang_mp)) {
+                            if (count($barang_mp[$cell]->KODE_TABUNG[0]) == 0) {
+                                echo '<td>' . ($cell + 1) . '.) ................. (MP)</td>';
+                            } else {
+                                echo '<td>' . ($cell + 1) . '.) ' . $barang_mp[$cell]->KODE_TABUNG[0]->MASTER_TABUNG_KODE . ' (MP)</td>';
+                            }
+                        } else if ($cell >= count($barang_mp)) {
+                            echo '<td>' . ($cell + 1) . '.) ................. (MR)</td>';
+                        }
+                    }
+                    echo '</tr>';
+                }
+                echo '</table>';
             }
-            echo '</table>';
             ?>
             <div class="row invoice-info mb-4">
                 <div class="col-sm-4 invoice-col">

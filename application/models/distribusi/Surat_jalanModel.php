@@ -43,14 +43,25 @@ class Surat_jalanModel extends CI_Model
         } else {
             $nomor_surat_jalan = $this->input->post('nomor_surat_jalan');
         }
+
+        if ($this->input->post('jenis') == "liquid") {
+            $realisasi_sj = "selesai";
+            $realisasi_ttbk = "selesai";
+        } else {
+            $realisasi_sj = "";
+            $realisasi_ttbk = "";
+        }
         $data = array(
             'SURAT_JALAN_ID' => $this->input->post('id'),
             'SURAT_JALAN_JENIS' => $this->input->post('jenis_sj'),
             'SURAT_JALAN_NOMOR' => $nomor_surat_jalan,
+            'SURAT_JALAN_STATUS_JENIS' => $this->input->post('jenis'),
             'SURAT_JALAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
             'SURAT_JALAN_TANGGAL' => $this->input->post('tanggal'),
             'SURAT_JALAN_KETERANGAN' => $this->input->post('keterangan'),
             'SURAT_JALAN_STATUS' => "open",
+            'SURAT_JALAN_REALISASI_STATUS' => $realisasi_sj,
+            'SURAT_JALAN_REALISASI_TTBK_STATUS' => $realisasi_ttbk,
             'MASTER_RELASI_ID' => $this->input->post('relasi'),
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
             'DRIVER_ID' => $this->input->post('driver'),

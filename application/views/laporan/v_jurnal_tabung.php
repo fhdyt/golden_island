@@ -20,7 +20,7 @@
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <select name="relasi_filter" id="relasi_filter" class="form-control relasi_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <option value="">-</option>
                                 <?php
                                 foreach (relasi_list() as $row) {
                                 ?>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-md-6">
                             <select name="tabung_filter" id="tabung_filter" class="form-control tabung_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <option value="">-</option>
                                 <?php
                                 foreach (tabung($relasi[0]->MASTER_RELASI_ID) as $row) {
                                 ?>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-4 mt-2">
                             <select name="status_filter" id="status_filter" class="form-control status_filter select2" style="width: 100%;">
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
+                                <option value="">-</option>
                                 <option value="MP">MP</option>
                                 <option value="MR">MR</option>
                             </select>

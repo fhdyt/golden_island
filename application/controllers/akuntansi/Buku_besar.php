@@ -29,8 +29,10 @@ class Buku_besar extends CI_Controller
 
     public function index()
     {
+        $data['surat_jalan'] = $this->Buku_besarModel->surat_jalan_3();
+        //        print_r($data['surat_jalan']);
         $this->load->view('_template/header');
-        $this->load->view('akuntansi/v_buku_besar');
+        $this->load->view('akuntansi/v_buku_besar', $data);
         $this->load->view('_template/footer');
     }
 

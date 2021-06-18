@@ -19,12 +19,24 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Jenis</label>
-                        <select class="form-control" name="jenis_pengeluaran">
+                        <select class="form-control jenis_pengeluaran" name="jenis_pengeluaran">
                             <option value="Pengeluaran Harian">Pengeluaran Harian</option>
                             <option value="Uang Jalan">Uang Jalan</option>
                             <option value="Jaminan">Jaminan</option>
                             <option value="Reimburse">Reimburse</option>
                             <option value="Lainnya">Lainnya</option>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group uang_jalan" hidden>
+                        <label for="exampleInputEmail1">Nomor Surat Jalan</label>
+                        <select name="nomor_surat_jalan" id="nomor_surat_jalan" class="form-control form-control-sm nomor_surat_jalan select2" style="width: 100%;">
+                            <option value="">-- Surat Jalan --</option>
+                            <?php
+                            foreach ($surat_jalan as $row) { ?>
+                                <option value="<?= $row->SURAT_JALAN_ID ?>"><?= $row->SURAT_JALAN_NOMOR ?></option>
+                            <?php }
+                            ?>
                         </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
@@ -38,9 +50,9 @@
                         <input type="text" class="form-control kredit" name="kredit" autocomplete="off" value="0" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group userfile">
                         <label for="exampleInputEmail1">Dokumen</label>
-                        <input type="file" name="userfile" class="form-control" required>
+                        <input type="file" name="userfile" class="form-control userfile" required>
                         <small class="text-muted"><a href="" target="_blank" class="link_dokument"></a></small>
                     </div>
                     <div class="form-group">
@@ -311,7 +323,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + data['data'][i].TANGGAL + "</td>" +
                             "<td>" + data['data'][i].BUKU_BESAR_KETERANGAN + "<br>" + file + "</td>" +
-                            "<td>" + data['data'][i].BUKU_BESAR_SUMBER + "</td>" +
+                            "<td>" + data['data'][i].BUKU_BESAR_SUMBER + "<br><small class='text-muted'>" + data['data'][i].BUKU_BESAR_JENIS_PENGELUARAN + "</small></td>" +
                             "<td>" + number_format(data['data'][i].BUKU_BESAR_DEBET) + "</td>" +
                             "<td>" + number_format(data['data'][i].BUKU_BESAR_KREDIT) + "</td>" +
                             "<td>" + number_format(saldo) + "</td>" +
@@ -428,6 +440,21 @@
     $('.akun').change(function() {
         memuat()
         buku_besar_list()
+    });
+    $('.jenis_pengeluaran').change(function() {
+        if ($('.jenis_pengeluaran').val() == "Uang Jalan") {
+            $(".uang_jalan").attr("hidden", false)
+            $(".nomor_surat_jalan").attr("required", true)
+
+            $(".userfile").attr("hidden", true)
+            $(".userfile").attr("required", false)
+        } else {
+            $(".uang_jalan").attr("hidden", true)
+            $(".nomor_surat_jalan").attr("required", false)
+
+            $(".userfile").attr("hidden", false)
+            $(".userfile").attr("required", true)
+        }
     });
 
     $('.filter_tanggal').on("click", function() {

@@ -45,9 +45,22 @@ class Buku_besarModel extends CI_Model
 
     public function add($akun, $config)
     {
+        if ($this->input->post('jenis_pengeluaran') == "Uang Jalan") {
+            $hasil = $this->db->query('SELECT * FROM 
+        SURAT_JALAN
+        WHERE 
+        SURAT_JALAN_ID="' . $this->input->post('nomor_surat_jalan') . '"
+        AND
+        RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+            $ref = $hasil[0]->SURAT_JALAN_ID;
+            $surat_jalan_nomor = $hasil[0]->SURAT_JALAN_NOMOR;
+        } else {
+            $ref = "";
+            $surat_jalan_nomor = "";
+        }
         $data_buku_besar = array(
             'BUKU_BESAR_ID' => create_id(),
-            'BUKU_BESAR_REF' => $this->input->post('id'),
+            'BUKU_BESAR_REF' => $ref,
             'AKUN_ID' => $akun,
             'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
             'BUKU_BESAR_JENIS' => "KREDIT",
@@ -55,7 +68,7 @@ class Buku_besarModel extends CI_Model
             'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('debet')),
             'BUKU_BESAR_SUMBER' => "BUKU BESAR",
             'BUKU_BESAR_JENIS_PENGELUARAN' => $this->input->post('jenis_pengeluaran'),
-            'BUKU_BESAR_KETERANGAN' => $this->input->post('keterangan'),
+            'BUKU_BESAR_KETERANGAN' => $this->input->post('keterangan') . " " . $surat_jalan_nomor,
             'BUKU_BESAR_FILE' => $config['file_name'],
 
             'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
@@ -68,10 +81,23 @@ class Buku_besarModel extends CI_Model
         return $result;
     }
 
+    public function surat_jalan_3()
+    {
+        $hari_ini = date("Y-m-d");
+        $before = date('Y-m-d', strtotime('-3 days'));
+        $hasil = $this->db->query('SELECT * FROM 
+        SURAT_JALAN
+        WHERE 
+        SURAT_JALAN_TANGGAL BETWEEN "' . $before . '" AND "' . $hari_ini . '" 
+        AND
+        RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC')->result();
+        return $hasil;
+    }
+
     public function transfer()
     {
         $data_dari = array(
-            'BUKU_BESAR_ID' => create_id(),
+            'SURAT_JALAN_ID' => create_id(),
             'BUKU_BESAR_REF' => $this->input->post('id'),
             'AKUN_ID' => $this->input->post('akun_dari'),
             'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),

@@ -137,6 +137,9 @@ class FakturModel extends CI_Model
             $this->db->insert('PIUTANG', $data_piutang);
         }
 
+        $relasi = $this->db->query('SELECT * FROM 
+        MASTER_RELASI
+        WHERE MASTER_RELASI_ID="' . $this->input->post('relasi') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
 
         $data_buku_besar = array(
             'BUKU_BESAR_ID' => create_id(),
@@ -146,7 +149,7 @@ class FakturModel extends CI_Model
             'BUKU_BESAR_KREDIT' => "0",
             'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('bayar')),
             'BUKU_BESAR_SUMBER' => "PENJUALAN",
-            'BUKU_BESAR_KETERANGAN' => "PENJUALAN " . $nomor_faktur,
+            'BUKU_BESAR_KETERANGAN' => "PENJUALAN " . $nomor_faktur . " <br>(" . $relasi[0]->MASTER_RELASI_NAMA . ")",
 
             'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

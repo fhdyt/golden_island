@@ -321,6 +321,7 @@ if (empty($this->uri->segment('4'))) {
                     $(".nomor_surat_jalan").val(data[0].SURAT_JALAN_NOMOR)
                     $(".tanggal").val(data[0].SURAT_JALAN_TANGGAL)
                     $(".jenis_sj").val(data[0].SURAT_JALAN_JENIS)
+                    $(".jenis").val(data[0].SURAT_JALAN_STATUS_JENIS).trigger("change")
                     $(".relasi").val(data[0].MASTER_RELASI_ID).trigger("change")
                     $(".supplier").val(data[0].MASTER_SUPPLIER_ID).trigger("change")
                     $(".driver").val(data[0].DRIVER_ID).trigger("change")
@@ -387,30 +388,38 @@ if (empty($this->uri->segment('4'))) {
     }
 
     $('.btn-add-barang-isi').on("click", function(e) {
-        $.ajax({
-            type: "POST",
-            url: '<?php echo base_url(); ?>index.php/distribusi/surat_jalan/add_barang',
-            dataType: "JSON",
-            beforeSend: function() {
-                memuat()
-            },
-            data: {
-                id: "<?= $id; ?>",
-                barang: $('.barang_isi').val(),
-                jenis: $('.jenis').val(),
-                quantity_barang: $('.quantity_barang_add_isi').val(),
-                quantity_barang_kosong: $('.quantity_barang_add_kosong').val(),
-                quantity_barang_klaim: $('.quantity_barang_add_klaim').val(),
-                satuan_barang: $('.satuan_barang').val(),
-            },
-            success: function(data) {
-                memuat()
-                $('.quantity_barang_add_isi').val("0")
-                $('.quantity_barang_add_kosong').val("0")
-                $('.quantity_barang_add_klaim').val("0")
-                barang_list()
-            }
-        });
+        if ($('.barang_isi').val() == null) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Pilih nama barang terlebih dahulu'
+            })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo base_url(); ?>index.php/distribusi/surat_jalan/add_barang',
+                dataType: "JSON",
+                beforeSend: function() {
+                    memuat()
+                },
+                data: {
+                    id: "<?= $id; ?>",
+                    barang: $('.barang_isi').val(),
+                    jenis: $('.jenis').val(),
+                    quantity_barang: $('.quantity_barang_add_isi').val(),
+                    quantity_barang_kosong: $('.quantity_barang_add_kosong').val(),
+                    quantity_barang_klaim: $('.quantity_barang_add_klaim').val(),
+                    satuan_barang: $('.satuan_barang').val(),
+                },
+                success: function(data) {
+                    memuat()
+                    $('.quantity_barang_add_isi').val("0")
+                    $('.quantity_barang_add_kosong').val("0")
+                    $('.quantity_barang_add_klaim').val("0")
+                    barang_list()
+                }
+            });
+        }
     })
 
 
