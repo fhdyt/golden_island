@@ -26,7 +26,6 @@
                                 <th>OS</th>
                                 <th>Platform</th>
                                 <th>IP</th>
-                                <th>Alamat</th>
                             </tr>
                         </thead>
                         <tbody id="zone_data">
@@ -76,7 +75,6 @@
                             "<td>" + data[i].LOGIN_LOG_PLATFORM + "</td>" +
                             "<td>" + data[i].LOGIN_LOG_BROWSER + "</td>" +
                             "<td>" + data[i].LOGIN_LOG_IP + "</td>" +
-                            "<td>" + data[i].LOGIN_LOG_ALAMAT + "</td>" +
                             "</tr>");
                     }
                 }
