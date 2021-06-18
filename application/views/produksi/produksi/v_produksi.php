@@ -22,14 +22,40 @@
                             <a href="<?= base_url(); ?>produksi/produksi/form_selesai" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Produksi</a>
                             <a href="<?= base_url(); ?>cetak/form_produksi" target="_blank" class="btn btn-success mb-2 btn-form mr-2">Cetak Form Produksi</a>
                         </div>
-                        <div class="col-md-7">
-                            <div class="input-group">
-                                <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
-                                <div class="input-group-append">
-                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
-                                </div>
-                            </div>
-                            <small class="text-muted">Tanggal Produksi.</small>
+                        <div class="col-md-2">
+                            <select name="bulan" id="bulan" class="form-control select2 bulan" style="width: 100%;">
+                                <?php
+                                foreach (bulan() as $value => $text) {
+                                    if ($value == date("m")) {
+                                        $select = "selected";
+                                    } else {
+                                        $select = "";
+                                    }
+                                ?>
+                                    <option value="<?= $value; ?>" <?= $select; ?>><?= $text; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="tahun" id="tahun" class="form-control select2 tahun" style="width: 100%;">
+                                <?php
+                                foreach (tahun() as $value => $text) {
+                                    if ($value == date("Y")) {
+                                        $select = "selected";
+                                    } else {
+                                        $select = "";
+                                    }
+                                ?>
+                                    <option value="<?= $value; ?>" <?= $select; ?>><?= $text; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
@@ -46,6 +72,10 @@
                             </tr>
                         </thead>
                         <tbody id="zone_data">
+                            <tr>
+                            </tr>
+                        </tbody>
+                        <tbody id="zone_data_total">
                             <tr>
                             </tr>
                         </tbody>
@@ -75,16 +105,19 @@
             async: false,
             dataType: 'json',
             data: {
-                tanggal: $(".tanggal").val()
+                bulan: $(".bulan").val(),
+                tahun: $(".tahun").val()
             },
             success: function(data) {
                 $("tbody#zone_data").empty();
+                $("tbody#zone_data_total").empty();
                 memuat()
                 console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
+                    var total_gl = 0
                     for (i = 0; i < data.length; i++) {
                         if (data[i].PRODUKSI_G_L == null) {
                             var g_l = "-"
@@ -96,6 +129,8 @@
                         } else {
                             var level_akhir = data[i].PRODUKSI_LEVEL_AKHIR
                         }
+
+                        total_gl += parseInt(data[i].PRODUKSI_G_L)
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].PRODUKSI_NOMOR + "</td>" +
@@ -108,6 +143,7 @@
                             "</td>" +
                             "</tr>");
                     }
+                    $("tbody#zone_data_total").append('<tr><td colspan="6" style="text-align:right">Total</td><td>' + total_gl + '</td></tr>')
                 }
             },
             error: function(x, e) {

@@ -10,7 +10,8 @@ class ProduksiModel extends CI_Model
                                     ON
                                     P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
                                     WHERE 
-                                    P.PRODUKSI_TANGGAL = "' . $this->input->post('tanggal') . '"
+                                    MONTH(P.PRODUKSI_TANGGAL) = ' . $this->input->post('bulan') . ' 
+                                        AND YEAR(P.PRODUKSI_TANGGAL) = ' . $this->input->post('tahun') . ' 
                                     AND
                                     P.RECORD_STATUS="AKTIF" 
                                     AND 
@@ -289,12 +290,13 @@ class ProduksiModel extends CI_Model
 
     public function detail($id)
     {
-        $hasil = $this->db->query('SELECT * FROM PRODUKSI WHERE PRODUKSI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
-        foreach ($hasil as $row) {
+        $hasil['data'] = $this->db->query('SELECT * FROM PRODUKSI WHERE PRODUKSI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        foreach ($hasil['data'] as $row) {
             $row->TANGGAL = date("Y-m-d", strtotime($row->PRODUKSI_TANGGAL));
             $row->KONVERSI = $this->db->query('SELECT * FROM KONVERSI WHERE KONVERSI_DARI LIKE "%kg%" AND KONVERSI_KE LIKE "%m3%" AND RECORD_STATUS="AKTIF"
                                         AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         }
+        $hasil['terakhir'] = $this->db->query('SELECT * FROM PRODUKSI WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PRODUKSI_TANGGAL DESC LIMIT 1')->result();
         return $hasil;
     }
 }

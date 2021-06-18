@@ -61,7 +61,7 @@ if (empty($this->uri->segment('4'))) {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Level Awal <small>Kg</small></label>
-                                    <input type="text" class="form-control level_awal" name="level_awal" autocomplete="off">
+                                    <input type="text" class="form-control level_awal" name="level_awal" autocomplete="off" readonly>
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
@@ -272,22 +272,25 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 memuat()
                 if (data.length == 0) {} else {
-                    $(".nomor_produksi").val(data[0].PRODUKSI_NOMOR)
-                    $(".tanggal").val(data[0].TANGGAL)
-                    $(".jenis").val(data[0].MASTER_BARANG_ID).trigger('change')
-                    $(".level_awal").val(data[0].PRODUKSI_LEVEL_AWAL)
-                    $(".level_akhir").val(data[0].PRODUKSI_LEVEL_AKHIR)
-                    $(".konversi").val(data[0].PRODUKSI_KONVERSI_NILAI).trigger("change")
-                    if (data[0].PRODUKSI_LEVEL_AWAL_FILE == "") {} else {
-                        $(".userfile_name_awal").val(data[0].PRODUKSI_LEVEL_AWAL_FILE)
+                    if (data['data'].length == "") {
+                        $(".level_awal").val(data['terakhir'][0].PRODUKSI_LEVEL_AKHIR)
+                    }
+                    $(".nomor_produksi").val(data['data'][0].PRODUKSI_NOMOR)
+                    $(".tanggal").val(data['data'][0].TANGGAL)
+                    $(".jenis").val(data['data'][0].MASTER_BARANG_ID).trigger('change')
+                    $(".level_awal").val(data['data'][0].PRODUKSI_LEVEL_AWAL)
+                    $(".level_akhir").val(data['data'][0].PRODUKSI_LEVEL_AKHIR)
+                    $(".konversi").val(data['data'][0].PRODUKSI_KONVERSI_NILAI).trigger("change")
+                    if (data['data'][0].PRODUKSI_LEVEL_AWAL_FILE == "") {} else {
+                        $(".userfile_name_awal").val(data['data'][0].PRODUKSI_LEVEL_AWAL_FILE)
                         $(".link_dokument_awal").html("Lihat Dokumen")
-                        $(".link_dokument_awal").attr("href", "<?= base_url(); ?>uploads/produksi/" + data[0].PRODUKSI_LEVEL_AWAL_FILE + "")
+                        $(".link_dokument_awal").attr("href", "<?= base_url(); ?>uploads/produksi/" + data['data'][0].PRODUKSI_LEVEL_AWAL_FILE + "")
                     }
 
-                    if (data[0].PRODUKSI_LEVEL_AKHIR_FILE == "") {} else {
-                        $(".userfile_name").val(data[0].PRODUKSI_LEVEL_AKHIR_FILE)
+                    if (data['data'][0].PRODUKSI_LEVEL_AKHIR_FILE == "") {} else {
+                        $(".userfile_name").val(data['data'][0].PRODUKSI_LEVEL_AKHIR_FILE)
                         $(".link_dokument").html("Lihat Dokumen")
-                        $(".link_dokument").attr("href", "<?= base_url(); ?>uploads/produksi/" + data[0].PRODUKSI_LEVEL_AKHIR_FILE + "")
+                        $(".link_dokument").attr("href", "<?= base_url(); ?>uploads/produksi/" + data['data'][0].PRODUKSI_LEVEL_AKHIR_FILE + "")
                     }
                     barang_list()
                     karyawan_list()
