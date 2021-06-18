@@ -17,6 +17,20 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Tanggal.</small>
+                        </div>
+                    </div>
+                    <hr>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -55,10 +69,13 @@
 
     function satuan_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/sistem/log_login/list",
             async: false,
             dataType: 'json',
+            data: {
+                tanggal: $(".tanggal").val()
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
@@ -84,4 +101,9 @@
             }
         });
     }
+
+    $('.filter_tanggal').on("click", function() {
+        memuat()
+        satuan_list()
+    });
 </script>
