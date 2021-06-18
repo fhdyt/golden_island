@@ -14,6 +14,22 @@ class LoginModel extends CI_Model
         $this->session->set_userdata('PERUSAHAAN_KODE', $data_user->PERUSAHAAN_KODE);
         $this->session->set_userdata('USER_BAHASA', $data_user->USER_BAHASA);
         $this->session->set_userdata('is_login_golden_island', TRUE);
+
+        $this->load->library('user_agent');
+        $getloc = json_decode(file_get_contents("http://ipinfo.io/"));
+
+        $getloc->city;
+        $data = array(
+          'USER_ID' => $data_user->USER_ID,
+          'LOGIN_LOG_IP' => $this->input->ip_address(),
+          'LOGIN_LOG_BROWSER' => $this->agent->browser(),
+          'LOGIN_LOG_PLATFORM' => $this->agent->platform(),
+          'LOGIN_LOG_ALAMAT' => $getloc->city . ", " . $getloc->region . ", " . $getloc->country,
+
+          'LOGIN_LOG_WAKTU' => date("Y-m-d G:i:s"),
+        );
+
+        $this->db->insert('LOGIN_LOG', $data);
         return TRUE;
       } else {
         $this->session->set_flashdata('error_login', 'Username dan Password salah.');
