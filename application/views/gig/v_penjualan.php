@@ -61,7 +61,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <select name="perusahaan" id="perusahaan" class="form-control perusahaan select2" style="width: 100%;" required>
                                 <option value="">-- Perusahaan --</option>
                                 <?php
@@ -73,14 +73,31 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                            <select name="relasi_filter" id="relasi_filter" class="form-control relasi_filter select2" style="width: 100%;">
+                                <option value="">-</option>
+                                <?php
+                                foreach (relasi_list() as $row) {
+                                ?>
+                                    <option value="<?= $row->MASTER_RELASI_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <small class="text-muted">Nama Relasi</small>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                            <small class="text-muted">Tanggal Dari.</small>
+                        </div>
+                        <div class="col-md-3">
                             <div class="input-group">
-                                <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                                 <div class="input-group-append">
                                     <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
-                            <small class="text-muted">Tanggal Penjualan.</small>
+                            <small class="text-muted">Tanggal Sampai.</small>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered">
@@ -149,7 +166,9 @@
             async: false,
             dataType: 'json',
             data: {
-                tanggal: $(".tanggal").val(),
+                relasi: $(".relasi_filter").val(),
+                tanggal_dari: $(".tanggal_dari").val(),
+                tanggal_sampai: $(".tanggal_sampai").val(),
                 perusahaan: $(".perusahaan").val()
             },
             success: function(data) {
@@ -245,7 +264,9 @@
             async: false,
             dataType: 'json',
             data: {
-                tanggal: $(".tanggal").val(),
+                relasi: $(".relasi_filter").val(),
+                tanggal_dari: $(".tanggal_dari").val(),
+                tanggal_sampai: $(".tanggal_sampai").val(),
                 perusahaan: $(".perusahaan").val()
             },
             success: function(data) {

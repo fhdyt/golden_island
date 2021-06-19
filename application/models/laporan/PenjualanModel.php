@@ -4,6 +4,12 @@ class PenjualanModel extends CI_Model
 
     public function list()
     {
+        if (empty($this->input->post("relasi"))) {
+            $filter_relasi = "";
+        } else {
+            $filter_relasi = 'AND MASTER_RELASI_ID="' . $this->input->post("relasi") . '"';
+        }
+
         $tanggal_dari = $this->input->post("tanggal_dari");
         $tanggal_sampai = $this->input->post("tanggal_sampai");
 
@@ -14,6 +20,7 @@ class PenjualanModel extends CI_Model
                             SURAT_JALAN 
                             WHERE 
                             ' . $filter_tanggal . '
+                            ' . $filter_relasi . '
                             AND SURAT_JALAN_JENIS = "penjualan"
                             AND RECORD_STATUS="AKTIF" 
                             AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
@@ -142,6 +149,12 @@ class PenjualanModel extends CI_Model
     {
         $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         foreach ($hasil as $row) {
+            if (empty($this->input->post("relasi"))) {
+                $filter_relasi = "";
+            } else {
+                $filter_relasi = 'SJ.MASTER_RELASI_ID="' . $this->input->post("relasi") . '"';
+            }
+
             $tanggal_dari = $this->input->post("tanggal_dari");
             $tanggal_sampai = $this->input->post("tanggal_sampai");
 
@@ -154,6 +167,7 @@ class PenjualanModel extends CI_Model
                                         SJ.SURAT_JALAN_JENIS="penjualan"
                                         AND SJB.MASTER_BARANG_ID ="' . $row->MASTER_BARANG_ID . '"
                                         AND ' . $filter_tanggal . '
+                                        AND ' . $filter_relasi . '
                                         AND SJB.RECORD_STATUS="AKTIF" 
                                         AND SJB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                         AND SJ.RECORD_STATUS="AKTIF" 
@@ -167,6 +181,12 @@ class PenjualanModel extends CI_Model
     }
     public function grafik_list()
     {
+        if (empty($this->input->post("relasi"))) {
+            $filter_relasi = "";
+        } else {
+            $filter_relasi = 'AND MASTER_RELASI_ID="' . $this->input->post("relasi") . '"';
+        }
+
         $tanggal_dari = $this->input->post("tanggal_dari");
         $tanggal_sampai = $this->input->post("tanggal_sampai");
 
@@ -194,6 +214,7 @@ class PenjualanModel extends CI_Model
                                             ON
                                             FSJ.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
                                             WHERE SJ.SURAT_JALAN_TANGGAL="' . $row->SURAT_JALAN_TANGGAL . '" 
+                                            ' . $filter_relasi . '
                                             AND SJ.RECORD_STATUS="AKTIF" 
                                             AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                             AND F.RECORD_STATUS="AKTIF" 
