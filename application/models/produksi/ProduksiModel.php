@@ -54,6 +54,17 @@ class ProduksiModel extends CI_Model
         return $hasil;
     }
 
+    public function kapasitas_tangki($id)
+    {
+        $hasil = $this->db->query('SELECT * 
+                                       FROM MASTER_TANGKI 
+                                        WHERE 
+                                        MASTER_TANGKI_ID="' . $id . '"
+                                        AND RECORD_STATUS="AKTIF"
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        return $hasil;
+    }
+
     public function list_karyawan($id)
     {
         $hasil = $this->db->query('SELECT * 
@@ -137,12 +148,25 @@ class ProduksiModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'DRAFT');
         $this->db->update('PRODUKSI_KARYAWAN', $data_edit_karyawan);
 
+        $data_edit_tangki = array(
+            'MASTER_TANGKI_SISA' => $this->input->post('level_akhir'),
+        );
+        $this->db->where('MASTER_TANGKI_ID', $this->input->post('master_tangki'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('MASTER_TANGKI', $data_edit_tangki);
+
+        if ($this->input->post('nomor_produksi') == "") {
+            $nomor_produksi = nomor_produksi("PD", $this->input->post('tanggal'));
+        } else {
+            $nomor_produksi = $this->input->post('nomor_produksi');
+        }
 
         $data = array(
             'PRODUKSI_ID' => $this->input->post('id'),
-            'PRODUKSI_NOMOR' => nomor_produksi($this->input->post('tanggal')),
+            'PRODUKSI_NOMOR' => $nomor_produksi,
             'PRODUKSI_TANGGAL' => $this->input->post('tanggal'),
             'MASTER_BARANG_ID' => $this->input->post('jenis'),
+            'MASTER_TANGKI_ID' => $this->input->post('master_tangki'),
             'PRODUKSI_LEVEL_AWAL' => $this->input->post('level_awal'),
             'PRODUKSI_LEVEL_AWAL_FILE' => $config['file_name_awal'],
 
@@ -191,7 +215,7 @@ class ProduksiModel extends CI_Model
                 'PANGGUNG_STATUS_ISI' => 0,
                 'PANGGUNG_JUMLAH' => $row->PRODUKSI_BARANG_TOTAL,
                 'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_BARANG_KEPEMILIKAN,
-                'PANGGUNG_KETERANGAN' => "" . $this->input->post("nomor_produksi") . "",
+                'PANGGUNG_KETERANGAN' => "" . $nomor_produksi . "",
                 'PANGGUNG_REF'  => $this->input->post("id"),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
@@ -209,7 +233,7 @@ class ProduksiModel extends CI_Model
                 'PANGGUNG_STATUS_ISI' => 1,
                 'PANGGUNG_JUMLAH' => $row->PRODUKSI_BARANG_TOTAL,
                 'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_BARANG_KEPEMILIKAN,
-                'PANGGUNG_KETERANGAN' => "" . $this->input->post("nomor_produksi") . "",
+                'PANGGUNG_KETERANGAN' => "" . $nomor_produksi . "",
                 'PANGGUNG_REF'  => $this->input->post("id"),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),

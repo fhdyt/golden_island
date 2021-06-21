@@ -88,6 +88,8 @@
                                 <th><?= $this->lang->line('kode'); ?></th>
                                 <th>Jenis Barang</th>
                                 <th>Lokasi</th>
+                                <th>Kapasitas</th>
+                                <th>Sisa</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -130,7 +132,7 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
-                        var persentase = data[i].KAPASITAS / data[i].MASTER_TANGKI_KAPASITAS * 100
+                        var persentase = data[i].MASTER_TANGKI_SISA / data[i].MASTER_TANGKI_KAPASITAS * 100
                         if (persentase < 30) {
                             var warna_persentase = "danger"
                         } else {
@@ -141,6 +143,8 @@
                             "<td>" + data[i].MASTER_TANGKI_KODE + "<br><span class='description-percentage text-" + warna_persentase + "'> " + persentase + "%</span></td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_TANGKI_LOKASI + "</td>" +
+                            "<td>" + data[i].MASTER_TANGKI_KAPASITAS + " " + data[i].MASTER_TANGKI_SATUAN + "</td>" +
+                            "<td>" + data[i].MASTER_TANGKI_SISA + " " + data[i].MASTER_TANGKI_SATUAN + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_TANGKI_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_TANGKI_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");

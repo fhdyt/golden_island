@@ -52,6 +52,12 @@ class Produksi extends CI_Controller
         $data = $this->ProduksiModel->jenis_barang($id);
         echo json_encode($data);
     }
+    public function kapasitas_tangki()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->ProduksiModel->kapasitas_tangki($id);
+        echo json_encode($data);
+    }
     public function list()
     {
         $data = $this->ProduksiModel->list();

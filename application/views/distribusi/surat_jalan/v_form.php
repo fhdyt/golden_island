@@ -328,26 +328,25 @@ if (empty($this->uri->segment('4'))) {
                     $(".kendaraan").val(data[0].MASTER_KENDARAAN_ID).trigger("change")
                     $(".keterangan").html(data[0].SURAT_JALAN_KETERANGAN)
 
-                    if (data[0].SURAT_JALAN_STATUS == "open") {
-                        $(".btn-faktur").attr("hidden", false)
-                        //$(".status_surat_jalan_realisasi").val("selesai")
-                    } else {
-                        $(".btn-faktur").attr("hidden", true)
-                        $("tbody#zone_data_isi, a.btn-danger").removeAttr("onclick")
-                        $("button").prop("disabled", true)
-                        $("button").prop("disabled", true)
-                        $("input").attr("disabled", true)
-                        $("select").attr("disabled", true)
-                    }
+                    // if (data[0].SURAT_JALAN_STATUS == "open") {
+                    //     $(".btn-faktur").attr("hidden", false)
+                    // } else {
+                    //     $(".btn-faktur").attr("hidden", true)
+                    //     $("tbody#zone_data_isi, a.btn-danger").removeAttr("onclick")
+                    //     $("button").prop("disabled", true)
+                    //     $("button").prop("disabled", true)
+                    //     $("input").attr("disabled", true)
+                    //     $("select").attr("disabled", true)
+                    // }
 
-                    if (data[0].SURAT_JALAN_REALISASI_STATUS == "selesai") {
-                        $(".btn-faktur").attr("hidden", true)
-                        $("a.btn-danger").removeAttr("onclick")
-                        $("button").prop("disabled", true)
-                        $("input").attr("disabled", true)
-                        $("select").attr("disabled", true)
-                        $(".status_surat_jalan_realisasi").val("selesai")
-                    } else {}
+                    // if (data[0].SURAT_JALAN_REALISASI_STATUS == "selesai") {
+                    //     $(".btn-faktur").attr("hidden", true)
+                    //     $("a.btn-danger").removeAttr("onclick")
+                    //     $("button").prop("disabled", true)
+                    //     $("input").attr("disabled", true)
+                    //     $("select").attr("disabled", true)
+                    //     $(".status_surat_jalan_realisasi").val("selesai")
+                    // } else {}
 
                     detail_jenis_barang()
                 }

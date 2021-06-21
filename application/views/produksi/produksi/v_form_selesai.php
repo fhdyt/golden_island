@@ -58,14 +58,30 @@ if (empty($this->uri->segment('4'))) {
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Lokasi Tangki</label>
+                                    <select name="master_tangki" id="master_tangki" class="form-control master_tangki select2" style="width: 100%;">
+                                        <option value="">-- Lokasi Tangki --</option>
+                                        <?php
+                                        foreach (tangki_list() as $row) {
+                                        ?>
+                                            <option value="<?= $row->MASTER_TANGKI_ID; ?>"><?= $row->MASTER_TANGKI_LOKASI; ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Level Awal <small>Kg</small></label>
                                     <input type="text" class="form-control level_awal" name="level_awal" autocomplete="off" readonly>
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Foto Level Awal</label>
                                     <input type="hidden" name="userfile_name_awal" class="form-control userfile_name_awal">
@@ -273,11 +289,15 @@ if (empty($this->uri->segment('4'))) {
                 memuat()
                 if (data.length == 0) {} else {
                     if (data['data'].length == "") {
-                        $(".level_awal").val(data['terakhir'][0].PRODUKSI_LEVEL_AKHIR)
+                        $(".level_awal").val("0")
                     }
+                    // if (data['data'].length == "") {
+                    //     $(".level_awal").val(data['terakhir'][0].PRODUKSI_LEVEL_AKHIR)
+                    // }
                     $(".nomor_produksi").val(data['data'][0].PRODUKSI_NOMOR)
                     $(".tanggal").val(data['data'][0].TANGGAL)
                     $(".jenis").val(data['data'][0].MASTER_BARANG_ID).trigger('change')
+                    $(".master_tangki").val(data['data'][0].MASTER_TANGKI_ID).trigger('change')
                     $(".level_awal").val(data['data'][0].PRODUKSI_LEVEL_AWAL)
                     $(".level_akhir").val(data['data'][0].PRODUKSI_LEVEL_AKHIR)
                     $(".konversi").val(data['data'][0].PRODUKSI_KONVERSI_NILAI).trigger("change")
@@ -308,6 +328,10 @@ if (empty($this->uri->segment('4'))) {
         jenis_barang($(".jenis").val())
     });
 
+    $('#master_tangki').change(function() {
+        kapasitas_tangki()
+    });
+
 
     function jenis_barang(id_bahan) {
         $.ajax({
@@ -321,6 +345,25 @@ if (empty($this->uri->segment('4'))) {
                     for (i = 0; i < data.length; i++) {
                         $("#barang").append("<option value='" + data[i].MASTER_BARANG_ID + "'>" + data[i].MASTER_BARANG_NAMA + "</option>")
                     }
+                }
+
+
+            },
+            error: function(x, e) {
+                console.log('gagag')
+            } //end error
+        });
+    }
+
+    function kapasitas_tangki() {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/produksi/produksi/kapasitas_tangki/' + $(".master_tangki").val() + '',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                if (data.length == 0) {} else {
+                    $(".level_awal").val(data[0].MASTER_TANGKI_SISA)
                 }
 
 
