@@ -87,11 +87,15 @@
                             </select>
                             <small class="text-muted">Status Kepemilikan Tabung</small>
                         </div>
-                        <div class="col-md-6 mt-2">
+                        <div class="col-md-4 mt-2">
+                            <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off" required placeholder="Keterangan Panggung">
+                            <small class="text-muted">Keterangan</small>
+                        </div>
+                        <div class="col-md-4 mt-2">
                             <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                             <small class="text-muted">Tanggal Dari.</small>
                         </div>
-                        <div class="col-md-6 mt-2">
+                        <div class="col-md-4 mt-2">
                             <div class="input-group">
                                 <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                                 <div class="input-group-append">
@@ -151,6 +155,7 @@
             async: false,
             dataType: 'json',
             data: {
+                keterangan: $(".keterangan").val(),
                 supplier: $(".supplier_filter").val(),
                 relasi: $(".relasi_filter").val(),
                 tabung: $(".tabung_filter").val(),

@@ -111,6 +111,12 @@ class Pd extends CI_Controller
         echo json_encode($data);
     }
 
+    public function realisasi_liquid()
+    {
+        $data = $this->PdModel->realisasi_liquid();
+        echo json_encode($data);
+    }
+
     public function edit()
     {
         $data = $this->PdModel->edit();

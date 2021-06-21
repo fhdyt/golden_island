@@ -62,6 +62,18 @@ class ProduksiModel extends CI_Model
                                         MASTER_TANGKI_ID="' . $id . '"
                                         AND RECORD_STATUS="AKTIF"
                                         AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil as $row) {
+            $kapasitas = $this->db->query('SELECT SUM(RIWAYAT_TANGKI_KAPASITAS_MASUK) AS MASUK,SUM(RIWAYAT_TANGKI_KAPASITAS_KELUAR) AS KELUAR FROM RIWAYAT_TANGKI
+            WHERE MASTER_TANGKI_ID="' . $row->MASTER_TANGKI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+            if ($kapasitas->num_rows() == 0) {
+                $row->KAPASITAS = array();
+            } else {
+                $hasil_kapasitas =  $kapasitas->result();
+                $row->KAPASITAS_MASUK = $hasil_kapasitas[0]->MASUK;
+                $row->KAPASITAS_KELUAR = $hasil_kapasitas[0]->KELUAR;
+                $row->TOTAL = $row->KAPASITAS_MASUK - $row->KAPASITAS_KELUAR;
+            }
+        }
         return $hasil;
     }
 
@@ -148,18 +160,39 @@ class ProduksiModel extends CI_Model
         $this->db->where('RECORD_STATUS', 'DRAFT');
         $this->db->update('PRODUKSI_KARYAWAN', $data_edit_karyawan);
 
-        $data_edit_tangki = array(
-            'MASTER_TANGKI_SISA' => $this->input->post('level_akhir'),
-        );
-        $this->db->where('MASTER_TANGKI_ID', $this->input->post('master_tangki'));
-        $this->db->where('RECORD_STATUS', 'AKTIF');
-        $this->db->update('MASTER_TANGKI', $data_edit_tangki);
 
         if ($this->input->post('nomor_produksi') == "") {
             $nomor_produksi = nomor_produksi($this->input->post('tanggal'));
         } else {
             $nomor_produksi = $this->input->post('nomor_produksi');
         }
+
+        $data_edit_riwayat = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('RIWAYAT_TANGKI_REF', $this->input->post('id'));
+        $this->db->update('RIWAYAT_TANGKI', $data_edit_riwayat);
+
+        $data_riwayat = array(
+            'RIWAYAT_TANGKI_ID' => create_id(),
+            'MASTER_TANGKI_ID' => $this->input->post('master_tangki'),
+            'RIWAYAT_TANGKI_TANGGAL' => date("Y-m-d"),
+            'RIWAYAT_TANGKI_KAPASITAS_MASUK' => "0",
+            'RIWAYAT_TANGKI_KAPASITAS_KELUAR' => $this->input->post('level_awal') - $this->input->post('level_akhir'),
+            'RIWAYAT_TANGKI_KETERANGAN' => $nomor_produksi,
+            'RIWAYAT_TANGKI_REF' => $this->input->post('id'),
+
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+        $this->db->insert('RIWAYAT_TANGKI', $data_riwayat);
 
         $data = array(
             'PRODUKSI_ID' => $this->input->post('id'),

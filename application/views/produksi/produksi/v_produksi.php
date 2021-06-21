@@ -22,7 +22,7 @@
                             <a href="<?= base_url(); ?>produksi/produksi/form_selesai" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Produksi</a>
                             <a href="<?= base_url(); ?>cetak/form_produksi" target="_blank" class="btn btn-success mb-2 btn-form mr-2">Cetak Form Produksi</a>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <select name="bulan" id="bulan" class="form-control select2 bulan" style="width: 100%;">
                                 <?php
                                 foreach (bulan() as $value => $text) {
@@ -38,7 +38,7 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <select name="tahun" id="tahun" class="form-control select2 tahun" style="width: 100%;">
                                 <?php
                                 foreach (tahun() as $value => $text) {
@@ -54,7 +54,7 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                         </div>
                     </div>

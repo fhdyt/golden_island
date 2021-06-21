@@ -158,7 +158,7 @@ class FakturModel extends CI_Model
         );
 
         $this->db->insert('BUKU_BESAR', $data_buku_besar);
-
+        //send_telegram("Penjualan (" . $this->session->userdata('PERUSAHAAN_KODE') . ")\nKredit : 0\nDebet : " . $this->input->post('bayar') . "\nTanggal : " . tanggal($this->input->post('tanggal')) . "\nKeterangan : PENJUALA RELASI " . $relasi[0]->MASTER_RELASI_NAMA . "");
         $data = array(
             'FAKTUR_ID' => $this->input->post('id'),
             'FAKTUR_NOMOR' => $nomor_faktur,

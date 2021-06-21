@@ -352,6 +352,46 @@ class PdModel extends CI_Model
         return $result;
     }
 
+    public function realisasi_liquid()
+    {
+        $data_edit_riwayat = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('RIWAYAT_TANGKI_REF', $this->input->post('id_realisasi'));
+        $this->db->update('RIWAYAT_TANGKI', $data_edit_riwayat);
+
+        $data_barang = array(
+            'PEMBELIAN_BARANG_REALISASI' => "1",
+        );
+
+        $this->db->where('PEMBELIAN_BARANG_ID', $this->input->post('id_realisasi'));
+        $this->db->update('PEMBELIAN_BARANG', $data_barang);
+
+
+        $data_riwayat = array(
+            'RIWAYAT_TANGKI_ID' => create_id(),
+            'MASTER_TANGKI_ID' => $this->input->post('master_tangki'),
+            'RIWAYAT_TANGKI_TANGGAL' => date("Y-m-d"),
+            'RIWAYAT_TANGKI_KAPASITAS_MASUK' => $this->input->post('total_realisasi_liquid'),
+            'RIWAYAT_TANGKI_KAPASITAS_KELUAR' => "0",
+            'RIWAYAT_TANGKI_KETERANGAN' => "",
+            'RIWAYAT_TANGKI_REF' => $this->input->post('id_realisasi'),
+
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+        $result = $this->db->insert('RIWAYAT_TANGKI', $data_riwayat);
+
+        return $result;
+    }
+
     public function edit()
     {
         $hasil = $this->db->query('SELECT * FROM 

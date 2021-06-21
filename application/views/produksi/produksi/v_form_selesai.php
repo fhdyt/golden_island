@@ -111,6 +111,7 @@ if (empty($this->uri->segment('4'))) {
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Koversi</label>
                                     <select name="konversi" id="konversi" name="konversi" class="form-control konversi select2" style="width: 100%;">
+                                        <option value="">-- Konversi --</option>
                                         <?php
                                         foreach (konversi() as $row) {
                                         ?>
@@ -363,7 +364,7 @@ if (empty($this->uri->segment('4'))) {
             dataType: 'json',
             success: function(data) {
                 if (data.length == 0) {} else {
-                    $(".level_awal").val(data[0].MASTER_TANGKI_SISA)
+                    $(".level_awal").val(data[0].TOTAL)
                 }
 
 

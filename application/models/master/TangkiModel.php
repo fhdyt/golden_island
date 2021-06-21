@@ -9,14 +9,16 @@ class TangkiModel extends CI_Model
         ON T.MASTER_BARANG_ID=B.MASTER_BARANG_ID
         WHERE T.RECORD_STATUS="AKTIF" AND T.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.RECORD_STATUS="AKTIF" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY T.MASTER_TANGKI_KODE DESC')->result();
         foreach ($hasil as $row) {
-            //     $kapasitas = $this->db->query('SELECT RIWAYAT_TANGKI_KAPASITAS FROM RIWAYAT_TANGKI
-            // WHERE MASTER_TANGKI_ID="' . $row->MASTER_TANGKI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
-            //     if ($kapasitas->num_rows() == 0) {
-            //         $row->KAPASITAS = array();
-            //     } else {
-            //         $hasil_kapasitas =  $kapasitas->result();
-            //         $row->KAPASITAS = $hasil_kapasitas[0]->RIWAYAT_TANGKI_KAPASITAS;
-            //     }
+            $kapasitas = $this->db->query('SELECT SUM(RIWAYAT_TANGKI_KAPASITAS_MASUK) AS MASUK,SUM(RIWAYAT_TANGKI_KAPASITAS_KELUAR) AS KELUAR FROM RIWAYAT_TANGKI
+            WHERE MASTER_TANGKI_ID="' . $row->MASTER_TANGKI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+            if ($kapasitas->num_rows() == 0) {
+                $row->KAPASITAS = array();
+            } else {
+                $hasil_kapasitas =  $kapasitas->result();
+                $row->KAPASITAS_MASUK = $hasil_kapasitas[0]->MASUK;
+                $row->KAPASITAS_KELUAR = $hasil_kapasitas[0]->KELUAR;
+                $row->TOTAL = $row->KAPASITAS_MASUK - $row->KAPASITAS_KELUAR;
+            }
         }
         return $hasil;
     }

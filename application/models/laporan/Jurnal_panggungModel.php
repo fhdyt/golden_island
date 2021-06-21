@@ -32,10 +32,17 @@ class Jurnal_panggungModel extends CI_Model
         } else {
             $filter_in_out_status = 'AND PANGGUNG_STATUS="' . $this->input->post('in_out') . '"';
         }
+
         if (empty($this->input->post('isi_kosong'))) {
             $filter_isi_kosong_status = "";
         } else {
             $filter_isi_kosong_status = 'AND PANGGUNG_STATUS_ISI="' . $this->input->post('isi_kosong') . '"';
+        }
+
+        if (empty($this->input->post('keterangan'))) {
+            $filter_keterangan = "";
+        } else {
+            $filter_keterangan = 'AND PANGGUNG_KETERANGAN LIKE "%' . $this->input->post('keterangan') . '%"';
         }
 
         $tanggal_dari = $this->input->post("tanggal_dari");
@@ -52,6 +59,7 @@ class Jurnal_panggungModel extends CI_Model
         ' . $filter_supplier . '
         ' . $filter_status . '
         ' . $filter_tabung . '
+        ' . $filter_keterangan . '
         ' . $filter_in_out_status . '
         ' . $filter_isi_kosong_status . ' ORDER BY PANGGUNG_KETERANGAN')->result();
         foreach ($hasil as $row) {

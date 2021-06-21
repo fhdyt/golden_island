@@ -43,6 +43,76 @@ if (empty($this->uri->segment('5'))) {
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<div class="modal fade" id="realisasi_liquidModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Realikasi Liquid</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="realisasi_liquid">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Lokasi Tangki</label>
+                        <select name="master_tangki" id="master_tangki" class="form-control master_tangki select2" style="width: 100%;">
+                            <option value="">-- Lokasi Tangki --</option>
+                            <?php
+                            foreach (tangki_list() as $row) {
+                            ?>
+                                <option value="<?= $row->MASTER_TANGKI_ID; ?>"><?= $row->MASTER_TANGKI_LOKASI; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Quantity</label>
+                        <input type="text" class="form-control quantity_realisasi_liquid" name="quantity_realisasi_liquid" autocomplete="off" readonly>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Satuan</label>
+                        <input type="text" class="form-control satuan_realisasi_liquid" name="satuan_realisasi_liquid" autocomplete="off" readonly>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Koversi</label>
+                        <select name="konversi" id="konversi" name="konversi" class="form-control konversi select2" style="width: 100%;">
+                            <option value="">-- Konversi --</option>
+                            <?php
+                            foreach (konversi() as $row) {
+                            ?>
+                                <option value="<?= $row->KONVERSI_NILAI; ?>"><?= $row->KONVERSI_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Total</label>
+                        <input type="text" class="form-control total_realisasi_liquid" name="total_realisasi_liquid" autocomplete="off">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <div class="modal fade" id="editModal">
     <div class="modal-dialog">
@@ -486,7 +556,12 @@ if (empty($this->uri->segment('5'))) {
                     for (i = 0; i < data.length; i++) {
                         total += parseInt(data[i].PEMBELIAN_BARANG_TOTAL);
 
-                        $("tbody#zone_data").append("<tr class=''>" +
+                        if (data[i].PEMBELIAN_BARANG_REALISASI == "1") {
+                            var tr = "table-success"
+                        } else {
+                            var tr = "table-default"
+                        }
+                        $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             // "<td>" + number_format(data[i].PEMBELIAN_BARANG_HARGA) + "</td>" +
@@ -495,6 +570,7 @@ if (empty($this->uri->segment('5'))) {
                             // "<td align='right'>" + number_format(data[i].PEMBELIAN_BARANG_TOTAL) + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PEMBELIAN_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='edit(\"" + data[i].PEMBELIAN_BARANG_ID + "\",\"" + data[i].PEMBELIAN_BARANG_QUANTITY + "\",\"" + data[i].PEMBELIAN_BARANG_SATUAN + "\")'><i class='fas fa-edit'></i></a> " +
+                            "<a class='btn btn-success btn-sm' onclick='realisasi(\"" + data[i].PEMBELIAN_BARANG_ID + "\",\"" + data[i].PEMBELIAN_BARANG_QUANTITY + "\",\"" + data[i].PEMBELIAN_BARANG_SATUAN + "\")'><i class='fas fa-check'></i></a> " +
                             "</td>" +
                             "</tr>");
                     }
@@ -550,7 +626,7 @@ if (empty($this->uri->segment('5'))) {
         $(".satuan_barang").val(satuan).trigger("change")
     }
 
-    function realisasi(id) {
+    function realisasi(id, quantity, satuan) {
         var jenis_barang = $(".jenis").val()
 
         if (jenis_barang == "tabung") {
@@ -561,6 +637,8 @@ if (empty($this->uri->segment('5'))) {
             $(".id_realisasi").val(id)
         } else if (jenis_barang == "liquid") {
             $("#realisasi_liquidModal").modal("show")
+            $(".quantity_realisasi_liquid").val(quantity)
+            $(".satuan_realisasi_liquid").val(satuan)
             $(".id_realisasi").val(id)
         }
     }
@@ -580,6 +658,27 @@ if (empty($this->uri->segment('5'))) {
             success: function(data) {
                 memuat()
                 $("#realisasi_tabungModal").modal("hide")
+                Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
+                barang_list()
+            }
+        });
+    })
+
+    $('#realisasi_liquid').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/pembelian/pd/realisasi_liquid',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                memuat()
+                $("#realisasi_liquidModal").modal("hide")
                 Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
                 barang_list()
             }
@@ -696,4 +795,14 @@ if (empty($this->uri->segment('5'))) {
         })
 
     })
+
+    $('.konversi').change(function() {
+        var quantity = parseInt($(".quantity_realisasi_liquid").val())
+        var konversi = $(".konversi").val()
+        var total = quantity * konversi
+        console.log(total)
+        console.log(quantity)
+        console.log(konversi)
+        $(".total_realisasi_liquid").val(total)
+    });
 </script>
