@@ -42,9 +42,21 @@ class LoginModel extends CI_Model
     if (empty($this->session->userdata('is_login_golden_island'))) {
       redirect('login');
     } else {
-      $aplikasi = $this->uri->segment('1');
-      $menu = $this->uri->segment('2');
-      $akses = $aplikasi . '/' . $menu;
+    }
+  }
+
+  function akses()
+  {
+    $aplikasi = $this->uri->segment('1');
+    $menu = $this->uri->segment('2');
+    $aplikasi_r = $this->db->query('SELECT APLIKASI_ID FROM APLIKASI WHERE APLIKASI_NAMA LIKE "%' . $aplikasi . '%" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+    $menu_r = $this->db->query('SELECT MENU_ID FROM MENU WHERE MENU_NAMA LIKE "%' . $menu . '%" AND APLIKASI_ID="' . $aplikasi_r[0]->APLIKASI_ID . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+    $akses = $this->db->query('SELECT * FROM USER_AKSES WHERE APLIKASI_ID="' . $aplikasi_r[0]->APLIKASI_ID . '" AND MENU_ID="' . $menu_r[0]->MENU_ID . '" AND USER_ID="' . $this->session->userdata('USER_ID') . '" AND RECORD_STATUS="AKTIF"');
+    if ($akses->num_rows() == 0) {
+      // redirect('dashboard/akses');
+      $this->load->view('_template/header');
+      $this->load->view('errors/akses');
+      $this->load->view('_template/footer');
     }
   }
 

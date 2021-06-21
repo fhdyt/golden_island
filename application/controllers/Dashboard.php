@@ -39,6 +39,12 @@ class Dashboard extends CI_Controller
 		$this->load->view('errors/404');
 		$this->load->view('_template/footer');
 	}
+	public function akses()
+	{
+		$this->load->view('_template/header');
+		$this->load->view('errors/akses');
+		$this->load->view('_template/footer');
+	}
 	public function folder()
 	{
 		mkdir("/test", 0777, true);
