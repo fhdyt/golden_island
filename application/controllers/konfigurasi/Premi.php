@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Karyawan extends CI_Controller
+class Premi extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Karyawan extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('master/KaryawanModel');
+        $this->load->model('konfigurasi/PremiModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,44 +30,32 @@ class Karyawan extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('master/v_karyawan');
-        $this->load->view('_template/footer');
-    }
-    public function gaji()
-    {
-        $this->load->view('_template/header');
-        $this->load->view('master/v_karyawan_gaji');
+        $this->load->view('konfigurasi/v_premi');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $data = $this->KaryawanModel->list();
-        echo json_encode($data);
-    }
-
-    public function surat_jalan_list()
-    {
-        $data = $this->KaryawanModel->surat_jalan_list();
+        $data = $this->PremiModel->list();
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->KaryawanModel->add();
+        $data = $this->PremiModel->add();
     }
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->KaryawanModel->hapus($id);
+        $data = $this->PremiModel->hapus($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->KaryawanModel->detail($id);
+        $data = $this->PremiModel->detail($id);
         echo json_encode($data);
     }
 }

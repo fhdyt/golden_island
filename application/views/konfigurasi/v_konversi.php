@@ -46,11 +46,9 @@
                     <div class="form-group">
 
                         <label for="exampleInputEmail1">Nilai</label>
-                        <div class="input-group mb-3">
+                        <div class="mb-3">
                             <input type="text" class="form-control nilai" name="nilai" autocomplete="off">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">%</span>
-                            </div>
+
                         </div>
                     </div>
 
@@ -85,7 +83,7 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Koversi</button>
+                    <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Konversi</button>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -93,7 +91,7 @@
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Dari</th>
                                 <th>Ke</th>
-                                <th>Nilai (%)</th>
+                                <th>Nilai</th>
                                 <th></th>
                             </tr>
                         </thead>

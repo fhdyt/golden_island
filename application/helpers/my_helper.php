@@ -153,6 +153,15 @@ if (!function_exists('satuan')) {
     return $CI->SatuanModel->list();
   }
 }
+if (!function_exists('premi')) {
+  function premi()
+  {
+    $CI = &get_instance();
+    $CI->load->model('konfigurasi/PremiModel');
+    return $CI->PremiModel->list();
+  }
+}
+
 if (!function_exists('konversi')) {
   function konversi()
   {
