@@ -156,7 +156,7 @@ class ProduksiModel extends CI_Model
         $this->db->update('MASTER_TANGKI', $data_edit_tangki);
 
         if ($this->input->post('nomor_produksi') == "") {
-            $nomor_produksi = nomor_produksi("PD", $this->input->post('tanggal'));
+            $nomor_produksi = nomor_produksi($this->input->post('tanggal'));
         } else {
             $nomor_produksi = $this->input->post('nomor_produksi');
         }

@@ -77,7 +77,7 @@ if (empty($this->uri->segment('4'))) {
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Level Awal <small>Kg</small></label>
-                                    <input type="text" class="form-control level_awal" name="level_awal" autocomplete="off" readonly>
+                                    <input type="text" class="form-control level_awal" name="level_awal" autocomplete="off">
                                     <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                                 </div>
                             </div>
