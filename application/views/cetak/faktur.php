@@ -108,7 +108,7 @@
                     </table>
                     <table class="table">
                         <tr>
-                            <td colspan="5" align="right"><b>Total</b></td>
+                            <td colspan="5" align="right"><b>Sub Total</b></td>
                             <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_TOTAL, 0, ",", "."); ?>,00</td>
                         </tr>
                         <tr>
@@ -116,18 +116,30 @@
                             <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_PAJAK_RUPIAH, 0, ",", "."); ?>,00</td>
                         </tr>
                         <tr>
-                            <td colspan="5" align="right"><b>Bayar</b></td>
-                            <td align="right">Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?>,00</td>
+                            <td colspan="5" align="right"><b>Total</b></td>
+                            <td align="right">Rp. <?= number_format(($transaksi[0]->FAKTUR_TRANSAKSI_TOTAL + $transaksi[0]->FAKTUR_TRANSAKSI_PAJAK_RUPIAH), 0, ",", "."); ?>,00</td>
                         </tr>
-                        <tr>
-                            <td colspan="5" align="right"><b>Sisa Bayar</b></td>
-                            <td align="right">
-                                <?php
-                                $total = $transaksi[0]->FAKTUR_TRANSAKSI_GRAND_TOTAL - $transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR;
-                                echo "Rp. " . number_format($total, 0, ",", ".");
-                                ?>
-                            </td>
-                        </tr>
+                        <?php
+                        if ($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR == 0) {
+                        } else {
+                        ?>
+                            <tr>
+                                <td colspan="5" align="right"><b>Bayar</b></td>
+                                <td align="right">Rp. <?= number_format($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR, 0, ",", "."); ?>,00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" align="right"><b>Sisa Bayar</b></td>
+                                <td align="right">
+                                    <?php
+                                    $total = $transaksi[0]->FAKTUR_TRANSAKSI_GRAND_TOTAL - $transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR;
+                                    echo "Rp. " . number_format($total, 0, ",", ".");
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+
                     </table>
                 </div>
                 <!-- /.col -->
