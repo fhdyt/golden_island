@@ -28,15 +28,15 @@ class JaminanModel extends CI_Model
         // $this->db->where('SURAT_JALAN_ID', $this->input->post('surat_jalan'));
         // $this->db->update('SURAT_JALAN', $data_surat_jalan);
 
-        $data_edit_buku_besar = array(
-            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
-            'EDIT_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "EDIT",
-            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-        );
-        $this->db->where('BUKU_BESAR_REF', $this->input->post('surat_jalan'));
-        $this->db->where('RECORD_STATUS', 'AKTIF');
-        $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
+        // $data_edit_buku_besar = array(
+        //     'EDIT_WAKTU' => date("Y-m-d G:i:s"),
+        //     'EDIT_USER' => $this->session->userdata('USER_ID'),
+        //     'RECORD_STATUS' => "EDIT",
+        //     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        // );
+        // $this->db->where('BUKU_BESAR_REF', $this->input->post('surat_jalan'));
+        // $this->db->where('RECORD_STATUS', 'AKTIF');
+        // $this->db->update('BUKU_BESAR', $data_edit_buku_besar);
 
         $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $this->input->post('surat_jalan') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  LIMIT 1 ')->result();
         $nomor_jaminan = nomor_jaminan($this->input->post('tanggal'));

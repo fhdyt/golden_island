@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nomor Surat Jalan</label>
-                        <select name="surat_jalan" id="surat_jalan" class="form-control form-control-sm surat_jalan select2" style="width: 100%;">
+                        <select name="surat_jalan" id="surat_jalan" class="form-control form-control-sm surat_jalan select2" style="width: 100%;" required>
                             <option value="">-- Surat Jalan --</option>
                             <?php
                             foreach ($surat_jalan as $row) { ?>
