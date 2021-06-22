@@ -33,6 +33,7 @@
         <!-- Main content -->
         <section class="invoice">
             <!-- title row -->
+            <br>
             <div class="row">
                 <div class="col-2 text-right">
                     <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= detail_perusahaan()[0]->PERUSAHAAN_KODE; ?>.png" height="90px" alt="">
@@ -190,7 +191,11 @@
                 </div>
             </div>
 
-
+            <div class="row invoice-info mt-5">
+                <div class="col-12 text-center">
+                    <p>Nomor Rekening : <?= detail_perusahaan()[0]->PERUSAHAAN_BANK; ?></p>
+                </div>
+            </div>
 
         </section>
         <!-- /.content -->
