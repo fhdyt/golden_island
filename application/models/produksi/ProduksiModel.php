@@ -20,7 +20,7 @@ class ProduksiModel extends CI_Model
                                     B.RECORD_STATUS="AKTIF" 
                                     AND 
                                     B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
-                                    ORDER BY P.PRODUKSI_TANGGAL DESC ')->result();
+                                    ORDER BY P.PRODUKSI_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->PRODUKSI_TANGGAL);
         }
