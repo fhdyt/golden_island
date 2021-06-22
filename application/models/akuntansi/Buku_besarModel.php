@@ -98,7 +98,7 @@ class Buku_besarModel extends CI_Model
     public function transfer()
     {
         $data_dari = array(
-            'SURAT_JALAN_ID' => create_id(),
+            'BUKU_BESAR_ID' => create_id(),
             'BUKU_BESAR_REF' => $this->input->post('id'),
             'AKUN_ID' => $this->input->post('akun_dari'),
             'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
