@@ -115,6 +115,7 @@ class PdModel extends CI_Model
         $this->db->insert('BUKU_BESAR', $data_buku_besar);
 
         if ($this->input->post('jenis') == "gas") {
+        } else if ($this->input->post('jenis') == "sparepart") {
             $data_edit_stok = array(
                 'EDIT_WAKTU' => date("Y-m-d G:i:s"),
                 'EDIT_USER' => $this->session->userdata('USER_ID'),
@@ -126,13 +127,12 @@ class PdModel extends CI_Model
             $this->db->where('RECORD_STATUS', 'AKTIF');
             $this->db->update('STOK_BARANG', $data_edit_stok);
 
-            $hasil = $this->db->query('SELECT * FROM 
+            $barang_sparepart = $this->db->query('SELECT * FROM 
         PEMBELIAN_BARANG 
         WHERE 
         RECORD_STATUS="AKTIF" AND 
         PD_ID="' . $this->input->post('id') . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
-
-            foreach ($hasil as $row) {
+            foreach ($barang_sparepart as $row) {
                 $data_stok = array(
                     'STOK_BARANG_ID' => create_id(),
                     'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
@@ -141,13 +141,13 @@ class PdModel extends CI_Model
                     'STOK_BARANG_MASUK' => $row->PEMBELIAN_BARANG_QUANTITY,
                     'STOK_BARANG_KELUAR' => 0,
                     'STOK_BARANG_POSISI' => "GUDANG",
+                    'STOK_BARANG_KETERANGAN' => $nomor_pembelian,
 
                     'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                     'ENTRI_USER' => $this->session->userdata('USER_ID'),
                     'RECORD_STATUS' => "AKTIF",
                     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
                 );
-
                 $this->db->insert('STOK_BARANG', $data_stok);
             }
         } else if ($this->input->post('jenis') == "tabung") {

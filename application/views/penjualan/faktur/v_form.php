@@ -451,6 +451,7 @@ if (empty($this->uri->segment('4'))) {
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data_barang").empty();
+                console.log(data)
                 if (data.length === 0) {
                     $(".total").val("0")
                     kalkulasi_seluruh()
@@ -462,11 +463,7 @@ if (empty($this->uri->segment('4'))) {
                         if (data[i].FAKTUR_BARANG_HARGA > 0) {
                             var harga = data[i].FAKTUR_BARANG_HARGA
                         } else {
-                            if (data[i].HARGA.length == 0) {
-                                var harga = "0"
-                            } else {
-                                var harga = data[i].HARGA[0].MASTER_HARGA_HARGA
-                            }
+                            harga = data[i].HARGA
                         }
 
                         var total = data[i].FAKTUR_BARANG_QUANTITY * harga;

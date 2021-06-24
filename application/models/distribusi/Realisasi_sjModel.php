@@ -54,8 +54,18 @@ class Realisasi_sjModel extends CI_Model
 
     public function list()
     {
+        $tanggal_dari = $this->input->post("tanggal_dari");
+        $tanggal_sampai = $this->input->post("tanggal_sampai");
+
+        if ($this->input->post("surat_jalan_nomor") == "") {
+            $filter = 'AND SJ.SURAT_JALAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+        } else {
+            $filter = 'AND SJ.SURAT_JALAN_NOMOR LIKE "%' . $this->input->post("surat_jalan_nomor") . '%"';
+        }
+
         $hasil = $this->db->query('SELECT * FROM SURAT_JALAN AS SJ 
                                     WHERE SJ.SURAT_JALAN_STATUS="open" 
+                                    ' . $filter . '
                                     AND SJ.RECORD_STATUS="AKTIF" 
                                     AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                     ORDER BY SJ.SURAT_JALAN_NOMOR DESC')->result();

@@ -32,7 +32,12 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Total</label>
+                        <label for="exampleInputEmail1">Harga Satuan</label>
+                        <input type="text" class="form-control harga_satuan" name="harga_satuan" autocomplete="off" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Total Kapasitas</label>
                         <input type="text" class="form-control total" name="total" autocomplete="off" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
@@ -50,9 +55,9 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Bahan</label>
+                        <label for="exampleInputEmail1">Bahan Produksi</label>
                         <select name="bahan" id="bahan" name="bahan" class="form-control bahan select2" style="width: 100%;">
-                            <option value="">-- Bahan --</option>
+                            <option value="">-</option>
                             <?php
                             foreach (tangki() as $row) {
                             ?>
@@ -136,7 +141,9 @@
                             <tr>
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
+                                <th>Stok</th>
                                 <th>Jenis</th>
+                                <th>Harga Satuan</th>
                                 <th>Prioritas</th>
                                 <th><?= $this->lang->line('keterangan'); ?></th>
 
@@ -170,6 +177,9 @@
         $("#barangModal").modal("show")
     })
     $(function() {
+        $(".harga_satuan").mask("#.##0", {
+            reverse: true
+        });
         barang_list();
     });
 
@@ -188,10 +198,25 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].MASUK == null) {
+                            var masuk = 0
+                        } else {
+                            var masuk = data[i].MASUK
+                        }
+                        if (data[i].KELUAR == null) {
+                            var keluar = 0
+                        } else {
+                            var keluar = data[i].KELUAR
+                        }
+
+                        var total = parseInt(masuk) - parseInt(keluar)
+
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + total + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_JENIS + "</td>" +
+                            "<td>Rp. " + number_format(data[i].MASTER_BARANG_HARGA_SATUAN) + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_PRIORITAS + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_KETERANGAN + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
@@ -281,6 +306,7 @@
                 $(".nama").val(data[0].MASTER_BARANG_NAMA)
                 $(".keterangan").val(data[0].MASTER_BARANG_KETERANGAN)
                 $(".total").val(data[0].MASTER_BARANG_TOTAL)
+                $(".harga_satuan").val(number_format(data[0].MASTER_BARANG_HARGA_SATUAN))
 
 
             },

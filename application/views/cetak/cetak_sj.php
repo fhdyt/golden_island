@@ -204,23 +204,8 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
             <!-- Table row -->
 
             <?php
-            if ($detail[0]->SURAT_JALAN_STATUS_JENIS == "liquid") {
-                echo '<table class="table liquid">';
-                echo '<tr>';
-                echo '<td>';
-                echo '<br>';
-                echo '<br>';
-                echo '<br>';
-                echo '<br>';
-                echo '<br>';
-                echo '<br>';
-                echo '<br>';
-                echo '</td>';
-                echo '</tr>';
-                echo '</table>';
-            } else {
+            if ($detail[0]->SURAT_JALAN_STATUS_JENIS == "gas") {
                 $numcols = 6;
-
                 $numrows = ceil((count($barang_mp) + count($barang_mr)) / $numcols);
 
                 echo '<table class="table table-bordered">';
@@ -245,6 +230,20 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
                     }
                     echo '</tr>';
                 }
+                echo '</table>';
+            } else {
+                echo '<table class="table liquid">';
+                echo '<tr>';
+                echo '<td>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '</td>';
+                echo '</tr>';
                 echo '</table>';
             }
             ?>

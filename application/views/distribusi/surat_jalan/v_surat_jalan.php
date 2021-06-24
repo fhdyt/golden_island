@@ -42,6 +42,7 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th>Nomor Surat Jalan</th>
+                                <th>Driver</th>
                                 <th><?= $this->lang->line('Relasi'); ?></th>
                                 <th></th>
                             </tr>
@@ -116,14 +117,20 @@
                         } else {
                             var relasi = data[i].RELASI[0].MASTER_RELASI_NAMA
                         }
+
+                        if (data[i].DRIVER == "") {
+                            var driver = "-"
+                        } else {
+                            var driver = data[i].DRIVER[0].MASTER_KARYAWAN_NAMA
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "</td>" +
+                            "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small  class='text-muted'>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
+                            "<td>" + driver + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mr-1' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=penjualan'>Lihat</a>" +
                             btn_cetak +
-                            btn_cetak_ttbk +
                             "</td>" +
                             "</tr>");
                     }

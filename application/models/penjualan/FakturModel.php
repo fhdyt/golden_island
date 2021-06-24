@@ -94,17 +94,34 @@ class FakturModel extends CI_Model
             $nomor_faktur = $this->input->post('nomor_faktur');
         }
 
+        // $hasil = $this->db->query('SELECT * FROM 
+        //                             FAKTUR_BARANG 
+        //                              WHERE FAKTUR_ID="' . $this->input->post('id') . '" 
+        //                              AND RECORD_STATUS="AKTIF" 
+        //                              AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         $barang = $this->db->query('SELECT * FROM 
-                                    FAKTUR_BARANG 
-                                     WHERE FAKTUR_ID="' . $this->input->post('id') . '" 
-                                     AND RECORD_STATUS="AKTIF" 
-                                     AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+                                    FAKTUR_BARANG AS FB
+                                    LEFT JOIN MASTER_BARANG AS B
+                                    ON FB.MASTER_BARANG_ID=B.MASTER_BARANG_ID 
+                                     WHERE FB.FAKTUR_ID="' . $this->input->post('id') . '" 
+                                     AND FB.RECORD_STATUS="AKTIF" 
+                                     AND FB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                     AND B.RECORD_STATUS="AKTIF" 
+                                     AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+
         foreach ($barang as $row) {
             if ($row->FAKTUR_BARANG_HARGA < 1) {
-                $harga = $this->db->query('SELECT * FROM MASTER_HARGA WHERE MASTER_RELASI_ID="' . $this->input->post('relasi') . '" AND MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+                $harga = $this->db->query('SELECT * FROM MASTER_HARGA WHERE MASTER_RELASI_ID="' . $this->input->post('relasi') . '" AND MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1');
+
+                if ($harga->num_rows() == 0) {
+                    $harga_faktur = $row->MASTER_BARANG_HARGA_SATUAN;
+                } else {
+                    $harga_satuan = $harga->result();
+                    $harga_faktur = $harga_satuan[0]->MASTER_HARGA_HARGA;
+                }
 
                 $harga_relasi = array(
-                    'FAKTUR_BARANG_HARGA' => $harga[0]->MASTER_HARGA_HARGA,
+                    'FAKTUR_BARANG_HARGA' => $harga_faktur,
                 );
                 $this->db->where('FAKTUR_ID', $this->input->post('id'));
                 $this->db->where('MASTER_BARANG_ID', $row->MASTER_BARANG_ID);
@@ -158,7 +175,7 @@ class FakturModel extends CI_Model
         );
 
         $this->db->insert('BUKU_BESAR', $data_buku_besar);
-        //send_telegram("Penjualan (" . $this->session->userdata('PERUSAHAAN_KODE') . ")\nKredit : 0\nDebet : " . $this->input->post('bayar') . "\nTanggal : " . tanggal($this->input->post('tanggal')) . "\nKeterangan : PENJUALA RELASI " . $relasi[0]->MASTER_RELASI_NAMA . "");
+
         $data = array(
             'FAKTUR_ID' => $this->input->post('id'),
             'FAKTUR_NOMOR' => $nomor_faktur,
@@ -192,6 +209,7 @@ class FakturModel extends CI_Model
         );
 
         $data_transaksi = $this->db->insert('FAKTUR_TRANSAKSI', $data_transaksi);
+        //send_telegram("Penjualan (" . $this->session->userdata('PERUSAHAAN_KODE') . ")\nKredit : 0\nDebet : " . $this->input->post('bayar') . "\nTanggal : " . tanggal($this->input->post('tanggal')) . "\nKeterangan : PENJUALAN RELASI " . $relasi[0]->MASTER_RELASI_NAMA . "");
         return $data_transaksi;
     }
 
@@ -273,8 +291,13 @@ class FakturModel extends CI_Model
                                      AND B.RECORD_STATUS="AKTIF" 
                                      AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         foreach ($hasil as $row) {
-            $harga = $this->db->query('SELECT * FROM MASTER_HARGA WHERE MASTER_RELASI_ID="' . $relasi . '" AND MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
-            $row->HARGA = $harga;
+            $harga = $this->db->query('SELECT * FROM MASTER_HARGA WHERE MASTER_RELASI_ID="' . $relasi . '" AND MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1');
+            if ($harga->num_rows() == 0) {
+                $row->HARGA = $row->MASTER_BARANG_HARGA_SATUAN;
+            } else {
+                $harga_satuan = $harga->result();
+                $row->HARGA = $harga_satuan[0]->MASTER_HARGA_HARGA;
+            }
         }
         return $hasil;
     }

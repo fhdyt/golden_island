@@ -151,7 +151,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <div class="content">
+    <div class="content selain_gas">
         <div class="container-fluid">
             <div class="card card-primary card-outline card-outline-tabs">
 
@@ -175,6 +175,7 @@
                             <input type="hidden" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
                             <input type="hidden" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
                             <input type="hidden" class="form-control expired" name="expired" id="expired" value="" autocomplete="off">
+                            <small class="text-muted">*Penagihan Surat Jalan</small>
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -340,9 +341,10 @@
 
     $(".scan_barang").on("click", function() {
         $("textarea.scan_keterangan").val("")
-        $("#barangscanModal").modal("show", function() {
-            $(this).find('textarea#scan_keterangan').focus();
-        })
+        $("#barangscanModal").modal("show", function() {})
+        setTimeout(function() {
+            $('textarea.scan_keterangan').focus();
+        }, 1000);
     })
 
     $('.btn-scan').on("click", function(e) {
@@ -397,11 +399,21 @@
                     for (i = 0; i < data.length; i++) {
                         if (data[i].SURAT_JALAN_JENIS != "penjualan") {
                             $('#isi').prop('checked', true);
+                            $('#isi_scan').prop('checked', true);
                         }
                         if (data[i].EXPIRED == "EXPIRED") {
                             $(".btn-tambah-realisasi").attr("hidden", true)
                             $(".btn-realisasi").attr("hidden", true)
                             $(".expired").val(data[i].EXPIRED)
+                        }
+
+                        if (data[i].SURAT_JALAN_STATUS_JENIS != "gas") {
+                            $(".selain_gas").attr("hidden", true)
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Penjualan selain Gas tidak memerlukan Realisasi TTBK.'
+                            })
                         }
 
                         var rowspan = 0;
@@ -466,12 +478,12 @@
                         }
 
                         if (data['mp'][i].REALISASI_TTBK_BARANG_STATUS == "1") {
-                            var isi_kosong = "<p class='text-success'>Isi</p>"
+                            var isi_kosong = "<a class='btn btn-success btn-xs'>Isi</a>"
                         } else {
-                            var isi_kosong = "<p class='text-danger'>Kosong</p>"
+                            var isi_kosong = "<a class='btn btn-danger btn-xs'>Kosong</a>"
                         }
 
-                        $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
+                        $("tbody#zone_data_tabung_sj").append("<tr class='table-primary'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>MP</td>" +
                             "<td>" + data['mp'][i].MASTER_BARANG_NAMA + "<br>" + isi_kosong + "</td>" +
@@ -483,11 +495,11 @@
                     }
                     for (i = 0; i < data['mr'].length; i++) {
                         if (data['mr'][i].REALISASI_TTBK_BARANG_MR_STATUS == "1") {
-                            var isi_kosong = "<p class='text-success'>Isi</p>"
+                            var isi_kosong = "<a class='btn btn-success btn-xs'>Isi</a>"
                         } else {
-                            var isi_kosong = "<p class='text-danger'>Kosong</p>"
+                            var isi_kosong = "<a class='btn btn-danger btn-xs'>Kosong</a>"
                         }
-                        $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
+                        $("tbody#zone_data_tabung_sj").append("<tr class='table-warning'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>MR</td>" +
                             "<td>" + data['mr'][i].MASTER_BARANG_NAMA + "<br>" + isi_kosong + "</td>" +

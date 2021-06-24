@@ -140,6 +140,7 @@ if (!function_exists('jenis_barang_penjualan')) {
       'gas' => 'Gas',
       'tabung' => 'Tabung',
       'liquid' => 'Liquid',
+      'sparepart' => 'Sparepart',
     );
     return $jenis_barang_penjualan;
   }

@@ -11,15 +11,13 @@ if (empty($this->uri->segment('4'))) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <form id="sdf">
-                    <div class="form-group">
-                        <input type="text" class="form-control qr_id" name="qr_id" autocomplete="off" autofocus>
-                    </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
-                </form>
+                <div class="form-group">
+                    <input type="text" class="form-control qr_id" name="qr_id" autocomplete="off" autofocus placeholder="Silahkan scan Kartu Relasi">
+                    <small class="text-muted">Kartu Relasi</small>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                </div>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -52,6 +50,7 @@ if (empty($this->uri->segment('4'))) {
                         <div class="col-md-12">
                             <a class="btn btn-outline-success sm" href="<?= base_url(); ?>distribusi/realisasi_sj/form/<?= $id; ?>">Realisasi Surat Jalan</a>
                             <a class="btn btn-outline-success sm" href="<?= base_url(); ?>distribusi/realisasi_ttbk/form/<?= $id; ?>">Realisasi TTBK</a>
+                            <br><small class="text-muted">*Untuk pembelian selain GAS tidak membutuhkan Realisasi</small>
                             <hr>
                         </div>
                     </div>
@@ -87,7 +86,7 @@ if (empty($this->uri->segment('4'))) {
                                                     <option value="">-- Pilih Relasi --</option>
                                                     <?php foreach (relasi_list() as $row) {
                                                     ?>
-                                                        <option value="<?= $row->MASTER_RELASI_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?> - <?= $row->MASTER_RELASI_QR_ID; ?></option>
+                                                        <option value="<?= $row->MASTER_RELASI_ID; ?>" id_relasi="<?= $row->MASTER_RELASI_QR_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?> - <?= $row->MASTER_RELASI_QR_ID; ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -272,19 +271,23 @@ if (empty($this->uri->segment('4'))) {
     $(function() {
         detail()
         barang_list()
-        // $("#relasiModal").modal("show")
 
-        // $('#relasiModal').on('shown.bs.modal', function(e) {
-        //     console.log("adfadf")
-        // })
-        // setTimeout(function() {
-        //     $('.qr_id').focus();
-        // }, 1000);
+
+        $('#relasiModal').on('shown.bs.modal', function(e) {
+            console.log("adfadf")
+        })
+        setTimeout(function() {
+            $('.qr_id').focus();
+        }, 1000);
     });
 
-    // $('.qr_id').keyup(function(e) {
-    //     if (e.keyCode == 13) {}
-    // });
+    $('.qr_id').keyup(function(e) {
+        if (e.keyCode == 13) {
+            // $('.relasi').val($(this).val()).trigger('change')
+            $(".relasi option[id_relasi='" + $('.qr_id').val() + "']").prop('selected', true).trigger('change');
+            $("#relasiModal").modal("hide")
+        }
+    });
 
     $('#submit').submit(function(e) {
         e.preventDefault();
@@ -316,6 +319,7 @@ if (empty($this->uri->segment('4'))) {
                 if (data.length == 0) {
                     detail_jenis_barang()
                     barang_list()
+                    $("#relasiModal").modal("show")
                 } else {
                     $(".btn-realisasi").attr("hidden", false)
                     $(".nomor_surat_jalan").val(data[0].SURAT_JALAN_NOMOR)

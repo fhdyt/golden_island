@@ -17,6 +17,24 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control surat_jalan_nomor" name="surat_jalan_nomor" id="surat_jalan_nomor" value="" autocomplete="off" placeholder="Nomor Surat Jalan">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                            <small class="text-muted">Tanggal Dari.</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <small class="text-muted">Tanggal Sampai.</small>
+                        </div>
+                    </div>
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -45,14 +63,32 @@
 <script>
     $(function() {
         po_list();
+        $('.surat_jalan_nomor').focus()
+    });
+
+    $('.surat_jalan_nomor').keyup(function(e) {
+        if (e.keyCode == 13) {
+            memuat()
+            po_list()
+        }
+    });
+
+    $('.filter_tanggal').on("click", function() {
+        memuat()
+        po_list()
     });
 
     function po_list() {
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/list",
             async: false,
             dataType: 'json',
+            data: {
+                surat_jalan_nomor: $('.surat_jalan_nomor').val(),
+                tanggal_dari: $('.tanggal_dari').val(),
+                tanggal_sampai: $('.tanggal_sampai').val(),
+            },
             success: function(data) {
                 $("tbody#zone_data").empty();
                 memuat()
