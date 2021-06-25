@@ -40,22 +40,7 @@ class TangkiModel extends CI_Model
                 'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
             );
 
-            $this->db->insert('MASTER_TANGKI', $data);
-
-            $data_riwayat = array(
-                'RIWAYAT_TANGKI_ID' => create_id(),
-                'MASTER_TANGKI_ID' => $tangki_id,
-                'RIWAYAT_TANGKI_TANGGAL' => date("Y-m-d"),
-                'RIWAYAT_TANGKI_KAPASITAS' => "0",
-                'RIWAYAT_TANGKI_KETERANGAN' => "",
-
-
-                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-            $result = $this->db->insert('RIWAYAT_TANGKI', $data_riwayat);
+            $result = $this->db->insert('MASTER_TANGKI', $data);
             return $result;
         } else {
             $data_edit = array(
