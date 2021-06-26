@@ -80,6 +80,11 @@ class Faktur extends CI_Controller
         $data = $this->FakturModel->add();
         echo json_encode($data);
     }
+    public function add_sj_scan()
+    {
+        $data = $this->FakturModel->add_sj_scan();
+        echo json_encode($data);
+    }
 
     public function add_surat_jalan()
     {

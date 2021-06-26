@@ -93,55 +93,95 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <table id="example2" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th rowspan="2" style="text-align: center; vertical-align: middle;">No</th>
-                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Nomor Surat Jalan</th>
-                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Tanggal</th>
-                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Relasi</th>
-                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Supplier</th>
-                                <th colspan="3" style="text-align: center; vertical-align: middle;">Quantity Surat Jalan</th>
-                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Total</th>
-                            </tr>
-                            <tr>
-                                <th>Isi</th>
-                                <th>Kosong</th>
-                                <th>Klaim</th>
-                            </tr>
-                        </thead>
-                        <tbody id="zone_data_sj">
-                            <tr>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="mt-4 row">
-                        <label class="col-sm-2 col-form-label text-right">Premi Pengantaran</label>
+                    <div class="mb-2 row">
                         <div class="col-sm-3">
-                            <select name="premi_pengantaran" id="premi_pengantaran" class="form-control premi_pengantaran select2" style="width: 100%;" required>
-                                <option value="" nilai="0">0</option>
-                                <?php foreach (premi() as $row) {
-                                ?>
-                                    <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control total_sj" name="total_sj" onkeyup="kalkulasi_sj()" readonly>
-                            <small class="text-muted">Total Pengantaran Surat Jalan</small>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Rp.</span>
+                            <div class="form-group">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary">
+                                        <input type="checkbox" id="pengantaran" name="pengantaran">
+                                        <label for="pengantaran">
+                                            Pengantaran
+                                        </label>
+                                    </div>
                                 </div>
-                                <input type="text" class="form-control rupiah_pengantaran" name="rupiah_pengantaran" readonly>
                             </div>
                         </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary">
+                                        <input type="checkbox" id="produksi" name="produksi">
+                                        <label for="produksi">
+                                            Produksi
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary">
+                                        <input type="checkbox" id="penjualan" name="penjualan">
+                                        <label for="penjualan">
+                                            Penjualan
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="pengantaran" hidden>
+                        <table id="example2" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">No</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Nomor Surat Jalan</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Tanggal</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Relasi</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Supplier</th>
+                                    <th colspan="3" style="text-align: center; vertical-align: middle;">Quantity Surat Jalan</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Total</th>
+                                </tr>
+                                <tr>
+                                    <th>Isi</th>
+                                    <th>Kosong</th>
+                                    <th>Klaim</th>
+                                </tr>
+                            </thead>
+                            <tbody id="zone_data_sj">
+                                <tr>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mt-4 row">
+                            <label class="col-sm-2 col-form-label text-right">Premi Pengantaran</label>
+                            <div class="col-sm-3">
+                                <select name="premi_pengantaran" id="premi_pengantaran" class="form-control premi_pengantaran select2" style="width: 100%;" required>
+                                    <option value="" nilai="0">0</option>
+                                    <?php foreach (premi() as $row) {
+                                    ?>
+                                        <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control total_sj" name="total_sj" onkeyup="kalkulasi_sj()" readonly>
+                                <small class="text-muted">Total Pengantaran Surat Jalan</small>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp.</span>
+                                    </div>
+                                    <input type="text" class="form-control rupiah_pengantaran" name="rupiah_pengantaran" readonly>
+                                </div>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -152,8 +192,32 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
+    $('#pengantaran').change(function() {
+        if (this.checked) {
+            $("div.pengantaran").attr("hidden", false)
+            surat_jalan_list()
+        } else {
+            $("div.pengantaran").attr("hidden", true)
+            $("tbody#zone_data_sj").empty();
+        }
+    });
+    $('#produksi').change(function() {
+        if (this.checked) {
+            console.log("checked")
+        } else {
+            console.log("no")
+        }
+    });
+    $('#penjualan').change(function() {
+        if (this.checked) {
+            console.log("checked")
+        } else {
+            console.log("no")
+        }
+    });
+
     $(function() {
-        surat_jalan_list()
+        //surat_jalan_list()
         detail()
         $(".rupiah").mask("#.##0", {
             reverse: true
@@ -173,7 +237,6 @@
             },
             success: function(data) {
                 $("tbody#zone_data_sj").empty();
-                memuat()
                 console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data_sj").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
@@ -263,7 +326,7 @@
             async: false,
             dataType: 'json',
             success: function(data) {
-                console.log(data)
+                memuat()
                 if (data.length == 0) {} else {
                     $("p.nama_karyawan").html(data[0].MASTER_KARYAWAN_NAMA)
                     $(".gaji_pokok").val(number_format(data[0].MASTER_KARYAWAN_GAJI_POKOK))

@@ -213,6 +213,76 @@ class FakturModel extends CI_Model
         return $data_transaksi;
     }
 
+    public function add_sj_scan()
+    {
+        $surat_jalan = $this->db->query('SELECT * FROM 
+        SURAT_JALAN
+        WHERE SURAT_JALAN_NOMOR="' . $this->input->post('surat_jalan_nomor') . '" AND SURAT_JALAN_STATUS="open" AND SURAT_JALAN_JENIS="penjualan" AND SURAT_JALAN_REALISASI_STATUS="selesai" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        if (empty($surat_jalan)) {
+            $faktur_id = "error";
+        } else {
+            $nomor_faktur = nomor_faktur(date("Y-m-d"));
+            $faktur_id = create_id();
+            $data_surat_jalan = array(
+                'SURAT_JALAN_STATUS' => "close",
+            );
+
+            $this->db->where('SURAT_JALAN_ID', $surat_jalan[0]->SURAT_JALAN_ID);
+            $this->db->update('SURAT_JALAN', $data_surat_jalan);
+
+            $data = array(
+                'FAKTUR_SURAT_JALAN_ID' => create_id(),
+                'FAKTUR_ID' => $faktur_id,
+                'SURAT_JALAN_ID' => $surat_jalan[0]->SURAT_JALAN_ID,
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+
+            $this->db->insert('FAKTUR_SURAT_JALAN', $data);
+
+            $hasil = $this->db->query('SELECT * FROM 
+            SURAT_JALAN_BARANG
+            WHERE SURAT_JALAN_ID="' . $surat_jalan[0]->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            foreach ($hasil as $row) {
+                $data = array(
+                    'FAKTUR_BARANG_ID' => create_id(),
+                    'FAKTUR_ID' => $faktur_id,
+                    'SURAT_JALAN_ID' => $surat_jalan[0]->SURAT_JALAN_ID,
+                    'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
+                    'FAKTUR_BARANG_JENIS' => $row->SURAT_JALAN_BARANG_JENIS,
+                    'FAKTUR_BARANG_QUANTITY' => $row->SURAT_JALAN_BARANG_QUANTITY - $row->SURAT_JALAN_BARANG_QUANTITY_KLAIM,
+                    'FAKTUR_BARANG_SATUAN' => $row->SURAT_JALAN_BARANG_SATUAN,
+
+                    'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                    'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                    'RECORD_STATUS' => "AKTIF",
+                    'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                );
+
+                $this->db->insert('FAKTUR_BARANG', $data);
+            }
+
+            $data = array(
+                'FAKTUR_ID' => $faktur_id,
+                'FAKTUR_NOMOR' => $nomor_faktur,
+                'FAKTUR_TANGGAL' => date("Y-m-d"),
+                'FAKTUR_KETERANGAN' => "",
+                'MASTER_RELASI_ID' => $surat_jalan[0]->MASTER_RELASI_ID,
+                'AKUN_ID' => '',
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+
+            $this->db->insert('FAKTUR', $data);
+        }
+        return $faktur_id;
+    }
     public function hapus($id)
     {
         $hasil = $this->db->query('SELECT * FROM 

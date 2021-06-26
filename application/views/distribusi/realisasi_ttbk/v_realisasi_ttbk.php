@@ -95,6 +95,8 @@
                 memuat()
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else if (data.length === 1) {
+                    window.location.href = '<?php base_url(); ?>realisasi_ttbk/form/' + data[0].SURAT_JALAN_ID + ''
                 } else {
                     var tableContent = "";
                     var no = 1

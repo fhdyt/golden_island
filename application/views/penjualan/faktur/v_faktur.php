@@ -54,7 +54,11 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <div class="row mb-2">
+
+                    <div class="row">
+                        <div class="col-md-12 mb-4" hidden>
+                            <input type="text" class="form-control surat_jalan_nomor" name="surat_jalan_nomor" id="surat_jalan_nomor" value="" autocomplete="off" placeholder="Nomor Surat Jalan">
+                        </div>
                         <div class="col-md-4">
                             <a href="<?= base_url(); ?>penjualan/faktur/form" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Faktur</a>
                             <a class="btn btn-success mb-2 btn-form surat_jalan_baru">Surat Jalan Baru</a>
@@ -72,6 +76,7 @@
                             </div>
                             <small class="text-muted">Tanggal Sampai.</small>
                         </div>
+
                     </div>
                 </div>
                 <table id="example2" class="table table-bordered table-striped">
@@ -105,7 +110,14 @@
         surat_jalan_baru_list()
     })
     $(function() {
+        $('.surat_jalan_nomor').focus()
         po_list();
+    });
+
+    $('.surat_jalan_nomor').keyup(function(e) {
+        if (e.keyCode == 13) {
+            add_sj_scan()
+        }
     });
 
     $('.filter_tanggal').on("click", function() {
@@ -132,17 +144,54 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].TRANSAKSI.length == 0) {
+                            var transaksi = "0"
+                        } else {
+                            var transaksi = number_format(data[i].TRANSAKSI[0].FAKTUR_TRANSAKSI_GRAND_TOTAL)
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].FAKTUR_NOMOR + "</td>" +
                             "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
-                            "<td>Rp. " + number_format(data[i].TRANSAKSI[0].FAKTUR_TRANSAKSI_GRAND_TOTAL) + "</td>" +
+                            "<td>Rp. " + transaksi + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mb-2 ' href='<?= base_url(); ?>penjualan/faktur/form/" + data[i].FAKTUR_ID + "?jenis_sj=penjualan'>Lihat</a> " +
                             "<a target='_blank' class='btn btn-success btn-sm mb-2' onclick='cetak(\"" + data[i].FAKTUR_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
                             "</td>" +
                             "</tr>");
                     }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    function add_sj_scan() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url() ?>index.php/penjualan/faktur/add_sj_scan",
+            async: false,
+            dataType: 'json',
+            data: {
+                surat_jalan_nomor: $('.surat_jalan_nomor').val(),
+            },
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                console.log(data)
+                if (data == "error") {
+                    memuat()
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Nomor Surat Jalan tidak dapat di proses'
+                    })
+                } else {
+
+                    window.location.href = '<?= base_url(); ?>penjualan/faktur/form/' + data + ''
                 }
             },
             error: function(x, e) {
