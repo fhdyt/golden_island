@@ -72,7 +72,7 @@
             <form id="submit">
               <div class="card-body">
                 <div class="form-group">
-                  <textarea name="catatan" class="form-control" rows="3" placeholder="Tambah Catatan Perusahaan"></textarea>
+                  <textarea name="catatan" class="form-control" rows="3" placeholder="Tambah Catatan Perusahaan" required></textarea>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary">Tambah</button>
