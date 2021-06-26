@@ -54,6 +54,23 @@ class User extends CI_Controller
         $data = $this->UserModel->ganti_password();
     }
 
+    public function foto_profil()
+    {
+        $config['name']                    = random_string('sha1', 40);
+        $config['upload_path']          = './uploads/user';
+        $config['allowed_types']        = '*';
+        $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
+
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('userfile');
+
+        if ($_FILES["userfile"]["name"] == "") {
+            $config['file_name'] = "";
+        }
+        $data = $this->UserModel->foto_profil($config);
+        return $data;
+    }
+
     public function hapus()
     {
         $id = $this->uri->segment('4');

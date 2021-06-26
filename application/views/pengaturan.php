@@ -58,7 +58,17 @@
                                     </form>
                                 </div>
                                 <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
-
+                                    <form id="foto_profil">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="file" name="userfile" class="form-control userfile" required>
+                                                </div>
+                                                <!-- /.form-group -->
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-secondary change_password">Simpan</button>
+                                    </form>
                                 </div>
                                 <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
 
@@ -111,6 +121,24 @@
             success: function(data) {
                 memuat()
                 Swal.fire('Berhasil', 'Password berhasil diganti', 'success')
+            }
+        });
+    })
+    $('#foto_profil').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/sistem/user/foto_profil',
+            type: "post",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                memuat()
+                Swal.fire('Berhasil', 'Foto Berhasil', 'success')
             }
         });
     })

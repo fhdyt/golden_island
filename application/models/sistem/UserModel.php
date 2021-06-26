@@ -17,6 +17,7 @@ class UserModel extends CI_Model
                 'USER_USERNAME' => $this->input->post('username'),
                 'USER_PASSWORD' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
+                'USER_FOTO' => "user.jpg",
                 'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
@@ -78,6 +79,17 @@ class UserModel extends CI_Model
             'USER_PASSWORD' => password_hash($this->input->post('konfirmasi_password_baru'), PASSWORD_DEFAULT),
             'EDIT_WAKTU' => date("Y-m-d G:i:s"),
             'EDIT_USER' => $this->session->userdata('USER_ID'),
+        );
+
+        $this->db->where('USER_ID', $this->session->userdata('USER_ID'));
+        $result = $this->db->update('USER', $data);
+        return $result;
+    }
+
+    public function foto_profil($config)
+    {
+        $data = array(
+            'USER_FOTO' => $config['file_name'],
         );
 
         $this->db->where('USER_ID', $this->session->userdata('USER_ID'));
