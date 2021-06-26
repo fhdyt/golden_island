@@ -22,6 +22,7 @@ class Dashboard extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('DashboardModel');
 		$this->load->model('LoginModel');
 		$this->LoginModel->cek_login();
 	}
@@ -45,6 +46,25 @@ class Dashboard extends CI_Controller
 		$this->load->view('errors/akses');
 		$this->load->view('_template/footer');
 	}
+
+	public function list_catatan()
+	{
+		$data = $this->DashboardModel->list_catatan();
+		echo json_encode($data);
+	}
+
+	public function add()
+	{
+		$data = $this->DashboardModel->add();
+	}
+
+	public function hapus()
+	{
+		$id = $this->uri->segment('3');
+		$data = $this->DashboardModel->hapus($id);
+		echo json_encode($data);
+	}
+
 	public function folder()
 	{
 		mkdir("/test", 0777, true);
