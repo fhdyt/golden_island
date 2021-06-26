@@ -293,6 +293,15 @@ if (!function_exists('detail_perusahaan')) {
     return $hasil;
   }
 }
+if (!function_exists('detail_user')) {
+  function detail_user()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM USER WHERE RECORD_STATUS="AKTIF" AND USER_ID="' . $CI->session->userdata('USER_ID') . '"')->result();
+    return $hasil;
+  }
+}
 
 if (!function_exists('tabung')) {
   function tabung()

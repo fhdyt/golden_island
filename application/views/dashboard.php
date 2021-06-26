@@ -28,7 +28,7 @@
               <h5 class="widget-user-desc"><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></h5>
             </div>
             <div class="widget-user-image">
-              <img class="img-circle elevation-2" src="<?php echo base_url(); ?>assets/img/user.jpg" alt="User Avatar">
+              <img class="img-circle elevation-2" src="<?php echo base_url(); ?>uploads/user/<?= detail_user()[0]->USER_FOTO ?>" alt="User Avatar">
             </div>
             <div class="card-footer">
               <div class="row">
@@ -128,7 +128,7 @@
             var hapus = ""
           }
           $(".list_catatan").append("<div class='card-comment'>" +
-            " <img class='img-circle img-sm' src='<?php echo base_url(); ?>assets/img/user.jpg' alt='User Image'>" +
+            " <img class='img-circle img-sm' src='<?php echo base_url(); ?>uploads/user/" + data[i].USER[0].USER_FOTO + "' alt='User Image'>" +
             "<div class='comment-text'>" +
             "<span class='username'>" +
             data[i].USER[0].USER_NAMA +
