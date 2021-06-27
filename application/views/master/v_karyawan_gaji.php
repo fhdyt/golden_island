@@ -72,13 +72,24 @@
                         </div>
                     </div>
                     <div class="mb-2 row">
+                        <label class="col-sm-2 col-form-label text-right">Tunjangan</label>
+                        <div class="col-sm-10">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp.</span>
+                                </div>
+                                <input type="text" class="form-control tunjangan" name="tunjangan" value="0" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 row">
                         <label class="col-sm-2 col-form-label text-right">Bonus</label>
                         <div class="col-sm-10">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rp.</span>
                                 </div>
-                                <input type="text" class="form-control potongan" name="potongan" value="0" autocomplete="off">
+                                <input type="text" class="form-control bonus" name="bonus" value="0" autocomplete="off">
                             </div>
                         </div>
                     </div>
