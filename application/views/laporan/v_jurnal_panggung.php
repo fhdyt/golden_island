@@ -230,10 +230,10 @@
         });
     }
 
-    $('#tabung_filter,#status_filter, #relasi_filter,#supplier_filter, #in_out_filter,#isi_kosong_filter').change(function() {
-        memuat()
-        jurnal_tabung_list()
-    });
+    // $('#tabung_filter,#status_filter, #relasi_filter,#supplier_filter, #in_out_filter,#isi_kosong_filter').change(function() {
+    //     memuat()
+    //     jurnal_tabung_list()
+    // });
 
     $('.filter_tanggal').on("click", function() {
         memuat()
