@@ -132,7 +132,8 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="pengantaran" hidden>
+                    <div class="pengantaran mb-3" hidden>
+                        <h4><b>Premi Pengantaran</b></h4>
                         <table id="example2" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -183,6 +184,51 @@
 
                         </div>
                     </div>
+                    <hr>
+                    <div class="produksi" hidden>
+                        <h4><b>Premi Pengantaran</b></h4>
+                        <table id="example2" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">No</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Nomor Produksi</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Tanggal</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="zone_data_produksi">
+                                <tr>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mt-4 row">
+                            <label class="col-sm-2 col-form-label text-right">Premi Produksi</label>
+                            <div class="col-sm-3">
+                                <select name="premi_produksi" id="premi_produksi" class="form-control premi_produksi select2" style="width: 100%;" required>
+                                    <option value="" nilai="0">0</option>
+                                    <?php foreach (premi() as $row) {
+                                    ?>
+                                        <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control total_produksi" name="total_produksi" onkeyup="kalkulasi_produksi()" readonly>
+                                <small class="text-muted">Total Pengantaran Surat Jalan</small>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp.</span>
+                                    </div>
+                                    <input type="text" class="form-control rupiah_produksi" name="rupiah_produksi" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -203,9 +249,11 @@
     });
     $('#produksi').change(function() {
         if (this.checked) {
-            console.log("checked")
+            $("div.produksi").attr("hidden", false)
+            produksi_list()
         } else {
-            console.log("no")
+            $("div.produksi").attr("hidden", true)
+            $("tbody#zone_data_produksi").empty();
         }
     });
     $('#penjualan').change(function() {
@@ -280,6 +328,48 @@
         });
     }
 
+    function produksi_list() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url() ?>index.php/master/karyawan/produksi_list",
+            async: false,
+            dataType: 'json',
+            data: {
+                id: "<?= $this->uri->segment("4"); ?>",
+                bulan: $(".bulan").val(),
+                tahun: $(".tahun").val()
+            },
+            success: function(data) {
+                $("tbody#zone_data_produksi").empty();
+                console.log(data)
+                if (data.length === 0) {
+                    $("tbody#zone_data_produksi").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else {
+                    var no = 1
+                    var saldo = 0
+                    var total_produksi = 0
+
+                    for (i = 0; i < data.length; i++) {
+
+                        total = parseInt(data[i].PRODUKSI_KARYAWAN_TOTAL)
+                        total_produksi += total
+                        $(".total_produksi").val(total_produksi)
+                        $("tbody#zone_data_produksi").append("<tr class=''>" +
+                            "<td>" + no++ + "</td>" +
+                            "<td>" + data[i].PRODUKSI_NOMOR + "</td>" +
+                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].PRODUKSI_KARYAWAN_TOTAL + "</td>" +
+                            "</tr>");
+                    }
+                    kalkulasi_produksi()
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -341,6 +431,9 @@
     $(".premi_pengantaran").on("change", function() {
         kalkulasi_sj()
     })
+    $(".premi_produksi").on("change", function() {
+        kalkulasi_produksi()
+    })
 
     function kalkulasi_sj() {
         var total_sj = parseInt($(".total_sj").val())
@@ -348,6 +441,14 @@
         var rupiah_pengantaran = total_sj * premi
         console.log(rupiah_pengantaran)
         $(".rupiah_pengantaran").val(number_format(rupiah_pengantaran))
+    }
+
+    function kalkulasi_produksi() {
+        var total_produksi = parseInt($(".total_produksi").val())
+        var premi = parseInt($(".premi_produksi").find('option:selected').attr('nilai'))
+        var rupiah_produksi = total_produksi * premi
+        console.log(rupiah_produksi)
+        $(".rupiah_produksi").val(number_format(rupiah_produksi))
     }
 
     $('.bulan, .tahun').change(function() {

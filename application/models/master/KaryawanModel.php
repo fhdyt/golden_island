@@ -7,6 +7,28 @@ class KaryawanModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_KARYAWAN_INDEX DESC ')->result();
         return $hasil;
     }
+    public function produksi_list()
+    {
+        $hasil = $this->db->query('SELECT * 
+                                FROM PRODUKSI_KARYAWAN AS PK 
+                                LEFT JOIN 
+                                PRODUKSI AS P
+                                ON
+                                PK.PRODUKSI_ID=P.PRODUKSI_ID
+                                WHERE 
+                                MONTH(P.PRODUKSI_TANGGAL) = ' . $this->input->post('bulan') . ' 
+                                        AND YEAR(P.PRODUKSI_TANGGAL) = ' . $this->input->post('tahun') . '
+                                        AND PK.MASTER_KARYAWAN_ID="' . $this->input->post('id') . '" 
+                                AND PK.RECORD_STATUS="AKTIF" 
+                                AND PK.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                AND P.RECORD_STATUS="AKTIF" 
+                                AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                ORDER BY P.PRODUKSI_NOMOR, P.PRODUKSI_TANGGAL  ASC ')->result();
+        foreach ($hasil as $row) {
+            $row->TANGGAL = tanggal($row->PRODUKSI_TANGGAL);
+        }
+        return $hasil;
+    }
 
     public function surat_jalan_list()
     {
