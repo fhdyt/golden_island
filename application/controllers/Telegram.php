@@ -35,14 +35,14 @@ class Telegram extends CI_Controller
 		$message = $update["message"]["text"];
 		$username = $update["message"]["chat"]["username"];
 
-		if (strpos($message, "start") === 0) {
+		if (strpos($message, "/start") === 0) {
 			// $data['user'] = $this->M_Telegram->m_telegram_username($username, $chatID);
 			// if ($data['user']) {
 			// 	$text = urlencode("**Selamat Datang** \nTerimakasih telah menggunakan @mengundangbot\nUntuk info lebih lanjut silahkan kunjungi mengundang.co.id\nAtau hubungi melalui WA 082228899882\n\n**Perintah Dasar**\n/start - Memulai Bot\n/id - Mendapatkan ID Telegram anda\n/user [username] - Detail User");
 			// } else {
 			// 	$text = urlencode("Username anda belum terdaftar, silahkan buka mengundang.co.id/notifikasi dan masukkan Username Telegram anda.");
 			// }
-			$text = urlencode("**GMSCLOUD.ID");
+			$text = urlencode("**Selamat Datang di gmscloud.id**");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strpos($message, "/id") === 0) {
 			$text = urlencode("Username : " . $username . " \nNama : " . $nama . " \nID Telegram anda : " . $chatID . "");
@@ -51,7 +51,7 @@ class Telegram extends CI_Controller
 			$pesan = explode(" ", $message);
 			if (strtoupper($pesan[0]) == "PENJUALAN") {
 				$penjualan = $this->M_Telegram->penjualan(strtoupper($pesan[1]));
-				$text = urlencode("Laporan Penjualan Hari ini\n\nLunas : " . number_format($penjualan['terbayar']) . "\nPiutang : " . number_format($penjualan['piutang']) . "");
+				$text = urlencode("**Laporan Penjualan Hari ini**\n\nLunas : " . number_format($penjualan['terbayar']) . "\nPiutang : " . number_format($penjualan['piutang']) . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
 			if (strtoupper($pesan[0]) == "PENJUALAN-TABUNG") {
@@ -60,16 +60,16 @@ class Telegram extends CI_Controller
 				foreach ($penjualan as $row) {
 					$tabung .= $row->MASTER_BARANG_NAMA . " : " . number_format($row->TOTAL) . "\n";
 				}
-				$text = urlencode("Penjualan Tabung Hari Ini\n\n" . $tabung . "");
+				$text = urlencode("**Penjualan Tabung Hari Ini**\n\n" . $tabung . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
 			if (strtoupper($pesan[0]) == "BUKUBESAR") {
 				$buku_besar = $this->M_Telegram->buku_besar(strtoupper($pesan[1]));
 				$akun = "";
 				foreach ($buku_besar as $row) {
-					$akun .= $row->AKUN_NAMA . "\nPengeluaran : Rp. " . number_format($row->KREDIT) . "\nPemasukan : Rp. " . number_format($row->DEBET) . "\n\n";
+					$akun .= "**" . $row->AKUN_NAMA . "**\nPengeluaran : Rp. " . number_format($row->KREDIT) . "\nPemasukan : Rp. " . number_format($row->DEBET) . "\n\n";
 				}
-				$text = urlencode("" . $akun . "");
+				$text = urlencode("**Laporan Buku Besar Hari ini**\n\n" . $akun . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
 		}
