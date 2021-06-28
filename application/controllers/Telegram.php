@@ -34,63 +34,60 @@ class Telegram extends CI_Controller
 		$nama = $update["message"]["chat"]["first_name"];
 		$message = $update["message"]["text"];
 		$username = $update["message"]["chat"]["username"];
-
+		$pesan = explode(" ", $message);
 		if (strpos($message, "/start") === 0) {
 			$text = urlencode("**Selamat Datang di gmscloud.id**");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strpos($message, "/id") === 0) {
 			$text = urlencode("Username : " . $username . " \nNama : " . $nama . " \nID Telegram anda : " . $chatID . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
-		} else {
-			$pesan = explode(" ", $message);
-			if (strtoupper($pesan[0]) == "PENJUALAN") {
-				$penjualan = $this->M_Telegram->penjualan(strtoupper($pesan[1]));
-				$text = urlencode("**Laporan Penjualan Hari ini**\n\nLunas : " . number_format($penjualan['terbayar']) . "\nPiutang : " . number_format($penjualan['piutang']) . "");
-				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+		} else if (strtoupper($pesan[0]) == "PENJUALAN") {
+			$penjualan = $this->M_Telegram->penjualan(strtoupper($pesan[1]));
+			$text = urlencode("**Laporan Penjualan Hari ini**\n\nLunas : " . number_format($penjualan['terbayar']) . "\nPiutang : " . number_format($penjualan['piutang']) . "");
+			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+		} else if (strtoupper($pesan[0]) == "PENJUALAN-TABUNG") {
+			$penjualan = $this->M_Telegram->penjualan_tabung(strtoupper($pesan[1]));
+			$tabung = "";
+			foreach ($penjualan as $row) {
+				$tabung .= $row->MASTER_BARANG_NAMA . " : " . number_format($row->TOTAL) . "\n";
 			}
-			if (strtoupper($pesan[0]) == "PENJUALAN-TABUNG") {
-				$penjualan = $this->M_Telegram->penjualan_tabung(strtoupper($pesan[1]));
-				$tabung = "";
-				foreach ($penjualan as $row) {
-					$tabung .= $row->MASTER_BARANG_NAMA . " : " . number_format($row->TOTAL) . "\n";
+			$text = urlencode("**Penjualan Tabung Hari Ini**\n\n" . $tabung . "");
+			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+		} else if (strtoupper($pesan[0]) == "BUKUBESAR") {
+			$buku_besar = $this->M_Telegram->buku_besar(strtoupper($pesan[1]));
+			$akun = "";
+			foreach ($buku_besar as $row) {
+				$akun .= "**" . $row->AKUN_NAMA . "**\nPengeluaran : Rp. " . number_format($row->KREDIT) . "\nPemasukan : Rp. " . number_format($row->DEBET) . "\nSaldo : Rp. " . number_format($row->SALDO) . "\n\n";
+			}
+			$text = urlencode("**Laporan Buku Besar Hari ini**\n\n" . $akun . "");
+			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+		} else if (strtoupper($message) == "SURAT JALAN SAYA") {
+			$sj = $this->M_Telegram->surat_jalan_driver($chatID);
+			$surat_jalan = "";
+			$total = 0;
+			$total_seluruh = 0;
+			foreach ($sj as $row) {
+				if (count($row->SUPPLIER) == 0) {
+					$supplier = "-";
+				} else {
+					$supplier = $row->SUPPLIER[0]->MASTER_SUPPLIER_NAMA;
 				}
-				$text = urlencode("**Penjualan Tabung Hari Ini**\n\n" . $tabung . "");
-				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
-			}
-			if (strtoupper($pesan[0]) == "BUKUBESAR") {
-				$buku_besar = $this->M_Telegram->buku_besar(strtoupper($pesan[1]));
-				$akun = "";
-				foreach ($buku_besar as $row) {
-					$akun .= "**" . $row->AKUN_NAMA . "**\nPengeluaran : Rp. " . number_format($row->KREDIT) . "\nPemasukan : Rp. " . number_format($row->DEBET) . "\nSaldo : Rp. " . number_format($row->SALDO) . "\n\n";
-				}
-				$text = urlencode("**Laporan Buku Besar Hari ini**\n\n" . $akun . "");
-				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
-			}
-			if (strtoupper($message) == "SURAT JALAN SAYA") {
-				$sj = $this->M_Telegram->surat_jalan_driver($chatID);
-				$surat_jalan = "";
-				$total = 0;
-				$total_seluruh = 0;
-				foreach ($sj as $row) {
-					if (count($row->SUPPLIER) == 0) {
-						$supplier = "-";
-					} else {
-						$supplier = $row->SUPPLIER[0]->MASTER_SUPPLIER_NAMA;
-					}
 
-					if (count($row->RELASI) == 0) {
-						$relasi = "-";
-					} else {
-						$relasi = $row->RELASI[0]->MASTER_RELASI_NAMA;
-					}
-					$total_seluruh += $row->BARANG[0]->ISI + $row->BARANG[0]->KOSONG - $row->BARANG[0]->KLAIM;
-					$total = $row->BARANG[0]->ISI + $row->BARANG[0]->KOSONG - $row->BARANG[0]->KLAIM;
-					$surat_jalan .= "No. : " . $row->SURAT_JALAN_NOMOR . "\nRelasi : " . $relasi . "\nSupplier : " . $supplier . "\nTanggal : " . tanggal($row->SURAT_JALAN_TANGGAL) . "\nJumlah : " . $total . "\n";
+				if (count($row->RELASI) == 0) {
+					$relasi = "-";
+				} else {
+					$relasi = $row->RELASI[0]->MASTER_RELASI_NAMA;
 				}
-				$text = urlencode("**Surat Jalan Bulain Ini**\n" . $sj[0]->NAMA . " : " . $total_seluruh . " Tabung");
-				// $text = urlencode("**Surat Jalan Bulain Ini**\n\n" . $surat_jalan . "\nTotal Bulan ini : " . $total . "");
-				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+				$total_seluruh += $row->BARANG[0]->ISI + $row->BARANG[0]->KOSONG - $row->BARANG[0]->KLAIM;
+				$total = $row->BARANG[0]->ISI + $row->BARANG[0]->KOSONG - $row->BARANG[0]->KLAIM;
+				$surat_jalan .= "No. : " . $row->SURAT_JALAN_NOMOR . "\nRelasi : " . $relasi . "\nSupplier : " . $supplier . "\nTanggal : " . tanggal($row->SURAT_JALAN_TANGGAL) . "\nJumlah : " . $total . "\n";
 			}
+			$text = urlencode("**Surat Jalan Bulain Ini**\n" . $sj[0]->NAMA . " : " . $total_seluruh . " Tabung");
+			// $text = urlencode("**Surat Jalan Bulain Ini**\n\n" . $surat_jalan . "\nTotal Bulan ini : " . $total . "");
+			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+		} else {
+			$text = urlencode("Maaf permintaan anda tidak ditemukan");
+			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		}
 	}
 
