@@ -36,7 +36,7 @@ class Telegram extends CI_Controller
 		$username = $update["message"]["chat"]["username"];
 		$pesan = explode(" ", $message);
 		if (strpos($message, "/start") === 0) {
-			$text = urlencode("**Selamat Datang di gmscloud.id**");
+			$text = urlencode("Selamat Datang " . $nama . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strpos($message, "/id") === 0) {
 			$text = urlencode("Username : " . $username . " \nNama : " . $nama . " \nID Telegram anda : " . $chatID . "");
@@ -86,7 +86,7 @@ class Telegram extends CI_Controller
 			// $text = urlencode("**Surat Jalan Bulain Ini**\n\n" . $surat_jalan . "\nTotal Bulan ini : " . $total . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else {
-			$text = urlencode("Maaf permintaan anda tidak ditemukan");
+			$text = urlencode("Maaf permintaan anda tidak ditemukan.");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		}
 	}
