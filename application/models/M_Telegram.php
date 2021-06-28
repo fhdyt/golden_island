@@ -135,6 +135,20 @@ class M_Telegram extends CI_Model
 	public function buku_besar($perusahaan)
 	{
 		$hasil = $this->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $perusahaan . '"')->result();
+		foreach ($hasil as $row) {
+			$tanggal_dari = date("Y-m-d");
+			$tanggal_sampai = date("Y-m-d");
+
+			$filter_tanggal = 'AND BUKU_BESAR_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+			$buku_besar = $this->db->query('SELECT SUM(BUKU_BESAR_KREDIT) AS KREDIT, SUM(BUKU_BESAR_DEBET) AS DEBET FROM 
+        BUKU_BESAR WHERE 
+        AKUN_ID="' . $row->AKUN_ID . '" 
+        AND RECORD_STATUS="AKTIF" 
+        AND PERUSAHAAN_KODE="' . $perusahaan . '" 
+        ' . $filter_tanggal . '')->result();
+			$row->KREDIT = $buku_besar[0]->KREDIT;
+			$row->DEBET = $buku_besar[0]->DEBET;
+		}
 		return $hasil;;
 	}
 
