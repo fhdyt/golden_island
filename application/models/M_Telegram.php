@@ -132,6 +132,40 @@ class M_Telegram extends CI_Model
 		return $total;
 	}
 
+	public function penjualan_tabung($perusahaan)
+	{
+		$hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $perusahaan . '"')->result();
+		foreach ($hasil as $row) {
+			if (empty($this->input->post("relasi"))) {
+				$filter_relasi = "";
+			} else {
+				$filter_relasi = 'AND SJ.MASTER_RELASI_ID="' . $this->input->post("relasi") . '"';
+			}
+
+			$tanggal_dari = $this->input->post("tanggal_dari");
+			$tanggal_sampai = $this->input->post("tanggal_sampai");
+
+			$filter_tanggal = 'SJ.SURAT_JALAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
+			$barang = $this->db->query('SELECT SUM(SJB.SURAT_JALAN_BARANG_QUANTITY) AS QTY, SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS QTY_KLAIM FROM 
+                                        SURAT_JALAN_BARANG SJB LEFT JOIN SURAT_JALAN AS SJ
+                                        ON SJB.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                        WHERE 
+                                        SJ.SURAT_JALAN_JENIS="penjualan"
+                                        AND SJB.MASTER_BARANG_ID ="' . $row->MASTER_BARANG_ID . '"
+                                        AND ' . $filter_tanggal . '
+                                        ' . $filter_relasi . '
+                                        AND SJB.RECORD_STATUS="AKTIF" 
+                                        AND SJB.PERUSAHAAN_KODE="' . $perusahaan . '" 
+                                        AND SJ.RECORD_STATUS="AKTIF" 
+                                        AND SJ.PERUSAHAAN_KODE="' . $perusahaan . '" LIMIT 1')->result();
+			$row->QTY = $barang;
+			$qty = $barang[0]->QTY;
+			$qty_klaim = $barang[0]->QTY_KLAIM;
+			$row->TOTAL = $qty - $qty_klaim;
+		}
+		return $hasil;
+	}
 	public function buku_besar($perusahaan)
 	{
 		$hasil = $this->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $perusahaan . '"')->result();
