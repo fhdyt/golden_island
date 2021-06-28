@@ -203,7 +203,7 @@ class M_Telegram extends CI_Model
 		return $hasil;;
 	}
 
-	public function surat_jalan($id_telegram)
+	public function surat_jalan_driver($id_telegram)
 	{
 		$bulan = date("m");
 		$tahun = date("Y");

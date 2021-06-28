@@ -36,12 +36,6 @@ class Telegram extends CI_Controller
 		$username = $update["message"]["chat"]["username"];
 
 		if (strpos($message, "/start") === 0) {
-			// $data['user'] = $this->M_Telegram->m_telegram_username($username, $chatID);
-			// if ($data['user']) {
-			// 	$text = urlencode("**Selamat Datang** \nTerimakasih telah menggunakan @mengundangbot\nUntuk info lebih lanjut silahkan kunjungi mengundang.co.id\nAtau hubungi melalui WA 082228899882\n\n**Perintah Dasar**\n/start - Memulai Bot\n/id - Mendapatkan ID Telegram anda\n/user [username] - Detail User");
-			// } else {
-			// 	$text = urlencode("Username anda belum terdaftar, silahkan buka mengundang.co.id/notifikasi dan masukkan Username Telegram anda.");
-			// }
 			$text = urlencode("**Selamat Datang di gmscloud.id**");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strpos($message, "/id") === 0) {
@@ -73,7 +67,7 @@ class Telegram extends CI_Controller
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
 			if (strtoupper($message) == "SURAT JALAN SAYA") {
-				$sj = $this->M_Telegram->surat_jalan($chatID);
+				$sj = $this->M_Telegram->surat_jalan_driver($chatID);
 				$surat_jalan = "";
 				$total = 0;
 				$total_seluruh = 0;
