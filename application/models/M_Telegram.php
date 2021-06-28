@@ -134,7 +134,7 @@ class M_Telegram extends CI_Model
 
 	public function penjualan_tabung($perusahaan)
 	{
-		$hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $perusahaan . '" ORDER BY MASTER_BARANG_PRIORITAS DES')->result();
+		$hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="gas" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $perusahaan . '" ORDER BY MASTER_BARANG_PRIORITAS DESC')->result();
 		foreach ($hasil as $row) {
 			if (empty($this->input->post("relasi"))) {
 				$filter_relasi = "";
