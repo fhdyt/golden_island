@@ -54,6 +54,15 @@ class Telegram extends CI_Controller
 				$text = urlencode("Laporan Penjualan Tanggal " . tanggal(date("Y-m-d")) . "\n\nLunas : " . number_format($penjualan['terbayar']) . "\nPiutang : " . number_format($penjualan['piutang']) . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
+			if (strtoupper($pesan[0]) == "PENJUALAN-TABUNG") {
+				$penjualan = $this->M_Telegram->penjualan_tabung(strtoupper($pesan[1]));
+				$tabung = "";
+				foreach ($penjualan as $row) {
+					$tabung .= $row->MASTER_BARANG_NAMA . " : Rp. " . number_format($row->TOTAL) . "\n";
+				}
+				$text = urlencode("" . $tabung . "");
+				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+			}
 			if (strtoupper($pesan[0]) == "BUKUBESAR") {
 				$buku_besar = $this->M_Telegram->buku_besar(strtoupper($pesan[1]));
 				$akun = "";
