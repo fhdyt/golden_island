@@ -203,6 +203,38 @@ class M_Telegram extends CI_Model
 		return $hasil;;
 	}
 
+	public function surat_jalan($id_telegram)
+	{
+		$bulan = date("m");
+		$tahun = date("Y");
+		$id = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_TELEGRAM_ID="' . $id_telegram . '" AND RECORD_STATUS="AKTIF"')->result();
+		$hasil = $this->db->query('SELECT * 
+                                FROM SURAT_JALAN WHERE 
+                                MONTH(SURAT_JALAN_TANGGAL) = ' . $bulan . ' 
+                                        AND YEAR(SURAT_JALAN_TANGGAL) = ' . $tahun . '
+                                        AND DRIVER_ID="' . $id[0]->MASTER_KARYAWAN_ID . '" 
+                                AND RECORD_STATUS="AKTIF" 
+                                AND PERUSAHAAN_KODE="' . $id[0]->PERUSAHAAN_KODE . '" 
+                                ORDER BY SURAT_JALAN_NOMOR ASC ')->result();
+		foreach ($hasil as $row) {
+			$relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $id[0]->PERUSAHAAN_KODE . '"')->result();
+			$supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $id[0]->PERUSAHAAN_KODE . '"')->result();
+			$barang = $this->db->query('SELECT
+                                        SUM(SURAT_JALAN_BARANG_QUANTITY) AS ISI,
+                                        SUM(SURAT_JALAN_BARANG_QUANTITY_KOSONG) AS KOSONG,
+                                        SUM(SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS KLAIM
+                                        FROM 
+                                        SURAT_JALAN_BARANG 
+                                        WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" 
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $id[0]->PERUSAHAAN_KODE . '"')->result();
+			$row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
+			$row->JAM = jam($row->ENTRI_WAKTU);
+			$row->RELASI = $relasi;
+			$row->SUPPLIER = $supplier;
+			$row->BARANG = $barang;
+		}
+	}
 	public function m_check_expired()
 	{
 		$hasil = $this->db->query('SELECT * FROM USER ORDER BY USER_TANGGAL_NONAKTIF DESC ')->result();

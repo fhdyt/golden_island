@@ -72,6 +72,15 @@ class Telegram extends CI_Controller
 				$text = urlencode("**Laporan Buku Besar Hari ini**\n\n" . $akun . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
+			if (strtoupper($pesan[0]) == "SURAT JALAN SAYA") {
+				$sj = $this->M_Telegram->surat_jalan($chatID);
+				$surat_jalan = "";
+				foreach ($sj as $row) {
+					$surat_jalan .= "**" . $row->AKUN_NAMA . "**\n" . $row->SURAT_JALAN_NOMOR . "\Tanggal : " . tanggal($row->SURAT_JALAN_TANGGAL) . "\n\n";
+				}
+				$text = urlencode("**Surat Jalan Bulain Ini**\n\n" . $surat_jalan . "");
+				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+			}
 		}
 	}
 }
