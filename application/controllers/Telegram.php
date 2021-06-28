@@ -35,7 +35,7 @@ class Telegram extends CI_Controller
 		$message = $update["message"]["text"];
 		$username = $update["message"]["chat"]["username"];
 
-		if (strpos($message, "/start") === 0) {
+		if (strpos($message, "start") === 0) {
 			// $data['user'] = $this->M_Telegram->m_telegram_username($username, $chatID);
 			// if ($data['user']) {
 			// 	$text = urlencode("**Selamat Datang** \nTerimakasih telah menggunakan @mengundangbot\nUntuk info lebih lanjut silahkan kunjungi mengundang.co.id\nAtau hubungi melalui WA 082228899882\n\n**Perintah Dasar**\n/start - Memulai Bot\n/id - Mendapatkan ID Telegram anda\n/user [username] - Detail User");
