@@ -132,6 +132,12 @@ class M_Telegram extends CI_Model
 		return $total;
 	}
 
+	public function buku_besar($perusahaan)
+	{
+		$hasil = $this->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $perusahaan . '"')->result();
+		return $hasil;;
+	}
+
 	public function m_check_expired()
 	{
 		$hasil = $this->db->query('SELECT * FROM USER ORDER BY USER_TANGGAL_NONAKTIF DESC ')->result();
