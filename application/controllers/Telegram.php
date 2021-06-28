@@ -49,7 +49,11 @@ class Telegram extends CI_Controller
 			$text = urlencode("Username : " . $username . " \nNama : " . $nama . " \nID Telegram anda : " . $chatID . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else {
-			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $message . "");
+			$pesan = explode(" ", $message);
+			if ($pesan[0] == "penjualan") {
+				$penjualan = $this->M_Telegram->penjualan(strtoupper($pesan[1]));
+				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $penjualan['terbayar'] . "");
+			}
 		}
 	}
 }
