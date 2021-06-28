@@ -233,6 +233,7 @@ class M_Telegram extends CI_Model
 			$row->RELASI = $relasi;
 			$row->SUPPLIER = $supplier;
 			$row->BARANG = $barang;
+			$row->NAMA = $id[0]->MASTER_KARYAWAN_NAMA;
 		}
 		return $hasil;
 	}
