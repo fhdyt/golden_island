@@ -51,7 +51,7 @@ class Telegram extends CI_Controller
 			$pesan = explode(" ", $message);
 			if (strtoupper($pesan[0]) == "PENJUALAN") {
 				$penjualan = $this->M_Telegram->penjualan(strtoupper($pesan[1]));
-				$text = urlencode("Laporan Penjualan Tanggal " . tanggal(date("Y-m-d")) . "\n\nLunas : " . number_format($penjualan['terbayar']) . "\nPiutang : " . number_format($penjualan['piutang']) . "");
+				$text = urlencode("Laporan Penjualan Hari ini\n\nLunas : " . number_format($penjualan['terbayar']) . "\nPiutang : " . number_format($penjualan['piutang']) . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
 			if (strtoupper($pesan[0]) == "PENJUALAN-TABUNG") {
@@ -60,7 +60,7 @@ class Telegram extends CI_Controller
 				foreach ($penjualan as $row) {
 					$tabung .= $row->MASTER_BARANG_NAMA . " : " . number_format($row->TOTAL) . "\n";
 				}
-				$text = urlencode("" . $tabung . "");
+				$text = urlencode("Penjualan Tabung Hari Ini\n\n" . $tabung . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
 			if (strtoupper($pesan[0]) == "BUKUBESAR") {
