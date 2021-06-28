@@ -94,7 +94,7 @@ class Telegram extends CI_Controller
 					$surat_jalan .= "No. : " . $row->SURAT_JALAN_NOMOR . "\nRelasi : " . $relasi . "\nSupplier : " . $supplier . "\nTanggal : " . tanggal($row->SURAT_JALAN_TANGGAL) . "\nJumlah : " . $total . "\n";
 				}
 				$x = json_encode($sj);
-				$text = urlencode("**Surat Jalan Bulain Ini**\n\n");
+				$text = urlencode("**Surat Jalan Bulain Ini**\n\n" . $total . "");
 				// $text = urlencode("**Surat Jalan Bulain Ini**\n\n" . $surat_jalan . "\nTotal Bulan ini : " . $total . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 			}
