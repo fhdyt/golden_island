@@ -208,7 +208,6 @@ class M_Telegram extends CI_Model
 		$bulan = date("m");
 		$tahun = date("Y");
 		$id = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_TELEGRAM_ID="' . $id_telegram . '" AND RECORD_STATUS="AKTIF"')->result();
-		echo json_encode($id);
 		$hasil = $this->db->query('SELECT * 
                                 FROM SURAT_JALAN WHERE 
                                 MONTH(SURAT_JALAN_TANGGAL) = ' . $bulan . ' 
@@ -217,7 +216,6 @@ class M_Telegram extends CI_Model
                                 AND RECORD_STATUS="AKTIF" 
                                 AND PERUSAHAAN_KODE="' . $id[0]->PERUSAHAAN_KODE . '" 
                                 ORDER BY SURAT_JALAN_NOMOR ASC ')->result();
-		//echo json_encode($hasil);
 		foreach ($hasil as $row) {
 			$relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $id[0]->PERUSAHAAN_KODE . '"')->result();
 			$supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $id[0]->PERUSAHAAN_KODE . '"')->result();
