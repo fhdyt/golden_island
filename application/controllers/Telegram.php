@@ -48,28 +48,8 @@ class Telegram extends CI_Controller
 		} else if (strpos($message, "/id") === 0) {
 			$text = urlencode("Username : " . $username . " \nNama : " . $nama . " \nID Telegram anda : " . $chatID . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
-		}
-	}
-
-	public function check_expired()
-	{
-		$hasil = $this->M_Telegram->m_check_expired();
-		$admin = $this->M_Telegram->m_admin();
-		$pesan = urlencode("Web Undangaan yang expired\n=====================\n\n=====================\n");
-		foreach ($hasil as $row) {
-			if ($row->USER_TANGGAL_NONAKTIF < date("Y-m-d")) {
-				$pesan .= urlencode("" . $row->USER_LINK . "\n=====================\n");
-			}
-		}
-
-		foreach ($admin as $data) {
-			$API = "https://api.telegram.org/bot1514363312:AAGok7yRfZ668Z7469JURkPkA5xhAvV5tlA/sendmessage?chat_id=" . $data->ADMIN_TELEGRAM . "&text=" . $pesan . "";
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-			curl_setopt($ch, CURLOPT_URL, $API);
-			$result = curl_exec($ch);
-			curl_close($ch);
+		} else {
+			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $message . "");
 		}
 	}
 }
