@@ -142,8 +142,8 @@ class M_Telegram extends CI_Model
 				$filter_relasi = 'AND SJ.MASTER_RELASI_ID="' . $this->input->post("relasi") . '"';
 			}
 
-			$tanggal_dari = $this->input->post("tanggal_dari");
-			$tanggal_sampai = $this->input->post("tanggal_sampai");
+			$tanggal_dari = date("Y-m-d");
+			$tanggal_sampai = date("Y-m-d");
 
 			$filter_tanggal = 'SJ.SURAT_JALAN_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
 

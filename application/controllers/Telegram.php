@@ -58,7 +58,7 @@ class Telegram extends CI_Controller
 				$penjualan = $this->M_Telegram->penjualan_tabung(strtoupper($pesan[1]));
 				$tabung = "";
 				foreach ($penjualan as $row) {
-					$tabung .= $row->MASTER_BARANG_NAMA . " : Rp. " . number_format($row->TOTAL) . "\n";
+					$tabung .= $row->MASTER_BARANG_NAMA . " : " . number_format($row->TOTAL) . "\n";
 				}
 				$text = urlencode("" . $tabung . "");
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
