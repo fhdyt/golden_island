@@ -22,6 +22,12 @@ class ProduksiModel extends CI_Model
                                     B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                     ORDER BY P.PRODUKSI_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
+            $total = $this->db->query('SELECT SUM(PRODUKSI_BARANG_TOTAL) AS TOTAL
+            FROM PRODUKSI_BARANG
+            WHERE PRODUKSI_ID="' . $row->PRODUKSI_ID . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->TOTAL = $total[0]->TOTAL;
             $row->TANGGAL = tanggal($row->PRODUKSI_TANGGAL);
         }
         return $hasil;
