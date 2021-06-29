@@ -468,7 +468,7 @@ if (empty($this->uri->segment('4'))) {
 
                         var total = data[i].FAKTUR_BARANG_QUANTITY * harga;
                         total_rp += total
-                        total_qty += parseInt(data[i].FAKTUR_BARANG_QUANTITY)
+                        total_qty += parseFloat(data[i].FAKTUR_BARANG_QUANTITY)
                         $("tbody#zone_data_barang").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +

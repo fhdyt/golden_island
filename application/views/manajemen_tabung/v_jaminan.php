@@ -173,6 +173,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>Nomor Jaminan</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th>Surat Jalan</th>
                                 <th>Tanggal</th>
@@ -255,6 +256,7 @@
                         }
                         $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].FAKTUR_JAMINAN_NOMOR + "</td>" +
                             "<td>" + data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA + "</td>" +
                             "<td>" + data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR + "<br>" + status + "</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
