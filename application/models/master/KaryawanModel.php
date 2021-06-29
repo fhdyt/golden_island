@@ -30,6 +30,51 @@ class KaryawanModel extends CI_Model
         return $hasil;
     }
 
+    public function penjualan_list()
+    {
+        $hasil['gas'] = $this->db->query('SELECT
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY) AS ISI,
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KOSONG) AS KOSONG,
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS KLAIM
+                                        FROM 
+                                        SURAT_JALAN_BARANG AS SJB
+                                        LEFT JOIN
+                                        SURAT_JALAN AS SJ
+                                        ON SJB.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                        WHERE MONTH(SJ.SURAT_JALAN_TANGGAL) = ' . $this->input->post('bulan') . ' 
+                                        AND YEAR(SJ.SURAT_JALAN_TANGGAL) = ' . $this->input->post('tahun') . '
+                                        AND SJ.SURAT_JALAN_JENIS="penjualan"
+                                        AND SJ.SURAT_JALAN_STATUS_JENIS="gas"
+                                        AND SJB.RECORD_STATUS="AKTIF" 
+                                        AND SJB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        AND SJ.RECORD_STATUS="AKTIF" 
+                                        AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil['gas'] as $row) {
+            $row->TOTAL = $row->ISI + $row->KOSONG - $row->KLAIM;
+        }
+        $hasil['liquid'] = $this->db->query('SELECT
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY) AS ISI,
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KOSONG) AS KOSONG,
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS KLAIM
+                                        FROM 
+                                        SURAT_JALAN_BARANG AS SJB
+                                        LEFT JOIN
+                                        SURAT_JALAN AS SJ
+                                        ON SJB.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                        WHERE MONTH(SJ.SURAT_JALAN_TANGGAL) = ' . $this->input->post('bulan') . ' 
+                                        AND YEAR(SJ.SURAT_JALAN_TANGGAL) = ' . $this->input->post('tahun') . '
+                                        AND SJ.SURAT_JALAN_JENIS="penjualan"
+                                        AND SJ.SURAT_JALAN_STATUS_JENIS="liquid"
+                                        AND SJB.RECORD_STATUS="AKTIF" 
+                                        AND SJB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        AND SJ.RECORD_STATUS="AKTIF" 
+                                        AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil['liquid'] as $row) {
+            $row->TOTAL = $row->ISI + $row->KOSONG - $row->KLAIM;
+        }
+        return $hasil;
+    }
+
     public function surat_jalan_list()
     {
 

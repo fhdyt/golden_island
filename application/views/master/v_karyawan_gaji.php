@@ -171,7 +171,7 @@
                             <label class="col-sm-2 col-form-label text-right">Premi Pengantaran</label>
                             <div class="col-sm-3">
                                 <select name="premi_pengantaran" id="premi_pengantaran" class="form-control premi_pengantaran select2" style="width: 100%;" required>
-                                    <option value="" nilai="0">0</option>
+                                    <option value="0" nilai="0">0</option>
                                     <?php foreach (premi() as $row) {
                                     ?>
                                         <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
@@ -197,7 +197,7 @@
                     </div>
                     <hr>
                     <div class="produksi" hidden>
-                        <h4><b>Premi Pengantaran</b></h4>
+                        <h4><b>Premi Produksi</b></h4>
                         <table id="example2" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -216,7 +216,7 @@
                             <label class="col-sm-2 col-form-label text-right">Premi Produksi</label>
                             <div class="col-sm-3">
                                 <select name="premi_produksi" id="premi_produksi" class="form-control premi_produksi select2" style="width: 100%;" required>
-                                    <option value="" nilai="0">0</option>
+                                    <option value="0" nilai="0">0</option>
                                     <?php foreach (premi() as $row) {
                                     ?>
                                         <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
@@ -235,6 +235,56 @@
                                         <span class="input-group-text">Rp.</span>
                                     </div>
                                     <input type="text" class="form-control rupiah_produksi" name="rupiah_produksi" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="penjualan" hidden>
+                        <h4><b>Premi Penjualan</b></h4>
+                        <div class="mb-4 row">
+                            <label class="col-sm-2 col-form-label text-right">Premi Penjualan</label>
+                            <div class="col-sm-3">
+                                <select name="premi_penjualan" id="premi_penjualan" class="form-control premi_penjualan select2" style="width: 100%;" required>
+                                    <option value="0" nilai="0">0</option>
+                                    <?php foreach (premi() as $row) {
+                                    ?>
+                                        <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <table id="example2" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">No</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Jenis</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Total</th>
+                                    <th rowspan="2" style="text-align: center; vertical-align: middle;">Rupiah</th>
+                                </tr>
+                            </thead>
+                            <tbody id="zone_data_penjualan">
+                                <tr>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mt-4 row">
+                            <label class="col-sm-2 col-form-label text-right">Persentase</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control persentase" name="persentase" onkeyup="kalkulasi_penjualan()">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control total_penjualan" name="total_penjualan" onkeyup="kalkulasi_penjualan()" readonly>
+                                <small class="text-muted">Total Penjualan</small>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp.</span>
+                                    </div>
+                                    <input type="text" class="form-control rupiah_penjualan" name="rupiah_penjualan" readonly>
                                 </div>
                             </div>
 
@@ -269,9 +319,11 @@
     });
     $('#penjualan').change(function() {
         if (this.checked) {
-            console.log("checked")
+            $("div.penjualan").attr("hidden", false)
+            //penjualan_list()
         } else {
-            console.log("no")
+            $("div.penjualan").attr("hidden", true)
+            $("tbody#zone_data_penjualan").empty();
         }
     });
 
@@ -381,6 +433,58 @@
         });
     }
 
+    function penjualan_list() {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url() ?>index.php/master/karyawan/penjualan_list",
+            async: false,
+            dataType: 'json',
+            data: {
+                id: "<?= $this->uri->segment("4"); ?>",
+                bulan: $(".bulan").val(),
+                tahun: $(".tahun").val()
+            },
+            success: function(data) {
+                $("tbody#zone_data_penjualan").empty();
+                console.log(data)
+                if (data.length === 0) {
+                    $("tbody#zone_data_penjualan").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else {
+                    var no = 1
+                    var total = 0
+                    for (i = 0; i < data.gas.length; i++) {
+                        var premi = parseInt($(".premi_penjualan").find('option:selected').attr('nilai'))
+                        var rupiah = parseInt(data.gas[i].TOTAL) * premi
+                        total += rupiah
+                        $("tbody#zone_data_penjualan").append("<tr class=''>" +
+                            "<td>" + no++ + "</td>" +
+                            "<td>Penjualan Gas</td>" +
+                            "<td>" + data.gas[i].TOTAL + "</td>" +
+                            "<td>" + number_format(rupiah) + "</td>" +
+                            "</tr>");
+                    }
+
+                    for (i = 0; i < data.liquid.length; i++) {
+                        var premi = parseInt($(".premi_penjualan").find('option:selected').attr('nilai'))
+                        var tabung = parseInt(data.liquid[i].TOTAL) / 6
+                        var rupiah = (parseInt(data.liquid[i].TOTAL) / 6) * premi
+                        total += rupiah
+                        $("tbody#zone_data_penjualan").append("<tr class=''>" +
+                            "<td>" + no++ + "</td>" +
+                            "<td>Penjualan Liquid</td>" +
+                            "<td>" + data.liquid[i].TOTAL + " (" + tabung + ")</td>" +
+                            "<td>" + number_format(rupiah) + "</td>" +
+                            "</tr>");
+                    }
+                    $(".total_penjualan").val(number_format(total))
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -446,6 +550,10 @@
         kalkulasi_produksi()
     })
 
+    $(".premi_penjualan").on("change", function() {
+        penjualan_list()
+    })
+
     function kalkulasi_sj() {
         var total_sj = parseInt($(".total_sj").val())
         var premi = parseInt($(".premi_pengantaran").find('option:selected').attr('nilai'))
@@ -460,6 +568,14 @@
         var rupiah_produksi = total_produksi * premi
         console.log(rupiah_produksi)
         $(".rupiah_produksi").val(number_format(rupiah_produksi))
+    }
+
+    function kalkulasi_penjualan() {
+        var total_penjualan = parseInt($(".total_penjualan").val().split('.').join(""))
+        var persentase = parseInt($(".persentase").val()) / 100
+        var rupiah_penjualan = total_penjualan * persentase
+        console.log(rupiah_penjualan)
+        $(".rupiah_penjualan").val(number_format(rupiah_penjualan))
     }
 
     $('.bulan, .tahun').change(function() {

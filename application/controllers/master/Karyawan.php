@@ -56,6 +56,11 @@ class Karyawan extends CI_Controller
         $data = $this->KaryawanModel->produksi_list();
         echo json_encode($data);
     }
+    public function penjualan_list()
+    {
+        $data = $this->KaryawanModel->penjualan_list();
+        echo json_encode($data);
+    }
 
     public function add()
     {

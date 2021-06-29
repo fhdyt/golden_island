@@ -1,3 +1,5 @@
+UPDATE SURAT_JALAN SET SURAT_JALAN_STATUS_JENIS="gas" WHERE RECORD_STATUS="AKTIF" AND SURAT_JALAN_STATUS_JENIS IS NULL
+
 ###################
 What is CodeIgniter
 ###################
