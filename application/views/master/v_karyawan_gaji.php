@@ -240,6 +240,7 @@
 
                         </div>
                     </div>
+                    <hr>
                     <div class="penjualan" hidden>
                         <h4><b>Premi Penjualan</b></h4>
                         <div class="mb-4 row">
