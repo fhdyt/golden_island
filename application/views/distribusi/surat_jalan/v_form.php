@@ -460,9 +460,9 @@ if (empty($this->uri->segment('4'))) {
                         $("tbody#zone_data_isi").append("<tr class=''>" +
                             "<td>" + no_isi++ + ".</td>" +
                             "<td>" + data.isi[i].MASTER_BARANG_NAMA + "<br><small class='text-muted'>" + data.isi[i].SURAT_JALAN_BARANG_JENIS + "</small></td>" +
-                            "<td>" + number_format(data.isi[i].SURAT_JALAN_BARANG_QUANTITY) + "</td>" +
-                            "<td>" + number_format(data.isi[i].SURAT_JALAN_BARANG_QUANTITY_KOSONG) + "</td>" +
-                            "<td>" + number_format(data.isi[i].SURAT_JALAN_BARANG_QUANTITY_KLAIM) + "</td>" +
+                            "<td>" + data.isi[i].SURAT_JALAN_BARANG_QUANTITY + "</td>" +
+                            "<td>" + data.isi[i].SURAT_JALAN_BARANG_QUANTITY_KOSONG + "</td>" +
+                            "<td>" + data.isi[i].SURAT_JALAN_BARANG_QUANTITY_KLAIM + "</td>" +
                             "<td>" + data.isi[i].SURAT_JALAN_BARANG_SATUAN + "</td>" +
                             "<td>" + btn_hapus + " " +
                             "</td>" +
