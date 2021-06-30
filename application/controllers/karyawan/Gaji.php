@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Karyawan extends CI_Controller
+class Gaji extends CI_Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class Karyawan extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('master/KaryawanModel');
+        $this->load->model('karyawan/GajiModel');
         $this->load->model('LoginModel');
         $this->LoginModel->cek_login();
     }
@@ -30,73 +30,71 @@ class Karyawan extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('master/v_karyawan');
+        $this->load->view('karyawan/v_gaji');
         $this->load->view('_template/footer');
     }
     public function gaji()
     {
         $this->load->view('_template/header');
-        $this->load->view('master/v_karyawan_gaji');
+        $this->load->view('karyawan/v_karyawan_gaji');
+        $this->load->view('_template/footer');
+    }
+    public function konfigurasi()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('karyawan/v_konfigurasi_gaji');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
-        $data = $this->KaryawanModel->list();
+        $data = $this->GajiModel->list();
         echo json_encode($data);
     }
 
     public function surat_jalan_list()
     {
-        $data = $this->KaryawanModel->surat_jalan_list();
+        $data = $this->GajiModel->surat_jalan_list();
         echo json_encode($data);
     }
     public function produksi_list()
     {
-        $data = $this->KaryawanModel->produksi_list();
+        $data = $this->GajiModel->produksi_list();
         echo json_encode($data);
     }
     public function penjualan_list()
     {
-        $data = $this->KaryawanModel->penjualan_list();
+        $data = $this->GajiModel->penjualan_list();
         echo json_encode($data);
     }
 
     public function add()
     {
-        $data = $this->KaryawanModel->add();
+        $data = $this->GajiModel->add();
     }
+    public function add_konfigurasi()
+    {
+        $data = $this->GajiModel->add_konfigurasi();
+    }
+    public function detail()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->GajiModel->detail($id);
+        echo json_encode($data);
+    }
+
 
     public function hapus()
     {
         $id = $this->uri->segment('4');
-        $data = $this->KaryawanModel->hapus($id);
+        $data = $this->GajiModel->hapus($id);
         echo json_encode($data);
-    }
-
-    public function detail()
-    {
-        $id = $this->uri->segment('4');
-        $data = $this->KaryawanModel->detail($id);
-        echo json_encode($data);
-    }
-
-    public function konfigurasi_gaji()
-    {
-        $this->load->view('_template/header');
-        $this->load->view('master/v_konfigurasi_gaji');
-        $this->load->view('_template/footer');
     }
 
     public function detail_konfigurasi()
     {
         $id = $this->uri->segment('4');
-        $data = $this->KaryawanModel->detail_konfigurasi($id);
+        $data = $this->GajiModel->detail_konfigurasi($id);
         echo json_encode($data);
-    }
-
-    public function add_konfigurasi()
-    {
-        $data = $this->KaryawanModel->add_konfigurasi();
     }
 }

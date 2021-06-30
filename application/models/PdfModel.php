@@ -150,4 +150,22 @@ class PdfModel extends CI_Model
         $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
+
+    public function cetak_gaji($id, $bulan, $tahun)
+    {
+        $hasil['gaji'] = $this->db->query('SELECT * 
+                    FROM 
+                    GAJI AS G LEFT JOIN MASTER_KARYAWAN AS K
+                    ON G.MASTER_KARYAWAN_ID=K.MASTER_KARYAWAN_ID
+                    WHERE 
+                    G.MASTER_KARYAWAN_ID="' . $id . '" 
+                    AND G.GAJI_BULAN="' . $bulan . '" 
+                    AND G.GAJI_TAHUN="' . $tahun . '" 
+                    AND G.RECORD_STATUS="AKTIF" 
+                    AND G.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                    AND K.RECORD_STATUS="AKTIF" 
+                    AND K.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['gaji'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
+    }
 }

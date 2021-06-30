@@ -205,7 +205,7 @@
                             if (data[i].SURAT_JALAN_STATUS == "open") {
                                 var quantity = parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY) - parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM)
                                 if (data[i].BARANG[j].HARGA_BARANG.length == 0) {
-                                    var harga = 0
+                                    var harga = data[i].BARANG[j].MASTER_BARANG_HARGA_SATUAN
                                 } else {
                                     var harga = data[i].BARANG[j].HARGA_BARANG[0].MASTER_HARGA_HARGA
                                 }

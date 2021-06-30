@@ -45,10 +45,6 @@
                         <label for="exampleInputEmail1">KTP</label>
                         <input type="text" class="form-control ktp" name="ktp" autocomplete="off">
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Gaji</label>
-                        <input type="text" class="form-control gaji" name="gaji" autocomplete="off">
-                    </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
@@ -144,7 +140,8 @@
                             "<td>" + data[i].MASTER_KARYAWAN_KTP + "</td>" +
                             "<td><a class='mr-2 btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_KARYAWAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='mr-2 btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_KARYAWAN_ID + "\")'><i class='fas fa-edit'></i></a>" +
-                            "<a class='mr-2 btn btn-success btn-sm' href='<?= base_url(); ?>master/karyawan/gaji/" + data[i].MASTER_KARYAWAN_ID + "'><i class='fas fa-edit'></i></a></td>" +
+                            "<a class='mr-2 btn btn-secondary btn-sm' href='<?= base_url(); ?>master/karyawan/konfigurasi_gaji/" + data[i].MASTER_KARYAWAN_ID + "'><i class='fas fa-cogs'></i> Konfigurasi</a>" +
+                            "</td>" +
                             "</tr>");
                     }
                 }

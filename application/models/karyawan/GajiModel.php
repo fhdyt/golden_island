@@ -1,10 +1,14 @@
 <?php
-class KaryawanModel extends CI_Model
+class GajiModel extends CI_Model
 {
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_KARYAWAN_INDEX DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_KARYAWAN_NAMA')->result();
+        foreach ($hasil as $row) {
+            $gaji = $this->db->query('SELECT * FROM GAJI WHERE MASTER_KARYAWAN_ID="' . $row->MASTER_KARYAWAN_ID . '" AND GAJI_BULAN="' . $this->input->post('bulan') . '" AND GAJI_TAHUN="' . $this->input->post('tahun') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->GAJI = $gaji;
+        }
         return $hasil;
     }
     public function produksi_list()
@@ -115,75 +119,52 @@ class KaryawanModel extends CI_Model
 
     public function add()
     {
-        if ($this->input->post('id') == "") {
-            $data = array(
-                'MASTER_KARYAWAN_ID' => create_id(),
-                'MASTER_KARYAWAN_NAMA' => $this->input->post('nama'),
-                'MASTER_KARYAWAN_JABATAN' => $this->input->post('jabatan'),
-                'MASTER_KARYAWAN_ALAMAT' => $this->input->post('alamat'),
-                'MASTER_KARYAWAN_HP' => $this->input->post('hp'),
-                'MASTER_KARYAWAN_KTP' => $this->input->post('ktp'),
-                'MASTER_KARYAWAN_GAJI_POKOK' => str_replace(".", "", $this->input->post('gaji')),
-
-                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $result = $this->db->insert('MASTER_KARYAWAN', $data);
-            return $result;
-        } else {
-            $data_edit = array(
-                'EDIT_WAKTU' => date("Y-m-d G:i:s"),
-                'EDIT_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "EDIT",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $this->db->where('MASTER_KARYAWAN_ID', $this->input->post('id'));
-            $edit = $this->db->update('MASTER_KARYAWAN', $data_edit);
-
-            $data = array(
-                'MASTER_KARYAWAN_ID' => $this->input->post('id'),
-                'MASTER_KARYAWAN_NAMA' => $this->input->post('nama'),
-                'MASTER_KARYAWAN_JABATAN' => $this->input->post('jabatan'),
-                'MASTER_KARYAWAN_ALAMAT' => $this->input->post('alamat'),
-                'MASTER_KARYAWAN_HP' => $this->input->post('hp'),
-                'MASTER_KARYAWAN_KTP' => $this->input->post('ktp'),
-                'MASTER_KARYAWAN_GAJI_POKOK' => str_replace(".", "", $this->input->post('gaji')),
-
-                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-                'ENTRI_USER' => $this->session->userdata('USER_ID'),
-                'RECORD_STATUS' => "AKTIF",
-                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-            );
-
-            $result = $this->db->insert('MASTER_KARYAWAN', $data);
-            return $result;
-        }
-    }
-
-    public function hapus($id)
-    {
-        $data = array(
-            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
-            'DELETE_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "DELETE",
+        $data_edit = array(
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "EDIT",
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $this->db->where('MASTER_KARYAWAN_ID', $id);
-        $result = $this->db->update('MASTER_KARYAWAN', $data);
+        $this->db->where('MASTER_KARYAWAN_ID', $this->input->post('id_karyawan'));
+        $this->db->where('GAJI_BULAN', $this->input->post('bulan'));
+        $this->db->where('GAJI_TAHUN', $this->input->post('tahun'));
+        $edit = $this->db->update('GAJI', $data_edit);
+
+        $data = array(
+            'GAJI_ID' => create_id(),
+            'MASTER_KARYAWAN_ID' => $this->input->post('id_karyawan'),
+            'GAJI_BULAN' => $this->input->post('bulan'),
+            'GAJI_TAHUN' => $this->input->post('tahun'),
+            'GAJI_POKOK' => str_replace(".", "", $this->input->post('gaji_pokok')),
+            'GAJI_JABATAN' => str_replace(".", "", $this->input->post('tunjangan_jabatan')),
+            'GAJI_TRANSPORTASI' => str_replace(".", "", $this->input->post('tunjangan_transportasi')),
+            'GAJI_KOMUNIKASI' => str_replace(".", "", $this->input->post('tunjangan_komunikasi')),
+            'GAJI_UANG_MAKAN_HARI' => str_replace(".", "", $this->input->post('uang_makan_hari')),
+            'GAJI_UANG_MAKAN' => str_replace(".", "", $this->input->post('uang_makan')),
+            'GAJI_UANG_MAKAN_RUPIAH' => str_replace(".", "", $this->input->post('uang_makan_rupiah')),
+            'GAJI_PERSENTASE_PREMI' => str_replace(".", "", $this->input->post('persentase_premi')),
+            'GAJI_BONUS' => str_replace(".", "", $this->input->post('bonus')),
+            'GAJI_POTONGAN' => str_replace(".", "", $this->input->post('potongan')),
+            'GAJI_PREMI_PENGANTARAN_RUPIAH' => str_replace(".", "", $this->input->post('rupiah_pengantaran')),
+            'GAJI_PREMI_PRODUKSI_RUPIAH' => str_replace(".", "", $this->input->post('rupiah_produksi')),
+            'GAJI_PREMI_PENJUALAN_RUPIAH' => str_replace(".", "", $this->input->post('rupiah_penjualan')),
+
+            'GAJI_PREMI_PENGANTARAN' => $this->input->post('premi_pengantaran'),
+            'GAJI_PREMI_PRODUKSI' => $this->input->post('premi_produksi'),
+            'GAJI_PREMI_PENJUALAN' => $this->input->post('premi_penjualan'),
+
+            'GAJI_TOTAL' => str_replace(".", "", $this->input->post('total_gaji')),
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('GAJI', $data);
         return $result;
     }
-
-    public function detail($id)
-    {
-        $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
-        return $hasil;
-    }
-
     public function add_konfigurasi()
     {
         $data_edit = array(
@@ -216,9 +197,34 @@ class KaryawanModel extends CI_Model
         return $result;
     }
 
+    public function hapus($id)
+    {
+        $data = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('MASTER_KARYAWAN_ID', $id);
+        $result = $this->db->update('MASTER_KARYAWAN', $data);
+        return $result;
+    }
+
     public function detail_konfigurasi($id)
     {
         $hasil = $this->db->query('SELECT * FROM GAJI_KONFIGURASI WHERE MASTER_KARYAWAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        return $hasil;
+    }
+
+    public function detail($id)
+    {
+        $hasil = $this->db->query('SELECT * FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        foreach ($hasil as $row) {
+            $gaji = $this->db->query('SELECT * FROM GAJI_KONFIGURASI WHERE MASTER_KARYAWAN_ID="' . $row->MASTER_KARYAWAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+            // $gaji = $this->db->query('SELECT * FROM GAJI_KONFIGURASI WHERE MASTER_KARYAWAN_ID="' . $row->MASTER_KARYAWAN_ID . '" AND GAJI_BULAN="' . $this->input->post('bulan') . '" AND GAJI_TAHUN="' . $this->input->post('tahun') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+            $row->KONFIGURASI = $gaji;
+        }
         return $hasil;
     }
 }
