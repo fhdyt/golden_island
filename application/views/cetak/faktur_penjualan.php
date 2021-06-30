@@ -79,8 +79,7 @@
             <!-- Table row -->
             <div class="row">
                 <div class="col-12 table-responsive">
-                    <table class="table">
-                        <tr>
+                    <table class="table table-bordered">
                         <tr>
                             <th>No.</th>
                             <th>Surat Jalan Nomor</th>
@@ -96,7 +95,7 @@
                             $rowspan = 0;
                             $detailLength = count($surat_jalan[$j]->BARANG);
                             $rowspan += $detailLength;
-                            $tableContent .= "<tr><td rowspan=" . (1 + $rowspan) . ">" . $no++ . "</td><td rowspan=" . (1 + $rowspan) . ">" . $surat_jalan[$j]->SURAT_JALAN_NOMOR . "</td></tr>";
+                            $tableContent .= "<tr><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $no++ . "</td><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $surat_jalan[$j]->SURAT_JALAN_NOMOR . "</td></tr>";
 
                             $baranglenght = 0;
 
@@ -153,14 +152,7 @@
             <hr>
             <div class="row invoice-info">
                 <div class="col-sm-12 invoice-col">
-                    Nomor Surat Jalan :
-                    <address>
-                        <?php
-                        foreach ($surat_jalan as $row) {
-                            echo $row->SURAT_JALAN_NOMOR;
-                            echo " ; ";
-                        }
-                        ?>
+
                     </address>
                 </div>
             </div>
