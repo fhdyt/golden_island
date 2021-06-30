@@ -402,7 +402,7 @@
         kalkulasi_seluruh_gaji()
     })
     $(".premi_produksi").on("change", function() {
-        if ($(".premi_pengantaran").val() != "0") {
+        if ($(".premi_produksi").val() != "0") {
             $("div.produksi").attr("hidden", false)
             produksi_list()
         } else {
@@ -424,7 +424,7 @@
         kalkulasi_seluruh_gaji()
     })
     $(".premi_penjualan").on("change", function() {
-        if ($(".premi_pengantaran").val() != "0") {
+        if ($(".premi_penjualan").val() != "0") {
             $("div.penjualan").attr("hidden", false)
             //penjualan_list()
         } else {
