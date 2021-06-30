@@ -140,7 +140,7 @@
                             "<td>" + data[i].MASTER_KARYAWAN_KTP + "</td>" +
                             "<td><a class='mr-2 btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_KARYAWAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='mr-2 btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_KARYAWAN_ID + "\")'><i class='fas fa-edit'></i></a>" +
-                            "<a class='mr-2 btn btn-secondary btn-sm' href='<?= base_url(); ?>master/karyawan/konfigurasi_gaji/" + data[i].MASTER_KARYAWAN_ID + "'><i class='fas fa-cogs'></i> Konfigurasi</a>" +
+                            "<a class='mr-2 btn btn-secondary btn-sm' href='<?= base_url(); ?>master/karyawan/konfigurasi_gaji/" + data[i].MASTER_KARYAWAN_ID + "'><i class='fas fa-cogs'></i> Konfigurasi Gaji</a>" +
                             "</td>" +
                             "</tr>");
                     }

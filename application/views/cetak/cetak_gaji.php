@@ -48,7 +48,7 @@
             <hr>
             <center>
                 <h3><b>Slip Gaji</b></h3>
-                <h4>Bulan <?= $gaji[0]->GAJI_BULAN; ?> Tahun <?= $gaji[0]->GAJI_TAHUN; ?></h4>
+                <h4>Bulan <?= bulan_id($gaji[0]->GAJI_BULAN); ?> Tahun <?= $gaji[0]->GAJI_TAHUN; ?></h4>
             </center>
             <br>
             <br>
@@ -72,39 +72,39 @@
                     <table class="table">
                         <tr>
                             <td>Gaji Pokok</td>
-                            <td><?= $gaji[0]->GAJI_POKOK; ?></td>
+                            <td><?= number_format($gaji[0]->GAJI_POKOK, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
                             <td>Tunjangan Jabatan</td>
-                            <td><?= number_format($gaji[0]->GAJI_JABATAN); ?></td>
+                            <td><?= number_format($gaji[0]->GAJI_JABATAN, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
                             <td>Tunjangan Transportasi</td>
-                            <td><?= number_format($gaji[0]->GAJI_TRANSPORTASI); ?></td>
+                            <td><?= number_format($gaji[0]->GAJI_TRANSPORTASI, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
                             <td>Tunjangan Komunikasi</td>
-                            <td><?= number_format($gaji[0]->GAJI_KOMUNIKASI); ?></td>
+                            <td><?= number_format($gaji[0]->GAJI_KOMUNIKASI, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
-                            <td>Uang Makan (<?= number_format($gaji[0]->GAJI_UANG_MAKAN); ?> x <?= $gaji[0]->GAJI_UANG_MAKAN_HARI; ?> hari)</td>
-                            <td><?= number_format($gaji[0]->GAJI_UANG_MAKAN_RUPIAH); ?></td>
+                            <td>Uang Makan (<?= number_format($gaji[0]->GAJI_UANG_MAKAN, 0, ",", "."); ?> x <?= $gaji[0]->GAJI_UANG_MAKAN_HARI; ?> hari)</td>
+                            <td><?= number_format($gaji[0]->GAJI_UANG_MAKAN_RUPIAH, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
                             <td>Premi Pengantaran</td>
-                            <td><?= number_format($gaji[0]->GAJI_PREMI_PENGANTARAN_RUPIAH); ?></td>
+                            <td><?= number_format($gaji[0]->GAJI_PREMI_PENGANTARAN_RUPIAH, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
                             <td>Premi Produksi</td>
-                            <td><?= number_format($gaji[0]->GAJI_PREMI_PRODUKSI_RUPIAH); ?></td>
+                            <td><?= number_format($gaji[0]->GAJI_PREMI_PRODUKSI_RUPIAH, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
-                            <td>Premi Penjualan (<?= number_format($gaji[0]->GAJI_PERSENTASE_PREMI); ?> %)</td>
-                            <td><?= number_format($gaji[0]->GAJI_PREMI_PENJUALAN_RUPIAH); ?></td>
+                            <td>Premi Penjualan (<?= number_format($gaji[0]->GAJI_PERSENTASE_PREMI, 0, ",", "."); ?> %)</td>
+                            <td><?= number_format($gaji[0]->GAJI_PREMI_PENJUALAN_RUPIAH, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
                             <td><b>Total</b></td>
-                            <td><b><?= number_format($gaji[0]->GAJI_TOTAL); ?></b></td>
+                            <td><b><?= number_format($gaji[0]->GAJI_TOTAL, 0, ",", "."); ?></b></td>
                         </tr>
                     </table>
                 </div>
@@ -167,7 +167,7 @@
             <hr>
             <center>
                 <h3><b>Premi Pengantaran</b></h3>
-                <h4>Bulan <?= $gaji[0]->GAJI_BULAN; ?> Tahun <?= $gaji[0]->GAJI_TAHUN; ?></h4>
+                <h4>Bulan <?= bulan_id($gaji[0]->GAJI_BULAN); ?> Tahun <?= $gaji[0]->GAJI_TAHUN; ?></h4>
             </center>
             <br>
             <br>
@@ -308,7 +308,7 @@
             <hr>
             <center>
                 <h3><b>Premi Produksi</b></h3>
-                <h4>Bulan <?= $gaji[0]->GAJI_BULAN; ?> Tahun <?= $gaji[0]->GAJI_TAHUN; ?></h4>
+                <h4>Bulan <?= bulan_id($gaji[0]->GAJI_BULAN); ?> Tahun <?= $gaji[0]->GAJI_TAHUN; ?></h4>
             </center>
             <br>
             <br>
@@ -425,7 +425,7 @@
             <hr>
             <center>
                 <h3><b>Premi Penjualan</b></h3>
-                <h4>Bulan <?= $gaji[0]->GAJI_BULAN; ?> Tahun <?= $gaji[0]->GAJI_TAHUN; ?></h4>
+                <h4>Bulan <?= bulan_id($gaji[0]->GAJI_BULAN); ?> Tahun <?= $gaji[0]->GAJI_TAHUN; ?></h4>
             </center>
             <br>
             <br>

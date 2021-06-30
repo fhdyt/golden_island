@@ -131,8 +131,29 @@ class GajiModel extends CI_Model
         $this->db->where('GAJI_TAHUN', $this->input->post('tahun'));
         $edit = $this->db->update('GAJI', $data_edit);
 
+
+        $id_gaji = create_id();
+        $karyawan = $this->db->query('SELECT MASTER_KARYAWAN_NAMA FROM MASTER_KARYAWAN WHERE MASTER_KARYAWAN_ID="' . $this->input->post('id_karyawan') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $data_buku_besar = array(
+            'BUKU_BESAR_ID' => create_id(),
+            'BUKU_BESAR_REF' => $id_gaji,
+            'AKUN_ID' => $this->input->post('akun'),
+            'BUKU_BESAR_TANGGAL' => date("Y-m-d"),
+            'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('total_gaji')),
+            'BUKU_BESAR_DEBET' => "0",
+            'BUKU_BESAR_SUMBER' => "GAJI",
+            'BUKU_BESAR_KETERANGAN' => "GAJI " . $karyawan[0]->MASTER_KARYAWAN_NAMA . "<br>(BULAN " . strtoupper(bulan_id($this->input->post('bulan'))) . " TAHUN " . $this->input->post('tahun') . ")",
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->insert('BUKU_BESAR', $data_buku_besar);
+
         $data = array(
-            'GAJI_ID' => create_id(),
+            'GAJI_ID' => $id_gaji,
             'MASTER_KARYAWAN_ID' => $this->input->post('id_karyawan'),
             'GAJI_BULAN' => $this->input->post('bulan'),
             'GAJI_TAHUN' => $this->input->post('tahun'),

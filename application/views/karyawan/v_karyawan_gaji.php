@@ -352,13 +352,24 @@
                         <hr>
                         <div class="mb-2 row">
                             <label class="col-sm-2 col-form-label text-right">Total</label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-5">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rp.</span>
                                     </div>
                                     <input type="text" class="form-control total_gaji" name="total_gaji" value="0" autocomplete="off" readonly>
                                 </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                                    <option value="">-- Akun --</option>
+                                    <?php foreach (akun_list() as $row) {
+                                    ?>
+                                        <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <hr>
@@ -618,21 +629,32 @@
 
     $('#submit').submit(function(e) {
         e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/karyawan/gaji/add',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                memuat()
-                Swal.fire('Berhasil', '', 'success')
+        Swal.fire({
+            title: 'Proses gaji?',
+            text: 'Periksa kembali perhitungan anda, gaji ditidak dapat dihapus / dimodifikasi',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `Proses`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?php echo base_url(); ?>index.php/karyawan/gaji/add',
+                    type: "post",
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    beforeSend: function() {
+                        memuat()
+                    },
+                    success: function(data) {
+                        memuat()
+                        Swal.fire('Berhasil', '', 'success')
+                    }
+                });
             }
-        });
+        })
     })
 
     function detail() {

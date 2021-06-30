@@ -107,22 +107,28 @@
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
+                    var total_seluruh = 0
                     for (i = 0; i < data.length; i++) {
                         if (data[i].GAJI.length === 0) {
                             var total_gaji = 0
+                            var btn_gaji = "<a class='mr-2 btn btn-primary btn-sm' href='<?= base_url(); ?>karyawan/gaji/gaji/" + data[i].MASTER_KARYAWAN_ID + "?bulan=" + $(".bulan").val() + "&tahun=" + $(".tahun").val() + "'><i class='fas fa-calculator'></i> Perhitungan</a>"
                         } else {
                             var total_gaji = data[i].GAJI[0].GAJI_TOTAL
+                            var btn_gaji = "<a class='mr-2 btn btn-success btn-sm' href='<?= base_url(); ?>cetak/cetak_gaji/" + data[i].MASTER_KARYAWAN_ID + "?bulan=" + $(".bulan").val() + "&tahun=" + $(".tahun").val() + "'><i class='fas fa-print'></i> Cetak</a></td>"
                         }
+
+
+                        total_seluruh += parseInt(total_gaji)
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_KARYAWAN_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_KARYAWAN_JABATAN + "</td>" +
                             "<td>Rp. " + number_format(total_gaji) + "</td>" +
                             "<td> " +
-                            "<a class='mr-2 btn btn-success btn-sm' href='<?= base_url(); ?>karyawan/gaji/gaji/" + data[i].MASTER_KARYAWAN_ID + "?bulan=" + $(".bulan").val() + "&tahun=" + $(".tahun").val() + "'><i class='fas fa-calculator'></i> Perhitungan</a>" +
-                            "<a class='mr-2 btn btn-success btn-sm' href='<?= base_url(); ?>cetak/cetak_gaji/" + data[i].MASTER_KARYAWAN_ID + "?bulan=" + $(".bulan").val() + "&tahun=" + $(".tahun").val() + "'><i class='fas fa-print'></i> Cetak</a></td>" +
+                            btn_gaji +
                             "</tr>");
                     }
+                    $("tbody#zone_data").append("<tr><td colspan='3'style='text-align:right'>Total</td><td>Rp. " + number_format(total_seluruh) + "</td></tr>")
                 }
             },
             error: function(x, e) {
