@@ -265,6 +265,7 @@ if (!function_exists('jabatan')) {
       'Marketing' => 'Marketing',
       'Akuntansi' => 'Akuntansi',
       'Direktur' => 'Direktur',
+      'Manager' => 'Manager',
     );
     return $jabatan;
   }
