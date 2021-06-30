@@ -75,7 +75,7 @@
                             <label class="col-sm-2 col-form-label text-right">Uang Makan</label>
                             <div class="col-sm-3">
                                 <select name="uang_makan_hari" id="uang_makan_hari" class="form-control uang_makan_hari select2" style="width: 100%;" required>
-                                    <?php for ($x = 1; $x <= 31; $x++) {
+                                    <?php for ($x = 0; $x <= 31; $x++) {
                                     ?>
                                         <option value="<?= $x; ?>"><?= $x; ?> </option>
                                     <?php
