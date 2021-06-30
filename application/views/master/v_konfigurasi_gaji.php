@@ -176,7 +176,7 @@ if (empty($this->uri->segment('4'))) {
         var tunjangan_komunikasi = parseInt($(".tunjangan_komunikasi").val().split('.').join(""))
         var uang_makan = parseInt($(".uang_makan").val().split('.').join(""))
         var persentase_premi = parseInt($(".persentase_premi").val().split('.').join(""))
-        var total = gaji_pokok + tunjangan_jabatan + tunjangan_transportasi + tunjangan_komunikasi + uang_makan + persentase_premi
+        var total = gaji_pokok + tunjangan_jabatan + tunjangan_transportasi + tunjangan_komunikasi + uang_makan
         $(".total").val(number_format(total))
     }
 </script>
