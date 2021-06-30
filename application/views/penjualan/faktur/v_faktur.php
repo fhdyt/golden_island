@@ -157,6 +157,7 @@
                             "<td>Rp. " + transaksi + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mb-2 ' href='<?= base_url(); ?>penjualan/faktur/form/" + data[i].FAKTUR_ID + "?jenis_sj=penjualan'>Lihat</a> " +
                             "<a target='_blank' class='btn btn-success btn-sm mb-2' onclick='cetak(\"" + data[i].FAKTUR_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
+                            "<a target='_blank' class='btn btn-primary btn-sm mb-2' onclick='cetak_full(\"" + data[i].FAKTUR_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
                             "</td>" +
                             "</tr>");
                     }
@@ -233,5 +234,9 @@
 
     function cetak(id) {
         window.open('<?= base_url(); ?>cetak/faktur/' + id + '');
+    }
+
+    function cetak_full(id) {
+        window.open('<?= base_url(); ?>cetak/faktur_penjualan/' + id + '');
     }
 </script>

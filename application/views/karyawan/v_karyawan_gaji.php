@@ -142,7 +142,7 @@
                                     <option value="0" nilai="0">0</option>
                                     <?php foreach (premi() as $row) {
                                     ?>
-                                        <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
+                                        <option value="<?= $row->PREMI_NILAI; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
                                     <?php
                                     }
                                     ?>
@@ -164,7 +164,7 @@
                                     <option value="0" nilai="0">0</option>
                                     <?php foreach (premi() as $row) {
                                     ?>
-                                        <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
+                                        <option value="<?= $row->PREMI_NILAI; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
                                     <?php
                                     }
                                     ?>
@@ -186,7 +186,7 @@
                                     <option value="0" nilai="0">0</option>
                                     <?php foreach (premi() as $row) {
                                     ?>
-                                        <option value="<?= $row->PREMI_ID; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
+                                        <option value="<?= $row->PREMI_NILAI; ?>" nilai="<?= $row->PREMI_NILAI; ?>"><?= $row->PREMI_NAMA; ?> - Rp. <?= $row->PREMI_NILAI; ?></option>
                                     <?php
                                     }
                                     ?>

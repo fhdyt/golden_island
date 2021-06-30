@@ -102,6 +102,14 @@ class Cetak extends CI_Controller
 		qrcode($data['detail'][0]->FAKTUR_NOMOR);
 		$this->load->view('cetak/faktur', $data);
 	}
+	public function faktur_penjualan()
+	{
+		$id = $this->uri->segment('3');
+		$data = $this->PdfModel->faktur_penjualan($id);
+		//qrcode($data['detail'][0]->FAKTUR_NOMOR);
+		//echo json_encode($data);
+		$this->load->view('cetak/faktur_penjualan', $data);
+	}
 
 	public function faktur_jaminan()
 	{

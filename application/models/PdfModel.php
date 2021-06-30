@@ -104,6 +104,56 @@ class PdfModel extends CI_Model
         return $hasil;
     }
 
+    public function faktur_penjualan($id)
+    {
+        $hasil['detail'] = $this->db->query('SELECT * FROM FAKTUR WHERE FAKTUR_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['surat_jalan'] = $this->db->query('SELECT * FROM 
+                                    FAKTUR_SURAT_JALAN AS FSJ
+                                    LEFT JOIN SURAT_JALAN AS SJ
+                                    ON FSJ.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                     WHERE FSJ.FAKTUR_ID="' . $id . '" 
+                                     AND FSJ.RECORD_STATUS="AKTIF" 
+                                     AND FSJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                     AND SJ.RECORD_STATUS="AKTIF" 
+                                     AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil['surat_jalan'] as $row) {
+            $row->BARANG = $this->db->query('SELECT* 
+                                            FROM 
+                                            FAKTUR_BARANG AS FB
+                                            LEFT JOIN MASTER_BARANG AS B
+                                            ON FB.MASTER_BARANG_ID=B.MASTER_BARANG_ID  
+                                            WHERE FB.FAKTUR_ID="' . $id . '"
+                                            AND FB.SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '"
+                                            AND FB.RECORD_STATUS="AKTIF" 
+                                            AND FB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                            AND B.RECORD_STATUS="AKTIF" 
+                                            AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        }
+        $hasil['barang'] = $this->db->query('SELECT 
+                                            FB.MASTER_BARANG_ID,
+                                            B.MASTER_BARANG_NAMA,
+                                            SUM(FB.FAKTUR_BARANG_QUANTITY) AS SUM,
+                                            FB.FAKTUR_BARANG_HARGA 
+                                            FROM 
+                                            FAKTUR_BARANG AS FB
+                                            LEFT JOIN MASTER_BARANG AS B
+                                            ON FB.MASTER_BARANG_ID=B.MASTER_BARANG_ID  
+                                            WHERE FB.FAKTUR_ID="' . $id . '"
+                                            AND FB.RECORD_STATUS="AKTIF" 
+                                            AND FB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                            AND B.RECORD_STATUS="AKTIF" 
+                                            AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                            GROUP 
+                                            BY
+                                            FB.MASTER_BARANG_ID,
+                                            B.MASTER_BARANG_NAMA,
+                                            FB.FAKTUR_BARANG_HARGA')->result();
+        $hasil['transaksi'] = $this->db->query('SELECT * FROM FAKTUR_TRANSAKSI WHERE FAKTUR_ID="' . $id . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['relasi'] = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $hasil['detail'][0]->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
+    }
+
     public function faktur_jaminan($id)
     {
         $hasil['detail'] = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE FAKTUR_JAMINAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
@@ -165,6 +215,93 @@ class PdfModel extends CI_Model
                     AND G.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                     AND K.RECORD_STATUS="AKTIF" 
                     AND K.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        $hasil['surat_jalan'] = $this->db->query('SELECT * 
+                                FROM SURAT_JALAN WHERE 
+                                MONTH(SURAT_JALAN_TANGGAL) = ' . $bulan . ' 
+                                        AND YEAR(SURAT_JALAN_TANGGAL) = ' . $tahun . '
+                                        AND DRIVER_ID="' . $id . '" 
+                                AND RECORD_STATUS="AKTIF" 
+                                AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                ORDER BY SURAT_JALAN_NOMOR ASC ')->result();
+        foreach ($hasil['surat_jalan'] as $row) {
+            $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $barang = $this->db->query('SELECT
+                                        SUM(SURAT_JALAN_BARANG_QUANTITY) AS ISI,
+                                        SUM(SURAT_JALAN_BARANG_QUANTITY_KOSONG) AS KOSONG,
+                                        SUM(SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS KLAIM
+                                        FROM 
+                                        SURAT_JALAN_BARANG 
+                                        WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" 
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
+            $row->JAM = jam($row->ENTRI_WAKTU);
+            $row->RELASI = $relasi;
+            $row->SUPPLIER = $supplier;
+            $row->BARANG = $barang;
+        }
+
+        $hasil['produksi'] = $this->db->query('SELECT * 
+                                FROM PRODUKSI_KARYAWAN AS PK 
+                                LEFT JOIN 
+                                PRODUKSI AS P
+                                ON
+                                PK.PRODUKSI_ID=P.PRODUKSI_ID
+                                WHERE 
+                                MONTH(P.PRODUKSI_TANGGAL) = ' . $bulan . ' 
+                                        AND YEAR(P.PRODUKSI_TANGGAL) = ' . $tahun . '
+                                        AND PK.MASTER_KARYAWAN_ID="' . $id . '" 
+                                AND PK.RECORD_STATUS="AKTIF" 
+                                AND PK.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                AND P.RECORD_STATUS="AKTIF" 
+                                AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                ORDER BY P.PRODUKSI_NOMOR, P.PRODUKSI_TANGGAL  ASC ')->result();
+        foreach ($hasil['produksi'] as $row) {
+            $row->TANGGAL = tanggal($row->PRODUKSI_TANGGAL);
+        }
+
+        $hasil['gas'] = $this->db->query('SELECT
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY) AS ISI,
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KOSONG) AS KOSONG,
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS KLAIM
+                                        FROM 
+                                        SURAT_JALAN_BARANG AS SJB
+                                        LEFT JOIN
+                                        SURAT_JALAN AS SJ
+                                        ON SJB.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                        WHERE MONTH(SJ.SURAT_JALAN_TANGGAL) = ' . $bulan . ' 
+                                        AND YEAR(SJ.SURAT_JALAN_TANGGAL) = ' . $tahun . '
+                                        AND SJ.SURAT_JALAN_JENIS="penjualan"
+                                        AND SJ.SURAT_JALAN_STATUS_JENIS="gas"
+                                        AND SJB.RECORD_STATUS="AKTIF" 
+                                        AND SJB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        AND SJ.RECORD_STATUS="AKTIF" 
+                                        AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil['gas'] as $row) {
+            $row->TOTAL = $row->ISI + $row->KOSONG - $row->KLAIM;
+        }
+        $hasil['liquid'] = $this->db->query('SELECT
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY) AS ISI,
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KOSONG) AS KOSONG,
+                                        SUM(SJB.SURAT_JALAN_BARANG_QUANTITY_KLAIM) AS KLAIM
+                                        FROM 
+                                        SURAT_JALAN_BARANG AS SJB
+                                        LEFT JOIN
+                                        SURAT_JALAN AS SJ
+                                        ON SJB.SURAT_JALAN_ID=SJ.SURAT_JALAN_ID
+                                        WHERE MONTH(SJ.SURAT_JALAN_TANGGAL) = ' . $bulan . ' 
+                                        AND YEAR(SJ.SURAT_JALAN_TANGGAL) = ' . $tahun . '
+                                        AND SJ.SURAT_JALAN_JENIS="penjualan"
+                                        AND SJ.SURAT_JALAN_STATUS_JENIS="liquid"
+                                        AND SJB.RECORD_STATUS="AKTIF" 
+                                        AND SJB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        AND SJ.RECORD_STATUS="AKTIF" 
+                                        AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil['liquid'] as $row) {
+            $row->TOTAL = $row->ISI + $row->KOSONG - $row->KLAIM;
+        }
+
         $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['gaji'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
