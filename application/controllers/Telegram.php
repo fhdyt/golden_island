@@ -57,7 +57,7 @@ class Telegram extends CI_Controller
 			$buku_besar = $this->M_Telegram->buku_besar(strtoupper($pesan[1]));
 			$akun = "";
 			foreach ($buku_besar as $row) {
-				$akun .= "**" . $row->AKUN_NAMA . "**\nPengeluaran : Rp. " . number_format($row->KREDIT) . "\nPemasukan : Rp. " . number_format($row->DEBET) . "\nSaldo : Rp. " . number_format($row->SALDO) . "\n\n";
+				$akun .= "**" . $row->AKUN_NAMA . "**\nSaldo Awal : Rp. " . number_format($row->SALDO_AWAL) . "\nPengeluaran : Rp. " . number_format($row->KREDIT) . "\nPemasukan : Rp. " . number_format($row->DEBET) . "\nSaldo : Rp. " . number_format($row->SALDO) . "\n\n";
 			}
 			$text = urlencode("**Laporan Buku Besar " . strtoupper($pesan[1]) . " Hari ini**\n\n" . $akun . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
