@@ -68,6 +68,7 @@
                                 <th>Level Awal <small class="text-muted">Kg</small></th>
                                 <th>Level Akhir <small class="text-muted">Kg</small></th>
                                 <th>G/L <small class="text-muted">M3</small></th>
+                                <th>Terpakai <small class="text-muted">M3</small></th>
                                 <th>Total Produksi <small class="text-muted">Tabung</small></th>
                                 <th></th>
                             </tr>
@@ -120,6 +121,7 @@
                     var no = 1
                     var total_gl = 0
                     var total_tabung = 0
+                    var total_terpakai = 0
                     for (i = 0; i < data.length; i++) {
                         if (data[i].PRODUKSI_G_L == null) {
                             var g_l = "-"
@@ -131,8 +133,14 @@
                         } else {
                             var level_akhir = data[i].PRODUKSI_LEVEL_AKHIR
                         }
+                        if (data[i].PRODUKSI_LEVEL_TERPAKAI == null) {
+                            var level_terpakai = "-"
+                        } else {
+                            var level_terpakai = data[i].PRODUKSI_LEVEL_TERPAKAI
+                        }
 
                         total_gl += parseInt(data[i].PRODUKSI_G_L)
+                        total_terpakai += parseInt(data[i].PRODUKSI_LEVEL_TERPAKAI)
                         total_tabung += parseInt(data[i].TOTAL)
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
@@ -142,12 +150,13 @@
                             "<td>" + data[i].PRODUKSI_LEVEL_AWAL + "</td>" +
                             "<td>" + level_akhir + "</td>" +
                             "<td>" + g_l + "</td>" +
+                            "<td>" + level_terpakai + "</td>" +
                             "<td>" + data[i].TOTAL + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mr-2 ' href='<?= base_url(); ?>produksi/produksi/form_selesai/" + data[i].PRODUKSI_ID + "/'>Lihat</a> " +
                             "</td>" +
                             "</tr>");
                     }
-                    $("tbody#zone_data_total").append('<tr><td colspan="6" style="text-align:right">Total</td><td>' + total_gl + '</td><td>' + total_tabung + '</td><td></td></tr>')
+                    $("tbody#zone_data_total").append('<tr><td colspan="6" style="text-align:right">Total</td><td>' + total_gl + '</td><td>' + total_terpakai + '</td><td>' + total_tabung + '</td><td></td></tr>')
                 }
             },
             error: function(x, e) {
