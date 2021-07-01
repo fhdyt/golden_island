@@ -21,7 +21,7 @@ class TitipanModel extends CI_Model
                                     AND R.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                     AND B.RECORD_STATUS="AKTIF" 
                                     AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
-                                    ORDER BY J.JURNAL_TABUNG_NOMOR DESC ')->result();
+                                    ORDER BY J.JURNAL_TABUNG_NOMOR DESC, J.JURNAL_TABUNG_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
             $row->TANGGAL = tanggal($row->JURNAL_TABUNG_TANGGAL);
         }
