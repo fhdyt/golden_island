@@ -203,7 +203,7 @@ class PdfModel extends CI_Model
 
     public function cetak_gaji($id, $bulan, $tahun)
     {
-        $hasil['gaji'] = $this->db->query('SELECT * 
+        $hasil['gaji'] = $this->db->query('SELECT *, G.ENTRI_USER AS USER 
                     FROM 
                     GAJI AS G LEFT JOIN MASTER_KARYAWAN AS K
                     ON G.MASTER_KARYAWAN_ID=K.MASTER_KARYAWAN_ID
@@ -302,7 +302,7 @@ class PdfModel extends CI_Model
             $row->TOTAL = $row->ISI + $row->KOSONG - $row->KLAIM;
         }
 
-        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['gaji'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['gaji'][0]->USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
         return $hasil;
     }
 }
