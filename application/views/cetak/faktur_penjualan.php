@@ -83,6 +83,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Surat Jalan Nomor</th>
+                            <th>Tanggal</th>
                             <th>Nama Barang</th>
                             <th>Quantity</th>
                             <th>Harga</th>
@@ -95,7 +96,7 @@
                             $rowspan = 0;
                             $detailLength = count($surat_jalan[$j]->BARANG);
                             $rowspan += $detailLength;
-                            $tableContent .= "<tr><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $no++ . "</td><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $surat_jalan[$j]->SURAT_JALAN_NOMOR . "</td></tr>";
+                            $tableContent .= "<tr><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $no++ . "</td><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $surat_jalan[$j]->SURAT_JALAN_NOMOR . "</td><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . tanggal($surat_jalan[$j]->SURAT_JALAN_TANGGAL) . "</td></tr>";
 
                             $baranglenght = 0;
 
