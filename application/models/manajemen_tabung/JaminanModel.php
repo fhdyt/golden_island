@@ -10,7 +10,7 @@ class JaminanModel extends CI_Model
             $filter = 'MASTER_RELASI_ID LIKE "%' . $this->input->post('nama_relasi') . '%" AND';
         }
 
-        $hasil = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE ' . $filter . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY FAKTUR_JAMINAN_NOMOR DESC ')->result();
+        $hasil = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE ' . $filter . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY FAKTUR_JAMINAN_TANGGAL DESC, FAKTUR_JAMINAN_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
             $row->NAMA_RELASI = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $row->TANGGAL = tanggal($row->FAKTUR_JAMINAN_TANGGAL);
