@@ -284,7 +284,8 @@ if (empty($this->uri->segment('4'))) {
     $('.qr_id').keyup(function(e) {
         if (e.keyCode == 13) {
             // $('.relasi').val($(this).val()).trigger('change')
-            $(".relasi option[id_relasi='" + $('.qr_id').val() + "']").prop('selected', true).trigger('change');
+            var qr_id = $('.qr_id').val()
+            $(".relasi option[id_relasi='" + qr_id.toUpperCase() + "']").prop('selected', true).trigger('change');
             $("#relasiModal").modal("hide")
         }
     });
