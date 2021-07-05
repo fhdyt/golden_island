@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Penjualan extends CI_Controller
+class Bgs extends CI_Controller
 {
 
     /**
@@ -30,18 +30,13 @@ class Penjualan extends CI_Controller
     public function index()
     {
         $this->load->view('_template/header');
-        $this->load->view('laporan/v_penjualan');
+        $this->load->view('laporan/v_bgs');
         $this->load->view('_template/footer');
     }
 
     public function list()
     {
         $data = $this->PenjualanModel->list();
-        echo json_encode($data);
-    }
-    public function list_bgs()
-    {
-        $data = $this->PenjualanModel->list_bgs();
         echo json_encode($data);
     }
     public function barang_list()
