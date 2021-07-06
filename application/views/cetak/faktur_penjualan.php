@@ -92,6 +92,7 @@
                         <?php
                         $tableContent = "";
                         $no = 1;
+                        $total_tabung = 0;
                         for ($j = 0; $j < count($surat_jalan); $j++) {
                             $rowspan = 0;
                             $detailLength = count($surat_jalan[$j]->BARANG);
@@ -103,15 +104,16 @@
                             for ($z = 0; $z < count($surat_jalan[$j]->BARANG); $z++) {
 
                                 $total = $surat_jalan[$j]->BARANG[$z]->FAKTUR_BARANG_QUANTITY * $surat_jalan[$j]->BARANG[$z]->FAKTUR_BARANG_HARGA;
+                                $total_tabung += $surat_jalan[$j]->BARANG[$z]->FAKTUR_BARANG_QUANTITY;
                                 $tableContent .= "<tr><td>" . $surat_jalan[$j]->BARANG[$z]->MASTER_BARANG_NAMA . "</td><td>" . $surat_jalan[$j]->BARANG[$z]->FAKTUR_BARANG_QUANTITY . "</td><td>" . number_format($surat_jalan[$j]->BARANG[$z]->FAKTUR_BARANG_HARGA, 0, ",", ".") . "</td><td align='right'>Rp. " . number_format($total, 0, ",", ".") . ",00</td></tr>";
                             }
                         }
-
+                        $tableContent .= "<tr><td colspan='4' align='right'><b>Total</b></td><td colspan='3'>" . number_format($total_tabung) . "</td></tr>";
                         //echo htmlspecialchars($tableContent);
                         echo $tableContent;
                         ?>
                     </table>
-                    <table class="table">
+                    <table class="table table-bordered">
                         <tr>
                             <td colspan="5" align="right"><b>Sub Total</b></td>
                             <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_TOTAL, 0, ",", "."); ?>,00</td>

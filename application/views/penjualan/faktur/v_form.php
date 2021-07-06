@@ -85,6 +85,7 @@ if (empty($this->uri->segment('4'))) {
                                     <tr>
                                         <th>No.</th>
                                         <th>Surat Jalan</th>
+                                        <th colspan="3" style="text-align:center">Bulan</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -99,6 +100,40 @@ if (empty($this->uri->segment('4'))) {
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-secondary btn-sm btn-add-surat-jalan"><i class="nav-icon fas fa-plus"></i></button>
+                                        </td>
+                                        <td>
+                                            <select name="bulan" id="bulan" class="form-control select2 bulan" style="width: 100%;">
+                                                <?php
+                                                foreach (bulan() as $value => $text) {
+                                                    if ($value == date("m")) {
+                                                        $select = "selected";
+                                                    } else {
+                                                        $select = "";
+                                                    }
+                                                ?>
+                                                    <option value="<?= $value; ?>" <?= $select; ?>><?= $text; ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="tahun" id="tahun" class="form-control select2 tahun" style="width: 100%;">
+                                                <?php
+                                                foreach (tahun() as $value => $text) {
+                                                    if ($value == date("Y")) {
+                                                        $select = "selected";
+                                                    } else {
+                                                        $select = "";
+                                                    }
+                                                ?>
+                                                    <option value="<?= $value; ?>" <?= $select; ?>><?= $text; ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                        <td>
                                             <button type="button" class="btn btn-primary btn-sm btn-add-surat-jalan-semua"><i class="nav-icon fas fa-reply-all"></i></button>
                                         </td>
                                     </tr>
@@ -394,6 +429,8 @@ if (empty($this->uri->segment('4'))) {
                     data: {
                         id: "<?= $id; ?>",
                         relasi: $('.relasi').val(),
+                        bulan: $('.bulan').val(),
+                        tahun: $('.tahun').val(),
                     },
                     success: function(data) {
                         memuat()

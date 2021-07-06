@@ -423,7 +423,11 @@ class FakturModel extends CI_Model
     {
         $surat_jalan = $this->db->query('SELECT * FROM 
         SURAT_JALAN
-        WHERE MASTER_RELASI_ID="' . $this->input->post('relasi') . '" AND SURAT_JALAN_STATUS="open" AND SURAT_JALAN_JENIS="penjualan" AND SURAT_JALAN_REALISASI_STATUS="selesai" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        WHERE MASTER_RELASI_ID="' . $this->input->post('relasi') . '" AND SURAT_JALAN_STATUS="open" AND SURAT_JALAN_JENIS="penjualan" AND SURAT_JALAN_REALISASI_STATUS="selesai" AND 
+        MONTH(SURAT_JALAN_TANGGAL) = ' . $this->input->post('bulan') . ' 
+                                        AND YEAR(SURAT_JALAN_TANGGAL) = ' . $this->input->post('tahun') . ' 
+                                    AND
+        RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
 
         foreach ($surat_jalan as $row_sj) {
 
