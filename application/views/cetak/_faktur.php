@@ -45,7 +45,7 @@
                     </address>
                 </div>
                 <div class="col-2 text-left">
-                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="90px" />
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="110px" />
                 </div>
                 <!-- /.col -->
             </div>
@@ -189,7 +189,7 @@
                     </address>
                 </div>
                 <div class="col-2 text-left">
-                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="90px" />
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="110px" />
                 </div>
                 <!-- /.col -->
             </div>
@@ -265,7 +265,7 @@
                     </address>
                 </div>
                 <div class="col-2 text-left">
-                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="90px" />
+                    <img alt="testing" src="<?= base_url(); ?>uploads/qr/<?= str_replace("/", "-", $detail[0]->FAKTUR_NOMOR); ?>.png" height="110px" />
                 </div>
                 <!-- /.col -->
             </div>
