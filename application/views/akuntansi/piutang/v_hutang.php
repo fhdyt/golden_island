@@ -199,7 +199,7 @@
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].TANGGAL_TEMPO + "</td>" +
                             "<td><" + del + ">" + data[i].PIUTANG_KETERANGAN + "</" + del + "></td>" +
-                            "<td><" + del + ">" + number_format(data[i].PIUTANG_DEBET) + "</" + del + "></td>" +
+                            "<td><" + del + "><a target='_blank' href='<?= base_url() ?>cetak/faktur_penjualan/" + data[i].PIUTANG_REF + "'>" + number_format(data[i].PIUTANG_DEBET) + "</a></" + del + "></td>" +
                             "<td>" + number_format(data[i].PEMBAYARAN) + "</td>" +
                             "<td>" + lunas + "</td>" +
                             "</tr>");
