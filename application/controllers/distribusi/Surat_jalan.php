@@ -59,6 +59,11 @@ class Surat_jalan extends CI_Controller
         $data = $this->Surat_jalanModel->add();
         echo json_encode($data);
     }
+    public function batal()
+    {
+        $data = $this->Surat_jalanModel->batal();
+        echo json_encode($data);
+    }
 
     public function hapus()
     {

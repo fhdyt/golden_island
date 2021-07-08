@@ -21,6 +21,7 @@ class PenjualanModel extends CI_Model
                             WHERE 
                             ' . $filter_tanggal . '
                             ' . $filter_relasi . '
+                            AND NOT SURAT_JALAN_STATUS="cancel"
                             AND SURAT_JALAN_JENIS = "penjualan"
                             AND RECORD_STATUS="AKTIF" 
                             AND PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 

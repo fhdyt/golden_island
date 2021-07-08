@@ -22,6 +22,7 @@ class PenjualanModel extends CI_Model
                             ' . $filter_tanggal . '
                             ' . $filter_relasi . '
                             AND SURAT_JALAN_JENIS = "penjualan"
+                            AND NOT SURAT_JALAN_STATUS="cancel"
                             AND RECORD_STATUS="AKTIF" 
                             AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                             ORDER BY SURAT_JALAN_NOMOR ')->result();

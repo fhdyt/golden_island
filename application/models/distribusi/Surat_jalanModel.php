@@ -125,6 +125,44 @@ class Surat_jalanModel extends CI_Model
         return $data;
     }
 
+    public function batal()
+    {
+        echo $this->input->post('id');
+        $data_edit = array(
+            'SURAT_JALAN_STATUS' => "cancel",
+            'SURAT_JALAN_REALISASI_STATUS' => "",
+            'SURAT_JALAN_REALISASI_TTBK_STATUS' => "",
+
+            'EDIT_WAKTU' => date("Y-m-d G:i:s"),
+            'EDIT_USER' => $this->session->userdata('USER_ID'),
+        );
+
+        $this->db->where('SURAT_JALAN_ID', $this->input->post('id'));
+        $this->db->where('RECORD_STATUS', 'AKTIF');
+        $this->db->update('SURAT_JALAN', $data_edit);
+
+        $data_edit_panggung = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('PANGGUNG_REF', $this->input->post("id"));
+        $this->db->update('PANGGUNG', $data_edit_panggung);
+
+        $data_edit_jurnal = array(
+            'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+            'DELETE_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "DELETE",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $this->db->where('JURNAL_TABUNG_REF', $this->input->post("id"));
+        $this->db->update('JURNAL_TABUNG', $data_edit_jurnal);
+
+        //  return true;
+    }
     public function detail_jenis_barang($jenis)
     {
         if ($jenis == "gas" or $jenis == "tabung") {

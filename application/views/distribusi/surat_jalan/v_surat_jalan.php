@@ -92,8 +92,13 @@
                     for (i = 0; i < data.length; i++) {
                         if (data[i].SURAT_JALAN_STATUS == "close") {
                             var status = "<span class='float-left badge bg-success'>Faktur Telah Diproses</span>"
+                            var tr = ""
+                        } else if (data[i].SURAT_JALAN_STATUS == "cancel") {
+                            var status = "<span class='float-left badge bg-danger'>Dibatalkan</span>"
+                            var tr = "table-danger"
                         } else {
                             var status = "<span class='float-left badge bg-danger'>Menunggu Faktur ...</span>"
+                            var tr = ""
                         }
 
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
@@ -124,7 +129,7 @@
                         } else {
                             var driver = data[i].DRIVER[0].MASTER_KARYAWAN_NAMA
                         }
-                        $("tbody#zone_data").append("<tr class=''>" +
+                        $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small  class='text-muted'>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +

@@ -252,8 +252,9 @@ if (empty($this->uri->segment('4'))) {
                 <div class="card card-default color-palette-box">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-success btn-lg simpan_surat_jalan"><?= $this->lang->line('simpan'); ?></button>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success btn-lg simpan_surat_jalan mr-2"><?= $this->lang->line('simpan'); ?></button>
+                                <a class="btn btn-danger btn-lg batal_surat_jalan">Batalkan Surat Jalan</a>
                             </div>
                         </div>
                         </form>
@@ -603,30 +604,28 @@ if (empty($this->uri->segment('4'))) {
     })
 
 
-    $(".btn-faktur").on("click", function() {
+    $(".batal_surat_jalan").on("click", function() {
         Swal.fire({
-            title: 'Buat Pengiriman ?',
+            title: 'Batalkan Surat Jalan ?',
             icon: 'question',
-            text: 'Setelah membuat Faktur, anda tidak dapat merubah Form Pengiriman',
+            text: 'Setelah membatalkan surat jalan, seluruh jurnal tabung, panggung akan di hapus',
             showCancelButton: true,
             confirmButtonText: `Buat`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo base_url(); ?>index.php/pembelian/pd/pd_to_pi/<?= $id; ?>',
-                    type: "ajax",
-                    dataType: 'json',
+                    url: '<?php echo base_url(); ?>index.php/distribusi/surat_jalan/batal',
+                    type: "post",
+                    data: {
+                        id: "<?= $id; ?>"
+                    },
                     beforeSend: function() {
                         memuat()
                     },
                     success: function(data) {
-                        window.open(
-                            '<?= base_url(); ?>pembelian/pi/form_pi/' + data.PI_ID + '/' + data.PEMBELIAN_ID,
-                            '_blank'
-                        );
-                        Swal.fire('Berhasil', 'Pembelian berhasil ditambahkan', 'success')
-                        detail()
+                        memuat()
+                        Swal.fire('Berhasil', 'Surat Jalan Berhasil dibatalkan', 'success')
                     }
                 });
 
