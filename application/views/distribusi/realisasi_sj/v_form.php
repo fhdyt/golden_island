@@ -242,6 +242,7 @@
                         <div class="card-body">
                             <button type="submit" class="btn btn-success btn-lg btn-realisasi"><?= $this->lang->line('simpan'); ?></button>
                             </form>
+                            <a class="btn btn-outline-secondary btn-lg keatas"><i class='fas fa-chevron-circle-up'></i></a>
                         </div>
                     </div>
                 </div>
@@ -742,4 +743,11 @@
             error: function(x, e) {} //end error
         });
     }
+
+    $('.keatas').on('click', function() {
+        $("html, body").animate({
+            scrollTop: 0
+        }, "slow");
+        return false;
+    })
 </script>
