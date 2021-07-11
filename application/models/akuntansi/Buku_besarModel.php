@@ -35,7 +35,7 @@ class Buku_besarModel extends CI_Model
         AND RECORD_STATUS="AKTIF" 
         AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
         ' . $tanggal . '
-        ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
+        ORDER BY ENTRI_WAKTU ASC')->result();
         foreach ($hasil['data'] as $row) {
             $row->TANGGAL = tanggal($row->BUKU_BESAR_TANGGAL);
             $row->SALDO = $row->BUKU_BESAR_DEBET - $row->BUKU_BESAR_KREDIT;
