@@ -67,6 +67,13 @@ class Faktur extends CI_Controller
         $data = $this->FakturModel->barang_list($id, $relasi);
         echo json_encode($data);
     }
+    public function jaminan_list()
+    {
+        $id = $this->uri->segment('4');
+        $relasi = $_GET['relasi'];
+        $data = $this->FakturModel->jaminan_list($id, $relasi);
+        echo json_encode($data);
+    }
 
     public function surat_jalan()
     {
@@ -78,6 +85,12 @@ class Faktur extends CI_Controller
     public function add()
     {
         $data = $this->FakturModel->add();
+        echo json_encode($data);
+    }
+
+    public function edit_harga_jaminan()
+    {
+        $data = $this->FakturModel->edit_harga_jaminan();
         echo json_encode($data);
     }
     public function add_sj_scan()

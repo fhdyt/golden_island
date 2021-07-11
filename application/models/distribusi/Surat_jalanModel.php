@@ -99,11 +99,18 @@ class Surat_jalanModel extends CI_Model
             $realisasi_sj = "selesai";
             $realisasi_ttbk = "selesai";
         }
+
+        if ($this->input->post('jaminan') == "on") {
+            $jaminan = "Yes";
+        } else {
+            $jaminan = "No";
+        }
         $data = array(
             'SURAT_JALAN_ID' => $this->input->post('id'),
             'SURAT_JALAN_JENIS' => $this->input->post('jenis_sj'),
             'SURAT_JALAN_NOMOR' => $nomor_surat_jalan,
             'SURAT_JALAN_STATUS_JENIS' => $this->input->post('jenis'),
+            'SURAT_JALAN_JAMINAN' => $jaminan,
             'SURAT_JALAN_NOMOR_SURAT' => $this->input->post('nomor_surat'),
             'SURAT_JALAN_TANGGAL' => $this->input->post('tanggal'),
             'SURAT_JALAN_KETERANGAN' => $this->input->post('keterangan'),

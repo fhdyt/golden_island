@@ -129,13 +129,19 @@
                         } else {
                             var driver = data[i].DRIVER[0].MASTER_KARYAWAN_NAMA
                         }
+
+                        if (data[i].SURAT_JALAN_JAMINAN == 'Yes') {
+                            var jaminan = "<br><span class='float-left badge bg-success'>Jaminan</span>"
+                        } else {
+                            var jaminan = ""
+                        }
                         $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small  class='text-muted'>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + relasi + "</td>" +
-                            "<td>" + data[i].SURAT_JALAN_KETERANGAN + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_KETERANGAN + "" + jaminan + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mr-1' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=penjualan'>Lihat</a>" +
                             btn_cetak +
                             "</td>" +

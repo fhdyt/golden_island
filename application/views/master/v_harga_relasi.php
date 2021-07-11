@@ -22,6 +22,16 @@
                         </div>
 
                     </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Jaminan</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp.</span>
+                            </div>
+                            <input type="text" class="form-control jaminan" name="jaminan" autocomplete="off">
+                        </div>
+
+                    </div>
 
             </div>
             <div class="modal-footer justify-content-between">
@@ -59,6 +69,7 @@
                                 <th>No.</th>
                                 <th>Nama Barang</th>
                                 <th>Harga</th>
+                                <th>Jaminan</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -78,6 +89,9 @@
 <script>
     $(function() {
         $(".harga").mask("#.##0", {
+            reverse: true
+        });
+        $(".jaminan").mask("#.##0", {
             reverse: true
         });
         harga_relasi_list();
@@ -125,10 +139,16 @@
                         } else {
                             var harga = number_format(data[i].HARGA[0].MASTER_HARGA_HARGA)
                         }
+                        if (data[i].HARGA[0].MASTER_HARGA_JAMINAN == undefined) {
+                            var jaminan = 0
+                        } else {
+                            var jaminan = number_format(data[i].HARGA[0].MASTER_HARGA_JAMINAN)
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + harga + "</td>" +
+                            "<td>" + jaminan + "</td>" +
                             "<td> <a class = 'btn btn-success btn-sm addHarga-btn' detail_id = '" + data[i].MASTER_BARANG_ID + "' > <i class = 'fas fa-tag'> </i> Tambah Harga</a> </td>" +
                             "</tr>");
                     }

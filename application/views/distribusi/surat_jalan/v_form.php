@@ -173,6 +173,18 @@ if (empty($this->uri->segment('4'))) {
                                             <small class="text-muted">Kosongkan jika tidak diperlukan.</small>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="form-group clearfix">
+                                                <div class="icheck-primary">
+                                                    <input type="checkbox" id="jaminan" name="jaminan">
+                                                    <label for="jaminan">
+                                                        Jaminan ?
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                         </div>
 
@@ -333,6 +345,12 @@ if (empty($this->uri->segment('4'))) {
                     $(".driver").val(data[0].DRIVER_ID).trigger("change")
                     $(".kendaraan").val(data[0].MASTER_KENDARAAN_ID).trigger("change")
                     $(".keterangan").html(data[0].SURAT_JALAN_KETERANGAN)
+                    if (data[0].SURAT_JALAN_JAMINAN == 'Yes') {
+                        $('#jaminan').prop('checked', true);
+                    } else {
+                        $('#jaminan').prop('checked', false);
+                    }
+
 
                     // if (data[0].SURAT_JALAN_STATUS == "open") {
                     //     $(".btn-faktur").attr("hidden", false)

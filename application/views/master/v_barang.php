@@ -37,6 +37,11 @@
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Harga Jaminan</label>
+                        <input type="text" class="form-control harga_jaminan" name="harga_jaminan" autocomplete="off" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Total Kapasitas</label>
                         <input type="text" class="form-control total" name="total" autocomplete="off" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
@@ -144,6 +149,7 @@
                                 <th>Stok</th>
                                 <th>Jenis</th>
                                 <th>Harga Satuan</th>
+                                <th>Harga Jaminan</th>
                                 <th>Prioritas</th>
                                 <th><?= $this->lang->line('keterangan'); ?></th>
 
@@ -178,6 +184,9 @@
     })
     $(function() {
         $(".harga_satuan").mask("#.##0", {
+            reverse: true
+        });
+        $(".harga_jaminan").mask("#.##0", {
             reverse: true
         });
         barang_list();
@@ -217,6 +226,7 @@
                             "<td>" + total + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_JENIS + "</td>" +
                             "<td>Rp. " + number_format(data[i].MASTER_BARANG_HARGA_SATUAN) + "</td>" +
+                            "<td>Rp. " + number_format(data[i].MASTER_BARANG_HARGA_JAMINAN) + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_PRIORITAS + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_KETERANGAN + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
@@ -307,6 +317,7 @@
                 $(".keterangan").val(data[0].MASTER_BARANG_KETERANGAN)
                 $(".total").val(data[0].MASTER_BARANG_TOTAL)
                 $(".harga_satuan").val(number_format(data[0].MASTER_BARANG_HARGA_SATUAN))
+                $(".harga_jaminan").val(number_format(data[0].MASTER_BARANG_HARGA_JAMINAN))
 
 
             },

@@ -216,9 +216,14 @@
                     var no = 1
                     console.log()
                     for (i = 0; i < data.length; i++) {
+                        if (data[i].SURAT_JALAN_JAMINAN == 'Yes') {
+                            var jaminan = "<span class='float-left badge bg-success'>Jaminan</span>"
+                        } else {
+                            var jaminan = ""
+                        }
                         $("tbody#surat_jalan_baru").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].TANGGAL + "</td>" +
+                            "<td>" + data[i].TANGGAL + "<br>" + jaminan + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small>Keterangan : " + data[i].SURAT_JALAN_KETERANGAN + "</small></td>" +
                             "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
                             "<td>" + data[i].OLEH[0].USER_NAMA + "</td>" +

@@ -84,9 +84,8 @@ if (empty($this->uri->segment('4'))) {
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Surat Jalan</th>
+                                        <th colspan="2" style="text-align:center">Surat Jalan</th>
                                         <th colspan="3" style="text-align:center">Bulan</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="form_tt">
@@ -171,6 +170,32 @@ if (empty($this->uri->segment('4'))) {
                     </div>
                 </div>
             </div>
+            <div class="row row_jaminan">
+                <div class="col-md-12">
+                    <div class="card card-default color-palette-box">
+                        <div class="card-body">
+                            <small class="text-muted">Jaminan Tabung</small>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nomor Jaminan</th>
+                                        <th>Surat Jalan</th>
+                                        <th>Quantity</th>
+                                        <th>Harga</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="zone_data_jaminan">
+                                </tbody>
+                                <tfoot id="total_jaminan">
+
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -180,6 +205,20 @@ if (empty($this->uri->segment('4'))) {
                             <div class="col-md-12">
                                 <div class="card card-default color-palette-box">
                                     <div class="card-body">
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label text-right"> Jaminan</label>
+                                            <div class="col-sm-10">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
+                                                    <input type="text" class="form-control total_jaminan" name="total_jaminan" readonly>
+                                                </div>
+                                                <small class="text-muted">Total Jaminan tidak termasuk kedalam harga Faktur</small>
+                                            </div>
+
+                                        </div>
+                                        <hr>
                                         <div class="mb-3 row">
                                             <label class="col-sm-2 col-form-label text-right">Total</label>
                                             <div class="col-sm-10">
@@ -191,6 +230,7 @@ if (empty($this->uri->segment('4'))) {
                                                 </div>
                                             </div>
                                         </div>
+
 
                                         <div class="mb-3 row">
                                             <label class="col-sm-2 col-form-label text-right">Pajak</label>
@@ -253,7 +293,7 @@ if (empty($this->uri->segment('4'))) {
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" class="form-control bayar" name="bayar" onkeyup="kalkulasi_seluruh()" required>
+                                                    <input type="text" class="form-control bayar" name="bayar" value="0" onkeyup="kalkulasi_seluruh()" required>
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
@@ -309,6 +349,7 @@ if (empty($this->uri->segment('4'))) {
         detail()
         surat_jalan_list()
         barang_list()
+        jaminan_list()
     });
 
     $('#submit').submit(function(e) {
@@ -400,11 +441,13 @@ if (empty($this->uri->segment('4'))) {
             data: {
                 id: "<?= $id; ?>",
                 surat_jalan: $('.surat_jalan').val(),
+                tanggal: $('.tanggal').val(),
             },
             success: function(data) {
                 memuat()
                 surat_jalan_list()
                 barang_list()
+                jaminan_list()
                 kalkulasi_seluruh()
             }
         });
@@ -436,6 +479,7 @@ if (empty($this->uri->segment('4'))) {
                         memuat()
                         surat_jalan_list()
                         barang_list()
+                        jaminan_list()
                         kalkulasi_seluruh()
                     }
                 });
@@ -467,7 +511,7 @@ if (empty($this->uri->segment('4'))) {
                         $(".surat_jalan option[value='" + data[i].SURAT_JALAN_ID + "']").remove();
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td colspan='4' style='text-align:center'>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].FAKTUR_SURAT_JALAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "</td>" +
                             "</tr>");
@@ -525,6 +569,77 @@ if (empty($this->uri->segment('4'))) {
         });
     }
 
+    function jaminan_list() {
+        console.log('jaminan    ')
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/penjualan/faktur/jaminan_list/<?= $id; ?>?relasi=" + $(".relasi").val() + "",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#zone_data_jaminan").empty();
+                $("tfoot#total_jaminan").empty()
+                console.log(data)
+                if (data.length === 0) {
+                    $(".row_jaminan").attr("hidden", true)
+                    $(".total_jaminan").val("0")
+                    kalkulasi_seluruh()
+                } else {
+                    $(".row_jaminan").attr("hidden", false)
+                    var no = 1;
+                    var total_jaminan = 0
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].FAKTUR_BARANG_HARGA > 0) {
+                            var harga = data[i].FAKTUR_BARANG_HARGA
+                        } else {
+                            harga = data[i].HARGA
+                        }
+                        total_jaminan += data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH
+                        $("tbody#zone_data_jaminan").append("<tr class=''>" +
+                            "<td style='vertical-align:middle'>" + no++ + ".</td>" +
+                            "<td style='vertical-align:middle'>" + data[i].FAKTUR_JAMINAN_NOMOR + "</td>" +
+                            "<td style='vertical-align:middle'>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td align='right' style='vertical-align:middle'>" + data[i].FAKTUR_JAMINAN_JUMLAH + "</td>" +
+                            // "<td><input type='text' class='form-control edit_harga_" + data[i].FAKTUR_JAMINAN_ID + "' id='edit_harga' jumlah='" + data[i].FAKTUR_JAMINAN_JUMLAH + "' value='" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "' onfocusout='edit_harga(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'/></td>" +
+                            "<td align='right' style='vertical-align:middle'>" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "</td>" +
+                            "<td align='right' style='vertical-align:middle'>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
+                            "</tr>");
+                    }
+                    $(".total_jaminan").val(number_format(total_jaminan))
+                    kalkulasi_seluruh()
+                    $("tfoot#total_jaminan").append("<tr><td colspan='5' align='right'><b>Total</b></td><td align='right'>" + number_format(total_jaminan) + "</td></tr>")
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    function edit_harga(id) {
+        console.log(id)
+        console.log()
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/penjualan/faktur/edit_harga_jaminan',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                id: id,
+                harga: $(".edit_harga_" + id + "").val(),
+                jumlah: $(".edit_harga_" + id + "").attr("jumlah"),
+            },
+            success: function(data) {
+                memuat()
+                jaminan_list()
+                //Swal.fire('Berhasil', '', 'success')
+                kalkulasi_seluruh()
+            }
+        });
+    }
+
     function hapus(id) {
         Swal.fire({
             title: '<?= $this->lang->line('hapus'); ?> ?',
@@ -543,6 +658,7 @@ if (empty($this->uri->segment('4'))) {
                             Swal.fire('Berhasil', '', 'success')
                             surat_jalan_list()
                             barang_list()
+                            jaminan_list()
                             kalkulasi_seluruh()
                         }
                     },
