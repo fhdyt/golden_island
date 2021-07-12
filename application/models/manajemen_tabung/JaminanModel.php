@@ -12,6 +12,22 @@ class JaminanModel extends CI_Model
 
         $hasil = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE ' . $filter . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY FAKTUR_JAMINAN_TANGGAL DESC, FAKTUR_JAMINAN_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
+            $surat_jalan = $this->db->query('SELECT SURAT_JALAN_TANGGAL FROM SURAT_JALAN WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_TANGGAL DESC LIMIT 1')->result();
+            if (empty($surat_jalan)) {
+                $row->SELISIH_TANGGAL = array();
+                $row->SURAT_JALAN_TERAKHIR = array();
+            } else {
+                $row->SURAT_JALAN_TERAKHIR = $surat_jalan[0]->SURAT_JALAN_TANGGAL;
+                $date1 = strtotime(date("Y-m-d"));
+                $date2 = strtotime($row->SURAT_JALAN_TERAKHIR);
+                $diff = abs($date2 - $date1);
+                $years = floor($diff / (365 * 60 * 60 * 24));
+                $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+                $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+                $row->SELISIH_TANGGAL = $days . " Hari, " . $months . " Bulan, " . $years . " Tahun";
+                $row->HARI_INI = date("Y-m-d");
+            }
+
             $row->NAMA_RELASI = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $row->TANGGAL = tanggal($row->FAKTUR_JAMINAN_TANGGAL);
             $row->SURAT_JALAN = $this->db->query('SELECT SURAT_JALAN_NOMOR FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();;
