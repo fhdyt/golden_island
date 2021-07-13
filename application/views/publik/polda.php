@@ -32,14 +32,14 @@
         <section class="invoice">
             <!-- title row -->
             <div class="row">
-                <div class="col-2 text-right">
-                    <img src="<?php echo base_url(); ?>uploads/perusahaan/BGS.png" height="90px" alt="">
+                <div class="col-sm-2 text-right">
+                    <img src="<?php echo base_url(); ?>uploads/perusahaan/BGS.png" height="70px" alt="">
                 </div>
-                <div class="col-8 invoice-col">
+                <div class="col-sm-8 invoice-col">
                     <address>
-                        <h2><b>PT. BUMI GASINDO SUMATERA</b></h2>
-                        Jalan Padang Makmur 1, RT 8, RW 6 Kec. Selebar, Kel Bentungan, Bengkulu<br>
-                        Telp : +628 22839 18834, +628 12727 57908
+                        <h4><b>PT. BUMI GASINDO SUMATERA</b></h4>
+                        <small>Jalan Padang Makmur 1, RT 8, RW 6 Kec. Selebar, Kel Bentungan, Bengkulu<br>
+                            Telp : +628 22839 18834, +628 12727 57908</small>
                     </address>
                 </div>
                 <!-- /.col -->
@@ -47,8 +47,8 @@
             <!-- info row -->
             <hr>
             <center>
-                <h3><b>Data Penyaluran Tabung Oksigen Wilayah Prov. Bengkulu</b></h3>
-                <h4>Tanggal : <?= tanggal($this->uri->segment('3')); ?></h4>
+                <h5><b>Data Penyaluran Tabung Oksigen Wilayah Prov. Bengkulu</b></h5>
+                <p>Tanggal : <?= tanggal($this->uri->segment('3')); ?></p>
             </center>
             <br>
             <br>
