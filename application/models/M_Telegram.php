@@ -202,6 +202,42 @@ class M_Telegram extends CI_Model
 		}
 		return $hasil;;
 	}
+	public function rincian_buku_besar($perusahaan)
+	{
+
+		$hasil = $this->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $perusahaan . '"')->result();
+		foreach ($hasil as $row) {
+			$tanggal_dari = date("Y-m-d");
+			$tanggal_sampai = date("Y-m-d");
+
+			$filter_tanggal = 'AND BUKU_BESAR_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
+			$saldo_awal = $this->db->query('SELECT 
+            SUM(BUKU_BESAR_KREDIT) AS KREDIT,
+            SUM(BUKU_BESAR_DEBET) AS DEBET 
+            FROM 
+            BUKU_BESAR WHERE 
+            AKUN_ID="' . $row->AKUN_ID . '" 
+            AND RECORD_STATUS="AKTIF" 
+            AND PERUSAHAAN_KODE="' . $perusahaan . '" 
+            AND BUKU_BESAR_TANGGAL < "' . $tanggal_dari . '"
+            ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
+
+			$buku_besar = $this->db->query('SELECT SUM(BUKU_BESAR_KREDIT) AS KREDIT, SUM(BUKU_BESAR_DEBET) AS DEBET FROM 
+        BUKU_BESAR WHERE 
+        AKUN_ID="' . $row->AKUN_ID . '" 
+        AND RECORD_STATUS="AKTIF" 
+        AND PERUSAHAAN_KODE="' . $perusahaan . '" 
+        ' . $filter_tanggal . '')->result();
+			$row->KREDIT = $buku_besar[0]->KREDIT;
+			$row->DEBET = $buku_besar[0]->DEBET;
+			$row->SALDO_AWAL = $saldo_awal[0]->DEBET - $saldo_awal[0]->KREDIT;
+			$row->TOTAL = $buku_besar[0]->DEBET - $buku_besar[0]->KREDIT;
+
+			$row->SALDO = $row->SALDO_AWAL + $row->TOTAL;
+		}
+		return $hasil;;
+	}
 
 	public function surat_jalan_driver($id_telegram)
 	{

@@ -85,6 +85,10 @@ class Telegram extends CI_Controller
 			$text = urlencode("**Surat Jalan Bulain Ini**\n" . $sj[0]->NAMA . " : " . $total_seluruh . " Tabung");
 			// $text = urlencode("**Surat Jalan Bulain Ini**\n\n" . $surat_jalan . "\nTotal Bulan ini : " . $total . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+		} else if (strtoupper($pesan[0]) == "RINCIAN") {
+			if (strtoupper($pesan[0]) == "BUKUBESAR") {
+				$buku_besar = $this->M_Telegram->rincian_buku_besar(strtoupper($pesan[2]));
+			}
 		} else {
 			$text = urlencode("Maaf permintaan anda tidak ditemukan.");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
