@@ -27,94 +27,86 @@
 </style>
 
 <body>
-    <div class="wrapper">
+    <div class="container">
         <!-- Main content -->
-        <section class="invoice">
-            <!-- title row -->
-            <div class="row">
-                <div class="col-sm-2 text-right">
-                    <img src="<?php echo base_url(); ?>uploads/perusahaan/BGS.png" height="70px" alt="">
-                </div>
-                <div class="col-sm-8 invoice-col">
-                    <address>
-                        <h4><b>PT. BUMI GASINDO SUMATERA</b></h4>
-                        <small>Jalan Padang Makmur 1, RT 8, RW 6 Kec. Selebar, Kel Bentungan, Bengkulu<br>
-                            Telp : +628 22839 18834, +628 12727 57908</small>
-                    </address>
-                </div>
-                <!-- /.col -->
+        <!-- title row -->
+        <div class="row">
+            <!-- <div class="col-sm-2 text-right">
+                <img src="<?php echo base_url(); ?>uploads/perusahaan/BGS.png" height="70px" alt="">
+            </div> -->
+            <div class="col-sm-12 invoice-col">
+                <address>
+                    <h4><b>PT. BUMI GASINDO SUMATERA</b></h4>
+                    <small>Jalan Padang Makmur 1, RT 8, RW 6 Kec. Selebar, Kel Bentungan, Bengkulu<br>
+                        Telp : +628 22839 18834, +628 12727 57908</small>
+                </address>
             </div>
-            <!-- info row -->
-            <hr>
-            <center>
-                <h5><b>Data Penyaluran Tabung Oksigen Wilayah Prov. Bengkulu</b></h5>
-                <p>Tanggal : <?= tanggal($this->uri->segment('3')); ?></p>
-            </center>
-            <br>
-            <br>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <hr>
+        <center>
+            <h5><b>Data Penyaluran Tabung Oksigen Wilayah Prov. Bengkulu</b></h5>
+            <p>Tanggal : <?= tanggal($this->uri->segment('3')); ?></p>
+        </center>
+        <br>
+        <br>
 
 
-            <!-- Table row -->
-            <div class="row">
-                <div class="col-12 table-responsive">
-                    <table id="example2" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="vertical-align: middle;">No.</th>
-                                <th>Nama</th>
-                                <th>Jenis Tabung</th>
-                                <th>Permintaan</th>
-                                <th>Disalurkan</th>
-                                <th>Asal Liquid</th>
-                            </tr>
-                        </thead>
-                        <tbody id="zone_data">
-                            <?php
-                            $no = 1;
-                            $tableContent = "";
-                            $total_tabung = 0;
-                            $total_tabung = 0;
-                            $total = 0;
-                            for ($x = 0; $x < count($surat_jalan); $x++) {
-                                $rowspan = 0;
-                                $detailLength = count($surat_jalan[$x]->BARANG);
-                                $rowspan += $detailLength;
-                                $tableContent .= "<tr><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $no++ . "</td><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $surat_jalan[$x]->MASTER_RELASI_NAMA . "</td></tr>";
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-12 table-responsive">
+                <table id="example2" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="vertical-align: middle;">No.</th>
+                            <th>Nama</th>
+                            <th>Jenis Tabung</th>
+                            <th>Permintaan</th>
+                            <th>Disalurkan</th>
+                            <th>Asal Liquid</th>
+                        </tr>
+                    </thead>
+                    <tbody id="zone_data">
+                        <?php
+                        $no = 1;
+                        $tableContent = "";
+                        $total_tabung = 0;
+                        $total_tabung = 0;
+                        $total = 0;
+                        for ($x = 0; $x < count($surat_jalan); $x++) {
+                            $rowspan = 0;
+                            $detailLength = count($surat_jalan[$x]->BARANG);
+                            $rowspan += $detailLength;
+                            $tableContent .= "<tr><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $no++ . "</td><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $surat_jalan[$x]->MASTER_RELASI_NAMA . "</td></tr>";
 
-                                $baranglenght = 0;
-                                for ($j = 0; $j < $detailLength; $j++) {
-                                    if ($surat_jalan[$x]->SURAT_JALAN_STATUS == "open") {
-                                        $quantity = $surat_jalan[$x]->BARANG[$j]->SURAT_JALAN_BARANG_QUANTITY;
-                                    } else {
-                                        $quantity = $surat_jalan[$x]->BARANG[$j]->FAKTUR_BARANG_QUANTITY;
-                                    }
-                                    $total += $quantity;
-
-                                    $tableContent .= "<tr><td>" . $surat_jalan[$x]->BARANG[$j]->NAMA_BARANG[0]->MASTER_BARANG_NAMA . "</td><td align='right'>" . $quantity . "</td><td align='right'>" . $quantity . "</td><td>PT. SAMATOR GAS INDUSTRI</td></tr>";
+                            $baranglenght = 0;
+                            for ($j = 0; $j < $detailLength; $j++) {
+                                if ($surat_jalan[$x]->SURAT_JALAN_STATUS == "open") {
+                                    $quantity = $surat_jalan[$x]->BARANG[$j]->SURAT_JALAN_BARANG_QUANTITY;
+                                } else {
+                                    $quantity = $surat_jalan[$x]->BARANG[$j]->FAKTUR_BARANG_QUANTITY;
                                 }
-                            ?>
-                            <?php
+                                $total += $quantity;
+
+                                $tableContent .= "<tr><td>" . $surat_jalan[$x]->BARANG[$j]->NAMA_BARANG[0]->MASTER_BARANG_NAMA . "</td><td align='right'>" . $quantity . "</td><td align='right'>" . $quantity . "</td><td>PT. SAMATOR GAS INDUSTRI</td></tr>";
                             }
-                            echo $tableContent;
-                            ?>
-                        </tbody>
-                        <tbody id="zone_data_total">
-                            <tr>
-                                <td colspan="4" align="right"><b>Total</b></td>
-                                <td align="right"><?= $total; ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.col -->
+                        ?>
+                        <?php
+                        }
+                        echo $tableContent;
+                        ?>
+                    </tbody>
+                    <tbody id="zone_data_total">
+                        <tr>
+                            <td colspan="4" align="right"><b>Total</b></td>
+                            <td align="right"><?= $total; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <!-- /.row -->
-            <hr>
-
-
-
-        </section>
-        <!-- /.content -->
+            <!-- /.col -->
+        </div>
     </div>
 </body>
 
