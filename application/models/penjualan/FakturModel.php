@@ -233,6 +233,7 @@ class FakturModel extends CI_Model
             'FAKTUR_TRANSAKSI_PAJAK_RUPIAH' => str_replace(".", "", $this->input->post('pajak_rupiah')),
             'FAKTUR_TRANSAKSI_GRAND_TOTAL' => str_replace(".", "", $this->input->post('grand_total')),
             'PEMBELIAN_TRANSAKSI_BAYAR' => str_replace(".", "", $this->input->post('bayar')),
+            'FAKTUR_TRANSAKSI_POTONGAN' => str_replace(".", "", $this->input->post('potongan')),
             'PIUTANG_TANGGAL_TEMPO' => $this->input->post('tanggal_tempo'),
 
             'ENTRI_WAKTU' => date("Y-m-d G:i:s"),

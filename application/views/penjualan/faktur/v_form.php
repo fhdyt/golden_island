@@ -264,6 +264,17 @@ if (empty($this->uri->segment('4'))) {
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label text-right">Potongan</label>
+                                            <div class="col-sm-10">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
+                                                    <input type="text" class="form-control potongan" name="potongan" autocomplete="off" value="0" onkeyup="kalkulasi_seluruh()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
                                             <label class="col-sm-2 col-form-label text-right">Total</label>
                                             <div class="col-sm-10">
                                                 <div class="input-group mb-3">
@@ -346,6 +357,9 @@ if (empty($this->uri->segment('4'))) {
         $(".bayar").mask("#.##0", {
             reverse: true
         });
+        $(".potongan").mask("#.##0", {
+            reverse: true
+        });
         detail()
         surat_jalan_list()
         barang_list()
@@ -390,6 +404,7 @@ if (empty($this->uri->segment('4'))) {
                         console.log("kosong")
                     } else {
                         // $(".total").val(data[0].TRANSAKSI[0].FAKTUR_TRANSAKSI_TOTAL)
+                        $(".potongan").val(number_format(data[0].TRANSAKSI[0].FAKTUR_TRANSAKSI_POTONGAN))
                         $(".pajak").val(data[0].TRANSAKSI[0].FAKTUR_TRANSAKSI_PAJAK).trigger("change")
                         $(".bayar").val(number_format(data[0].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR))
                         $(".tanggal_tempo").val(data[0].TRANSAKSI[0].PIUTANG_TANGGAL_TEMPO)
@@ -685,6 +700,7 @@ if (empty($this->uri->segment('4'))) {
 
         var total = parseInt($(".total").val().split('.').join(""))
         var bayar = parseInt($(".bayar").val().split('.').join(""))
+        var potongan = parseInt($(".potongan").val().split('.').join(""))
 
         var pajak_rupiah = total * (pajak / 100)
         $(".pajak_rupiah").val(number_format(pajak_rupiah))
@@ -693,7 +709,7 @@ if (empty($this->uri->segment('4'))) {
         var grand_total = total_bayar
         $(".grand_total").val(number_format(grand_total))
 
-        var sisa_bayar = grand_total - bayar
+        var sisa_bayar = grand_total - bayar - potongan
         $(".total_bayar").val(number_format(total_bayar))
         $(".sisa_bayar").val(number_format(sisa_bayar))
     }

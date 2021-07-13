@@ -147,7 +147,7 @@
                         if (data[i].TRANSAKSI.length == 0) {
                             var transaksi = "0"
                         } else {
-                            var transaksi = number_format(data[i].TRANSAKSI[0].FAKTUR_TRANSAKSI_GRAND_TOTAL)
+                            var transaksi = number_format(data[i].TRANSAKSI[0].FAKTUR_TRANSAKSI_BAYAR)
                         }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
