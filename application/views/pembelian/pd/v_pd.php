@@ -17,9 +17,10 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <!-- <a href="<?= base_url(); ?>pembelian/pd/form_pd" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a> -->
                     <div class="row mb-2">
                         <div class="col-md-4">
+                            <a href="<?= base_url(); ?>pembelian/pd/form_pd" class="btn btn-secondary mb-2 btn-form">Tambah Pengiriman</a>
+
                         </div>
                         <div class="col-md-4">
                             <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
