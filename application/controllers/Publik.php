@@ -33,8 +33,12 @@ class Publik extends CI_Controller
 	public function polda_bengkulu()
 	{
 		$tanggal = $this->uri->segment('3');
-		$data['surat_jalan'] = $this->PublikModel->polda($tanggal);
-		$this->load->view('publik/polda', $data);
+		if ($tanggal < '2021-07-10') {
+			echo "Laporan Tidak Ditemukan";
+		} else {
+			$data['surat_jalan'] = $this->PublikModel->polda($tanggal);
+			$this->load->view('publik/polda', $data);
+		}
 	}
 
 	public function logout()

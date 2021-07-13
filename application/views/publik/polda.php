@@ -85,6 +85,7 @@
                                     } else {
                                         $quantity = $surat_jalan[$x]->BARANG[$j]->FAKTUR_BARANG_QUANTITY;
                                     }
+                                    $total += $quantity;
 
                                     $tableContent .= "<tr><td>" . $surat_jalan[$x]->BARANG[$j]->NAMA_BARANG[0]->MASTER_BARANG_NAMA . "</td><td align='right'>" . $quantity . "</td><td align='right'>" . $quantity . "</td><td>PT. SAMATOR GAS INDUSTRI</td></tr>";
                                 }
@@ -96,6 +97,8 @@
                         </tbody>
                         <tbody id="zone_data_total">
                             <tr>
+                                <td colspan="4" align="right"><b>Total</b></td>
+                                <td align="right"><?= $total; ?></td>
                             </tr>
                         </tbody>
                     </table>
