@@ -78,7 +78,7 @@
                             $rowspan = 0;
                             $detailLength = count($surat_jalan[$x]->BARANG);
                             $rowspan += $detailLength;
-                            $tableContent .= "<tr><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $no++ . "</td><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $surat_jalan[$x]->MASTER_RELASI_NAMA . "" . jam($surat_jalan[$x]->WAKTU) . "</td></tr>";
+                            $tableContent .= "<tr><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $no++ . "</td><td style='vertical-align:middle' rowspan=" . (1 + $rowspan) . ">" . $surat_jalan[$x]->MASTER_RELASI_NAMA . "<br>" . jam($surat_jalan[$x]->WAKTU) . "</td></tr>";
 
                             $baranglenght = 0;
                             for ($j = 0; $j < $detailLength; $j++) {
