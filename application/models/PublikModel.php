@@ -6,7 +6,7 @@ class PublikModel extends CI_Model
 
         $filter_tanggal = 'SJ.SURAT_JALAN_TANGGAL = "' . $tanggal . '"';
 
-        $hasil = $this->db->query('SELECT * 
+        $hasil = $this->db->query('SELECT *,SJ.ENTRI_WAKTU AS WAKTU 
                             FROM 
                             SURAT_JALAN AS SJ
                             LEFT JOIN MASTER_RELASI AS R
