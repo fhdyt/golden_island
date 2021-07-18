@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form id="submit">
                     <div class="form-group">
-                        <input type="text" class="form-control id_karyawan" name="id_karyawan" autocomplete="off">
+                        <input type="hidden" class="form-control id_karyawan" name="id_karyawan" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nominal</label>
@@ -21,6 +21,18 @@
                             <input type="text" class="form-control harga" name="harga" autocomplete="off">
                         </div>
 
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Akun</label>
+                        <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                            <option value="">-- Akun --</option>
+                            <?php foreach (akun_list() as $row) {
+                            ?>
+                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Keterangan</label>
@@ -115,12 +127,12 @@
                     var no = 1
                     var total_seluruh = 0
                     for (i = 0; i < data.length; i++) {
-
+                        total_seluruh += data[i].TOTAL
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_KARYAWAN_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_KARYAWAN_JABATAN + "</td>" +
-                            "<td>Rp.</td>" +
+                            "<td>Rp. " + number_format(data[i].TOTAL) + "</td>" +
                             "<td> " +
                             "<td> <a class = 'btn btn-success btn-sm addHarga-btn' id_karyawan = '" + data[i].MASTER_KARYAWAN_ID + "' > <i class = 'fas fa-tag'> </i> Tambah Hutang</a> </td>" +
                             "</tr>");

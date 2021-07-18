@@ -153,7 +153,7 @@
                         <div class="col-md-2">
                             <!-- <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Jaminan</button> -->
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-11">
                             <select name="relasi" id="relasi" class="form-control relasi select2" style="width: 100%;" required>
                                 <option value="">-- Pilih Relasi --</option>
                                 <?php foreach (relasi_list() as $row) {
@@ -244,17 +244,25 @@
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
+                    var total_tabung = 0
+                    var total_rupiah = 0
                     for (i = 0; i < data.length; i++) {
                         if (data[i].FAKTUR_JAMINAN_STATUS == "selesai") {
                             var tr = "table-success"
+                            var tabung = 0
+                            var rupiah = 0
                             var status = "<small class='text-muted'>Jaminan Telah Selesai</small>"
                             var btn = ""
                         } else {
                             var tr = "table-default"
+                            var tabung = parseInt(data[i].FAKTUR_JAMINAN_JUMLAH)
+                            var rupiah = parseInt(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH)
                             var status = ""
                             var btn = "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'><i class='fas fa-edit'></i> Selesai Jaminan</a>"
                         }
 
+                        total_tabung += tabung
+                        total_rupiah += rupiah
                         if (data[i].SELISIH_TANGGAL.length == 0) {
                             var selisih_tanggal = "Belum melakukan pemesanan."
                         } else {
@@ -275,6 +283,7 @@
                             "</td>" +
                             "</tr>");
                     }
+                    $("tbody#zone_data").append("<tr><td colspan='5' style='text-align:right'>Total</td><td>" + total_tabung + "</td><td></td><td>" + number_format(total_rupiah) + "</td></tr > ")
                 }
             },
             error: function(x, e) {

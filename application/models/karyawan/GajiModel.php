@@ -152,6 +152,43 @@ class GajiModel extends CI_Model
 
         $this->db->insert('BUKU_BESAR', $data_buku_besar);
 
+        if (str_replace(".", "", $this->input->post('hutang')) > 0) {
+            $data = array(
+                'KARYAWAN_HUTANG_ID' => create_id(),
+                'KARYAWAN_HUTANG_REF' => $id_gaji,
+                'AKUN_ID' => $this->input->post('akun'),
+                'KARYAWAN_HUTANG_TANGGAL' => date("Y-m-d"),
+                'MASTER_KARYAWAN_ID' => $this->input->post('id_karyawan'),
+                'KARYAWAN_HUTANG_KREDIT' => str_replace(".", "", $this->input->post('hutang')),
+                'KARYAWAN_HUTANG_DEBET' => "0",
+                'KARYAWAN_HUTANG_KETERANGAN' => $this->input->post('keterangan'),
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+
+            $this->db->insert('KARYAWAN_HUTANG', $data);
+
+            $data_buku_besar_hutang = array(
+                'BUKU_BESAR_ID' => create_id(),
+                'BUKU_BESAR_REF' => $id_gaji,
+                'AKUN_ID' => $this->input->post('akun'),
+                'BUKU_BESAR_TANGGAL' => date("Y-m-d"),
+                'BUKU_BESAR_JENIS' => "KREDIT",
+                'BUKU_BESAR_KREDIT' => "0",
+                'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('hutang')),
+                'BUKU_BESAR_SUMBER' => "HUTANG KARYAWAN",
+                'BUKU_BESAR_KETERANGAN' => "PEMBAYARAN HUTANG " . $karyawan[0]->MASTER_KARYAWAN_NAMA . " , " . $this->input->post('keterangan'),
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('BUKU_BESAR', $data_buku_besar_hutang);
+        }
         $data = array(
             'GAJI_ID' => $id_gaji,
             'MASTER_KARYAWAN_ID' => $this->input->post('id_karyawan'),
@@ -167,6 +204,7 @@ class GajiModel extends CI_Model
             'GAJI_PERSENTASE_PREMI' => str_replace(".", "", $this->input->post('persentase_premi')),
             'GAJI_BONUS' => str_replace(".", "", $this->input->post('bonus')),
             'GAJI_POTONGAN' => str_replace(".", "", $this->input->post('potongan')),
+            'GAJI_HUTANG' => str_replace(".", "", $this->input->post('hutang')),
             'GAJI_PREMI_PENGANTARAN_RUPIAH' => str_replace(".", "", $this->input->post('rupiah_pengantaran')),
             'GAJI_PREMI_PRODUKSI_RUPIAH' => str_replace(".", "", $this->input->post('rupiah_produksi')),
             'GAJI_PREMI_PENJUALAN_RUPIAH' => str_replace(".", "", $this->input->post('rupiah_penjualan')),

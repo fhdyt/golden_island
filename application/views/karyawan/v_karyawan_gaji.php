@@ -134,6 +134,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mb-2 row">
+                            <label class="col-sm-2 col-form-label text-right">Hutang</label>
+                            <div class="col-sm-10">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp.</span>
+                                    </div>
+                                    <input type="text" class="form-control hutang" name="hutang" value="0" autocomplete="off" onkeyup="kalkulasi_seluruh_gaji()">
+                                </div>
+                            </div>
+                        </div>
                         <hr>
                         <div class="mb-2 row">
                             <label class="col-sm-2 col-form-label text-right">Premi Pengantaran</label>
@@ -729,12 +740,13 @@
         var uang_makan_rupiah = parseInt($(".uang_makan_rupiah").val().split('.').join(""))
         var bonus = parseInt($(".bonus").val().split('.').join(""))
         var potongan = parseInt($(".potongan").val().split('.').join(""))
+        var hutang = parseInt($(".hutang").val().split('.').join(""))
 
         var rupiah_pengantaran = parseInt($(".rupiah_pengantaran").val().split('.').join(""))
         var rupiah_produksi = parseInt($(".rupiah_produksi").val().split('.').join(""))
         var rupiah_penjualan = parseInt($(".rupiah_penjualan").val().split('.').join(""))
 
-        var total = gaji_pokok + tunjangan_jabatan + tunjangan_transportasi + tunjangan_komunikasi + uang_makan_rupiah + bonus - potongan
+        var total = gaji_pokok + tunjangan_jabatan + tunjangan_transportasi + tunjangan_komunikasi + uang_makan_rupiah + bonus - potongan - hutang
         var rupiah_seluruh = total + rupiah_pengantaran + rupiah_produksi + rupiah_penjualan
         $(".total_gaji").val(number_format(rupiah_seluruh))
     }
