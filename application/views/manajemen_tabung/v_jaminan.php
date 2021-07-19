@@ -238,7 +238,7 @@
                             var tr = "table-success"
                             var tabung = 0
                             var rupiah = 0
-                            var status = "<small class='text-muted'>Jaminan Telah Selesai</small>"
+                            var status = "<small class='text-muted'>Jaminan Telah Selesai <br>" + data[i].TANGGAL_SELESAI + "</small>"
                             var btn = ""
                         } else {
                             var tr = "table-default"

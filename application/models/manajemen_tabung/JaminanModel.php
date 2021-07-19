@@ -30,6 +30,7 @@ class JaminanModel extends CI_Model
 
             $row->NAMA_RELASI = $this->db->query('SELECT MASTER_RELASI_NAMA FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $row->TANGGAL = tanggal($row->FAKTUR_JAMINAN_TANGGAL);
+            $row->TANGGAL_SELESAI = tanggal($row->FAKTUR_JAMINAN_TANGGAL_SELESAI);
             $row->SURAT_JALAN = $this->db->query('SELECT SURAT_JALAN_NOMOR FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();;
         }
         return $hasil;
