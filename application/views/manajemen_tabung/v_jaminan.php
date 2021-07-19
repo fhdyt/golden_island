@@ -255,7 +255,6 @@
                         } else {
                             var selisih_tanggal = data[i].SELISIH_TANGGAL
                         }
-                        console.log(data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA)
                         if (data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA == undefined) {
                             var nama = "-"
                         } else {
