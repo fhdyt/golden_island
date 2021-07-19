@@ -255,10 +255,16 @@
                         } else {
                             var selisih_tanggal = data[i].SELISIH_TANGGAL
                         }
+
+                        if (data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA == undefined) {
+                            var nama = "-"
+                        } else {
+                            var nama = data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA
+                        }
                         $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].FAKTUR_JAMINAN_NOMOR + "</td>" +
-                            "<td>" + data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA + "<br><small class='text-muted'>Pemesanan Terakhir : " + selisih_tanggal + "</small></td>" +
+                            "<td>" + nama + "<br><small class='text-muted'>Pemesanan Terakhir : " + selisih_tanggal + "</small></td>" +
                             "<td>" + data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR + "<br>" + status + "</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].FAKTUR_JAMINAN_JUMLAH + "</td>" +
