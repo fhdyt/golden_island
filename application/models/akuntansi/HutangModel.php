@@ -27,6 +27,44 @@ class HutangModel extends CI_Model
         return $hasil;
     }
 
+    public function laporan_list()
+    {
+        if (empty($this->input->post('nama_supplier'))) {
+            $filter = '';
+        } else {
+            $filter = 'MASTER_SUPPLIER_NAMA LIKE "%' . $this->input->post('nama_supplier') . '%" AND';
+        }
+        $hasil = $this->db->query('SELECT * FROM 
+        MASTER_SUPPLIER 
+        WHERE ' . $filter . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_SUPPLIER_NAMA')->result();
+        foreach ($hasil as $row) {
+            $total = 0;
+            foreach (bulan() as $value => $text) {
+                $kredit = $this->db->query('SELECT SUM(HUTANG_KREDIT) AS KREDIT
+                                        FROM HUTANG 
+                                        WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '"
+                                        AND MONTH(HUTANG_TANGGAL) = ' . $value . ' 
+                                        AND YEAR(HUTANG_TANGGAL) = ' . $this->input->post('tahun') . ' 
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+
+                $debet = $this->db->query('SELECT SUM(HUTANG_DEBET) AS DEBET
+                                        FROM HUTANG 
+                                        WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '"
+                                        AND MONTH(HUTANG_TANGGAL) = ' . $value . ' 
+                                        AND YEAR(HUTANG_TANGGAL) = ' . $this->input->post('tahun') . ' 
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+                $row->$text = $kredit[0]->KREDIT - $debet[0]->DEBET;
+                $total += $kredit[0]->KREDIT - $debet[0]->DEBET;
+            }
+            $row->TOTAL = $total;
+        }
+        return $hasil;
+    }
+
     public function list_hutang($supplier)
     {
         $hasil = $this->db->query('SELECT * FROM 

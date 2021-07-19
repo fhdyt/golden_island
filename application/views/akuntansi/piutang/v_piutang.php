@@ -17,6 +17,11 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-4">
+                            <a href="<?= base_url() ?>akuntansi/piutang/laporan" class="btn btn-secondary btn_akun mb-2">Laporan Piutang Bulanan</a>
+                        </div>
+                    </div>
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>

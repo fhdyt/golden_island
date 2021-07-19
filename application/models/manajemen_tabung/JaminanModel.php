@@ -74,26 +74,26 @@ class JaminanModel extends CI_Model
             'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
         );
 
-        $this->db->insert('FAKTUR_JAMINAN', $data);
+        $result = $this->db->insert('FAKTUR_JAMINAN', $data);
 
-        $data_buku_besar = array(
-            'BUKU_BESAR_ID' => create_id(),
-            'BUKU_BESAR_REF' => $this->input->post('id'),
-            'AKUN_ID' => $this->input->post('akun'),
-            'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
-            'BUKU_BESAR_KREDIT' => "0",
-            'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('total')),
-            'BUKU_BESAR_SUMBER' => "JAMINAN",
-            'BUKU_BESAR_JENIS_PENGELUARAN' => "Jaminan",
-            'BUKU_BESAR_KETERANGAN' => "JAMINAN NO." . $nomor_jaminan . "",
+        // $data_buku_besar = array(
+        //     'BUKU_BESAR_ID' => create_id(),
+        //     'BUKU_BESAR_REF' => $this->input->post('id'),
+        //     'AKUN_ID' => $this->input->post('akun'),
+        //     'BUKU_BESAR_TANGGAL' => $this->input->post('tanggal'),
+        //     'BUKU_BESAR_KREDIT' => "0",
+        //     'BUKU_BESAR_DEBET' => str_replace(".", "", $this->input->post('total')),
+        //     'BUKU_BESAR_SUMBER' => "JAMINAN",
+        //     'BUKU_BESAR_JENIS_PENGELUARAN' => "Jaminan",
+        //     'BUKU_BESAR_KETERANGAN' => "JAMINAN NO." . $nomor_jaminan . "",
 
-            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
-            'ENTRI_USER' => $this->session->userdata('USER_ID'),
-            'RECORD_STATUS' => "AKTIF",
-            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
-        );
+        //     'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+        //     'ENTRI_USER' => $this->session->userdata('USER_ID'),
+        //     'RECORD_STATUS' => "AKTIF",
+        //     'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        // );
 
-        $result = $this->db->insert('BUKU_BESAR', $data_buku_besar);
+        // $result = $this->db->insert('BUKU_BESAR', $data_buku_besar);
         return $result;
     }
 
@@ -103,6 +103,7 @@ class JaminanModel extends CI_Model
 
         $data_edit_jaminan = array(
             'FAKTUR_JAMINAN_STATUS' => "selesai",
+            'FAKTUR_JAMINAN_TANGGAL_SELESAI' => date("Y-m-d"),
         );
         $this->db->where('FAKTUR_JAMINAN_ID', $this->input->post('id_jaminan'));
         $this->db->where('RECORD_STATUS', 'AKTIF');

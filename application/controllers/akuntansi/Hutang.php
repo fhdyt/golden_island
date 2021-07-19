@@ -47,6 +47,17 @@ class Hutang extends CI_Controller
         $this->load->view('akuntansi/hutang/v_pembayaran');
         $this->load->view('_template/footer');
     }
+    public function laporan()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('akuntansi/hutang/v_laporan');
+        $this->load->view('_template/footer');
+    }
+    public function laporan_list()
+    {
+        $data = $this->HutangModel->laporan_list();
+        echo json_encode($data);
+    }
 
     public function supplier_list()
     {
