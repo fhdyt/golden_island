@@ -58,7 +58,7 @@ class PiutangModel extends CI_Model
                                         AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                         ')->result();
                 $row->$text = $debet[0]->DEBET;
-                $total += $debet[0]->DEBET;
+                $total += $debet[0]->DEBET - $kredit[0]->KREDIT;
                 // $row->$text = $debet[0]->DEBET - $kredit[0]->KREDIT;
                 // $total += $debet[0]->DEBET - $kredit[0]->KREDIT;
             }
