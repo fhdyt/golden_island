@@ -22,7 +22,7 @@ class PiutangModel extends CI_Model
                                         AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                         ')->result();
 
-            $row->SALDO = $debet[0]->DEBET;
+            $row->SALDO = $kredit[0]->KREDIT - $debet[0]->DEBET;
         }
         return $hasil;
     }
@@ -57,8 +57,10 @@ class PiutangModel extends CI_Model
                                         AND RECORD_STATUS="AKTIF" 
                                         AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                         ')->result();
-                $row->$text = $debet[0]->DEBET - $kredit[0]->KREDIT;
-                $total += $debet[0]->DEBET - $kredit[0]->KREDIT;
+                $row->$text = $debet[0]->DEBET;
+                $total += $debet[0]->DEBET;
+                // $row->$text = $debet[0]->DEBET - $kredit[0]->KREDIT;
+                // $total += $debet[0]->DEBET - $kredit[0]->KREDIT;
             }
             $row->TOTAL = $total;
         }
