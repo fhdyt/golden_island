@@ -177,8 +177,8 @@
                             "<td>" + total + "</td>" +
                             "<td>" + data[i].JURNAL_TABUNG_KETERANGAN + "</td>" +
                             "<td>" + img + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
-                            "</td>" +
+                            // "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].JURNAL_TABUNG_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            // "</td>" +
                             "</tr>");
                     }
                     $("tbody#zone_data").append("<tr><td colspan='4' align='right'><b>Total</b></td><td colspan='3'><b>" + total + "</b></td></tr>")
