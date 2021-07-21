@@ -180,6 +180,7 @@ class RelasiModel extends CI_Model
                 'MASTER_RELASI_ID' => $user,
                 'MASTER_BARANG_ID' => $this->input->post('id_detail'),
                 'MASTER_HARGA_HARGA' => str_replace(".", "", $this->input->post('harga')),
+                'MASTER_HARGA_JAMINAN' => str_replace(".", "", $this->input->post('jaminan')),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
                 'ENTRI_USER' => $this->session->userdata('USER_ID'),
