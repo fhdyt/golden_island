@@ -1,3 +1,8 @@
+<style>
+    /* .table {
+        font-size: 14px;
+    } */
+</style>
 <div class="modal fade" id="pajakModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -245,7 +250,7 @@
                             var tabung = parseInt(data[i].FAKTUR_JAMINAN_JUMLAH)
                             var rupiah = parseInt(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH)
                             var status = ""
-                            var btn = "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'><i class='fas fa-edit'></i> Selesai Jaminan</a>"
+                            var btn = "<a class='btn btn-warning btn-sm mb-2' onclick='detail(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'><i class='fas fa-edit'></i> Selesai</a>"
                         }
 
                         total_tabung += tabung
@@ -260,6 +265,12 @@
                         } else {
                             var nama = data[i].NAMA_RELASI[0].MASTER_RELASI_NAMA
                         }
+
+                        if (data[i].SURAT_JALAN[0].SURAT_JALAN_REALISASI_TTBK_STATUS == "selesai") {
+                            var btn_selesai = btn
+                        } else {
+                            var btn_selesai = "<br><small>Silahkan TTBK terlebih dahulu</small>"
+                        }
                         $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].FAKTUR_JAMINAN_NOMOR + "</td>" +
@@ -270,9 +281,8 @@
                             "<td>" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "</td>" +
                             "<td>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
                             "<td>" +
-                            "<a target='_blank' class='btn btn-success btn-sm' onclick='cetak(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +
-                            btn +
-                            "</td>" +
+                            "<a target='_blank' class='mb-2 btn btn-success btn-sm' onclick='cetak(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Cetak</a> " +
+                            "" + btn_selesai + "</td>" +
                             "</tr>");
                     }
                     $("tbody#zone_data").append("<tr><td colspan='5' style='text-align:right'>Total</td><td>" + total_tabung + "</td><td></td><td>" + number_format(total_rupiah) + "</td></tr > ")

@@ -149,7 +149,7 @@
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td>" + harga + "</td>" +
                             "<td>" + jaminan + "</td>" +
-                            "<td> <a class = 'btn btn-success btn-sm addHarga-btn' detail_id = '" + data[i].MASTER_BARANG_ID + "' > <i class = 'fas fa-tag'> </i> Tambah Harga</a> </td>" +
+                            "<td> <a class = 'btn btn-success btn-sm addHarga-btn' detail_id = '" + data[i].MASTER_BARANG_ID + "' harga='" + harga + "' jaminan='" + jaminan + "' > <i class = 'fas fa-tag'> </i> Tambah Harga</a> </td>" +
                             "</tr>");
                     }
                 }
@@ -163,6 +163,8 @@
     $("tbody#zone_data").on("click", "a.addHarga-btn", function() {
         $("#submit").trigger("reset");
         $(".id_detail").val($(this).attr("detail_id"))
+        $(".harga").val($(this).attr("harga"))
+        $(".jaminan").val($(this).attr("jaminan"))
         $("#hargaModal").modal("show")
     })
 
