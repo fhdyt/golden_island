@@ -50,6 +50,10 @@ class Telegram extends CI_Controller
 			$text = urlencode("**Laporan Penjualan " . strtoupper($pesan[1]) . " Hari ini**\n\nLunas : Rp. " . number_format($penjualan['terbayar']) . "\nPiutang : Rp. " . number_format($penjualan['piutang']) . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strtoupper($pesan[0]) == "PENJUALAN-TABUNG") {
+			$akses = $this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1]));
+			if ($akses == 0) {
+				exit();
+			}
 			$penjualan = $this->M_Telegram->penjualan_tabung(strtoupper($pesan[1]));
 			$tabung = "";
 			foreach ($penjualan as $row) {
@@ -58,6 +62,10 @@ class Telegram extends CI_Controller
 			$text = urlencode("**Penjualan Tabung Hari Ini**\n\n" . $tabung . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strtoupper($pesan[0]) == "BUKUBESAR") {
+			$akses = $this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1]));
+			if ($akses == 0) {
+				exit();
+			}
 			$buku_besar = $this->M_Telegram->buku_besar(strtoupper($pesan[1]));
 			$akun = "";
 			foreach ($buku_besar as $row) {
