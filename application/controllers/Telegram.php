@@ -44,6 +44,8 @@ class Telegram extends CI_Controller
 		} else if (strtoupper($pesan[0]) == "PENJUALAN") {
 			$akses = $this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1]));
 			if ($akses == 0) {
+				$text = urlencode("Maaf, Anda tidak memiliki akses");
+				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 				exit();
 			}
 			$penjualan = $this->M_Telegram->penjualan(strtoupper($pesan[1]));
@@ -52,6 +54,8 @@ class Telegram extends CI_Controller
 		} else if (strtoupper($pesan[0]) == "PENJUALAN-TABUNG") {
 			$akses = $this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1]));
 			if ($akses == 0) {
+				$text = urlencode("Maaf, Anda tidak memiliki akses");
+				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 				exit();
 			}
 			$penjualan = $this->M_Telegram->penjualan_tabung(strtoupper($pesan[1]));
@@ -64,6 +68,8 @@ class Telegram extends CI_Controller
 		} else if (strtoupper($pesan[0]) == "BUKUBESAR") {
 			$akses = $this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1]));
 			if ($akses == 0) {
+				$text = urlencode("Maaf, Anda tidak memiliki akses");
+				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 				exit();
 			}
 			$buku_besar = $this->M_Telegram->buku_besar(strtoupper($pesan[1]));
