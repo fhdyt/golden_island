@@ -41,6 +41,14 @@ class Publik extends CI_Controller
 		}
 	}
 
+	public function telegram()
+	{
+		$this->load->model('M_Telegram');
+		$chatID = "744164478";
+		$pesan = "BGS";
+		$akses = $this->M_Telegram->cek_akses($chatID, $pesan);
+		echo $akses;
+	}
 	public function logout()
 	{
 		$this->session->unset_userdata('is_login_golden_island');
