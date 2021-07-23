@@ -42,7 +42,8 @@ class Telegram extends CI_Controller
 			$text = urlencode("Username : " . $username . " \nNama : " . $nama . " \nID Telegram anda : " . $chatID . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strtoupper($pesan[0]) == "PENJUALAN") {
-			if ($this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1])) == false) {
+			$akses = $this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1]));
+			if ($akses == false) {
 				exit();
 			}
 			$penjualan = $this->M_Telegram->penjualan(strtoupper($pesan[1]));
