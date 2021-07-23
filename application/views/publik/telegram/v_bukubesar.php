@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="<?= tanggal($this->uri->segment('3')); ?>">
-    <meta property="og:description" content="Data Penyaluran Tabung Oksigen Wilayah Prov. Bengkulu">
+    <meta property="og:title" content="Buku Besar">
+    <meta property="og:description" content="Rincian Buku Besar Perusahaan">
     <meta property="og:image" content="<?php echo base_url(); ?>uploads/perusahaan/BGS.png">
     <title>Buku Besar</title>
 
