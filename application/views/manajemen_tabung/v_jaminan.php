@@ -156,7 +156,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-2">
-                            <!-- <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Jaminan</button> -->
+                            <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Jaminan</button>
                         </div>
                         <div class="col-md-11">
                             <select name="relasi" id="relasi" class="form-control relasi select2" style="width: 100%;" required>

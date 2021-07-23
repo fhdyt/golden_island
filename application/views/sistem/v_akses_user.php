@@ -139,7 +139,7 @@
                             var tr = "table-default"
                         }
                         $("tbody#zone_data_perusahaan").append("<tr class='" + tr + "'>" +
-                            "<td>" + data[i].PERUSAHAAN_KODE + "</td>" +
+                            "<td>" + data[i].PERUSAHAAN_KODE + "<br><small class='text-muted'>" + data[i].PERUSAHAAN_NAMA + "</small></td>" +
                             "<td><a class='btn btn-primary btn-sm' onclick='akses_perusahaan(\"" + data[i].PERUSAHAAN_KODE + "\")'><i class='fas fa-thumbs-up'></i></a></td>" +
                             "</tr>");
                     }
