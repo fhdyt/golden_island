@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Telegram</label>
-                        <input type="text" class="form-control telegram" name="telegram" autocomplete="off" required>
+                        <input type="text" class="form-control telegram" name="telegram" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Username</label>
