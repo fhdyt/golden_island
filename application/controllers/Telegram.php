@@ -86,7 +86,7 @@ class Telegram extends CI_Controller
 				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 				exit();
 			}
-			$rincian = $this->M_Telegram->rincian(strtoupper($pesan[1]), strtoupper($pesan[1]));
+			$rincian = $this->M_Telegram->rincian(strtoupper($pesan[1]), strtoupper($pesan[2]));
 			$text = urlencode("**Rincian " . strtoupper($pesan[1]) . " " . strtoupper($pesan[2]) . "\n" . base_url() . "publik/telegram/" . $rincian['LAPORAN_TELEGRAM_JENIS'] . "/" . $rincian['LAPORAN_TELEGRAM_ID'] . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strtoupper($message) == "SURAT JALAN SAYA") {

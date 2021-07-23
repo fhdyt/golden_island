@@ -88,11 +88,12 @@ class PublikModel extends CI_Model
 
     public function telegram($jenis, $id)
     {
+        $laporan = $this->db->query('SELECT * FROM LAPORAN_TELEGRAM WHERE LAPORAN_TELEGRAM_ID="' . $id . '" AND RECORD_STATUS="AKTIF"')->result();
         if ($jenis == "BUKUBESAR") {
-            $akun = $this->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $akun = $this->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $laporan[0]->PERUSAHAAN_KODE . '"')->result();
             foreach ($akun as $row) {
-                $tanggal_dari = "2021-07-01";
-                $tanggal_sampai = "2021-07-23";
+                $tanggal_dari = date("Y-m-d", strtotime($laporan[0]->LAPORAN_TELEGRAM_TANGGAL));
+                $tanggal_sampai = date("Y-m-d", strtotime($laporan[0]->LAPORAN_TELEGRAM_TANGGAL));
 
                 $tanggal = 'AND BUKU_BESAR_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
 
@@ -103,7 +104,7 @@ class PublikModel extends CI_Model
             BUKU_BESAR WHERE 
             AKUN_ID="' . $row->AKUN_ID . '" 
             AND RECORD_STATUS="AKTIF" 
-            AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+            AND PERUSAHAAN_KODE="' . $laporan[0]->PERUSAHAAN_KODE . '" 
             AND BUKU_BESAR_TANGGAL < "' . $tanggal_dari . '"
             ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
 
@@ -112,7 +113,7 @@ class PublikModel extends CI_Model
         AKUN_ID="' . $row->AKUN_ID . '" 
         AND NOT (BUKU_BESAR_KREDIT=0 AND BUKU_BESAR_DEBET =0)
         AND RECORD_STATUS="AKTIF" 
-        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+        AND PERUSAHAAN_KODE="' . $laporan[0]->PERUSAHAAN_KODE . '" 
         ' . $tanggal . '
         ORDER BY ENTRI_WAKTU ASC')->result();
                 foreach ($row->SALDO_DATA as $row_x) {
