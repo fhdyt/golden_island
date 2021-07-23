@@ -33,21 +33,42 @@
                             </select>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Aplikasi</th>
-                                <th>Menu</th>
-                                <th>Aplikasi</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="zone_data">
-                            <tr>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <table id="example2" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Aplikasi</th>
+                                        <th>Menu</th>
+                                        <th>Aplikasi</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="zone_data">
+                                    <tr>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col-md-4">
+                            <table id="example2" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Perusahaan</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="zone_data_perusahaan">
+                                    <tr>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -63,6 +84,7 @@
     })
     $(function() {
         menu_list();
+        perusahaan_list();
     });
 
     function menu_list() {
@@ -89,6 +111,36 @@
                             "<td>" + data[i].MENU_NAMA + "</td>" +
                             "<td>" + data[i].MENU_LINK + "</td>" +
                             "<td><a class='btn btn-primary btn-sm' onclick='akses(\"" + data[i].MENU_ID + "\")'><i class='fas fa-thumbs-up'></i></a></td>" +
+                            "</tr>");
+                    }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    function perusahaan_list() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/sistem/user/perusahaan_list/<?php echo $this->uri->segment('4'); ?>?menu_filter=" + $(".menu_filter").val(),
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#zone_data_perusahaan").empty();
+                console.log(data)
+                if (data.length === 0) {} else {
+                    var no = 1
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].STATUS == "AKTIF") {
+                            var tr = "table-success"
+                        } else {
+                            var tr = "table-default"
+                        }
+                        $("tbody#zone_data_perusahaan").append("<tr class='" + tr + "'>" +
+                            "<td>" + data[i].PERUSAHAAN_KODE + "</td>" +
+                            "<td><a class='btn btn-primary btn-sm' onclick='akses_perusahaan(\"" + data[i].PERUSAHAAN_KODE + "\")'><i class='fas fa-thumbs-up'></i></a></td>" +
                             "</tr>");
                     }
                 }
@@ -145,7 +197,7 @@
             title: 'Ganti akses Menu ?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: `Hapus`,
+            confirmButtonText: `Ganti`,
             denyButtonText: `Batal`,
         }).then((result) => {
             if (result.isConfirmed) {
@@ -159,6 +211,44 @@
                     success: function(data) {
                         if (data.length === 0) {} else {
                             menu_list();
+                            Swal.fire('Berhasil', 'User Berhasil dihapus', 'success')
+                        }
+                    },
+                    error: function(x, e) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Proses Gagal'
+                        })
+                        console.log(e)
+                    } //end error
+                });
+
+            }
+        })
+    }
+
+    function akses_perusahaan(perusahaan_kode) {
+        console.log(perusahaan_kode)
+        Swal.fire({
+            title: 'Ganti akses Perusahaan ?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `Ganti`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'ajax',
+                    url: '<?php echo base_url() ?>index.php/sistem/user/akses_perusahaan/<?php echo $this->uri->segment('4'); ?>/' + perusahaan_kode,
+                    beforeSend: function() {
+                        memuat()
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.length === 0) {} else {
+                            memuat()
+                            perusahaan_list();
                             Swal.fire('Berhasil', 'User Berhasil dihapus', 'success')
                         }
                     },

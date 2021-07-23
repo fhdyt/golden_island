@@ -14,6 +14,7 @@ class UserModel extends CI_Model
             $data = array(
                 'USER_ID' => create_id(),
                 'USER_NAMA' => $this->input->post('nama'),
+                'USER_TELEGRAM' => $this->input->post('telegram'),
                 'USER_USERNAME' => $this->input->post('username'),
                 'USER_PASSWORD' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
@@ -31,6 +32,7 @@ class UserModel extends CI_Model
             $data_edit = array(
                 'USER_ID' => $this->input->post('id'),
                 'USER_NAMA' => $this->input->post('nama'),
+                'USER_TELEGRAM' => $this->input->post('telegram'),
                 'USER_USERNAME' => $this->input->post('username'),
                 'PERUSAHAAN_KODE' => $this->input->post('perusahaan'),
                 'MASTER_KARYAWAN_ID' => $this->input->post('karyawan'),
@@ -135,6 +137,22 @@ class UserModel extends CI_Model
         }
         return $hasil;
     }
+    public function perusahaan_list()
+    {
+
+        $hasil = $this->db->query('SELECT * FROM PERUSAHAAN
+        WHERE RECORD_STATUS="AKTIF" ')->result();
+        foreach ($hasil as $row) {
+            $status = $this->db->query('SELECT RECORD_STATUS as STATUS FROM USER_AKSES_PERUSAHAAN WHERE PERUSAHAAN_KODE="' . $row->PERUSAHAAN_KODE . '" AND USER_ID="' . $this->uri->segment('4') . '" AND RECORD_STATUS="AKTIF"');
+            if ($status->num_rows() > 0) {
+                $row->STATUS = "AKTIF";
+            } else {
+                $row->STATUS = "";
+            }
+            $result[] = $row;
+        }
+        return $hasil;
+    }
 
     public function akses_menu($user, $menu_id)
     {
@@ -166,6 +184,35 @@ class UserModel extends CI_Model
 
             $this->db->where('USER_AKSES_ID', $data_menu[0]->USER_AKSES_ID);
             $result = $this->db->update('USER_AKSES', $data);
+            return $result;
+        }
+    }
+    public function akses_perusahaan($user, $perusahaan_kode)
+    {
+        $hasil = $this->db->query('SELECT * FROM USER_AKSES_PERUSAHAAN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $perusahaan_kode . '" AND USER_ID="' . $user . '"');
+        $data = $hasil->num_rows();
+        if ($data == 0) {
+            $data = array(
+                'USER_AKSES_PERUSAHAAN_ID' => create_id(),
+                'USER_ID' => $user,
+                'PERUSAHAAN_KODE' => $perusahaan_kode,
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+            );
+
+            $result = $this->db->insert('USER_AKSES_PERUSAHAAN', $data);
+            return $result;
+        } else {
+            $data = array(
+                'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+                'DELETE_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "DELETE",
+            );
+
+            $this->db->where('PERUSAHAAN_KODE', $perusahaan_kode);
+            $this->db->where('USER_ID', $user);
+            $result = $this->db->update('USER_AKSES_PERUSAHAAN', $data);
             return $result;
         }
     }

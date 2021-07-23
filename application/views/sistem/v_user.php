@@ -29,6 +29,10 @@
                         <input type="text" class="form-control nama" name="nama" autocomplete="off" required>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Telegram</label>
+                        <input type="text" class="form-control telegram" name="telegram" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Username</label>
                         <input type="text" class="form-control username" name="username" autocomplete="off" required>
                     </div>
@@ -215,6 +219,7 @@
                 $(".id").val(data[0].USER_ID)
                 $(".nama").val(data[0].USER_NAMA)
                 $(".karyawan").val(data[0].MASTER_KARYAWAN_ID).trigger("change")
+                $(".telegram").val(data[0].USER_TELEGRAM)
                 $(".username").val(data[0].USER_USERNAME)
                 $(".password").val("*Password Tidak dapat diedit*")
                 $(".perusahaan").val(data[0].PERUSAHAAN_KODE).trigger("change")

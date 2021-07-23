@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
-                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" value="2021-05-01" required>
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" value="<?= date("Y-m-d"); ?>" required>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
@@ -47,6 +47,19 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Total</label>
                         <input type="text" class="form-control total" name="total" autocomplete="off" readonly>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Akun</label>
+                        <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
+                            <option value="">-- Akun --</option>
+                            <?php foreach (akun_list() as $row) {
+                            ?>
+                                <option value="<?= $row->AKUN_ID; ?>"><?= $row->AKUN_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
             </div>

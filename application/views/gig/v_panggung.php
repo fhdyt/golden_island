@@ -96,7 +96,7 @@
                             <select name="perusahaan" id="perusahaan" class="form-control perusahaan select2" style="width: 100%;" required>
                                 <option value="">-- Perusahaan --</option>
                                 <?php
-                                foreach (perusahaan() as $row) {
+                                foreach (perusahaan_akses() as $row) {
                                 ?>
                                     <option value="<?= $row->PERUSAHAAN_KODE; ?>"><?= $row->PERUSAHAAN_NAMA; ?> (<?= $row->PERUSAHAAN_KODE; ?>)</option>
                                 <?php

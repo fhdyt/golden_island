@@ -102,12 +102,24 @@ class User extends CI_Controller
         $data = $this->UserModel->menu_list();
         echo json_encode($data);
     }
+    public function perusahaan_list()
+    {
+        $data = $this->UserModel->perusahaan_list();
+        echo json_encode($data);
+    }
 
     public function akses_menu()
     {
         $user = $this->uri->segment('4');
         $menu_id = $this->uri->segment('5');
         $data = $this->UserModel->akses_menu($user, $menu_id);
+        echo json_encode($data);
+    }
+    public function akses_perusahaan()
+    {
+        $user = $this->uri->segment('4');
+        $perusahaan_kode = $this->uri->segment('5');
+        $data = $this->UserModel->akses_perusahaan($user, $perusahaan_kode);
         echo json_encode($data);
     }
 

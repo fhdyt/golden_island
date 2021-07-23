@@ -322,6 +322,15 @@ if (!function_exists('perusahaan')) {
     return $hasil;
   }
 }
+if (!function_exists('perusahaan_akses')) {
+  function perusahaan_akses()
+  {
+    $CI = &get_instance();
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM USER_AKSES_PERUSAHAAN AS AKSES LEFT JOIN PERUSAHAAN AS P ON AKSES.PERUSAHAAN_KODE=P.PERUSAHAAN_KODE WHERE AKSES.USER_ID="' . $CI->session->userdata('USER_ID') . '" AND AKSES.RECORD_STATUS="AKTIF" AND P.RECORD_STATUS="AKTIF"')->result();
+    return $hasil;
+  }
+}
 
 if (!function_exists('detail_perusahaan')) {
   function detail_perusahaan()
