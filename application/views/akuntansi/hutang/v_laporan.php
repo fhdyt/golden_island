@@ -125,10 +125,36 @@
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
                     var no = 1
+                    var total_januari = 0
+                    var total_februari = 0
+                    var total_maret = 0
+                    var total_april = 0
+                    var total_mei = 0
+                    var total_juni = 0
+                    var total_juli = 0
+                    var total_agustus = 0
+                    var total_september = 0
+                    var total_oktober = 0
+                    var total_november = 0
+                    var total_desember = 0
+                    var total = 0
                     data = jQuery.grep(data, function(value) {
                         return value.TOTAL != "0";
                     });
                     for (i = 0; i < data.length; i++) {
+                        total_januari += parseInt(data[i].Januari)
+                        total_februari += parseInt(data[i].Februari)
+                        total_maret += parseInt(data[i].Maret)
+                        total_april += parseInt(data[i].April)
+                        total_mei += parseInt(data[i].Mei)
+                        total_juni += parseInt(data[i].Juni)
+                        total_juli += parseInt(data[i].Juli)
+                        total_agustus += parseInt(data[i].Agustus)
+                        total_september += parseInt(data[i].September)
+                        total_oktober += parseInt(data[i].Oktober)
+                        total_november += parseInt(data[i].November)
+                        total_desember += parseInt(data[i].Desember)
+                        total += parseInt(data[i].TOTAL)
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_SUPPLIER_NAMA + "</td>" +
@@ -147,6 +173,22 @@
                             "<td>" + number_format(data[i].TOTAL) + "</td>" +
                             "</tr>");
                     }
+                    $("tbody#zone_data").append("<tr class=''>" +
+                        "<td colspan='2' style='text-align:right'><b>Total</b></td>" +
+                        "<td>" + number_format(total_januari) + "</td>" +
+                        "<td>" + number_format(total_februari) + "</td>" +
+                        "<td>" + number_format(total_maret) + "</td>" +
+                        "<td>" + number_format(total_april) + "</td>" +
+                        "<td>" + number_format(total_mei) + "</td>" +
+                        "<td>" + number_format(total_juni) + "</td>" +
+                        "<td>" + number_format(total_juli) + "</td>" +
+                        "<td>" + number_format(total_agustus) + "</td>" +
+                        "<td>" + number_format(total_september) + "</td>" +
+                        "<td>" + number_format(total_oktober) + "</td>" +
+                        "<td>" + number_format(total_november) + "</td>" +
+                        "<td>" + number_format(total_desember) + "</td>" +
+                        "<td>" + number_format(total) + "</td>" +
+                        "</tr>");
                 }
             },
             error: function(x, e) {

@@ -43,12 +43,20 @@ class Publik extends CI_Controller
 
 	public function telegram()
 	{
-		$this->load->model('M_Telegram');
-		$chatID = "744164478";
-		$pesan = "BGS";
-		$akses = $this->M_Telegram->cek_akses($chatID, $pesan);
-		echo $akses;
+
+		$jenis = strtoupper($this->uri->segment('3'));
+		$id = strtoupper($this->uri->segment('4'));
+		if ($jenis == "PENJUALAN") {
+			$data['data'] = $this->PublikModel->telegram($jenis, $id);
+			$this->load->view('publik/telegram/v_penjualan', $data);
+		} elseif ($jenis == "BUKUBESAR") {
+			$data['data'] = $this->PublikModel->telegram($jenis, $id);
+			$this->load->view('publik/telegram/v_bukubesar', $data);
+		} else {
+			echo "Tidak ditemukan";
+		}
 	}
+
 	public function logout()
 	{
 		$this->session->unset_userdata('is_login_golden_island');

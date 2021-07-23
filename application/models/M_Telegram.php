@@ -274,6 +274,22 @@ class M_Telegram extends CI_Model
 		return $hasil;
 	}
 
+	public function rincian($jenis, $perusahaan)
+	{
+		$id = create_id();
+		$data = array(
+			'LAPORAN_TELEGRAM_ID' => $id,
+			'LAPORAN_TELEGRAM_JENIS' => $jenis,
+			'LAPORAN_TELEGRAM_TANGGAL' => date("Y-m-d G:i:s"),
+			'LAPORAN_TELEGRAM_EXPIRED' => date("Y-m-d G:i:s"),
+			'PERUSAHAAN_KODE' => $perusahaan,
+			'RECORD_STATUS' => "AKTIF",
+		);
+
+		$this->db->insert('LAPORAN_TELEGRAM', $data);
+		return $data;
+	}
+
 	public function cek_akses($id, $perusahaan)
 	{
 		$user = $this->db->query('SELECT * FROM USER WHERE USER_TELEGRAM="' . $id . '" AND RECORD_STATUS="AKTIF" ')->result();

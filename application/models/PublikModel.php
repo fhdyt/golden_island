@@ -84,4 +84,43 @@ class PublikModel extends CI_Model
         }
         return $hasil;
     }
+
+
+    public function telegram($jenis, $id)
+    {
+        if ($jenis == "BUKUBESAR") {
+            $akun = $this->db->query('SELECT * FROM AKUN WHERE RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            foreach ($akun as $row) {
+                $tanggal_dari = "2021-07-01";
+                $tanggal_sampai = "2021-07-23";
+
+                $tanggal = 'AND BUKU_BESAR_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
+                $row->SALDO_AWAL = $this->db->query('SELECT 
+            SUM(BUKU_BESAR_KREDIT) AS KREDIT,
+            SUM(BUKU_BESAR_DEBET) AS DEBET 
+            FROM 
+            BUKU_BESAR WHERE 
+            AKUN_ID="' . $row->AKUN_ID . '" 
+            AND RECORD_STATUS="AKTIF" 
+            AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+            AND BUKU_BESAR_TANGGAL < "' . $tanggal_dari . '"
+            ORDER BY BUKU_BESAR_TANGGAL ASC')->result();
+
+                $row->SALDO_DATA = $this->db->query('SELECT * FROM 
+        BUKU_BESAR WHERE 
+        AKUN_ID="' . $row->AKUN_ID . '" 
+        AND NOT (BUKU_BESAR_KREDIT=0 AND BUKU_BESAR_DEBET =0)
+        AND RECORD_STATUS="AKTIF" 
+        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+        ' . $tanggal . '
+        ORDER BY ENTRI_WAKTU ASC')->result();
+                foreach ($row->SALDO_DATA as $row_x) {
+                    $row_x->TANGGAL = tanggal($row_x->BUKU_BESAR_TANGGAL);
+                    $row_x->SALDO = $row_x->BUKU_BESAR_DEBET - $row_x->BUKU_BESAR_KREDIT;
+                }
+            }
+            return $akun;
+        }
+    }
 }

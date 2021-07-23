@@ -79,6 +79,16 @@ class Telegram extends CI_Controller
 			}
 			$text = urlencode("**Laporan Buku Besar " . strtoupper($pesan[1]) . " Hari ini**\n\n" . $akun . "");
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+		} elseif (strtoupper($pesan[0]) == "RINCIAN") {
+			$akses = $this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1]));
+			if ($akses == 0) {
+				$text = urlencode("Maaf, anda tidak memiliki akses");
+				file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
+				exit();
+			}
+			$rincian = $this->M_Telegram->rincian(strtoupper($pesan[1]), strtoupper($pesan[1]));
+			$text = urlencode("**Rincian " . strtoupper($pesan[1]) . " " . strtoupper($pesan[2]) . "\n" . $rincian->LAPORAN_TELEGRAM_ID . "");
+			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strtoupper($message) == "SURAT JALAN SAYA") {
 			$sj = $this->M_Telegram->surat_jalan_driver($chatID);
 			$surat_jalan = "";
