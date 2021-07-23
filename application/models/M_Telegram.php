@@ -273,14 +273,14 @@ class M_Telegram extends CI_Model
 		}
 		return $hasil;
 	}
-	public function m_check_expired()
+	function cek_akses($id, $perusahaan)
 	{
-		$hasil = $this->db->query('SELECT * FROM USER ORDER BY USER_TANGGAL_NONAKTIF DESC ')->result();
-		return $hasil;
-	}
-	public function m_admin()
-	{
-		$hasil = $this->db->query('SELECT * FROM ADMIN ')->result();
-		return $hasil;
+		$user = $this->db->query('SELECT * USER WHERE USER_TELEGRAM="' . $id . '" AND RECORD_STATUS="AKTIF" ')->result();
+		$perusahaan = $this->db->query('SELECT * USER_AKSES_PERUSAHAAN WHERE USER_ID="' . $user[0]->USER_ID . '" AND PERUSAHAAN_KODE="' . $perusahaan . '" AND RECORD_STATUS="AKTIF" ');
+		if ($perusahaan->num_rows() > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
