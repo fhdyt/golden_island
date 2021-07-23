@@ -43,7 +43,7 @@ class Telegram extends CI_Controller
 			file_get_contents($apiURL . "/sendmessage?chat_id=" . $chatID . "&text=" . $text . "");
 		} else if (strtoupper($pesan[0]) == "PENJUALAN") {
 			$akses = $this->M_Telegram->cek_akses($chatID, strtoupper($pesan[1]));
-			if ($akses == false) {
+			if ($akses == 0) {
 				exit();
 			}
 			$penjualan = $this->M_Telegram->penjualan(strtoupper($pesan[1]));
