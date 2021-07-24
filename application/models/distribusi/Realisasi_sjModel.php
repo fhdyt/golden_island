@@ -4,7 +4,7 @@ class Realisasi_sjModel extends CI_Model
 
     public function list_realisasi($surat_jalan_id)
     {
-        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $surat_jalan_id . '" AND SURAT_JALAN_STATUS="open" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC')->result();
+        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $surat_jalan_id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_NOMOR DESC')->result();
         foreach ($hasil as $row) {
             $barang = $this->db->query('SELECT * FROM 
                                                 SURAT_JALAN_BARANG AS SJ
@@ -38,6 +38,11 @@ class Realisasi_sjModel extends CI_Model
 
             $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
         }
+        return $hasil;
+    }
+    public function panggung_realisasi($surat_jalan_id)
+    {
+        $hasil = $this->db->query('SELECT * FROM PANGGUNG WHERE PANGGUNG_REF="' . $surat_jalan_id . '" AND PANGGUNG_STATUS="out" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
         return $hasil;
     }
 

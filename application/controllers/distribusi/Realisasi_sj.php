@@ -53,6 +53,12 @@ class Realisasi_sj extends CI_Controller
         $data = $this->Realisasi_sjModel->list_realisasi($surat_jalan_id);
         echo json_encode($data);
     }
+    public function panggung_realisasi()
+    {
+        $surat_jalan_id = $_GET['surat_jalan_id'];
+        $data = $this->Realisasi_sjModel->panggung_realisasi($surat_jalan_id);
+        echo json_encode($data);
+    }
 
     public function list_realisasi_tabung()
     {

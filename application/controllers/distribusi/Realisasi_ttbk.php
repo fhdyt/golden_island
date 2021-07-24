@@ -54,6 +54,13 @@ class Realisasi_ttbk extends CI_Controller
         echo json_encode($data);
     }
 
+    public function panggung_realisasi()
+    {
+        $surat_jalan_id = $_GET['surat_jalan_id'];
+        $data = $this->Realisasi_ttbkModel->panggung_realisasi($surat_jalan_id);
+        echo json_encode($data);
+    }
+
     public function list_realisasi_tabung()
     {
         $surat_jalan_id = $_GET['surat_jalan_id'];

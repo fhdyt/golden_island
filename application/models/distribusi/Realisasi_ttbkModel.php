@@ -382,7 +382,11 @@ class Realisasi_ttbkModel extends CI_Model
         }
         return true;
     }
-
+    public function panggung_realisasi($surat_jalan_id)
+    {
+        $hasil = $this->db->query('SELECT * FROM PANGGUNG WHERE PANGGUNG_REF="' . $surat_jalan_id . '" AND PANGGUNG_STATUS="in" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        return $hasil;
+    }
     public function klaim_barang($surat_jalan_id)
     {
         $data = array(

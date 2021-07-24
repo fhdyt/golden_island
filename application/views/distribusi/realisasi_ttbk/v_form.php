@@ -175,6 +175,9 @@
                             <input type="hidden" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
                             <input type="hidden" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
                             <input type="hidden" class="form-control expired" name="expired" id="expired" value="" autocomplete="off">
+                            <div class="alert alert-success alert-dismissible panggung_realisasi" hidden>
+                                <p class="panggung_realisasi"></p>
+                            </div>
                             <small class="text-muted">*Penagihan Surat Jalan</small>
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
@@ -375,8 +378,34 @@
 
     $(function() {
         surat_jalan_list()
+        panggung_realisasi()
         detail()
     });
+
+    function panggung_realisasi() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_ttbk/panggung_realisasi?surat_jalan_id=<?= $this->uri->segment('4'); ?>",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                console.log(data)
+                if (data.length == 0) {
+
+                } else {
+                    var total = 0
+                    for (i = 0; i < data.length; i++) {
+                        total += parseInt(data[i].PANGGUNG_JUMLAH)
+                    }
+                    $(".panggung_realisasi").attr("hidden", false)
+                    $(".panggung_realisasi").html("Panggung telah direalisasikan sebanyak : <b>" + total + "</b><br><small>Jika total tidak sesuai, harap simpan kembali realisasi anda.</small>")
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
 
     function surat_jalan_list() {
         $.ajax({
@@ -558,7 +587,7 @@
             },
             success: function(data) {
                 memuat()
-
+                panggung_realisasi()
                 Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
             }
         });

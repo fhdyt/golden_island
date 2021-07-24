@@ -132,6 +132,9 @@
                             <input type="hidden" class="form-control total_realisasi" name="total_realisasi" id="total_realisasi" value="" autocomplete="off">
                             <input type="hidden" class="form-control total_tabung_mr" name="total_tabung_mr" id="total_tabung_mr" value="" autocomplete="off">
                             <input type="hidden" class="form-control expired" name="expired" id="expired" value="" autocomplete="off">
+                            <div class="alert alert-success alert-dismissible panggung_realisasi" hidden>
+                                <p class="panggung_realisasi"></p>
+                            </div>
                             <small class="text-muted">*Penagihan Surat Jalan</small>
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
@@ -300,6 +303,7 @@
     })
     $(function() {
         surat_jalan_list()
+        panggung_realisasi()
         detail()
     });
 
@@ -314,7 +318,6 @@
                 $("tbody#zone_data").empty();
                 $("tfoot#total_data").empty();
                 memuat()
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
@@ -345,7 +348,6 @@
                         var rowspan = 0;
                         var detailLength = data[i].BARANG.length;
                         rowspan += detailLength;
-                        console.log("rowspan " + rowspan)
                         if (data[i].SURAT_JALAN_REALISASI_STATUS == "selesai") {
                             var btn_cetak = "<a class='btn btn-success btn-xs mt-2' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'><i class='right fas fa-print'></i> Cetak Surat Jalan</a>"
                             var btn_ttbk = "<a class='btn btn-secondary btn-xs mt-2' href='<?= base_url(); ?>distribusi/realisasi_ttbk/form/" + data[i].SURAT_JALAN_ID + "'>Realisasi TTBK</a>"
@@ -355,7 +357,6 @@
                         }
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + ">" + no++ + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + ">" + data[i].SURAT_JALAN_NOMOR + "<br>" + btn_cetak + "<br>" + btn_ttbk + "</td></tr>";
-                        console.log(detailLength)
                         var barangLlength = 0;
 
                         for (var j = 0; j < detailLength; j++) {
@@ -393,7 +394,6 @@
             success: function(data) {
                 $("tbody#zone_data_tabung_sj").empty();
                 $("tfoot#zone_data_tabung_sj").empty();
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data_tabung_sj").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                     $(".total_realisasi").val("0")
@@ -452,7 +452,6 @@
                     var total_tabung_tersimpan = parseInt($(".total_realisasi").val()) + parseInt($(".total_tabung_mr").val())
                     var total_tabung_sj = parseInt($(".total_tabung_sj").val())
                     var selisih = total_tabung_sj - total_tabung_tersimpan;
-                    console.log(parseInt($(".total_tabung_sj").val()))
                     for (i = 0; i < selisih; i++) {
                         $("tbody#zone_data_tabung_sj").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
@@ -464,6 +463,31 @@
                             "</tr>");
 
                     }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    function panggung_realisasi() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/distribusi/realisasi_sj/panggung_realisasi?surat_jalan_id=<?= $this->uri->segment('4'); ?>",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                console.log(data)
+                if (data.length == 0) {
+
+                } else {
+                    var total = 0
+                    for (i = 0; i < data.length; i++) {
+                        total += parseInt(data[i].PANGGUNG_JUMLAH)
+                    }
+                    $(".panggung_realisasi").attr("hidden", false)
+                    $(".panggung_realisasi").html("Panggung telah direalisasikan sebanyak : <b>" + total + "</b><br><small>Jika total tidak sesuai, harap simpan kembali realisasi anda.</small>")
                 }
             },
             error: function(x, e) {
@@ -514,7 +538,7 @@
                 },
                 success: function(data) {
                     surat_jalan_list()
-
+                    panggung_realisasi()
                     Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
                 }
             });
@@ -534,7 +558,6 @@
         } else {
             var isi_val = ""
         }
-        console.log(isi_val)
         $.ajax({
             type: "POST",
             url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_sj/add_scan?surat_jalan_id=<?= $this->uri->segment("4"); ?>',
@@ -563,9 +586,6 @@
         var total_tabung_mr = parseInt($(".total_tabung_mr").val())
         var total_sisa = total_tabung_sj - total_realisasi + total_tabung_mr
 
-        console.log(total_tabung_sj)
-        console.log(total_input)
-        console.log(total_sisa)
         if (total_input > total_tabung_sj) {
             Swal.fire({
                 icon: 'error',
@@ -600,7 +620,6 @@
     })
 
     function hapus(id) {
-        console.log(id)
         Swal.fire({
             title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
@@ -637,7 +656,6 @@
     }
 
     function hapus_mr(id) {
-        console.log(id)
         Swal.fire({
             title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
