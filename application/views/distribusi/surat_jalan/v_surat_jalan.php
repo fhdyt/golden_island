@@ -104,10 +104,12 @@
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                             var riwayat_status = "<span class='float-left badge bg-danger'>Belum Teralisasi</span>"
                             var btn_cetak = ""
+                            var btn_panggung = ""
                             var btn_cetak_ttbk = ""
                         } else {
                             var riwayat_status = "<span class='float-left badge bg-success'>Telah terealisasi</span>"
-                            var btn_cetak = "<a class='btn btn-success btn-sm mr-1' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
+                            var btn_cetak = "<a class='btn btn-success btn-sm mr-1 mb-2' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
+                            var btn_panggung = "<a class='btn btn-warning btn-sm mr-1 mb-2' target='_blank' href='<?= base_url(); ?>laporan/jurnal_panggung?sj=" + data[i].SURAT_JALAN_NOMOR.split('/').join("_") + "'>Panggung</a>"
                             var btn_cetak_ttbk = "<a class='btn btn-warning btn-sm' target='_blank' href='<?= base_url(); ?>cetak/cetak_ttbk/" + data[i].SURAT_JALAN_ID + "'>Cetak TTBK</a>"
 
                         }
@@ -142,8 +144,9 @@
                             "<td>" + driver + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_KETERANGAN + "" + jaminan + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm mr-1' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=penjualan'>Lihat</a>" +
+                            "<td><a class='btn btn-primary btn-sm mr-1 mb-2' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=penjualan'>Lihat</a>" +
                             btn_cetak +
+                            btn_panggung +
                             "</td>" +
                             "</tr>");
                     }

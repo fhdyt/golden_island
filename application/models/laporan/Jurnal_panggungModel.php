@@ -39,16 +39,18 @@ class Jurnal_panggungModel extends CI_Model
             $filter_isi_kosong_status = 'AND PANGGUNG_STATUS_ISI="' . $this->input->post('isi_kosong') . '"';
         }
 
-        if (empty($this->input->post('keterangan'))) {
-            $filter_keterangan = "";
-        } else {
-            $filter_keterangan = 'AND PANGGUNG_KETERANGAN LIKE "%' . $this->input->post('keterangan') . '%"';
-        }
-
         $tanggal_dari = $this->input->post("tanggal_dari");
         $tanggal_sampai = $this->input->post("tanggal_sampai");
 
-        $filter_tanggal = 'AND PANGGUNG_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+        if (empty($this->input->post('keterangan'))) {
+            $filter_keterangan = "";
+            $filter_tanggal = 'AND PANGGUNG_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+        } else {
+            $filter_keterangan = 'AND PANGGUNG_KETERANGAN LIKE "%' . $this->input->post('keterangan') . '%"';
+            $filter_tanggal = "";
+        }
+
+
 
         $hasil = $this->db->query('SELECT * FROM 
         PANGGUNG 

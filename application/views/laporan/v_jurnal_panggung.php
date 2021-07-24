@@ -88,7 +88,11 @@
                             <small class="text-muted">Status Kepemilikan Tabung</small>
                         </div>
                         <div class="col-md-4 mt-2">
-                            <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off" required placeholder="Keterangan Panggung">
+                            <input type="text" class="form-control keterangan" name="keterangan" autocomplete="off" required placeholder="Keterangan Panggung" value="<?php if (empty($_GET)) {
+                                                                                                                                                                            // no data passed by get
+                                                                                                                                                                        } else {
+                                                                                                                                                                            echo str_replace("_", "/", $_GET['sj']);
+                                                                                                                                                                        } ?>">
                             <small class="text-muted">Keterangan</small>
                         </div>
                         <div class="col-md-4 mt-2">
