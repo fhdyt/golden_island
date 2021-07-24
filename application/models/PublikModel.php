@@ -17,7 +17,7 @@ class PublikModel extends CI_Model
                             AND NOT SJ.SURAT_JALAN_STATUS="cancel"
                             AND SJ.RECORD_STATUS="AKTIF" 
                             AND SJ.PERUSAHAAN_KODE="BGS" 
-                            AND R.MASTER_RELASI_NAMA LIKE "%RS%"
+                            AND R.MASTER_RELASI_NAMA LIKE "RS%"
                             AND R.RECORD_STATUS="AKTIF" 
                             AND R.PERUSAHAAN_KODE="BGS" 
                             ORDER BY SJ.SURAT_JALAN_NOMOR ')->result();
