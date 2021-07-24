@@ -97,10 +97,12 @@
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                             var riwayat_status = "<span class='float-left badge bg-danger'>Belum Teralisasi</span>"
                             var btn_cetak = ""
+                            var btn_panggung = ""
 
                         } else {
                             var riwayat_status = "<span class='float-left badge bg-success'>Telah terealisasi</span>"
-                            var btn_cetak = "<a class='btn btn-success btn-sm' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
+                            var btn_cetak = "<a class='btn btn-success btn-sm mr-1 mb-2' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
+                            var btn_panggung = "<a class='btn btn-warning btn-sm mr-1 mb-2' target='_blank' href='<?= base_url(); ?>laporan/jurnal_panggung?sj=" + data[i].SURAT_JALAN_NOMOR.split('/').join("_") + "'>Panggung</a>"
 
                         }
 
@@ -128,8 +130,9 @@
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + supplier + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
+                            "<td><a class='btn btn-primary btn-sm mb-2 ' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
                             btn_cetak +
+                            btn_panggung +
                             "</td>" +
                             "</tr>");
                     }
