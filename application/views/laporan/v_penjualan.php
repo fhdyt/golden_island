@@ -166,7 +166,7 @@
                         } else {
                             var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
                             var terbayar = data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR;
-                            var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar)
+                            var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar) - parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN)
                             if (piutang < 0) {
                                 piutang = 0
                             } else {

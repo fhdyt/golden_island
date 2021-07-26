@@ -480,7 +480,7 @@
             success: function(data) {
                 console.log(data)
                 if (data.length == 0) {
-
+                    $(".panggung_realisasi").attr("hidden", true)
                 } else {
                     var total = 0
                     for (i = 0; i < data.length; i++) {

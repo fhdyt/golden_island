@@ -391,7 +391,7 @@
             success: function(data) {
                 console.log(data)
                 if (data.length == 0) {
-
+                    $(".panggung_realisasi").attr("hidden", true)
                 } else {
                     var total = 0
                     for (i = 0; i < data.length; i++) {
@@ -571,26 +571,61 @@
     }
 
     $('.btn-realisasi').on("click", function(e) {
+
+        var total_tabung_sj = parseInt($(".total_tabung_sj").val())
         var total_realisasi = parseInt($(".total_realisasi").val())
         var total_tabung_mr = parseInt($(".total_tabung_mr").val())
-        $.ajax({
-            type: "POST",
-            url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_ttbk/add',
-            dataType: "JSON",
-            beforeSend: function() {
-                memuat()
-            },
-            data: {
-                surat_jalan_id: "<?= $this->uri->segment('4'); ?>",
-                total_realisasi: total_realisasi,
-                total_tabung_mr: total_tabung_mr,
-            },
-            success: function(data) {
-                memuat()
-                panggung_realisasi()
-                Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
-            }
-        });
+
+        if (total_tabung_sj != total_realisasi + total_tabung_mr) {
+            Swal.fire({
+                title: 'TTBK tidak Balance ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: `Lanjutkan`,
+                denyButtonText: `Batal`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_ttbk/add',
+                        dataType: "JSON",
+                        beforeSend: function() {
+                            memuat()
+                        },
+                        data: {
+                            surat_jalan_id: "<?= $this->uri->segment('4'); ?>",
+                            total_realisasi: total_realisasi,
+                            total_tabung_mr: total_tabung_mr,
+                        },
+                        success: function(data) {
+                            memuat()
+                            panggung_realisasi()
+                            Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
+                        }
+                    });
+
+                }
+            })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo base_url(); ?>index.php/distribusi/realisasi_ttbk/add',
+                dataType: "JSON",
+                beforeSend: function() {
+                    memuat()
+                },
+                data: {
+                    surat_jalan_id: "<?= $this->uri->segment('4'); ?>",
+                    total_realisasi: total_realisasi,
+                    total_tabung_mr: total_tabung_mr,
+                },
+                success: function(data) {
+                    memuat()
+                    panggung_realisasi()
+                    Swal.fire('Berhasil', 'Realisasi Tabung Berhasil', 'success')
+                }
+            });
+        }
     })
 
     $('#submit_barang_mr').submit(function(e) {

@@ -123,8 +123,12 @@
                             <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_PAJAK_RUPIAH, 0, ",", "."); ?>,00</td>
                         </tr>
                         <tr>
+                            <td colspan="5" align="right"><b>Potongan</b></td>
+                            <td align="right">Rp. <?= number_format($transaksi[0]->FAKTUR_TRANSAKSI_POTONGAN, 0, ",", "."); ?>,00</td>
+                        </tr>
+                        <tr>
                             <td colspan="5" align="right"><b>Total</b></td>
-                            <td align="right">Rp. <?= number_format(($transaksi[0]->FAKTUR_TRANSAKSI_TOTAL + $transaksi[0]->FAKTUR_TRANSAKSI_PAJAK_RUPIAH), 0, ",", "."); ?>,00</td>
+                            <td align="right">Rp. <?= number_format(($transaksi[0]->FAKTUR_TRANSAKSI_TOTAL + $transaksi[0]->FAKTUR_TRANSAKSI_PAJAK_RUPIAH - $transaksi[0]->FAKTUR_TRANSAKSI_POTONGAN), 0, ",", "."); ?>,00</td>
                         </tr>
                         <?php
                         if ($transaksi[0]->PEMBELIAN_TRANSAKSI_BAYAR == 0) {
