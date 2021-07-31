@@ -315,7 +315,8 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
         if (empty($driver)) {
         } else {
         ?>
-            <hr>
+            <div class="pagebreak"> </div>
+            <br>
             <section class="invoice">
                 <!-- title row -->
                 <center>
