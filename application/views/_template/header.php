@@ -118,8 +118,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="<?= base_url(); ?>" class="nav-link"><i class="fas fa-comment-alt"></i> <?= $this->lang->line('masukan'); ?></a>
+        <li class="nav-item dropdown user-menu">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            <img src="<?php echo base_url(); ?>uploads/perusahaan/<?= $this->session->userdata('PERUSAHAAN_KODE') ?>.png" class="user-image " alt="User Image">
+            <span class="d-none d-md-inline"><?= detail_perusahaan()[0]->PERUSAHAAN_NAMA; ?></span>
+          </a>
         </li>
         <!-- <li class="nav-item d-none d-sm-inline-block">
           <a class="nav-link btn-bantuan"><i class="fas fa-question-circle"></i> <?= $this->lang->line('bantuan'); ?></a>
@@ -154,9 +157,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" role="button">
-            <i class="fas fa-user"></i> <?= $this->session->userdata('USER_NAMA') ?>
+        <li class="nav-item dropdown user-menu">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            <img src="<?php echo base_url(); ?>uploads/user/<?= detail_user()[0]->USER_FOTO ?>" class="user-image " alt="User Image">
+            <span class="d-none d-md-inline"><?= $this->session->userdata('USER_NAMA') ?></span>
           </a>
         </li>
         <!-- Messages Dropdown Menu -->
