@@ -6,8 +6,46 @@ if (empty($this->uri->segment('4'))) {
 }
 
 ?>
+<div class="modal fade" id="relasibaruModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Relasi</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1"><?= $this->lang->line('nama'); ?></label>
+                        <input type="text" class="form-control nama_relasi" name="nama_relasi" autocomplete="off" required>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1"><?= $this->lang->line('alamat'); ?></label>
+                        <input type="text" class="form-control alamat_relasi" name="alamat_relasi" autocomplete="off">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">No. HP</label>
+                        <input type="text" class="form-control hp_relasi" name="hp_relasi" autocomplete="off">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button class="btn btn-primary" id="btn-relasi-baru"><?= $this->lang->line('simpan'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
-<div class="modal fade" id="relasiModal">
+<div class=" modal fade" id="relasiModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -91,7 +129,7 @@ if (empty($this->uri->segment('4'))) {
                                                     }
                                                     ?>
                                                 </select>
-                                                <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                                                <small class="text-muted"><a class="tambah_relasi">Tambah Relasi Baru</a>.</small>
                                             </div>
                                         </div>
                                     <?php
@@ -281,6 +319,31 @@ if (empty($this->uri->segment('4'))) {
 <!-- /.content-wrapper -->
 
 <script>
+    $('#btn-relasi-baru').on("click", function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/distribusi/surat_jalan/add_relasi',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                nama_relasi: $('.nama_relasi').val(),
+                alamat_relasi: $('.alamat_relasi').val(),
+                hp_relasi: $('.hp_relasi').val(),
+            },
+            success: function(data) {
+                location.reload();
+            }
+        });
+    })
+
+    $(".tambah_relasi").on("click", function() {
+        $("#submit").trigger("reset");
+        $(".id").val("")
+        $("#relasibaruModal").modal("show")
+    })
     $(function() {
         detail()
         barang_list()

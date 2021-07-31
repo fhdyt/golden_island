@@ -247,19 +247,19 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
                 echo '</table>';
             }
             ?>
-            <div class="row invoice-info mb-4">
+            <br>
+            <div class="row invoice-info mb-4 mt-4">
                 <div class="col-sm-4 invoice-col">
                     <?= $this->lang->line('keterangan'); ?>
                     <address>
                         <?php echo nl2br($detail[0]->SURAT_JALAN_KETERANGAN); ?>
                     </address>
                 </div>
-                <div class="col-sm-3 invoice-col">
-                </div>
-                <div class="col-sm-5 invoice-col">
-
+                <div class="col-sm-8 invoice-col text-right">
+                    <b>Total :</b> Rp. ..........................................................
                 </div>
             </div>
+            <br>
             <div class="row invoice-info">
                 <div class="col-4 text-center">
                     <p>Diterima oleh :</p>

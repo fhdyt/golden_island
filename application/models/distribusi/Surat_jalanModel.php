@@ -238,4 +238,25 @@ class Surat_jalanModel extends CI_Model
         P.SURAT_JALAN_ID="' . $id . '" AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY P.SURAT_JALAN_BARANG_INDEX DESC')->result();
         return $hasil;
     }
+
+    public function add_relasi()
+    {
+        $data = array(
+            'MASTER_RELASI_ID' => create_id(),
+            'MASTER_RELASI_QR_ID' => "",
+            'MASTER_RELASI_NAMA' => $this->input->post('nama_relasi'),
+            'MASTER_RELASI_ALAMAT' => $this->input->post('alamat_relasi'),
+            'MASTER_RELASI_HP' => $this->input->post('hp_relasi'),
+            'MASTER_RELASI_NPWP' => $this->input->post('npwp'),
+            'MASTER_RELASI_KTP' => $this->input->post('ktp'),
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('MASTER_RELASI', $data);
+        return $result;
+    }
 }
