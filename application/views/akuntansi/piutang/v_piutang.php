@@ -18,8 +18,22 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <a href="<?= base_url() ?>akuntansi/piutang/laporan" class="btn btn-secondary btn_akun mb-2">Laporan Piutang Bulanan</a>
+                        </div>
+                        <div class="col-md-7">
+                            <select name="relasi" id="relasi" class="form-control relasi select2" style="width: 100%;" required>
+                                <option value="">-- Pilih Relasi --</option>
+                                <?php foreach (relasi_list() as $row) {
+                                ?>
+                                    <option value="<?= $row->MASTER_RELASI_ID; ?>" id_relasi="<?= $row->MASTER_RELASI_QR_ID; ?>"><?= $row->MASTER_RELASI_NAMA; ?> - <?= $row->MASTER_RELASI_QR_ID; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-outline-secondary btn_akun mb-2 rincian_hutang">Rincian Piutang</a>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
@@ -49,6 +63,10 @@
 <script>
     $(function() {
         relasi_list()
+    })
+
+    $(".rincian_hutang").on("click", function() {
+        window.location.href = '<?= base_url(); ?>akuntansi/piutang/hutang/' + $(".relasi").val() + ''
     })
 
     function relasi_list() {

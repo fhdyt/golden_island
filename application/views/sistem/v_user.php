@@ -228,6 +228,7 @@
     }
 
     $('.perusahaan_filter').change(function() {
+        memuat()
         user_list()
     });
 

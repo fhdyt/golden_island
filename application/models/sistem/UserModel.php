@@ -11,7 +11,6 @@ class UserModel extends CI_Model
         }
 
         $hasil = $this->db->query('SELECT * FROM USER WHERE RECORD_STATUS="AKTIF" ' . $filter . ' ORDER BY USER_INDEX DESC ')->result();
-        echo $filter;
         return $hasil;
     }
 

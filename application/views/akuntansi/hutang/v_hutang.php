@@ -18,8 +18,22 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <a href="<?= base_url() ?>akuntansi/hutang/laporan" class="btn btn-secondary btn_akun mb-2">Laporan Hutang Bulanan</a>
+                        </div>
+                        <div class="col-md-7">
+                            <select name="supplier" id="supplier" class="form-control supplier select2" style="width: 100%;" required>
+                                <option value="">-- Pilih Supplier --</option>
+                                <?php foreach (supplier_list() as $row) {
+                                ?>
+                                    <option value="<?= $row->MASTER_SUPPLIER_ID; ?>"><?= $row->MASTER_SUPPLIER_NAMA; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-outline-secondary btn_akun mb-2 rincian_hutang">Rincian Hutang</a>
                         </div>
                     </div>
                     <table id="example2" class="table table-bordered table-striped">
@@ -69,6 +83,10 @@
             reverse: true
         });
     });
+
+    $(".rincian_hutang").on("click", function() {
+        window.location.href = '<?= base_url(); ?>akuntansi/hutang/hutang/' + $(".supplier").val() + ''
+    })
 
     function hutang_list() {
         $.ajax({
@@ -202,11 +220,11 @@
         });
     }
 
-    $('.supplier').change(function() {
-        memuat()
-        var id = $(".supplier").val()
-        pi_list(id)
-    });
+    // $('.supplier').change(function() {
+    //     memuat()
+    //     var id = $(".supplier").val()
+    //     pi_list(id)
+    // });
 
     $('.pi').change(function() {
         memuat()

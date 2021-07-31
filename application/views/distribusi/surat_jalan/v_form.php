@@ -139,7 +139,7 @@ if (empty($this->uri->segment('4'))) {
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?= $this->lang->line('Supplier'); ?></label>
                                                 <select name="supplier" id="supplier" class="form-control supplier select2" style="width: 100%;" required>
-                                                    <option value="">-- Pilih Relasi --</option>
+                                                    <option value="">-- Pilih Supplier --</option>
                                                     <?php foreach (supplier_list() as $row) {
                                                     ?>
                                                         <option value="<?= $row->MASTER_SUPPLIER_ID; ?>"><?= $row->MASTER_SUPPLIER_NAMA; ?></option>
