@@ -4,7 +4,14 @@ class UserModel extends CI_Model
 
     public function list()
     {
-        $hasil = $this->db->query('SELECT * FROM USER WHERE RECORD_STATUS="AKTIF" ORDER BY USER_INDEX DESC ')->result();
+        if (empty($this->input->post("perusahaan"))) {
+            $filter = "";
+        } else {
+            $filter = 'AND PERUSAHAAN_KODE="' . $this->input->post("perusahaan") . '"';
+        }
+
+        $hasil = $this->db->query('SELECT * FROM USER WHERE RECORD_STATUS="AKTIF" ' . $filter . ' ORDER BY USER_INDEX DESC ')->result();
+        echo $filter;
         return $hasil;
     }
 

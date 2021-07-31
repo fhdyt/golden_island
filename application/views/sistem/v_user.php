@@ -82,7 +82,24 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <button type="button" class="btn btn-secondary btn_user mb-2">Tambah User</button>
+                    <div class="row mb-2">
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-secondary btn_user mb-2">Tambah User</button>
+                        </div>
+                        <div class="col-md-10">
+                            <select name="perusahaan_filter" id="perusahaan_filter" class="form-control perusahaan_filter select2" style="width: 100%;" required>
+                                <option value="">-- Perusahaan --</option>
+                                <?php
+                                foreach (perusahaan() as $row) {
+                                ?>
+                                    <option value="<?= $row->PERUSAHAAN_KODE; ?>"><?= $row->PERUSAHAAN_NAMA; ?> (<?= $row->PERUSAHAAN_KODE; ?>)</option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -117,10 +134,14 @@
     });
 
     function user_list() {
+        console.log($(".perusahaan").val())
         $.ajax({
-            type: 'ajax',
+            type: 'POST',
             url: "<?php echo base_url() ?>index.php/sistem/user/list",
             async: false,
+            data: {
+                perusahaan: $(".perusahaan_filter").val()
+            },
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data").empty();
@@ -205,6 +226,10 @@
             }
         })
     }
+
+    $('.perusahaan_filter').change(function() {
+        user_list()
+    });
 
     function detail(id) {
         $.ajax({
