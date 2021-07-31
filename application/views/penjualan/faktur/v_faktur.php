@@ -78,24 +78,25 @@
                         </div>
 
                     </div>
-                </div>
-                <table id="example2" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th><?= $this->lang->line('tanggal'); ?></th>
-                            <th>Nomor Surat Jalan</th>
-                            <th><?= $this->lang->line('Relasi'); ?></th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="zone_data">
-                        <tr>
+                    <table id="example2" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
+                                <th>Nomor Surat Jalan</th>
+                                <th><?= $this->lang->line('Relasi'); ?></th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="zone_data">
+                            <tr>
 
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
             <!-- /.card-body -->
         </div>
