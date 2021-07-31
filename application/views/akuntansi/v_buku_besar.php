@@ -1,3 +1,8 @@
+<style>
+    .table {
+        font-size: small;
+    }
+</style>
 <div class="modal fade" id="akunModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -189,7 +194,7 @@
                             <button type="button" class="btn btn-success btn_transfer mb-2"><i class="fas fa-exchange-alt"></i> Transfer</button>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th><?= $this->lang->line('tanggal'); ?></th>

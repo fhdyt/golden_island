@@ -1,3 +1,8 @@
+<style>
+    .table {
+        font-size: small;
+    }
+</style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -58,7 +63,7 @@
                             <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>

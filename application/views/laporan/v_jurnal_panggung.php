@@ -1,6 +1,6 @@
 <style>
     .table {
-        font-size: 14px;
+        font-size: small;
     }
 </style>
 

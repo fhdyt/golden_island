@@ -35,7 +35,7 @@
                             <small class="text-muted">Tanggal Sampai.</small>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="example2" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>No.</th>

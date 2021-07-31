@@ -1,7 +1,7 @@
 <style>
-    /* .table {
-        font-size: 14px;
-    } */
+    .table {
+        font-size: small;
+    }
 </style>
 <div class="modal fade" id="pajakModal">
     <div class="modal-dialog">
@@ -208,6 +208,7 @@
         $("#pajakModal").modal("show")
     })
     $(function() {
+        $('a.menu-btn').click()
         jaminan_list();
         $(".jumlah").mask("#.##0", {
             reverse: true
@@ -287,7 +288,7 @@
                         $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].FAKTUR_JAMINAN_NOMOR + "</td>" +
-                            "<td>" + nama + "<br><small class='text-muted'>Pemesanan Terakhir : " + selisih_tanggal + "</small></td>" +
+                            "<td>" + nama + "<br><small>Pemesanan Terakhir : " + selisih_tanggal + "</small></td>" +
                             "<td>" + data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR + "<br>" + status + "</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].FAKTUR_JAMINAN_JUMLAH + "</td>" +

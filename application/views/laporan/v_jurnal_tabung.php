@@ -1,4 +1,9 @@
 <!-- Content Wrapper. Contains page content -->
+<style>
+    .table {
+        font-size: small;
+    }
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">

@@ -86,7 +86,7 @@
                     </div>
 
 
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -156,7 +156,6 @@
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_RELASI_NAMA + "<br><p class='text-success'>" + data[i].MASTER_RELASI_QR_ID + "</p><small class='text-muted'>Pemesanan Terakhir : " + selisih_tanggal + "</small></td>" +
                             "<td>" + data[i].MASTER_RELASI_ALAMAT + "<br>(" + data[i].MASTER_RELASI_HP + ")</td>" +
-                            "<td></td>" +
                             "<td>" +
                             // "<a class='btn btn-danger btn-sm mb-2' onclick='hapus(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm mb-2' onclick='detail(\"" + data[i].MASTER_RELASI_ID + "\")'><i class='fas fa-edit'></i></a> " +

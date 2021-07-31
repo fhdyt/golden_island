@@ -36,7 +36,7 @@
                             <a class="btn btn-outline-secondary btn_akun mb-2 rincian_hutang">Rincian Piutang</a>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>

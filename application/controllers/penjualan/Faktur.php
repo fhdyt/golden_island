@@ -93,6 +93,12 @@ class Faktur extends CI_Controller
         $data = $this->FakturModel->edit_harga_jaminan();
         echo json_encode($data);
     }
+
+    public function edit_harga_barang()
+    {
+        $data = $this->FakturModel->edit_harga_barang();
+        echo json_encode($data);
+    }
     public function add_sj_scan()
     {
         $data = $this->FakturModel->add_sj_scan();

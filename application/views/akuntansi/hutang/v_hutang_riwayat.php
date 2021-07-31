@@ -125,7 +125,7 @@
                             <button type="button" class="btn btn-warning btn_saldo_piutang mb-2">Tambah Hutang</button>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>

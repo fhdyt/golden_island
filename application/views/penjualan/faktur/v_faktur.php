@@ -79,7 +79,7 @@
 
                     </div>
                 </div>
-                <table id="example2" class="table table-bordered table-striped">
+                <table id="example2" class="table table-striped">
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -201,6 +201,38 @@
         });
     }
 
+    function buat_faktur(surat_jalan_nomor) {
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url() ?>index.php/penjualan/faktur/add_sj_scan",
+            async: false,
+            dataType: 'json',
+            data: {
+                surat_jalan_nomor: surat_jalan_nomor,
+            },
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                console.log(data)
+                if (data == "error") {
+                    memuat()
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Nomor Surat Jalan tidak dapat di proses'
+                    })
+                } else {
+
+                    window.location.href = '<?= base_url(); ?>penjualan/faktur/form/' + data + ''
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
     function surat_jalan_baru_list() {
         $.ajax({
             type: 'ajax',
@@ -227,6 +259,7 @@
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small>Keterangan : " + data[i].SURAT_JALAN_KETERANGAN + "</small></td>" +
                             "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
                             "<td>" + data[i].OLEH[0].USER_NAMA + "</td>" +
+                            // "<td><a class='btn btn-warning btn-sm' onclick='buat_faktur(\"" + data[i].SURAT_JALAN_NOMOR + "\")'>Buat Faktur</td>" +
                             "</tr>");
                     }
                 }

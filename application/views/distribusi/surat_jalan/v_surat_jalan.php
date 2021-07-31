@@ -1,3 +1,8 @@
+<style>
+    .table {
+        font-size: small;
+    }
+</style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -36,7 +41,7 @@
                             <small class="text-muted">Tanggal Sampai.</small>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -45,6 +50,7 @@
                                 <th>Driver</th>
                                 <th><?= $this->lang->line('Relasi'); ?></th>
                                 <th>Keterangan</th>
+                                <th>Oleh</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -63,6 +69,7 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
+        $('a.menu-btn').click()
         po_list();
     });
 
@@ -137,13 +144,25 @@
                         } else {
                             var jaminan = ""
                         }
+
+                        if (data[i].OLEH_REALISASI.length == 0) {
+                            var oleh_realisasi = "-"
+                        } else {
+                            var oleh_realisasi = data[0].OLEH_REALISASI[0].USER_NAMA
+                        }
+                        if (data[i].OLEH_TTBK.length == 0) {
+                            var oleh_ttbk = "-"
+                        } else {
+                            var oleh_ttbk = data[0].OLEH_TTBK[0].USER_NAMA
+                        }
                         $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small  class='text-muted'>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
+                            "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_KETERANGAN + "" + jaminan + "</td>" +
+                            "<td>Dibuat : " + data[i].OLEH[0].USER_NAMA + "<br>Realisasi : " + oleh_realisasi + "<br>TTBK : " + oleh_ttbk + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mr-1 mb-2' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=penjualan'>Lihat</a>" +
                             btn_cetak +
                             btn_panggung +

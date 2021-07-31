@@ -150,6 +150,7 @@ class Realisasi_sjModel extends CI_Model
 
         $data = array(
             'SURAT_JALAN_REALISASI_STATUS' => "selesai",
+            'SURAT_JALAN_REALISASI_OLEH' => $this->session->userdata('USER_ID'),
             'SURAT_JALAN_REALISASI_TANGGAL' => date("Y-m-d G:i:s"),
             'SURAT_JALAN_REALISASI_JUMLAH_MP' => $this->input->post("total_realisasi"),
             'SURAT_JALAN_REALISASI_JUMLAH_MR' => $this->input->post("total_tabung_mr"),

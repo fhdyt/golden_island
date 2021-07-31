@@ -32,14 +32,13 @@
                     </div>
 
 
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th><?= $this->lang->line('alamat'); ?></th>
                                 <th>No. HP</th>
-                                <th>NPWP</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -101,7 +100,6 @@
                             "<td>" + data[i].MASTER_RELASI_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_ALAMAT + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_HP + "</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NPWP + "</td>" +
                             "<td>" +
                             "<a class='btn btn-secondary btn-sm mb-2' href='<?php echo base_url(); ?>manajemen_tabung/kontrol_tabung/detail/" + data[i].MASTER_RELASI_ID + "'><i class='fas fa-vial'></i> Tabung</a></td>" +
                             "</tr>");

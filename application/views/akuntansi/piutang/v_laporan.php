@@ -1,6 +1,6 @@
 <style>
     .table {
-        font-size: 13px;
+        font-size: small;
     }
 </style>
 <!-- Content Wrapper. Contains page content -->
@@ -55,8 +55,9 @@
                             <tr>
                                 <th rowspan="2" style="text-align:center; vertical-align:middle">No.</th>
                                 <th rowspan="2" style="text-align:center; vertical-align:middle"><?= $this->lang->line('nama'); ?></th>
+                                <th rowspan="2" style="text-align:center; vertical-align:middle">#</th>
                                 <th style="text-align:center; vertical-align:middle" colspan="12">Bulan</th>
-                                <th rowspan="2" style="text-align:center; vertical-align:middle">Total</th>
+                                <th rowspan="2" style="text-align:center; vertical-align:middle">Sisa</th>
                             </tr>
                             <tr>
                                 <th>Januari</th>
@@ -155,26 +156,28 @@
                         total_november += parseInt(data[i].November)
                         total_desember += parseInt(data[i].Desember)
                         total += parseInt(data[i].TOTAL)
+
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].MASTER_RELASI_NAMA + "<br><p class='text-success'>" + data[i].MASTER_RELASI_QR_ID + "</p></td>" +
-                            "<td>" + number_format(data[i].Januari) + "</td>" +
-                            "<td>" + number_format(data[i].Februari) + "</td>" +
-                            "<td>" + number_format(data[i].Maret) + "</td>" +
-                            "<td>" + number_format(data[i].April) + "</td>" +
-                            "<td>" + number_format(data[i].Mei) + "</td>" +
-                            "<td>" + number_format(data[i].Juni) + "</td>" +
-                            "<td>" + number_format(data[i].Juli) + "</td>" +
-                            "<td>" + number_format(data[i].Agustus) + "</td>" +
-                            "<td>" + number_format(data[i].September) + "</td>" +
-                            "<td>" + number_format(data[i].Oktober) + "</td>" +
-                            "<td>" + number_format(data[i].November) + "</td>" +
-                            "<td>" + number_format(data[i].Desember) + "</td>" +
-                            "<td>" + number_format(data[i].TOTAL) + "</td>" +
+                            "<td style='vertical-align:middle'>" + data[i].MASTER_RELASI_NAMA + "<br><p class='text-success'>" + data[i].MASTER_RELASI_QR_ID + "</p></td>" +
+                            "<td style='vertical-align:middle'>Piutang<br><b>Bayar</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Januari) + "<br><b>" + number_format(data[i].bayar_Januari) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Februari) + "<br><b>" + number_format(data[i].bayar_Februari) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Maret) + "<br><b>" + number_format(data[i].bayar_Maret) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].April) + "<br><b>" + number_format(data[i].bayar_April) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Mei) + "<br><b>" + number_format(data[i].bayar_Mei) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Juni) + "<br><b>" + number_format(data[i].bayar_Juni) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Juli) + "<br><b>" + number_format(data[i].bayar_Juli) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Agustus) + "<br><b>" + number_format(data[i].bayar_Agustus) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].September) + "<br><b>" + number_format(data[i].bayar_September) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Oktober) + "<br><b>" + number_format(data[i].bayar_Oktober) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].November) + "<br><b>" + number_format(data[i].bayar_November) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].Desember) + "<br><b>" + number_format(data[i].bayar_Desember) + "</b></td>" +
+                            "<td style='vertical-align:middle'>" + number_format(data[i].TOTAL) + "<br></td>" +
                             "</tr>");
                     }
                     $("tbody#zone_data").append("<tr class=''>" +
-                        "<td colspan='2' style='text-align:right'><b>Total</b></td>" +
+                        "<td colspan='3' style='text-align:right'><b>Total</b></td>" +
                         "<td>" + number_format(total_januari) + "</td>" +
                         "<td>" + number_format(total_februari) + "</td>" +
                         "<td>" + number_format(total_maret) + "</td>" +

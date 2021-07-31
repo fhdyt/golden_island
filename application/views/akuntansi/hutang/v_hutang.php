@@ -19,7 +19,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-3">
-                            <a href="<?= base_url() ?>akuntansi/hutang/laporan" class="btn btn-secondary btn_akun mb-2">Laporan Hutang Bulanan</a>
+                            <a href="<?= base_url() ?>akuntansi/hutang/laporan" class="btn btn-secondary mb-2">Laporan Hutang Bulanan</a>
                         </div>
                         <div class="col-md-7">
                             <select name="supplier" id="supplier" class="form-control supplier select2" style="width: 100%;" required>
@@ -36,7 +36,7 @@
                             <a class="btn btn-outline-secondary btn_akun mb-2 rincian_hutang">Rincian Hutang</a>
                         </div>
                     </div>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>

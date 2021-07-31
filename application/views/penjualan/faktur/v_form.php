@@ -547,6 +547,7 @@ if (empty($this->uri->segment('4'))) {
             dataType: 'json',
             success: function(data) {
                 $("tbody#zone_data_barang").empty();
+                $("tfoot#total_rp").empty()
                 console.log(data)
                 if (data.length === 0) {
                     $(".total").val("0")
@@ -569,7 +570,8 @@ if (empty($this->uri->segment('4'))) {
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
                             "<td align='right'>" + data[i].FAKTUR_BARANG_QUANTITY + "</td>" +
-                            "<td align='right'>" + number_format(harga) + "</td>" +
+                            "<td><input type='text' class='form-control edit_harga_barang_" + data[i].FAKTUR_BARANG_ID + "' id='edit_harga' value='" + number_format(harga) + "' onfocusout='edit_harga_barang(\"" + data[i].FAKTUR_BARANG_ID + "\")'/></td>" +
+                            // "<td align='right'>" + number_format(harga) + "</td>" +
                             "<td align='right'>" + number_format(total) + "</td>" +
                             "</tr>");
                     }
@@ -615,8 +617,8 @@ if (empty($this->uri->segment('4'))) {
                             "<td style='vertical-align:middle'>" + data[i].FAKTUR_JAMINAN_NOMOR + "</td>" +
                             "<td style='vertical-align:middle'>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
                             "<td align='right' style='vertical-align:middle'>" + data[i].FAKTUR_JAMINAN_JUMLAH + "</td>" +
-                            // "<td><input type='text' class='form-control edit_harga_" + data[i].FAKTUR_JAMINAN_ID + "' id='edit_harga' jumlah='" + data[i].FAKTUR_JAMINAN_JUMLAH + "' value='" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "' onfocusout='edit_harga(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'/></td>" +
-                            "<td align='right' style='vertical-align:middle'>" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "</td>" +
+                            "<td><input type='text' class='form-control edit_harga_" + data[i].FAKTUR_JAMINAN_ID + "' id='edit_harga' jumlah='" + data[i].FAKTUR_JAMINAN_JUMLAH + "' value='" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "' onfocusout='edit_harga(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'/></td>" +
+                            //"<td align='right' style='vertical-align:middle'>" + number_format(data[i].FAKTUR_JAMINAN_HARGA) + "</td>" +
                             "<td align='right' style='vertical-align:middle'>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
                             "</tr>");
                     }
@@ -649,8 +651,29 @@ if (empty($this->uri->segment('4'))) {
             success: function(data) {
                 memuat()
                 jaminan_list()
-                //Swal.fire('Berhasil', '', 'success')
                 kalkulasi_seluruh()
+            }
+        });
+    }
+
+    function edit_harga_barang(id) {
+        console.log(id)
+        console.log()
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/penjualan/faktur/edit_harga_barang',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                id: id,
+                harga: $(".edit_harga_barang_" + id + "").val(),
+                relasi: $(".relasi").val(),
+            },
+            success: function(data) {
+                memuat()
+                barang_list()
             }
         });
     }

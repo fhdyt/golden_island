@@ -179,12 +179,12 @@
                                 <p class="panggung_realisasi"></p>
                             </div>
                             <small class="text-muted">*Penagihan Surat Jalan</small>
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="example2" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th rowspan="2" style="vertical-align: middle;">No.</th>
-                                        <th rowspan="2" style="text-align: center; vertical-align: middle;">Nomor Surat Jalan</th>
-                                        <th rowspan="2" style="text-align: center; vertical-align: middle;">Jenis Barang</th>
+                                        <th rowspan="2" style=" vertical-align: middle;">Nomor Surat Jalan</th>
+                                        <th rowspan="2" style=" vertical-align: middle;">Jenis Barang</th>
                                         <th colspan="3" style="text-align: center; vertical-align: middle;">Quantity Surat Jalan</th>
                                         <th rowspan="2" style="text-align: center; vertical-align: middle;">Total</th>
                                     </tr>
@@ -210,7 +210,7 @@
                                     <button type="button" class="btn btn-secondary btn_klaim mb-2">Klaim Tabung</button>
                                 </div>
                             </div>
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="example2" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>No.</th>

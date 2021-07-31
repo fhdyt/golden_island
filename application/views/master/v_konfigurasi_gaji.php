@@ -59,7 +59,7 @@ if (empty($this->uri->segment('4'))) {
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Uang Makan</label>
+                                            <label for="exampleInputEmail1">Uang Makan <small class="text-muted">/Hari</small></label>
                                             <input type="text" class="form-control uang_makan" name="uang_makan" autocomplete="off" value="0" required onkeyup="kalkulasi_total()">
                                         </div>
                                     </div>

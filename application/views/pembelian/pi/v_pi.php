@@ -1,3 +1,8 @@
+<style>
+    .table {
+        font-size: small;
+    }
+</style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -34,24 +39,27 @@
                             <small class="text-muted">Tanggal Sampai.</small>
                         </div>
                     </div>
+                    <table id="example2" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th><?= $this->lang->line('tanggal'); ?></th>
+                                <th>Nomor Faktur</th>
+                                <th>Jenis Pembelian</th>
+                                <th><?= $this->lang->line('supplier'); ?></th>
+                                <th>Total</th>
+                                <th>Bayar</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="zone_data">
+                            <tr>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <table id="example2" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th><?= $this->lang->line('tanggal'); ?></th>
-                            <th>Nomor Faktur</th>
-                            <th>Jenis Pembelian</th>
-                            <th><?= $this->lang->line('supplier'); ?></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="zone_data">
-                        <tr>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
+
             <!-- /.card-body -->
         </div>
     </div><!-- /.container-fluid -->
@@ -93,12 +101,21 @@
                         } else {
                             var status = "<span class='float-left badge bg-success'>Open</span>"
                         }
+                        if (data[i].TRANSAKSI.length == 0) {
+                            var total = "0"
+                            var bayar = "0"
+                        } else {
+                            var total = number_format(parseInt(data[i].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_TOTAL) + parseInt(data[i].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_PAJAK_RUPIAH))
+                            var bayar = number_format(data[i].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR)
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].PEMBELIAN_NOMOR + "<br>" + status + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
+                            "<td>" + total + "</td>" +
+                            "<td>" + bayar + "</td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>pembelian/pi/form_pi/" + data[i].PI_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
                             "</td>" +
                             "</tr>");

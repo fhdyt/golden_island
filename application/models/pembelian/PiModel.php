@@ -13,6 +13,9 @@ class PiModel extends CI_Model
             $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TANGGAL = tanggal($row->PEMBELIAN_TANGGAL);
             $row->SUPPLIER = $supplier;
+
+            $transaksi = $this->db->query('SELECT * FROM PEMBELIAN_TRANSAKSI WHERE PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND PEMBELIAN_JENIS="PI" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+            $row->TRANSAKSI = $transaksi;
         }
         return $hasil;
     }

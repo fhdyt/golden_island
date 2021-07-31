@@ -63,14 +63,13 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <button type="button" class="btn btn-secondary btn_supplier mb-2">Tambah Supplier</button>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th><?= $this->lang->line('nama'); ?></th>
                                 <th><?= $this->lang->line('alamat'); ?></th>
                                 <th>No. HP</th>
-                                <th>NPWP</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -117,7 +116,6 @@
                             "<td>" + data[i].MASTER_SUPPLIER_NAMA + "</td>" +
                             "<td>" + data[i].MASTER_SUPPLIER_ALAMAT + "</td>" +
                             "<td>" + data[i].MASTER_SUPPLIER_HP + "</td>" +
-                            "<td>" + data[i].MASTER_SUPPLIER_NPWP + "</td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_SUPPLIER_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_SUPPLIER_ID + "\")'><i class='fas fa-edit'></i></a> " +
                             "</tr>");

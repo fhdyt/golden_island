@@ -297,6 +297,39 @@ class FakturModel extends CI_Model
                 );
 
                 $this->db->insert('FAKTUR_BARANG', $data);
+
+                $jaminan = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  ')->result();
+                if ($jaminan[0]->SURAT_JALAN_JAMINAN == 'Yes') {
+                    $nomor_jaminan = nomor_jaminan($this->input->post('tanggal'));
+                    $harga_dasar = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1');
+                    $harga = $this->db->query('SELECT * FROM MASTER_HARGA WHERE MASTER_RELASI_ID="' . $jaminan[0]->MASTER_RELASI_ID . '" AND MASTER_BARANG_ID="' . $row->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1');
+                    if ($harga->num_rows() == 0) {
+                        $harga_dasar_jaminan = $harga_dasar->result();
+                        $harga_jaminan = $harga_dasar_jaminan[0]->MASTER_BARANG_HARGA_JAMINAN;
+                    } else {
+                        $harga_satuan = $harga->result();
+                        $harga_jaminan = $harga_satuan[0]->MASTER_HARGA_JAMINAN;
+                    }
+                    $data = array(
+                        'FAKTUR_JAMINAN_ID' => create_id(),
+                        'MASTER_RELASI_ID' => $jaminan[0]->MASTER_RELASI_ID,
+                        'AKUN_ID' => $this->input->post('akun'),
+                        'FAKTUR_JAMINAN_NOMOR' => $nomor_jaminan,
+                        'SURAT_JALAN_ID' => $jaminan[0]->SURAT_JALAN_ID,
+                        'FAKTUR_JAMINAN_TANGGAL' => $this->input->post('tanggal'),
+                        'FAKTUR_JAMINAN_KETERANGAN' => "JAMINAN NO. " . $nomor_jaminan . "",
+                        'FAKTUR_JAMINAN_JUMLAH'   => $row->SURAT_JALAN_BARANG_QUANTITY - $row->SURAT_JALAN_BARANG_QUANTITY_KLAIM,
+                        'FAKTUR_JAMINAN_HARGA' => $harga_jaminan,
+                        'FAKTUR_JAMINAN_TOTAL_RUPIAH' => ($row->SURAT_JALAN_BARANG_QUANTITY - $row->SURAT_JALAN_BARANG_QUANTITY_KLAIM) * $harga_jaminan,
+                        'FAKTUR_JAMINAN_REF' => $faktur_id,
+
+                        'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                        'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                        'RECORD_STATUS' => "DRAFT",
+                        'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+                    );
+                    $this->db->insert('FAKTUR_JAMINAN', $data);
+                }
             }
 
             $data = array(
@@ -438,6 +471,62 @@ class FakturModel extends CI_Model
 
         $this->db->where('FAKTUR_JAMINAN_ID', $this->input->post('id'));
         $result = $this->db->update('FAKTUR_JAMINAN', $data_barang);
+    }
+
+    public function edit_harga_barang()
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        FAKTUR_BARANG
+        WHERE FAKTUR_BARANG_ID="' . $this->input->post('id') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        $cek = $this->db->query('SELECT * FROM MASTER_HARGA WHERE MASTER_RELASI_ID="' . $this->input->post('relasi') . '" AND MASTER_BARANG_ID="' . $hasil[0]->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"');
+        if ($cek->num_rows() == 0) {
+            $data = array(
+                'MASTER_HARGA_ID' => create_id(),
+                'MASTER_RELASI_ID' => $this->input->post('relasi'),
+                'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
+                'MASTER_HARGA_HARGA' => str_replace(".", "", $this->input->post('harga')),
+                'MASTER_HARGA_JAMINAN' => "0",
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+
+            $this->db->insert('MASTER_HARGA', $data);
+        } else {
+            $harga = $cek->result();
+            $data_delete = array(
+                'DELETE_WAKTU' => date("Y-m-d G:i:s"),
+                'DELETE_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "DELETE",
+            );
+
+            $this->db->where('MASTER_HARGA_ID', $harga[0]->MASTER_HARGA_ID);
+            $this->db->update('MASTER_HARGA', $data_delete);
+
+            $data = array(
+                'MASTER_HARGA_ID' => create_id(),
+                'MASTER_RELASI_ID' => $this->input->post('relasi'),
+                'MASTER_BARANG_ID' => $hasil[0]->MASTER_BARANG_ID,
+                'MASTER_HARGA_HARGA' => str_replace(".", "", $this->input->post('harga')),
+                'MASTER_HARGA_JAMINAN' => "0",
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+
+            $this->db->insert('MASTER_HARGA', $data);
+        }
+        $data_barang = array(
+            'FAKTUR_BARANG_HARGA' => str_replace(".", "", $this->input->post('harga')),
+            //         'FAKTUR_JAMINAN_TOTAL_RUPIAH' => str_replace(".", "", $this->input->post('harga')) * $this->input->post('jumlah'),
+        );
+
+        $this->db->where('FAKTUR_BARANG_ID', $this->input->post('id'));
+        $result = $this->db->update('FAKTUR_BARANG', $data_barang);
     }
 
     public function surat_jalan($relasi)

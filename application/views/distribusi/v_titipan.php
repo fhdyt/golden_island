@@ -1,3 +1,8 @@
+<style>
+    .table {
+        font-size: small;
+    }
+</style>
 <div class="modal fade" id="pajakModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -105,7 +110,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Titipan</button>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>No.</th>
