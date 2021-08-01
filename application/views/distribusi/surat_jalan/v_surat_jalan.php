@@ -1,7 +1,7 @@
 <style>
-    .table {
+    /* .table {
         font-size: small;
-    }
+    } */
 </style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -50,7 +50,6 @@
                                 <th>Driver</th>
                                 <th><?= $this->lang->line('Relasi'); ?></th>
                                 <th>Keterangan</th>
-                                <th>Oleh</th>
                                 <th></th>
                             </tr>
                         </thead>
