@@ -78,7 +78,7 @@ class Buku_besarModel extends CI_Model
         );
 
         $result = $this->db->insert('BUKU_BESAR', $data_buku_besar);
-        send_telegram("Buku Besar (" . $this->session->userdata('PERUSAHAAN_KODE') . ")\nKredit : " . $this->input->post('kredit') . "\nDebet : " . $this->input->post('debet') . "\nTanggal : " . tanggal($this->input->post('tanggal')) . "\nKeterangan : " . $this->input->post('keterangan') . "");
+        // send_telegram("Buku Besar (" . $this->session->userdata('PERUSAHAAN_KODE') . ")\nKredit : " . $this->input->post('kredit') . "\nDebet : " . $this->input->post('debet') . "\nTanggal : " . tanggal($this->input->post('tanggal')) . "\nKeterangan : " . $this->input->post('keterangan') . "");
         return $result;
     }
 
