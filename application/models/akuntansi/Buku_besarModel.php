@@ -55,7 +55,7 @@ class Buku_besarModel extends CI_Model
             $ref = $hasil[0]->SURAT_JALAN_ID;
             $surat_jalan_nomor = $hasil[0]->SURAT_JALAN_NOMOR;
         } else {
-            $ref = "";
+            $ref = create_id();
             $surat_jalan_nomor = "";
         }
         $data_buku_besar = array(

@@ -340,8 +340,7 @@ if (empty($this->uri->segment('4'))) {
     })
 
     $(".tambah_relasi").on("click", function() {
-        $("#submit").trigger("reset");
-        $(".id").val("")
+        //$(".id").val("")
         $("#relasibaruModal").modal("show")
     })
     $(function() {
