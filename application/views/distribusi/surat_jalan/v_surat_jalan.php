@@ -162,7 +162,7 @@
                             "<td>" + driver + "</td>" +
                             "<td>" + relasi + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_KETERANGAN + "" + jaminan + "</td>" +
-                            "<td>Dibuat : " + data[i].OLEH[0].USER_NAMA + "<br>Realisasi : " + oleh_realisasi + "<br>TTBK : " + oleh_ttbk + "</td>" +
+                            // "<td>Dibuat : " + data[i].OLEH[0].USER_NAMA + "<br>Realisasi : " + oleh_realisasi + "<br>TTBK : " + oleh_ttbk + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mr-1 mb-2' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=penjualan'>Lihat</a>" +
                             btn_cetak +
                             btn_panggung +
