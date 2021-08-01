@@ -123,7 +123,8 @@
                             "<td>" + data[i].MASTER_KENDARAAN_PRODUSEN + "</td>" +
                             "<td>" + data[i].MASTER_KENDARAAN_JENIS + "</td>" +
                             "<td>" + data[i].MASTER_KENDARAAN_TAHUN + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_KENDARAAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<td>" +
+                            // "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_KENDARAAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_KENDARAAN_ID + "\")'><i class='fas fa-edit'></i></a></td>" +
                             "</tr>");
                     }

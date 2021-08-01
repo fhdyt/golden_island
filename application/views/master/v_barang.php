@@ -229,8 +229,10 @@
                             "<td>Rp. " + number_format(data[i].MASTER_BARANG_HARGA_JAMINAN) + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_PRIORITAS + "</td>" +
                             "<td>" + data[i].MASTER_BARANG_KETERANGAN + "</td>" +
-                            "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
+                            "<td>" +
+                            // "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "<a class='btn btn-warning btn-sm' onclick='detail(\"" + data[i].MASTER_BARANG_ID + "\")'><i class='fas fa-edit'></i></a> " +
+                            "</td>" +
                             "</tr>");
                     }
                 }
