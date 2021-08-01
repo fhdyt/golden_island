@@ -145,16 +145,16 @@
                             var jaminan = ""
                         }
 
-                        if (data[i].OLEH_REALISASI.length == 0) {
-                            var oleh_realisasi = "-"
-                        } else {
-                            var oleh_realisasi = data[0].OLEH_REALISASI[0].USER_NAMA
-                        }
-                        if (data[i].OLEH_TTBK.length == 0) {
-                            var oleh_ttbk = "-"
-                        } else {
-                            var oleh_ttbk = data[0].OLEH_TTBK[0].USER_NAMA
-                        }
+                        // if (data[i].OLEH_REALISASI.length == 0) {
+                        //     var oleh_realisasi = "-"
+                        // } else {
+                        //     var oleh_realisasi = data[0].OLEH_REALISASI[0].USER_NAMA
+                        // }
+                        // if (data[i].OLEH_TTBK.length == 0) {
+                        //     var oleh_ttbk = "-"
+                        // } else {
+                        //     var oleh_ttbk = data[0].OLEH_TTBK[0].USER_NAMA
+                        // }
                         $("tbody#zone_data").append("<tr class='" + tr + "'>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
