@@ -1,7 +1,7 @@
 <style>
-    .table {
+    /* .table {
         font-size: small;
-    }
+    } */
 </style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -50,7 +50,6 @@
                                 <th>Driver</th>
                                 <th><?= $this->lang->line('Supplier'); ?></th>
                                 <th>Keterangan</th>
-                                <th>Oleh</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -133,16 +132,16 @@
                             var driver = data[i].DRIVER[0].MASTER_KARYAWAN_NAMA
                         }
 
-                        if (data[i].OLEH_REALISASI.length == 0) {
-                            var oleh_realisasi = "-"
-                        } else {
-                            var oleh_realisasi = data[0].OLEH_REALISASI[0].USER_NAMA
-                        }
-                        if (data[i].OLEH_TTBK.length == 0) {
-                            var oleh_ttbk = "-"
-                        } else {
-                            var oleh_ttbk = data[0].OLEH_TTBK[0].USER_NAMA
-                        }
+                        // if (data[i].OLEH_REALISASI.length == 0) {
+                        //     var oleh_realisasi = "-"
+                        // } else {
+                        //     var oleh_realisasi = data[0].OLEH_REALISASI[0].USER_NAMA
+                        // }
+                        // if (data[i].OLEH_TTBK.length == 0) {
+                        //     var oleh_ttbk = "-"
+                        // } else {
+                        //     var oleh_ttbk = data[0].OLEH_TTBK[0].USER_NAMA
+                        // }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small class='text-muted'>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
@@ -150,7 +149,7 @@
                             "<td>" + driver + "</td>" +
                             "<td>" + supplier + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_KETERANGAN + "</td>" +
-                            "<td>Dibuat : " + data[i].OLEH[0].USER_NAMA + "<br>Realisasi : " + oleh_realisasi + "<br>TTBK : " + oleh_ttbk + "</td>" +
+                            // "<td>Dibuat : " + data[i].OLEH[0].USER_NAMA + "<br>Realisasi : " + oleh_realisasi + "<br>TTBK : " + oleh_ttbk + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mb-2' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
                             btn_cetak +
                             btn_panggung +
