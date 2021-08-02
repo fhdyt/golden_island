@@ -1,69 +1,74 @@
-<div class="modal fade" id="pajakModal">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="balanceModal">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Pajak</h4>
+                <h4 class="modal-title">Balance Panggung</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="submit">
-                    <div class="row mb-2">
-                        <div class="col-md-3">
-                            <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;" required>
-                                <option value=""><?= $this->lang->line('semua'); ?></option>
-                                <?php
-                                foreach (tabung($relasi[0]->MASTER_RELASI_ID) as $row) {
-                                ?>
-                                    <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>" required>
-                            <small class="text-muted">Tanggal</small>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="text" class="form-control total" name="total" autocomplete="off" required>
-                            <small class="text-muted">Total</small>
-                        </div>
-                        <div class="col-md-2">
-                            <select name="status" id="status" class="form-control status select2" style="width: 100%;" required>
-                                <option value="">-</option>
-                                <option value="MP">MP</option>
-                                <option value="MR">MR</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control id" name="id" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1"><?= $this->lang->line('tanggal'); ?></label>
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>" readonly>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Jenis</label>
+                        <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;" required>
+                            <option value="">-- Jenis --</option>
+
+                            <?php
+                            foreach (tabung() as $row) {
+                            ?>
+                                <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Jumlah</label>
+                        <input type="text" class="form-control jumlah" name="jumlah" autocomplete="off" required value="0">
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Masuk / Keluar</label>
+                        <select name="in_out" id="in_out" class="form-control in_out select2" style="width: 100%;" required>
+                            <option value="in">Masuk</option>
+                            <option value="out">Keluar</option>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Kepemilikan</label>
+                        <select name="kepemilikan" id="kepemilikan" class="form-control kepemilikan select2" style="width: 100%;" required>
+                            <option value="MP">MP</option>
+                            <option value="MR">MR</option>
+                        </select>
+                        <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group clearfix">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="isi" name="isi">
+                                <label for="isi">
+                                    ISI
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </form>
-                <div class="row">
-                    <div class="col-md-12">
-                        <table id="example2" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th><?= $this->lang->line('tanggal'); ?></th>
-                                    <th>Jenis</th>
-                                    <th>Kepemilikan</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="saldo_awal">
-                                <tr>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                <button type="submit" class="btn btn-primary"><?= $this->lang->line('simpan'); ?></button>
+                </form>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -90,11 +95,11 @@
         <div class="container-fluid">
             <div class="card card-default color-palette-box">
                 <div class="card-body">
-                    <!-- <div class="row mb-2">
+                    <div class="row mb-2">
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-secondary btn_pajak mb-2">Saldo Panggung</button>
+                            <button type="button" class="btn btn-secondary balance mb-2">Balance Panggung</button>
                         </div>
-                    </div> -->
+                    </div>
 
                     <table id="example2" class="table table-bordered">
                         <thead>
@@ -163,9 +168,8 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-    $(".btn_pajak").on("click", function() {
-        $("#pajakModal").modal("show")
-        saldo_awal_list()
+    $(".balance").on("click", function() {
+        $("#balanceModal").modal("show")
     })
     $(function() {
         barang_list();
@@ -443,7 +447,7 @@
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/laporan/panggung/add',
+            url: '<?php echo base_url(); ?>index.php/laporan/panggung/balance',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -453,10 +457,7 @@
                 // memuat()
             },
             success: function(data) {
-                //pajak_list();
-                //Swal.fire('Berhasil', 'Berhasil ditambahkan', 'success')
-                saldo_awal_list()
-                // $("#pajakModal").modal("hide")
+                $("#balanceModal").modal("hide")
             }
         });
     })
@@ -521,7 +522,6 @@
     }
 
     $('.filter_tanggal').on("click", function() {
-
         memuat()
         saldo_list()
 

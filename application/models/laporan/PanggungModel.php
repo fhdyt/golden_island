@@ -94,6 +94,37 @@ class PanggungModel extends CI_Model
         }
         return $hasil;
     }
+
+    public function balance()
+    {
+        if ($this->input->post('isi') == "on") {
+            $isi = "1";
+        } else {
+            $isi = "0";
+        }
+
+        $nomor_balance = create_id();
+        $data_panggung = array(
+            'PANGGUNG_ID' => create_id(),
+            'MASTER_RELASI_ID' => "",
+            'MASTER_SUPPLIER_ID' => "",
+            'MASTER_BARANG_ID' => $this->input->post('jenis'),
+            'PANGGUNG_TANGGAL' => $this->input->post("tanggal"),
+            'PANGGUNG_STATUS' => $this->input->post("in_out"),
+            'PANGGUNG_STATUS_ISI' => $isi,
+            'PANGGUNG_JUMLAH' => $this->input->post("jumlah"),
+            'PANGGUNG_STATUS_KEPEMILIKAN' => $this->input->post("kepemilikan"),
+            'PANGGUNG_KETERANGAN' => "Balance Pangggung Tanggal " . tanggal($this->input->post("tanggal")),
+            'PANGGUNG_REF'  => $nomor_balance,
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+        $result = $this->db->insert('PANGGUNG', $data_panggung);
+        return $result;
+    }
     public function list()
     {
         $hasil = $this->db->query('SELECT * FROM 

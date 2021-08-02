@@ -64,6 +64,11 @@ class Panggung extends CI_Controller
         $data = $this->PanggungModel->verifikasi();
         echo json_encode($data);
     }
+    public function balance()
+    {
+        $data = $this->PanggungModel->balance();
+        echo json_encode($data);
+    }
 
     public function hapus()
     {
