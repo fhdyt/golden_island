@@ -454,10 +454,12 @@
             contentType: false,
             cache: false,
             beforeSend: function() {
-                // memuat()
+                memuat()
             },
             success: function(data) {
                 $("#balanceModal").modal("hide")
+                barang_list();
+                verifikasi_list();
             }
         });
     })
