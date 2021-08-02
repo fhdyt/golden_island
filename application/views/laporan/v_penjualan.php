@@ -145,7 +145,6 @@
                 $("tbody#zone_data").empty();
                 $("tbody#zone_data_total").empty();
                 memuat()
-                console.log(data)
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
