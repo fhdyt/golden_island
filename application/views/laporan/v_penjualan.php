@@ -160,7 +160,7 @@
 
                         if (data[i].TERBAYAR.length == 0) {
                             var terbayar = 0
-                            var piutang = data[i].TOTAL
+                            var piutang = parseInt(data[i].TOTAL)
                             var btn_faktur_cetak = "<a class='btn btn-danger btn-xs'>Belum Ada Faktur</a>"
                         } else {
                             var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
