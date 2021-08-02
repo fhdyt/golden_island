@@ -205,6 +205,10 @@
                             var btn_faktur_cetak = "<a class='btn btn-primary btn-xs' target='_blank' href='<?= base_url(); ?>cetak/faktur_penjualan/" + data[i].TERBAYAR[0].FAKTUR_ID + "'>Lihat Faktur Penjualan</a>"
                         }
                         var btn_cetak = "<a class='btn btn-success btn-xs' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Lihat Surat Jalan</a>"
+
+                        if (isNaN(piutang)) {
+                            piutang = 0;
+                        }
                         total_terbayar += parseInt(terbayar)
                         total_piutang += parseInt(piutang)
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + no++ + "</td>" +
