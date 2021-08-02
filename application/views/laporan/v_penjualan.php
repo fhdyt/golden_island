@@ -173,7 +173,12 @@
                             }
                             var btn_faktur_cetak = "<a class='btn btn-primary btn-xs' target='_blank' href='<?= base_url(); ?>cetak/faktur_penjualan/" + data[i].TERBAYAR[0].FAKTUR_ID + "'>Lihat Faktur Penjualan</a>"
                         }
+
                         console.log(piutang)
+                        if (isNaN(piutang)) {
+                            piutang = 0;
+                        }
+
                         total_terbayar += parseInt(terbayar)
                         total_piutang += parseInt(piutang)
 
