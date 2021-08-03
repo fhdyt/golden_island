@@ -65,7 +65,7 @@ if (empty($this->uri->segment('4'))) {
 <!-- /.modal -->
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper form_surat_jalan">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -411,6 +411,16 @@ if (empty($this->uri->segment('4'))) {
                         $('#jaminan').prop('checked', true);
                     } else {
                         $('#jaminan').prop('checked', false);
+                    }
+                    if (data[0].SURAT_JALAN_STATUS == 'close') {
+                        $('.form_surat_jalan').attr('hidden', true);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Surat Jalan telah dibuat Faktur'
+                        })
+                    } else {
+                        $('.form_surat_jalan').attr('hidden', false);
                     }
 
 
