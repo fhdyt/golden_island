@@ -256,6 +256,12 @@ $no_ttbk = $no_surat_jalan[0] . '/TTBK/' . $no_surat_jalan[2] . '/' . $no_surat_
                     </address>
                 </div>
                 <div class="col-sm-8 invoice-col text-right">
+                    <?php
+                    if ($detail[0]->SURAT_JALAN_JAMINAN == "Yes") { ?>
+                        <b>Jaminan :</b> Rp. ..........................................................
+                        <br>
+                        <br>
+                    <?php } ?>
                     <b>Total :</b> Rp. ..........................................................
                 </div>
             </div>
