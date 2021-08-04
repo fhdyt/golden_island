@@ -40,6 +40,16 @@ class Publik extends CI_Controller
 			$this->load->view('publik/polda', $data);
 		}
 	}
+	public function rs_sga()
+	{
+		$tanggal = $this->uri->segment('3');
+		if ($tanggal < '2021-07-10') {
+			echo "Laporan Tidak Ditemukan";
+		} else {
+			$data['surat_jalan'] = $this->PublikModel->rs_sga($tanggal);
+			$this->load->view('publik/rs_sga', $data);
+		}
+	}
 
 	public function telegram()
 	{
