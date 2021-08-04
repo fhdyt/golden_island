@@ -64,7 +64,7 @@
                             <th>Jenis Tabung</th>
                             <th>Permintaan</th>
                             <th>Disalurkan</th>
-                            <th>Penyuplai</th>
+                            <th>Penyuplay</th>
                         </tr>
                     </thead>
                     <tbody id="zone_data">
