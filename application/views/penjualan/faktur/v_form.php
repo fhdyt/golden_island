@@ -612,7 +612,7 @@ if (empty($this->uri->segment('4'))) {
                             harga = data[i].HARGA
                         }
                         total_jaminan += data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH
-                        $("tbody#zone_data_jaminan").append("<tr class=''>" +
+                        $("tbody#zone_data_jaminan").append("<tr class='table-success'>" +
                             "<td style='vertical-align:middle'>" + no++ + ".</td>" +
                             "<td style='vertical-align:middle'>" + data[i].FAKTUR_JAMINAN_NOMOR + "</td>" +
                             "<td style='vertical-align:middle'>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
