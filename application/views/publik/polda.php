@@ -64,7 +64,7 @@
                             <th>Jenis Tabung</th>
                             <th>Permintaan</th>
                             <th>Disalurkan</th>
-                            <th>Asal Liquid</th>
+                            <th>Penyuplai</th>
                         </tr>
                     </thead>
                     <tbody id="zone_data">
@@ -89,7 +89,7 @@
                                 }
                                 $total += $quantity;
 
-                                $tableContent .= "<tr><td>" . $surat_jalan[$x]->BARANG[$j]->NAMA_BARANG[0]->MASTER_BARANG_NAMA . "</td><td align='right'>" . $quantity . "</td><td align='right'>" . $quantity . "</td><td>PT. SAMATOR GAS INDUSTRI</td></tr>";
+                                $tableContent .= "<tr><td>" . $surat_jalan[$x]->BARANG[$j]->NAMA_BARANG[0]->MASTER_BARANG_NAMA . "</td><td align='right'>" . $quantity . "</td><td align='right'>" . $quantity . "</td><td>PT. BUMI GASINDO SUMATERA</td></tr>";
                             }
                         ?>
                         <?php
