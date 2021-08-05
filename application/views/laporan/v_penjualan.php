@@ -44,7 +44,7 @@
                                 }
                                 ?>
                             </select>
-                            <small class="text-muted">Nama Relasi</small>
+                            <small class="text-muted">Jenis Penjualan</small>
                         </div>
                         <div class="col-md-3">
                             <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
