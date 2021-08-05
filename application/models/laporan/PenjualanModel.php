@@ -10,6 +10,12 @@ class PenjualanModel extends CI_Model
             $filter_relasi = 'AND MASTER_RELASI_ID="' . $this->input->post("relasi") . '"';
         }
 
+        if (empty($this->input->post("jenis"))) {
+            $filter_jenis = "";
+        } else {
+            $filter_jenis = 'AND SURAT_JALAN_STATUS_JENIS="' . $this->input->post("jenis") . '"';
+        }
+
         $tanggal_dari = $this->input->post("tanggal_dari");
         $tanggal_sampai = $this->input->post("tanggal_sampai");
 
@@ -21,6 +27,7 @@ class PenjualanModel extends CI_Model
                             WHERE 
                             ' . $filter_tanggal . '
                             ' . $filter_relasi . '
+                            ' . $filter_jenis . '
                             AND SURAT_JALAN_JENIS = "penjualan"
                             AND NOT SURAT_JALAN_STATUS="cancel"
                             AND RECORD_STATUS="AKTIF" 
