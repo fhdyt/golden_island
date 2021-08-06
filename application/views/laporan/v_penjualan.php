@@ -163,6 +163,7 @@
                 if (data.length === 0) {
                     $("tbody#zone_data").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                 } else {
+                    console.log(data)
                     var tableContent = "";
                     var no = 1
                     var total_seluruh_penjualan = 0
@@ -179,7 +180,8 @@
                             var btn_faktur_cetak = "<a class='btn btn-danger btn-xs'>Belum Ada Faktur</a>"
                         } else {
                             var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
-                            var terbayar = data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR;
+                            var selisih = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - parseInt(data[i].TOTAL);
+                            var terbayar = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - selisih;
                             var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar) - parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN)
                             if (piutang < 0) {
                                 piutang = 0
