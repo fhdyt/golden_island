@@ -154,6 +154,10 @@
                             btn_cetak +
                             btn_panggung +
                             "</td>" +
+                            "<td>" +
+                            "<a class='btn btn-outline-success btn-xs btn-block mr-2 mb-2' href='<?= base_url(); ?>distribusi/realisasi_sj/form/" + data[i].SURAT_JALAN_ID + "'>Realisasi Surat Jalan</a>" +
+                            "<a class='btn btn-outline-success btn-xs btn-block mr-2 mb-2' href='<?= base_url(); ?>distribusi/realisasi_ttbk/form/" + data[i].SURAT_JALAN_ID + "'>Realisasi TTBK</a>" +
+                            "</td>" +
                             "</tr>");
                     }
                 }
