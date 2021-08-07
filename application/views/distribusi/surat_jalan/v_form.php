@@ -1,8 +1,10 @@
 <?php
 if (empty($this->uri->segment('4'))) {
     $id = create_id();
+    $sj_baru = "sj_baru";
 } else {
     $id = $this->uri->segment('4');
+    $sj_baru = "";
 }
 
 ?>
@@ -95,6 +97,7 @@ if (empty($this->uri->segment('4'))) {
                     <div class="row">
                         <div class="col-md-12">
                             <form id="submit">
+                                <input type="hidden" class="form-control sj_baru" name="sj_baru" value="<?= $sj_baru; ?>" autocomplete="off">
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
                                 <input type="hidden" class="form-control jenis_sj" name="jenis_sj" value="<?= $_GET['jenis_sj']; ?>" autocomplete="off">
                                 <input type="hidden" class="form-control status_surat_jalan_realisasi" name="status_surat_jalan_realisasi" autocomplete="off">
@@ -344,9 +347,12 @@ if (empty($this->uri->segment('4'))) {
         $("#relasibaruModal").modal("show")
     })
     $(function() {
-        detail()
-        barang_list()
-
+        if ($(".sj_baru").val() == "sj_baru") {
+            memuat()
+        } else {
+            detail()
+            barang_list()
+        }
 
         // $('#relasiModal').on('shown.bs.modal', function(e) {
         //     console.log("adfadf")
