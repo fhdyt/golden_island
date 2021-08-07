@@ -12,7 +12,7 @@
                     <thead>
                         <tr>
                             <td>No.</td>
-                            <td>Nomor Faktur</td>
+                            <td>Nomor Surat Jalan</td>
                             <td>Tanggal</td>
                             <td>Relasi</td>
                             <td>Dibuat Oleh</td>
@@ -83,7 +83,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th><?= $this->lang->line('tanggal'); ?></th>
-                                <th>Nomor Surat Jalan</th>
+                                <th>Nomor Invoice</th>
                                 <th><?= $this->lang->line('Relasi'); ?></th>
                                 <th>Total</th>
                                 <th></th>
