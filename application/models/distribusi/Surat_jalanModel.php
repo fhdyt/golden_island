@@ -16,7 +16,7 @@ class Surat_jalanModel extends CI_Model
             } else {
                 $row->DRIVER = $driver->result();
             }
-
+            $row->BARANG = $this->db->query('SELECT * FROM  SURAT_JALAN_BARANG AS BARANG LEFT JOIN MASTER_BARANG AS M ON BARANG.MASTER_BARANG_ID=M.MASTER_BARANG_ID WHERE BARANG.SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND BARANG.RECORD_STATUS="AKTIF" AND BARANG.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND M.RECORD_STATUS="AKTIF" AND M.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);

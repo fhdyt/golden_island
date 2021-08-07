@@ -1,7 +1,7 @@
 <style>
-    /* .table {
+    .table {
         font-size: small;
-    } */
+    }
 </style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -49,6 +49,7 @@
                                 <th>Nomor Surat Jalan</th>
                                 <th>Driver</th>
                                 <th><?= $this->lang->line('Supplier'); ?></th>
+                                <th>Barang</th>
                                 <th>Keterangan</th>
                                 <th></th>
                             </tr>
@@ -108,8 +109,8 @@
 
                         } else {
                             var riwayat_status = "<span class='float-left badge bg-success'>Telah terealisasi</span>"
-                            var btn_cetak = "<a class='btn btn-success btn-sm mr-1 mb-2' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
-                            var btn_panggung = "<a class='btn btn-warning btn-sm mr-1 mb-2' target='_blank' href='<?= base_url(); ?>laporan/jurnal_panggung?sj=" + data[i].SURAT_JALAN_NOMOR.split('/').join("_") + "'>Panggung</a>"
+                            var btn_cetak = "<a class='btn btn-success btn-xs btn-block mr-1 mb-2' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Cetak</a>"
+                            var btn_panggung = "<a class='btn btn-warning btn-xs btn-block mr-1 mb-2' target='_blank' href='<?= base_url(); ?>laporan/jurnal_panggung?sj=" + data[i].SURAT_JALAN_NOMOR.split('/').join("_") + "'>Panggung</a>"
 
                         }
 
@@ -142,15 +143,24 @@
                         // } else {
                         //     var oleh_ttbk = data[0].OLEH_TTBK[0].USER_NAMA
                         // }
+                        var barangsj = ""
+                        if (data[i].BARANG.length === 0) {
+                            barangsj = "-"
+                        } else {
+                            for (j = 0; j < data[i].BARANG.length; j++) {
+                                barangsj += "<small class='text-muted'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + " : " + (parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY) + parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KOSONG) - parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM)) + "</small><br>"
+                            }
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small class='text-muted'>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + supplier + "</td>" +
+                            "<td>" + barangsj + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_KETERANGAN + "</td>" +
                             // "<td>Dibuat : " + data[i].OLEH[0].USER_NAMA + "<br>Realisasi : " + oleh_realisasi + "<br>TTBK : " + oleh_ttbk + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm mb-2' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
+                            "<td><a class='btn btn-primary btn-xs btn-block mb-2' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
                             btn_cetak +
                             btn_panggung +
                             "</td>" +
