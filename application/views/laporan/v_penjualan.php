@@ -191,6 +191,11 @@
                             var btn_faktur_cetak = "<a class='btn btn-primary btn-xs' target='_blank' href='<?= base_url(); ?>cetak/faktur_penjualan/" + data[i].TERBAYAR[0].FAKTUR_ID + "'>Lihat Faktur Penjualan</a>"
                         }
 
+                        if (data[i].AKUN.length === 0) {
+                            var akun = "-"
+                        } else {
+                            var akun = data[i].AKUN[0].AKUN_NAMA
+                        }
                         console.log(piutang)
                         if (isNaN(piutang)) {
                             piutang = 0;
@@ -216,7 +221,7 @@
 
                         tableContent += "<tr><td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + no++ + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'><b>" + data[i].SURAT_JALAN_NOMOR + "</b><br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "<br>" + data[i].TANGGAL + " (" + data[i].JAM + ")</td>" +
-                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "<br>" + btn_cetak + "<br>" + btn_faktur_cetak + "</td>" +
+                            "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:center; vertical-align:middle'>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "<br>" + btn_cetak + "<br>" + btn_faktur_cetak + "<br><small class='text-muted'>" + akun + "</small></td>" +
                             "<td colspan='4'></td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(terbayar) + "</td>" +
                             "<td rowspan=" + parseInt(1 + rowspan) + " style='text-align:right; vertical-align:middle'>" + number_format(piutang) + "</td>" +
@@ -243,6 +248,7 @@
                                 var quantity = 0
                                 var harga = 0
                             }
+
                             var total_harga = quantity * harga
                             tableContent += "<tr>" +
                                 "<td>" + data[i].BARANG[j].NAMA_BARANG[0].MASTER_BARANG_NAMA + "</td>" +

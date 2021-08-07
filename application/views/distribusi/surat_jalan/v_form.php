@@ -348,17 +348,16 @@ if (empty($this->uri->segment('4'))) {
         barang_list()
 
 
-        $('#relasiModal').on('shown.bs.modal', function(e) {
-            console.log("adfadf")
-        })
-        setTimeout(function() {
-            $('.qr_id').focus();
-        }, 1000);
+        // $('#relasiModal').on('shown.bs.modal', function(e) {
+        //     console.log("adfadf")
+        // })
+        // setTimeout(function() {
+        //     $('.qr_id').focus();
+        // }, 1000);
     });
 
     $('.qr_id').keyup(function(e) {
         if (e.keyCode == 13) {
-            // $('.relasi').val($(this).val()).trigger('change')
             var qr_id = $('.qr_id').val()
             $(".relasi option[id_relasi='" + qr_id.toUpperCase() + "']").prop('selected', true).trigger('change');
             $("#relasiModal").modal("hide")
@@ -395,7 +394,7 @@ if (empty($this->uri->segment('4'))) {
                 if (data.length == 0) {
                     detail_jenis_barang()
                     barang_list()
-                    $("#relasiModal").modal("show")
+                    //$("#relasiModal").modal("show")
                 } else {
                     $(".btn-realisasi").attr("hidden", false)
                     $(".nomor_surat_jalan").val(data[0].SURAT_JALAN_NOMOR)

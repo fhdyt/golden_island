@@ -60,9 +60,11 @@ class PenjualanModel extends CI_Model
                 }
 
                 $terbayar = array();
+                $akun = array();
             } else if ($row->SURAT_JALAN_STATUS == "close") {
                 $faktur = $this->db->query('SELECT 
-                                            FSJ.FAKTUR_ID 
+                                            FSJ.FAKTUR_ID ,
+                                            F.AKUN_ID 
                                             FROM 
                                             FAKTUR AS F
                                             LEFT JOIN
@@ -76,6 +78,8 @@ class PenjualanModel extends CI_Model
 
                 $barang = $this->db->query('SELECT * FROM FAKTUR_BARANG WHERE FAKTUR_ID="' . $faktur[0]->FAKTUR_ID . '" AND SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" 
                                             AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+                $akun = $this->db->query('SELECT AKUN_NAMA FROM AKUN WHERE AKUN_ID="' . $faktur[0]->AKUN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+
                 foreach ($barang as $row_barang) {
                     $row_barang->NAMA_BARANG = $this->db->query('SELECT MASTER_BARANG_NAMA FROM MASTER_BARANG WHERE MASTER_BARANG_ID="' . $row_barang->MASTER_BARANG_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
                     $row_barang->HARGA_BARANG = $this->db->query('SELECT * FROM FAKTUR_BARANG WHERE FAKTUR_ID="' . $faktur[0]->FAKTUR_ID . '" AND MASTER_BARANG_ID="' . $row_barang->MASTER_BARANG_ID . '" AND SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
@@ -90,6 +94,7 @@ class PenjualanModel extends CI_Model
 
             $row->BARANG = $barang;
             $row->TOTAL = $total_perbarang;
+            $row->AKUN = $akun;
             $row->TERBAYAR = $terbayar;
             $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
             $row->JAM = jam($row->ENTRI_WAKTU);
