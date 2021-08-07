@@ -12,8 +12,8 @@
                     <thead>
                         <tr>
                             <td>No.</td>
-                            <td>Nomor Surat Jalan</td>
                             <td>Tanggal</td>
+                            <td>Nomor Surat Jalan</td>
                             <td>Relasi</td>
                             <td>Dibuat Oleh</td>
                         </tr>
