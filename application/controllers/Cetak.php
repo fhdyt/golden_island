@@ -159,6 +159,8 @@ class Cetak extends CI_Controller
 		$data['penjualan'] = $this->PdfModel->laporan_penjualan($dari, $sampai);
 		$data['barang'] = $this->PdfModel->laporan_barang($dari, $sampai);
 		$data['produksi'] = $this->PdfModel->laporan_produksi($dari, $sampai);
+		$data['pembelian'] = $this->PdfModel->laporan_pembelian($dari, $sampai);
+		$data['panggung'] = $this->PdfModel->laporan_panggung();
 
 		$this->load->view('cetak/laporan', $data);
 	}

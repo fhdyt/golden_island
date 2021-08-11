@@ -176,7 +176,7 @@
             </div>
             <!-- Table row -->
             <div class="row">
-                <div class="col-6 table-responsive">
+                <div class="col-3 table-responsive">
                     <h4><b>Penjualan Barang</b></h4>
                     <table class="table table-bordered table-small">
                         <thead>
@@ -206,51 +206,255 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-6 table-responsive">
-                    <h4><b>Produksi</b></h4>
-                    <table class="table table-bordered table-small">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nomor Produksi</th>
-                                <th>Tanggal</th>
-                                <th>Level Awal</th>
-                                <th>Level Akhir</th>
-                                <th>Jenis Barang</th>
-                                <th>Jumlah</th>
-                            </tr>
-                        </thead>
+                <div class="col-9 table-responsive">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4><b>Produksi</b></h4>
+                            <table class="table table-bordered table-small">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nomor Produksi</th>
+                                        <th>Tanggal</th>
+                                        <th>Level Awal</th>
+                                        <th>Level Akhir</th>
+                                        <th>Jenis Barang</th>
+                                        <th>Jumlah</th>
+                                    </tr>
+                                </thead>
 
-                        <tbody>
-                            <?php
-                            $tableContent = "";
-                            $no = 1;
-                            $total_produksi = 0;
-                            for ($j = 0; $j < count($produksi); $j++) {
-                                $rowspan = 0;
-                                $detailLength = count($produksi[$j]->BARANG);
-                                $rowspan += $detailLength;
+                                <tbody>
+                                    <?php
+                                    $tableContent = "";
+                                    $no = 1;
+                                    $total_produksi = 0;
+                                    for ($j = 0; $j < count($produksi); $j++) {
+                                        $rowspan = 0;
+                                        $detailLength = count($produksi[$j]->BARANG);
+                                        $rowspan += $detailLength;
 
-                                $tableContent .= "<tr>";
-                                $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . $no++ . "</td>";
-                                $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . ($produksi[$j]->PRODUKSI_NOMOR) . "</td>";
-                                $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . tanggal($produksi[$j]->PRODUKSI_TANGGAL) . "</td>";
-                                $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . ($produksi[$j]->PRODUKSI_LEVEL_AWAL) . "</td>";
-                                $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . ($produksi[$j]->PRODUKSI_LEVEL_AKHIR) . "</td>";
-                                $tableContent .= "</tr>";
-                                for ($z = 0; $z < count($produksi[$j]->BARANG); $z++) {
-                                    $total_produksi += $produksi[$j]->BARANG[$z]->PRODUKSI_BARANG_TOTAL;
-                                    $tableContent .= "<tr>";
-                                    $tableContent .= "<td>" . $produksi[$j]->BARANG[$z]->MASTER_BARANG_NAMA . "</td>";
-                                    $tableContent .= "<td align='right'>" . $produksi[$j]->BARANG[$z]->PRODUKSI_BARANG_TOTAL . "</td>";
-                                    $tableContent .= "</tr>";
+                                        $tableContent .= "<tr>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . $no++ . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . ($produksi[$j]->PRODUKSI_NOMOR) . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . tanggal($produksi[$j]->PRODUKSI_TANGGAL) . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . ($produksi[$j]->PRODUKSI_LEVEL_AWAL) . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle' rowspan='" . (1 + $rowspan) . "'>" . ($produksi[$j]->PRODUKSI_LEVEL_AKHIR) . "</td>";
+                                        $tableContent .= "</tr>";
+                                        for ($z = 0; $z < count($produksi[$j]->BARANG); $z++) {
+                                            $total_produksi += $produksi[$j]->BARANG[$z]->PRODUKSI_BARANG_TOTAL;
+                                            $tableContent .= "<tr>";
+                                            $tableContent .= "<td>" . $produksi[$j]->BARANG[$z]->MASTER_BARANG_NAMA . "</td>";
+                                            $tableContent .= "<td align='right'>" . $produksi[$j]->BARANG[$z]->PRODUKSI_BARANG_TOTAL . "</td>";
+                                            $tableContent .= "</tr>";
+                                        }
+                                    }
+                                    $tableContent .= "<tr><td colspan='6' align='right'><b>Total</b></td><td align='right'>" . number_format($total_produksi) . "</td></tr>";
+                                    echo $tableContent;
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4><b>Pembelian</b></h4>
+                            <table class="table table-bordered table-small">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nomor Surat Jalan</th>
+                                        <th>Tanggal</th>
+                                        <th>Supllier</th>
+                                        <th>Tanggal Kirim</th>
+                                        <th>Total Kirim</th>
+                                        <th>Tanggal Kembali</th>
+                                        <th>Total Kembali</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <?php
+                                    $tableContent = "";
+                                    $no = 1;
+                                    $total_kirim = 0;
+                                    $total_kembali = 0;
+                                    for ($j = 0; $j < count($pembelian); $j++) {
+                                        $total_kirim += $pembelian[$j]->SURAT_JALAN_REALISASI_JUMLAH_MR + $pembelian[$j]->SURAT_JALAN_REALISASI_JUMLAH_MP;
+                                        $total_kembali += $pembelian[$j]->SURAT_JALAN_REALISASI_TTBK_JUMLAH_MR + $pembelian[$j]->SURAT_JALAN_REALISASI_TTBK_JUMLAH_MP;
+                                        $rowspan = 0;
+
+                                        $tableContent .= "<tr>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle'>" . $no++ . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle'>" . ($pembelian[$j]->SURAT_JALAN_NOMOR) . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle'>" . tanggal($pembelian[$j]->SURAT_JALAN_TANGGAL) . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle'>" . $pembelian[$j]->SUPPLIER[0]->MASTER_SUPPLIER_NAMA . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle'>" . tanggal($pembelian[$j]->SURAT_JALAN_REALISASI_TANGGAL) . "</td>";
+                                        $tableContent .= "<td style='text-align:right; vertical-align:middle'>" . ($pembelian[$j]->SURAT_JALAN_REALISASI_JUMLAH_MR + $pembelian[$j]->SURAT_JALAN_REALISASI_JUMLAH_MP) . "</td>";
+                                        $tableContent .= "<td style='text-align:center; vertical-align:middle'>" . tanggal($pembelian[$j]->SURAT_JALAN_REALISASI_TTBK_TANGGAL) . "</td>";
+                                        $tableContent .= "<td style='text-align:right; vertical-align:middle'>" . ($pembelian[$j]->SURAT_JALAN_REALISASI_TTBK_JUMLAH_MR + $pembelian[$j]->SURAT_JALAN_REALISASI_TTBK_JUMLAH_MP) . "</td>";
+                                        $tableContent .= "</tr>";
+                                    }
+                                    $tableContent .= "<tr><td colspan='5' align='right'><b>Total</b></td><td align='right'>" . number_format($total_kirim) . "</td><td></td><td align='right'>" . number_format($total_kembali) . "</td></tr>";
+                                    echo $tableContent;
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4><b>Panggung</b></h4>
+                            <table class="table table-bordered table-small">
+                                <tr>
+                                    <th rowspan="2" style="text-align:center; vertical-align:middle">No.</th>
+                                    <th rowspan="2" style="text-align:center; vertical-align:middle">Jenis</th>
+                                    <th rowspan="2" style="text-align:center; vertical-align:middle">Status</th>
+
+                                    <th colspan="2" style="text-align:center; vertical-align:middle">Panggung</th>
+                                    <th rowspan="2" style="text-align:center; vertical-align:middle">Saldo</th>
+                                </tr>
+                                <tr>
+
+                                    <th style="text-align:center; vertical-align:middle">Isi</th>
+                                    <th style="text-align:center; vertical-align:middle">Kosong</th>
+                                </tr>
+                                <?php
+                                $no = 1;
+                                $mp_isi_out = 0;
+                                $mp_kosong_out = 0;
+                                $mr_isi_out = 0;
+                                $mr_kosong_out = 0;
+
+                                $mp_isi_in = 0;
+                                $mp_kosong_in = 0;
+                                $mr_isi_in = 0;
+                                $mr_kosong_in = 0;
+
+                                $total_seluruh = 0;
+
+                                $total = 0;
+                                foreach ($panggung as $row) {
+
+                                    if ($row->SALDO_MP_ISI_OUT[0]->JUMLAH == null) {
+                                        $mp_isi_out = 0;
+                                    } else {
+                                        $mp_isi_out = $row->SALDO_MP_ISI_OUT[0]->JUMLAH;
+                                    }
+
+                                    if ($row->SALDO_MP_KOSONG_OUT[0]->JUMLAH == null) {
+                                        $mp_kosong_out = 0;
+                                    } else {
+                                        $mp_kosong_out = $row->SALDO_MP_KOSONG_OUT[0]->JUMLAH;
+                                    }
+
+                                    if ($row->SALDO_MR_ISI_OUT[0]->JUMLAH == null) {
+                                        $mr_isi_out = 0;
+                                    } else {
+                                        $mr_isi_out = $row->SALDO_MR_ISI_OUT[0]->JUMLAH;
+                                    }
+
+                                    if ($row->SALDO_MR_KOSONG_OUT[0]->JUMLAH == null) {
+                                        $mr_kosong_out = 0;
+                                    } else {
+                                        $mr_kosong_out = $row->SALDO_MR_KOSONG_OUT[0]->JUMLAH;
+                                    }
+
+                                    if ($row->SALDO_MP_ISI_IN[0]->JUMLAH == null) {
+                                        $mp_isi_in = 0;
+                                    } else {
+                                        $mp_isi_in = $row->SALDO_MP_ISI_IN[0]->JUMLAH;
+                                    }
+
+                                    if ($row->SALDO_MP_KOSONG_IN[0]->JUMLAH == null) {
+                                        $mp_kosong_in = 0;
+                                    } else {
+                                        $mp_kosong_in = $row->SALDO_MP_KOSONG_IN[0]->JUMLAH;
+                                    }
+
+                                    if ($row->SALDO_MR_ISI_IN[0]->JUMLAH == null) {
+                                        $mr_isi_in = 0;
+                                    } else {
+                                        $mr_isi_in = $row->SALDO_MR_ISI_IN[0]->JUMLAH;
+                                    }
+
+                                    if ($row->SALDO_MR_KOSONG_IN[0]->JUMLAH == null) {
+                                        $mr_kosong_in = 0;
+                                    } else {
+                                        $mr_kosong_in = $row->SALDO_MR_KOSONG_IN[0]->JUMLAH;
+                                    }
+
+                                    // if (count($row->SALDO_AWAL_MP) == 0) {
+                                    //     $saldo_awal_mp = 0;
+                                    // } else {
+                                    //     $saldo_awal_mp = $row->SALDO_AWAL_MP[0]->JURNAL_TABUNG_KEMBALI;
+                                    // }
+                                    // if (count($row->SALDO_AWAL_MR) == 0) {
+                                    //     $saldo_awal_mr = 0;
+                                    // } else {
+                                    //     $saldo_awal_mr = $row->SALDO_AWAL_MR[0]->JURNAL_TABUNG_KEMBALI;
+                                    // }
+
+                                    // if ($row->SALDO_MP[0]->KIRIM == null) {
+                                    //     $saldo_kirim_mp = 0;
+                                    // } else {
+                                    //     $saldo_kirim_mp = $row->SALDO_MP[0]->KIRIM;
+                                    // }
+                                    // if ($row->SALDO_MP[0]->KEMBALI == null) {
+                                    //     $saldo_kembali_mp = 0;
+                                    // } else {
+                                    //     $saldo_kembali_mp = $row->SALDO_MP[0]->KEMBALI;
+                                    // }
+
+
+                                    // if ($row->SALDO_MR[0]->KIRIM == null) {
+                                    //     $saldo_kirim_mr = 0;
+                                    // } else {
+                                    //     $saldo_kirim_mr = $row->SALDO_MR[0]->KIRIM;
+                                    // }
+                                    // if ($row->SALDO_MR[0]->KEMBALI == null) {
+                                    //     $saldo_kembali_mr = 0;
+                                    // } else {
+                                    //     $saldo_kembali_mr = $row->SALDO_MR[0]->KEMBALI;
+                                    // }
+                                    // $total_mp = $saldo_awal_mp + ($saldo_kembali_mp - $saldo_kirim_mp);
+                                    // $total_mr = $saldo_awal_mr + ($saldo_kembali_mr - $saldo_kirim_mr);
+                                    // $total += $total_mp + $total_mr;
+
+                                    $total_mp_out = $mp_isi_out + $mp_kosong_out;
+                                    $total_mr_out = $mr_isi_out + $mr_kosong_out;
+
+                                    $total_mp_in = $mp_isi_in + $mp_kosong_in;
+                                    $total_mr_in = $mr_isi_in + $mr_kosong_in;
+
+                                    $panggung_mp_isi = $mp_isi_in - $mp_isi_out;
+                                    $panggung_mp_kosong = $mp_kosong_in - $mp_kosong_out;
+
+                                    $panggung_mr_isi = $mr_isi_in - $mr_isi_out;
+                                    $panggung_mr_kosong = $mr_kosong_in - $mr_kosong_out;
+
+                                    $total_mp = $panggung_mp_isi + $panggung_mp_kosong;
+                                    $total_mr = $panggung_mr_isi + $panggung_mr_kosong;
+
+                                    $total_seluruh += $total_mp + $total_mr;
+                                    echo "<tr>";
+                                    echo "<td rowspan='3'>" . $no++ . "</td>";
+                                    echo "<td rowspan='3'>" . $row->MASTER_BARANG_NAMA . "</td>";
+                                    echo "</tr>";
+                                    echo "<tr><td>MP</td><td>" . $panggung_mp_isi . "</td><td>" . $panggung_mp_kosong . "</td><td>" . $total_mp . "</td></tr>";
+                                    echo "<tr><td>MR</td><td>" . $panggung_mr_isi . "</td><td>" . $panggung_mr_kosong . "</td><td>" . $total_mr . "</td></tr>";
                                 }
-                            }
-                            $tableContent .= "<tr><td colspan='6' align='right'><b>Total</b></td><td align='right'>" . number_format($total_produksi) . "</td></tr>";
-                            echo $tableContent;
-                            ?>
-                        </tbody>
-                    </table>
+                                ?>
+                                <tr>
+                                    <td style="text-align:right" colspan="5">Total</td>
+                                    <td><?= $total_seluruh; ?></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- /.col -->
             </div>
