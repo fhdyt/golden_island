@@ -93,7 +93,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Tanggal</label>
-                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required readonly value="<?= date("Y-m-d"); ?>">
+                        <input type="date" class="form-control tanggal" name="tanggal" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
                     </div>
                     <div class="form-group">
