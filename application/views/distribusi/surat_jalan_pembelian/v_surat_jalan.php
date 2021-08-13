@@ -97,11 +97,11 @@
                 } else {
                     var no = 1
                     for (i = 0; i < data.length; i++) {
-                        if (data[i].SURAT_JALAN_STATUS == "close") {
-                            var status = "<span class='float-left badge bg-success'>Faktur Telah Diproses</span>"
-                        } else {
-                            var status = "<span class='float-left badge bg-danger'>Menunggu Faktur ...</span>"
-                        }
+                        // if (data[i].SURAT_JALAN_STATUS == "close") {
+                        //     var status = "<span class='float-left badge bg-success'>Faktur Telah Diproses</span>"
+                        // } else {
+                        //     var status = "<span class='float-left badge bg-danger'>Menunggu Faktur ...</span>"
+                        // }
                         if (data[i].SURAT_JALAN_REALISASI_STATUS != "selesai") {
                             var riwayat_status = "<span class='float-left badge bg-danger'>Belum Teralisasi</span>"
                             var btn_cetak = ""
@@ -154,7 +154,7 @@
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "<br>" + data[i].JAM + "<br><small class='text-muted'>" + data[i].SURAT_JALAN_STATUS_JENIS + "</small></td>" +
-                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + status + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br>" + riwayat_status + "<br>" + riwayat_status_ttbk + "</td>" +
                             "<td>" + driver + "</td>" +
                             "<td>" + supplier + "</td>" +
                             "<td>" + barangsj + "</td>" +
