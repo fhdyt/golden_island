@@ -97,7 +97,7 @@
                                 } else {
                                     $grandtotal = $penjualan[$j]->TERBAYAR[0]->FAKTUR_TRANSAKSI_GRAND_TOTAL;
                                     $selisih = ($penjualan[$j]->TERBAYAR[0]->PEMBELIAN_TRANSAKSI_BAYAR - $penjualan[$j]->TOTAL);
-                                    $terbayar = ($penjualan[$j]->TERBAYAR[0]->PEMBELIAN_TRANSAKSI_BAYAR - $selisih);
+                                    $terbayar = ($penjualan[$j]->TERBAYAR[0]->PEMBELIAN_TRANSAKSI_BAYAR - $selisih) - $penjualan[$j]->TERBAYAR[0]->FAKTUR_TRANSAKSI_POTONGAN;
                                     $piutang = ($penjualan[$j]->TOTAL - $terbayar - $penjualan[$j]->TERBAYAR[0]->FAKTUR_TRANSAKSI_POTONGAN);
                                     if ($piutang < 0) {
                                         $piutang = 0;

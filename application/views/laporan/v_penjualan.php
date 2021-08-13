@@ -181,7 +181,7 @@
                         } else {
                             var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
                             var selisih = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - parseInt(data[i].TOTAL);
-                            var terbayar = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - selisih;
+                            var terbayar = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - selisih - parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN);
                             var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar) - parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN)
                             if (piutang < 0) {
                                 piutang = 0
