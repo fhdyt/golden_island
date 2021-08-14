@@ -56,6 +56,9 @@
                                 <div class="input-group-append">
                                     <button class="btn btn-success filter_tanggal"><i class="fas fa-search"></i></button>
                                 </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary cetak_laporan"><i class="fas fa-print"></i></button>
+                                </div>
                             </div>
                             <small class="text-muted">Tanggal Sampai.</small>
                         </div>
@@ -438,5 +441,12 @@
         jaminan_list()
         barang_list()
         grafik()
+    });
+
+    $('.cetak_laporan').on("click", function() {
+        window.open(
+            '<?= base_url(); ?>cetak/laporan?dari=' + $(".tanggal_dari").val() + '&sampai=' + $(".tanggal_sampai").val() + '',
+            '_blank'
+        );
     });
 </script>
