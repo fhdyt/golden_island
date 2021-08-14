@@ -56,6 +56,7 @@
             <hr>
             <center>
                 <h3><b>Laporan</b></h3>
+                <h5><?= tanggal($_GET['dari']); ?> - <?= tanggal($_GET['sampai']); ?></h5>
             </center>
             <br>
             <br>
