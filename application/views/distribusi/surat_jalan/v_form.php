@@ -163,7 +163,7 @@ if (empty($this->uri->segment('4'))) {
                                                 <option value="">-</option>
 
                                                 <?php
-                                                foreach (driver() as $row) {
+                                                foreach (karyawan_produksi() as $row) {
                                                 ?>
                                                     <option value="<?= $row->MASTER_KARYAWAN_ID; ?>"><?= $row->MASTER_KARYAWAN_NAMA; ?></option>
                                                 <?php
