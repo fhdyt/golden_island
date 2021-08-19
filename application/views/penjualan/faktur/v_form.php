@@ -1,8 +1,10 @@
 <?php
 if (empty($this->uri->segment('4'))) {
     $id = create_id();
+    $faktur_baru = "faktur_baru";
 } else {
     $id = $this->uri->segment('4');
+    $faktur_baru = "";
 }
 
 ?>
@@ -31,7 +33,7 @@ if (empty($this->uri->segment('4'))) {
                         <div class="col-md-12">
                             <form id="submit">
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
-
+                                <input type="hidden" class="form-control faktur_baru" name="sj_baru" value="<?= $faktur_baru; ?>" autocomplete="off">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -360,10 +362,16 @@ if (empty($this->uri->segment('4'))) {
         $(".potongan").mask("#.##0", {
             reverse: true
         });
-        detail()
-        surat_jalan_list()
-        barang_list()
-        jaminan_list()
+
+        if ($(".faktur_baru").val() == "faktur_baru") {
+            memuat()
+        } else {
+            detail()
+            surat_jalan_list()
+            barang_list()
+            jaminan_list()
+        }
+
     });
 
     $('#submit').submit(function(e) {

@@ -61,7 +61,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <select name="perusahaan" id="perusahaan" class="form-control perusahaan select2" style="width: 100%;" required>
                                 <option value="">-- Perusahaan --</option>
                                 <?php
@@ -73,7 +73,7 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <select name="relasi_filter" id="relasi_filter" class="form-control relasi_filter select2" style="width: 100%;">
                                 <option value="">-</option>
                                 <?php
@@ -86,11 +86,32 @@
                             </select>
                             <small class="text-muted">Nama Relasi</small>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
+                            <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;">
+                                <option value="">-</option>
+
+                                <?php
+                                foreach (jenis_barang_penjualan() as $value => $text) {
+                                ?>
+                                    <option value="<?= $value; ?>"><?= $text; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <small class="text-muted">Jenis Penjualan</small>
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <select name="pembayaran" id="pembayaran" class="form-control pembayaran select2" style="width: 100%;">
+                                <option value="">-</option>
+                                <option value="0">Bayar 0, Piutang 0</option>
+                            </select>
+                            <small class="text-muted">Pembayaran</small>
+                        </div> -->
+                        <div class="col-md-6">
                             <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                             <small class="text-muted">Tanggal Dari.</small>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                                 <div class="input-group-append">
@@ -167,6 +188,8 @@
             dataType: 'json',
             data: {
                 relasi: $(".relasi_filter").val(),
+                jenis: $(".jenis").val(),
+                pembayaran: $(".pembayaran").val(),
                 tanggal_dari: $(".tanggal_dari").val(),
                 tanggal_sampai: $(".tanggal_sampai").val(),
                 perusahaan: $(".perusahaan").val()
