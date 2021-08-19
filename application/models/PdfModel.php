@@ -201,6 +201,38 @@ class PdfModel extends CI_Model
         return $hasil;
     }
 
+    public function produksi($id)
+    {
+        $hasil['detail']
+            = $this->db->query('SELECT * FROM 
+        PRODUKSI
+        WHERE PRODUKSI_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['barang'] = $this->db->query('SELECT * 
+                                        FROM PRODUKSI_BARANG AS P
+                                        LEFT JOIN MASTER_BARANG AS B
+                                        ON P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+                                        WHERE 
+                                        P.PRODUKSI_ID="' . $id . '"
+                                        AND (P.RECORD_STATUS="AKTIF"  OR P.RECORD_STATUS="DRAFT")
+                                        AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        AND B.RECORD_STATUS="AKTIF" 
+                                        AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        ORDER BY P.PRODUKSI_BARANG_INDEX DESC ')->result();
+        $hasil['karyawan'] = $this->db->query('SELECT * 
+                                        FROM PRODUKSI_KARYAWAN AS P
+                                        LEFT JOIN MASTER_KARYAWAN AS B
+                                        ON P.MASTER_KARYAWAN_ID=B.MASTER_KARYAWAN_ID
+                                        WHERE 
+                                        P.PRODUKSI_ID="' . $id . '"
+                                        AND (P.RECORD_STATUS="AKTIF"  OR P.RECORD_STATUS="DRAFT")
+                                        AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        AND B.RECORD_STATUS="AKTIF" 
+                                        AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+        //$hasil['relasi'] = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $hasil['detail'][0]->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF"  AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        $hasil['oleh'] = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $hasil['detail'][0]->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+        return $hasil;
+    }
+
     public function cetak_gaji($id, $bulan, $tahun)
     {
         $hasil['gaji'] = $this->db->query('SELECT *, G.ENTRI_USER AS USER 

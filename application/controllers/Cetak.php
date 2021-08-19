@@ -143,6 +143,13 @@ class Cetak extends CI_Controller
 		$this->load->view('cetak/cetak_titipan', $data);
 	}
 
+	public function produksi()
+	{
+		$id = $this->uri->segment('3');
+		$data = $this->PdfModel->produksi($id);
+		$this->load->view('cetak/cetak_produksi', $data);
+	}
+
 	public function cetak_gaji()
 	{
 		$id = $this->uri->segment('3');

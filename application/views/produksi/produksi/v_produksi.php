@@ -157,7 +157,8 @@
                             "<td>" + g_l + "</td>" +
                             "<td>" + level_terpakai + "</td>" +
                             "<td>" + data[i].TOTAL + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm mr-2 ' href='<?= base_url(); ?>produksi/produksi/form_selesai/" + data[i].PRODUKSI_ID + "/'>Lihat</a> " +
+                            "<td><a class='btn btn-primary btn-block  btn-xs mb-2' href='<?= base_url(); ?>produksi/produksi/form_selesai/" + data[i].PRODUKSI_ID + "/'>Lihat</a> " +
+                            "<a class='btn btn-success  btn-block btn-xs ' href='<?= base_url(); ?>cetak/produksi/" + data[i].PRODUKSI_ID + "/'>Cetak</a> " +
                             "</td>" +
                             "</tr>");
                     }
