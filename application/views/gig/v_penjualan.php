@@ -61,7 +61,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-4">
+                        <div class="col-md-4 mb-2">
                             <select name="perusahaan" id="perusahaan" class="form-control perusahaan select2" style="width: 100%;" required>
                                 <option value="">-- Perusahaan --</option>
                                 <?php
@@ -73,7 +73,7 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 mb-2">
                             <select name="relasi_filter" id="relasi_filter" class="form-control relasi_filter select2" style="width: 100%;">
                                 <option value="">-</option>
                                 <?php
@@ -86,7 +86,7 @@
                             </select>
                             <small class="text-muted">Nama Relasi</small>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 mb-2">
                             <select name="jenis" id="jenis" class="form-control jenis select2" style="width: 100%;">
                                 <option value="">-</option>
 
