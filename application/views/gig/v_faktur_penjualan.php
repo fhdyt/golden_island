@@ -109,6 +109,7 @@
         $("#pajakModal").modal("show")
     })
     $(function() {
+        $('a.menu-btn').click()
         penjualan_list();
     });
 
