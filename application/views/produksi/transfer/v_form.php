@@ -65,29 +65,35 @@ if (empty($this->uri->segment('4'))) {
                                             <td>#
                                             </td>
                                             <td>
-                                                <select name="barang" id="barang" class="form-control form-control-sm barang select2" style="width: 100%;">
-
+                                                <select name="barang_dari" id="barang_dari" class="form-control form-control-sm barang_dari select2" style="width: 100%;">
+                                                    <?php
+                                                    foreach (tabung() as $row) {
+                                                    ?>
+                                                        <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </select>
                                             </td>
                                             <td>
-                                                <select name="kepemilikan_barang" id="kepemilikan_barang" class="form-control form-control-sm kepemilikan_barang select2" style="width: 100%;">
+                                                <select name="kepemilikan_barang_dari" id="kepemilikan_barang_dari" class="form-control form-control-sm kepemilikan_barang_dari select2" style="width: 100%;">
                                                     <option value="MP">MP</option>
                                                     <option value="MR">MR</option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control form-control-sm total_barang" name="total_barang" autocomplete="off" value="0">
+                                                <input type="text" class="form-control form-control-sm total_barang_dari" name="total_barang_dari" autocomplete="off" value="0">
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-secondary btn-sm btn-add-barang"><i class="nav-icon fas fa-plus"></i></button>
+                                                <button type="button" class="btn btn-secondary btn-sm btn-add-barang_dari"><i class="nav-icon fas fa-plus"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
-                                    <tbody id="zone_data_barang">
+                                    <tbody id="zone_data_barang_dari">
                                         <tr>
                                         </tr>
                                     </tbody>
-                                    <tfoot id="zone_total_barang">
+                                    <tfoot id="zone_total_barang_dari">
 
                                     </tfoot>
                                 </table>
@@ -96,7 +102,7 @@ if (empty($this->uri->segment('4'))) {
                         <hr>
                         <div class="row">
                             <div class="col-md-12 mb-2">
-                                <small class="text-muted">Barang yang akan diproduksi</small>
+                                <small class="text-muted">Jadi</small>
                             </div>
                             <div class="col-md-12">
                                 <table class="table table-bordered table-striped">
@@ -114,29 +120,35 @@ if (empty($this->uri->segment('4'))) {
                                             <td>#
                                             </td>
                                             <td>
-                                                <select name="barang" id="barang" class="form-control form-control-sm barang select2" style="width: 100%;">
-
+                                                <select name="barang_jadi" id="barang_jadi" class="form-control form-control-sm barang_jadi select2" style="width: 100%;">
+                                                    <?php
+                                                    foreach (tabung() as $row) {
+                                                    ?>
+                                                        <option value="<?= $row->MASTER_BARANG_ID; ?>"><?= $row->MASTER_BARANG_NAMA; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </select>
                                             </td>
                                             <td>
-                                                <select name="kepemilikan_barang" id="kepemilikan_barang" class="form-control form-control-sm kepemilikan_barang select2" style="width: 100%;">
+                                                <select name="kepemilikan_barang_jadi" id="kepemilikan_barang_jadi" class="form-control form-control-sm kepemilikan_barang_jadi select2" style="width: 100%;">
                                                     <option value="MP">MP</option>
                                                     <option value="MR">MR</option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control form-control-sm total_barang" name="total_barang" autocomplete="off" value="0">
+                                                <input type="text" class="form-control form-control-sm total_barang_jadi" name="total_barang_jadi" autocomplete="off" value="0">
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-secondary btn-sm btn-add-barang"><i class="nav-icon fas fa-plus"></i></button>
+                                                <button type="button" class="btn btn-secondary btn-sm btn-add-barang_jadi"><i class="nav-icon fas fa-plus"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
-                                    <tbody id="zone_data_barang">
+                                    <tbody id="zone_data_barang_jadi">
                                         <tr>
                                         </tr>
                                     </tbody>
-                                    <tfoot id="zone_total_barang">
+                                    <tfoot id="zone_total_barang_jadi">
 
                                     </tfoot>
                                 </table>
@@ -223,7 +235,7 @@ if (empty($this->uri->segment('4'))) {
     function detail() {
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/produksi/produksi/detail/<?= $id; ?>',
+            url: '<?php echo base_url() ?>index.php/produksi/transfer/detail/<?= $id; ?>',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -235,7 +247,7 @@ if (empty($this->uri->segment('4'))) {
                     // if (data['data'].length == "") {
                     //     $(".level_awal").val(data['terakhir'][0].PRODUKSI_LEVEL_AKHIR)
                     // }
-                    $(".nomor_produksi").val(data['data'][0].PRODUKSI_NOMOR)
+                    $(".nomor_transfer_produksi").val(data['data'][0].PRODUKSI_TRANSFER_NOMOR)
                     $(".tanggal").val(data['data'][0].TANGGAL)
                     $(".jenis").val(data['data'][0].MASTER_BARANG_ID).trigger('change')
                     $(".master_tangki").val(data['data'][0].MASTER_TANGKI_ID).trigger('change')
@@ -253,7 +265,8 @@ if (empty($this->uri->segment('4'))) {
                         $(".link_dokument").html("Lihat Dokumen")
                         $(".link_dokument").attr("href", "<?= base_url(); ?>uploads/produksi/" + data['data'][0].PRODUKSI_LEVEL_AKHIR_FILE + "")
                     }
-                    barang_list()
+                    barang_list_dari()
+                    barang_list_jadi()
                     karyawan_list()
                 }
 
@@ -273,123 +286,146 @@ if (empty($this->uri->segment('4'))) {
         kapasitas_tangki()
     });
 
-
-    function jenis_barang(id_bahan) {
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/produksi/produksi/jenis_barang/' + id_bahan + '',
-            async: false,
-            dataType: 'json',
-            success: function(data) {
-                if (data.length == 0) {} else {
-                    $("#barang").empty()
-                    for (i = 0; i < data.length; i++) {
-                        $("#barang").append("<option value='" + data[i].MASTER_BARANG_ID + "'>" + data[i].MASTER_BARANG_NAMA + "</option>")
-                    }
-                }
-
-
-            },
-            error: function(x, e) {
-                console.log('gagag')
-            } //end error
-        });
-    }
-
-    function kapasitas_tangki() {
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url() ?>index.php/produksi/produksi/kapasitas_tangki/' + $(".master_tangki").val() + '',
-            async: false,
-            dataType: 'json',
-            success: function(data) {
-                if (data.length == 0) {} else {
-                    $(".level_awal").val(data[0].TOTAL)
-                }
-
-
-            },
-            error: function(x, e) {
-                console.log('gagag')
-            } //end error
-        });
-    }
-
-    $('.btn-add-barang').on("click", function(e) {
+    $('.btn-add-barang_dari').on("click", function(e) {
         $.ajax({
             type: "POST",
-            url: '<?php echo base_url(); ?>index.php/produksi/produksi/add_barang',
+            url: '<?php echo base_url(); ?>index.php/produksi/transfer/add_barang_dari',
             dataType: "JSON",
             beforeSend: function() {
                 memuat()
             },
             data: {
                 id: "<?= $id; ?>",
-                barang: $('.barang').val(),
-                total_barang: $('.total_barang').val(),
-                kepemilikan_barang: $('.kepemilikan_barang').val(),
+                barang: $('.barang_dari').val(),
+                total_barang: $('.total_barang_dari').val(),
+                kepemilikan_barang: $('.kepemilikan_barang_dari').val(),
             },
             success: function(data) {
                 memuat()
-                barang_list()
+                barang_list_dari()
+
+            }
+        });
+    })
+    $('.btn-add-barang_jadi').on("click", function(e) {
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/produksi/transfer/add_barang_jadi',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                id: "<?= $id; ?>",
+                barang: $('.barang_jadi').val(),
+                total_barang: $('.total_barang_jadi').val(),
+                kepemilikan_barang: $('.kepemilikan_barang_jadi').val(),
+            },
+            success: function(data) {
+                memuat()
+                barang_list_jadi()
 
             }
         });
     })
 
     $('.btn-add-karyawan').on("click", function(e) {
-        if (parseInt($('.total_produksi').val()) > parseInt($(".total_tabung").val())) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Melebih total Produksi'
-            })
-        } else {
-            $.ajax({
-                type: "POST",
-                url: '<?php echo base_url(); ?>index.php/produksi/produksi/add_karyawan',
-                dataType: "JSON",
-                beforeSend: function() {
-                    memuat()
-                },
-                data: {
-                    id: "<?= $id; ?>",
-                    karyawan_produksi: $('.karyawan_produksi').val(),
-                    total_produksi: $('.total_produksi').val(),
-                },
-                success: function(data) {
-                    memuat()
-                    karyawan_list()
-                }
-            });
-        }
+        // if (parseInt($('.total_produksi').val()) > parseInt($(".total_tabung").val())) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Oops...',
+        //         text: 'Melebih total Produksi'
+        //     })
+        // } else {
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url(); ?>index.php/produksi/transfer/add_karyawan',
+            dataType: "JSON",
+            beforeSend: function() {
+                memuat()
+            },
+            data: {
+                id: "<?= $id; ?>",
+                karyawan_produksi: $('.karyawan_produksi').val(),
+                total_produksi: $('.total_produksi').val(),
+            },
+            success: function(data) {
+                memuat()
+                karyawan_list()
+            }
+        });
+        // }
     })
 
-    function barang_list() {
+    function barang_list_dari() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/produksi/produksi/list_barang/<?= $id; ?>",
+            url: "<?php echo base_url() ?>index.php/produksi/transfer/list_barang_dari/<?= $id; ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
-                $("tbody#zone_data_barang").empty();
+                $("tbody#zone_data_barang_dari").empty();
                 $("tfoot#zone_total_barang").empty();
                 if (data.length === 0) {
-                    $("tbody#zone_data_barang").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                    $("tbody#zone_data_barang_dari").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
                     $(".total").val("0")
                 } else {
                     var no_isi = 1
                     var total = 0
                     var kapasitas = 0
                     for (i = 0; i < data.length; i++) {
-                        kapasitas += parseInt(data[i].MASTER_BARANG_TOTAL) * parseInt(data[i].PRODUKSI_BARANG_TOTAL)
-                        total += parseInt(data[i].PRODUKSI_BARANG_TOTAL)
-                        var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].PRODUKSI_BARANG_ID + "\")'><i class='fas fa-trash'></i>"
-                        $("tbody#zone_data_barang").append("<tr class=''>" +
+                        kapasitas += parseInt(data[i].MASTER_BARANG_TOTAL) * parseInt(data[i].PRODUKSI_TRANSFER_BARANG_DARI_TOTAL)
+                        total += parseInt(data[i].PRODUKSI_TRANSFER_BARANG_DARI_TOTAL)
+                        var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus_dari(\"" + data[i].PRODUKSI_TRANSFER_BARANG_DARI_ID + "\")'><i class='fas fa-trash'></i>"
+                        $("tbody#zone_data_barang_dari").append("<tr class=''>" +
                             "<td>" + no_isi++ + ".</td>" +
                             "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td>" + data[i].PRODUKSI_BARANG_KEPEMILIKAN + "</td>" +
-                            "<td>" + data[i].PRODUKSI_BARANG_TOTAL + "</td>" +
+                            "<td>" + data[i].PRODUKSI_TRANSFER_BARANG_DARI_KEPEMILIKAN + "</td>" +
+                            "<td>" + data[i].PRODUKSI_TRANSFER_BARANG_DARI_TOTAL + "</td>" +
+                            "<td>" + btn_hapus + " " +
+                            "</td>" +
+                            "</tr>");
+                    }
+                    $(".total_kapasitas").val(kapasitas)
+                    $(".total_tabung").val(total)
+                    $("tfoot#zone_total_barang").append("<tr class=''>" +
+                        "<td colspan='3' style='text-align:right'>Total.</td>" +
+                        "<td>" + total + "</td>" +
+                        "</tr>");
+                    kalkulasi()
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    function barang_list_jadi() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/produksi/transfer/list_barang_jadi/<?= $id; ?>",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#zone_data_barang_jadi").empty();
+                $("tfoot#zone_total_barang").empty();
+                if (data.length === 0) {
+                    $("tbody#zone_data_barang_jadi").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                    $(".total").val("0")
+                } else {
+                    var no_isi = 1
+                    var total = 0
+                    var kapasitas = 0
+                    for (i = 0; i < data.length; i++) {
+                        kapasitas += parseInt(data[i].MASTER_BARANG_TOTAL) * parseInt(data[i].PRODUKSI_TRANSFER_BARANG_JADI_TOTAL)
+                        total += parseInt(data[i].PRODUKSI_TRANSFER_BARANG_JADI_TOTAL)
+                        var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus_jadi(\"" + data[i].PRODUKSI_TRANSFER_BARANG_JADI_ID + "\")'><i class='fas fa-trash'></i>"
+                        $("tbody#zone_data_barang_jadi").append("<tr class=''>" +
+                            "<td>" + no_isi++ + ".</td>" +
+                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
+                            "<td>" + data[i].PRODUKSI_TRANSFER_BARANG_JADI_KEPEMILIKAN + "</td>" +
+                            "<td>" + data[i].PRODUKSI_TRANSFER_BARANG_JADI_TOTAL + "</td>" +
                             "<td>" + btn_hapus + " " +
                             "</td>" +
                             "</tr>");
@@ -412,7 +448,7 @@ if (empty($this->uri->segment('4'))) {
     function karyawan_list() {
         $.ajax({
             type: 'ajax',
-            url: "<?php echo base_url() ?>index.php/produksi/produksi/list_karyawan/<?= $id; ?>",
+            url: "<?php echo base_url() ?>index.php/produksi/transfer/list_karyawan/<?= $id; ?>",
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -427,11 +463,11 @@ if (empty($this->uri->segment('4'))) {
                     var total = 0
                     for (i = 0; i < data.length; i++) {
                         // total += parseInt(data[i].PRODUKSI_BARANG_TOTAL)
-                        var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus_karyawan(\"" + data[i].PRODUKSI_KARYAWAN_ID + "\")'><i class='fas fa-trash'></i>"
+                        var btn_hapus = "<a class='btn btn-danger btn-sm' onclick='hapus_karyawan(\"" + data[i].PRODUKSI_TRANSFER_KARYAWAN_ID + "\")'><i class='fas fa-trash'></i>"
                         $("tbody#zone_data_karyawan").append("<tr class=''>" +
                             "<td>" + no_isi++ + ".</td>" +
                             "<td>" + data[i].MASTER_KARYAWAN_NAMA + "</td>" +
-                            "<td>" + data[i].PRODUKSI_KARYAWAN_TOTAL + "</td>" +
+                            "<td>" + data[i].PRODUKSI_TRANSFER_KARYAWAN_TOTAL + "</td>" +
                             "<td>" + btn_hapus + " " +
                             "</td>" +
                             "</tr>");
@@ -444,7 +480,7 @@ if (empty($this->uri->segment('4'))) {
         });
     }
 
-    function hapus(id) {
+    function hapus_dari(id) {
         Swal.fire({
             title: '<?= $this->lang->line('hapus'); ?> ?',
             icon: 'question',
@@ -455,12 +491,44 @@ if (empty($this->uri->segment('4'))) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/produksi/produksi/hapus/' + id,
+                    url: '<?php echo base_url() ?>index.php/produksi/transfer/hapus_dari/' + id,
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
                             Swal.fire('Berhasil', 'Barang Berhasil dihapus', 'success')
-                            barang_list()
+                            barang_list_dari()
+                        }
+                    },
+                    error: function(x, e) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Proses Gagal'
+                        })
+                    } //end error
+                });
+
+            }
+        })
+    }
+
+    function hapus_jadi(id) {
+        Swal.fire({
+            title: '<?= $this->lang->line('hapus'); ?> ?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: `<?= $this->lang->line('hapus'); ?>`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'ajax',
+                    url: '<?php echo base_url() ?>index.php/produksi/transfer/hapus_jadi/' + id,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.length === 0) {} else {
+                            Swal.fire('Berhasil', 'Barang Berhasil dihapus', 'success')
+                            barang_list_jadi()
                         }
                     },
                     error: function(x, e) {
@@ -487,7 +555,7 @@ if (empty($this->uri->segment('4'))) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: 'ajax',
-                    url: '<?php echo base_url() ?>index.php/produksi/produksi/hapus_karyawan/' + id,
+                    url: '<?php echo base_url() ?>index.php/produksi/transfer/hapus_karyawan/' + id,
                     dataType: 'json',
                     success: function(data) {
                         if (data.length === 0) {} else {
@@ -510,7 +578,7 @@ if (empty($this->uri->segment('4'))) {
     $('#submit').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '<?php echo base_url(); ?>index.php/produksi/produksi/add_selesai',
+            url: '<?php echo base_url(); ?>index.php/produksi/transfer/add_selesai',
             type: "post",
             data: new FormData(this),
             processData: false,
@@ -521,7 +589,7 @@ if (empty($this->uri->segment('4'))) {
             },
             success: function(data) {
                 detail();
-                window.location.href = '<?= base_url(); ?>produksi/produksi/form_selesai/<?= $id; ?>'
+                window.location.href = '<?= base_url(); ?>produksi/transfer/form/<?= $id; ?>'
             }
         });
     })

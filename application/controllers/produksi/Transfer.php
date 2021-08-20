@@ -58,10 +58,16 @@ class Transfer extends CI_Controller
         echo json_encode($data);
     }
 
-    public function list_barang()
+    public function list_barang_dari()
     {
         $id = $this->uri->segment('4');
-        $data = $this->TransferModel->list_barang($id);
+        $data = $this->TransferModel->list_barang_dari($id);
+        echo json_encode($data);
+    }
+    public function list_barang_jadi()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->TransferModel->list_barang_jadi($id);
         echo json_encode($data);
     }
 
@@ -95,67 +101,50 @@ class Transfer extends CI_Controller
 
     public function add_selesai()
     {
-        if ($this->input->post('userfile_name_awal') == "" and $_FILES["userfile_awal"]["name"] == "") {
-            $config['file_name_awal'] = $this->input->post('userfile_name_awal');
-        } else  if ($this->input->post('userfile_name_awal') != "" and $_FILES["userfile_awal"]["name"] == "") {
-            $config['file_name_awal'] = $this->input->post('userfile_name_awal');
-        } else {
-            $config['name']                    = random_string('sha1', 40);
-            $config['upload_path']          = './uploads/produksi';
-            $config['allowed_types']        = '*';
-            $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile_awal"]["name"], PATHINFO_EXTENSION);
-            $config['file_name_awal']            = $config['name'] . "." . pathinfo($_FILES["userfile_awal"]["name"], PATHINFO_EXTENSION);
-
-            $this->load->library('upload', $config);
-            $this->upload->do_upload('userfile_awal');
-        }
-
-        if ($this->input->post('userfile_name') == "" and $_FILES["userfile"]["name"] == "") {
-            $config['file_name'] = $this->input->post('userfile_name');
-        } else  if ($this->input->post('userfile_name') != "" and $_FILES["userfile"]["name"] == "") {
-            $config['file_name'] = $this->input->post('userfile_name');
-        } else {
-            $config['name']                    = random_string('sha1', 40);
-            $config['upload_path']          = './uploads/produksi';
-            $config['allowed_types']        = '*';
-            $config['file_name']            = $config['name'] . "." . pathinfo($_FILES["userfile"]["name"], PATHINFO_EXTENSION);
-
-            $this->load->library('upload', $config);
-            $this->upload->do_upload('userfile');
-        }
-        $data = $this->ProduksiModel->add_selesai($config);
+        $data = $this->TransferModel->add_selesai();
         echo json_encode($data);
     }
 
-    public function add_barang()
+    public function add_barang_dari()
     {
-        $data = $this->ProduksiModel->add_barang();
+        $data = $this->TransferModel->add_barang_dari();
+        echo json_encode($data);
+    }
+    public function add_barang_jadi()
+    {
+        $data = $this->TransferModel->add_barang_jadi();
         echo json_encode($data);
     }
 
     public function add_karyawan()
     {
-        $data = $this->ProduksiModel->add_karyawan();
+        $data = $this->TransferModel->add_karyawan();
         echo json_encode($data);
     }
 
-    public function hapus()
+    public function hapus_dari()
     {
         $id = $this->uri->segment('4');
-        $data = $this->ProduksiModel->hapus($id);
+        $data = $this->TransferModel->hapus_dari($id);
+        echo json_encode($data);
+    }
+    public function hapus_jadi()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->TransferModel->hapus_jadi($id);
         echo json_encode($data);
     }
     public function hapus_karyawan()
     {
         $id = $this->uri->segment('4');
-        $data = $this->ProduksiModel->hapus_karyawan($id);
+        $data = $this->TransferModel->hapus_karyawan($id);
         echo json_encode($data);
     }
 
     public function detail()
     {
         $id = $this->uri->segment('4');
-        $data = $this->ProduksiModel->detail($id);
+        $data = $this->TransferModel->detail($id);
         echo json_encode($data);
     }
 }

@@ -24,8 +24,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-5">
-                            <a href="<?= base_url(); ?>produksi/transfer/form" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Produksi</a>
-                            <a href="<?= base_url(); ?>cetak/form_produksi" target="_blank" class="btn btn-success mb-2 btn-form mr-2">Cetak Form Produksi</a>
+                            <a href="<?= base_url(); ?>produksi/transfer/form" class="btn btn-secondary mb-2 btn-form mr-2">Tambah Transfer</a>
                         </div>
                         <div class="col-md-3">
                             <select name="bulan" id="bulan" class="form-control select2 bulan" style="width: 100%;">
@@ -138,27 +137,6 @@
             }
         });
     }
-
-    $('#submit').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '<?php echo base_url(); ?>index.php/konfigurasi/pajak/add',
-            type: "post",
-            data: new FormData(this),
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function() {
-                memuat()
-            },
-            success: function(data) {
-                produksi_list();
-                Swal.fire('Berhasil', 'Pajak berhasil ditambahkan', 'success')
-                $("#pajakModal").modal("hide")
-            }
-        });
-    })
-
 
     $('.filter_tanggal').on("click", function() {
         memuat()
