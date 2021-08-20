@@ -349,6 +349,7 @@ if (empty($this->uri->segment('4'))) {
     $(function() {
         if ($(".sj_baru").val() == "sj_baru") {
             memuat()
+            $(".tombol_simpan").attr("hidden", true)
         } else {
             detail()
             barang_list()

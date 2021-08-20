@@ -265,7 +265,7 @@ if (empty($this->uri->segment('4'))) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3 row">
+                                        <div class="mb-3 row" hidden>
                                             <label class="col-sm-2 col-form-label text-right">Potongan</label>
                                             <div class="col-sm-10">
                                                 <div class="input-group mb-3">
