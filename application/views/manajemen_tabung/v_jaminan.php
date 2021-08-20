@@ -296,7 +296,7 @@
                             "<td>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
                             "<td>" +
                             "<a target='_blank' class='mb-2 btn btn-success btn-sm' onclick='cetak(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Cetak</a> " +
-                            "<a target='_blank' class='mb-2 btn btn-success btn-sm' onclick='akun(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Akun</a> " +
+                            // "<a target='_blank' class='mb-2 btn btn-success btn-sm' onclick='akun(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Akun</a> " +
                             "" + btn_selesai + "</td>" +
                             "</tr>");
                     }
