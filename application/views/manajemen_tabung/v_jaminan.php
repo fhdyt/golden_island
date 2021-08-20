@@ -296,6 +296,7 @@
                             "<td>" + number_format(data[i].FAKTUR_JAMINAN_TOTAL_RUPIAH) + "</td>" +
                             "<td>" +
                             "<a target='_blank' class='mb-2 btn btn-success btn-sm' onclick='cetak(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Cetak</a> " +
+                            "<a target='_blank' class='mb-2 btn btn-success btn-sm' onclick='akun(\"" + data[i].FAKTUR_JAMINAN_ID + "\")'> <i class='right fas fa-print'></i> Akun</a> " +
                             "" + btn_selesai + "</td>" +
                             "</tr>");
                     }
@@ -372,6 +373,25 @@
 
     function cetak(id) {
         window.open('<?= base_url(); ?>cetak/faktur_jaminan/' + id + '');
+    }
+
+    function akun(id) {
+        console.log(id)
+        $.ajax({
+            url: '<?php echo base_url(); ?>index.php/manajemen_tabung/jaminan/akun',
+            type: "post",
+            dataType: "JSON",
+            data: {
+                id_jaminan: id
+            },
+            beforeSend: function() {
+                memuat()
+            },
+            success: function(data) {
+                Swal.fire('Berhasil', 'Jaminan berhasil diselesaikan', 'success')
+                $("#pajakModal").modal("hide")
+            }
+        });
     }
 
 

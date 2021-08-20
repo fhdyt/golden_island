@@ -132,6 +132,33 @@ class JaminanModel extends CI_Model
         return $result;
     }
 
+    public function akun()
+    {
+        $hasil = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE FAKTUR_JAMINAN_ID="' . $this->input->post('id_jaminan') . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  LIMIT 1 ')->result();
+        $relasi = $this->db->query('SELECT * FROM 
+        MASTER_RELASI
+        WHERE MASTER_RELASI_ID="' . $hasil[0]->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        $data_buku_besar = array(
+            'BUKU_BESAR_ID' => create_id(),
+            'BUKU_BESAR_REF' => $this->input->post('id_jaminan'),
+            'AKUN_ID' => $hasil[0]->AKUN_ID,
+            'BUKU_BESAR_TANGGAL' => $hasil[0]->FAKTUR_JAMINAN_TANGGAL,
+            'BUKU_BESAR_KREDIT' => "0",
+            'BUKU_BESAR_DEBET' => $hasil[0]->FAKTUR_JAMINAN_TOTAL_RUPIAH,
+            'BUKU_BESAR_SUMBER' => "JAMINAN",
+            'BUKU_BESAR_JENIS_PENGELUARAN' => "Jaminan",
+            'BUKU_BESAR_KETERANGAN' => "JAMINAN TABUNG NO. " . $hasil[0]->FAKTUR_JAMINAN_NOMOR . "<br>(" . $relasi[0]->MASTER_RELASI_NAMA . ")",
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('BUKU_BESAR', $data_buku_besar);
+        return $result;
+    }
+
     public function surat_jalan_list()
     {
         $hasil = $this->db->query('SELECT * FROM 

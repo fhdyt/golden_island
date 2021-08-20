@@ -50,6 +50,11 @@ class Jaminan extends CI_Controller
         $data = $this->JaminanModel->selesai();
     }
 
+    public function akun()
+    {
+        $data = $this->JaminanModel->akun();
+    }
+
     public function hapus()
     {
         $id = $this->uri->segment('4');
