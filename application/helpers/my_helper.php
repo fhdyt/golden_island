@@ -560,6 +560,27 @@ if (!function_exists('nomor_produksi')) {
   }
 }
 
+if (!function_exists('nomor_transfer_produksi')) {
+  function nomor_transfer_produksi($tanggal)
+  {
+    $CI = &get_instance();
+
+    $bulan = date("m", strtotime($tanggal));
+    $tahun = date("y", strtotime($tanggal));
+    $nomor = "TPRO/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+
+    $CI->load->database();
+    $hasil = $CI->db->query('SELECT * FROM PRODUKSI_TRANSFER WHERE PRODUKSI_TRANSFER_NOMOR LIKE "%' . $nomor . '%" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $CI->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PRODUKSI_TRANSFER_NOMOR DESC ')->result();
+    if (empty($hasil)) {
+      return "0001/TPRO/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    } else {
+      $nomor = explode("/", $hasil[0]->PRODUKSI_NOMOR);
+      $nomorbaru = $nomor[0] + 1;
+      return sprintf("%04d", $nomorbaru) . "/TPRO/" . $CI->session->userdata('PERUSAHAAN_KODE') . "/" . $bulan . "-" . $tahun . "";
+    }
+  }
+}
+
 if (!function_exists('nomor_titipan')) {
   function nomor_titipan($tanggal)
   {

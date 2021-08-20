@@ -203,6 +203,9 @@
                         if (isNaN(piutang)) {
                             piutang = 0;
                         }
+                        if (isNaN(terbayar)) {
+                            terbayar = 0;
+                        }
 
                         total_terbayar += parseInt(terbayar)
                         total_piutang += parseInt(piutang)
