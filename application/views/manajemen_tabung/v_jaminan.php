@@ -385,7 +385,7 @@
                 id_jaminan: id
             },
             beforeSend: function() {
-                memuat()
+                //memuat()
             },
             success: function(data) {
                 Swal.fire('Berhasil', 'Jaminan berhasil diselesaikan', 'success')
