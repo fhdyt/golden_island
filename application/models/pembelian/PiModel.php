@@ -10,10 +10,17 @@ class PiModel extends CI_Model
 
         $hasil = $this->db->query('SELECT * FROM PEMBELIAN WHERE ' . $tanggal . ' PEMBELIAN_JENIS="PI" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  ORDER BY PEMBELIAN_TANGGAL DESC ')->result();
         foreach ($hasil as $row) {
+            $row->PO = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_JENIS="PO" AND PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->PD = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_JENIS="PD" AND PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TANGGAL = tanggal($row->PEMBELIAN_TANGGAL);
             $row->SUPPLIER = $supplier;
-
+            $row->BARANG = $this->db->query('SELECT * FROM 
+            PEMBELIAN_BARANG AS P LEFT JOIN MASTER_BARANG AS B 
+            ON P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+             WHERE P.PI_ID="' . $row->PI_ID . '" AND 
+             P.RECORD_STATUS="AKTIF" AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" AND
+             B.RECORD_STATUS="AKTIF" AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $transaksi = $this->db->query('SELECT * FROM PEMBELIAN_TRANSAKSI WHERE PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND PEMBELIAN_JENIS="PI" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
             $row->TRANSAKSI = $transaksi;
         }

@@ -20,7 +20,7 @@
                 <div class="card-body">
 
                     <div class="row mb-2">
-                        <div class="col-md-3">
+                        <div class="col-md-4 mb-2">
                             <select name="perusahaan" id="perusahaan" class="form-control perusahaan select2" style="width: 100%;" required>
                                 <option value="">-- Perusahaan --</option>
                                 <?php
@@ -32,16 +32,48 @@
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4 mb-2">
                             <select name="akun" id="akun" class="form-control akun select2" style="width: 100%;" required>
 
                             </select>
+                            <small class="text-muted">Akun</small>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4 mb-2">
+                            <select name="pengeluaran_pemasukan" id="pengeluaran_pemasukan" class="form-control pengeluaran_pemasukan select2" style="width: 100%;" required>
+                                <option value="">-</option>
+                                <option value="pengeluaran">Pengeluaran</option>
+                                <option value="pemasukan">Pemasukan</option>
+                            </select>
+                            <small class="text-muted">Pengeluaran / Pemasukan.</small>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <select class="form-control jenis_pengeluaran" name="jenis_pengeluaran">
+                                <option value="">-</option>
+                                <option value="Pengeluaran Harian">Pengeluaran Harian</option>
+                                <option value="Uang Jalan">Uang Jalan</option>
+                                <option value="Jaminan">Jaminan</option>
+                                <option value="Reimburse">Reimburse</option>
+                                <option value="Potongan">Potongan Surat Jalan</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <small class="text-muted">Jenis Transaksi.</small>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <select class="form-control jumlah" name="jumlah">
+                                <option value="">-</option>
+                                <option value="kurang_5">
+                                    < 5.000.000</option>
+                                <option value="lebih_5">> 5.000.000</option>
+                                <option value="lebih_50">> 50.000.000</option>
+                                <option value="lebih_100">> 100.000.000</option>
+                            </select>
+                            <small class="text-muted">Jumlah</small>
+                        </div>
+                        <div class="col-md-3 mb-2">
                             <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                             <small class="text-muted">Tanggal Dari.</small>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-2">
                             <div class="input-group">
                                 <input type="date" class="form-control tanggal_sampai" name="tanggal_sampai" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
                                 <div class="input-group-append">
@@ -131,6 +163,9 @@
                 tanggal_dari: $('.tanggal_dari').val(),
                 tanggal_sampai: $('.tanggal_sampai').val(),
                 perusahaan: $('.perusahaan').val(),
+                pengeluaran_pemasukan: $('.pengeluaran_pemasukan').val(),
+                jenis_pengeluaran: $('.jenis_pengeluaran').val(),
+                jumlah: $('.jumlah').val(),
             },
             success: function(data) {
                 $("tbody#zone_saldo_awal").empty();

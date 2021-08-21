@@ -29,6 +29,7 @@
                             <option value="Uang Jalan">Uang Jalan</option>
                             <option value="Jaminan">Jaminan</option>
                             <option value="Reimburse">Reimburse</option>
+                            <option value="Potongan">Potongan Surat Jalan</option>
                             <option value="Lainnya">Lainnya</option>
                         </select>
                         <small class="text-muted">*<?= $this->lang->line('wajib_isi'); ?>.</small>
@@ -447,7 +448,7 @@
         buku_besar_list()
     });
     $('.jenis_pengeluaran').change(function() {
-        if ($('.jenis_pengeluaran').val() == "Uang Jalan") {
+        if ($('.jenis_pengeluaran').val() == "Uang Jalan" || $('.jenis_pengeluaran').val() == "Potongan") {
             $(".uang_jalan").attr("hidden", false)
             $(".nomor_surat_jalan").attr("required", true)
 

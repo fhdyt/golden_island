@@ -45,7 +45,10 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th>Nomor Faktur</th>
+                                <th>Nomor Pemesanan</th>
+                                <th>Nomor Pengiriman</th>
                                 <th>Jenis Pembelian</th>
+                                <th>Pembelian</th>
                                 <th><?= $this->lang->line('supplier'); ?></th>
                                 <th>Total</th>
                                 <th>Bayar</th>
@@ -69,6 +72,7 @@
 <!-- /.content-wrapper -->
 <script>
     $(function() {
+        $('a.menu-btn').click()
         pi_list();
     });
 
@@ -108,14 +112,36 @@
                             var total = number_format(parseInt(data[i].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_TOTAL) + parseInt(data[i].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_PAJAK_RUPIAH))
                             var bayar = number_format(data[i].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR)
                         }
+                        if (data[i].PO.length === 0) {
+                            var po = "Tidak Ada Pemesanan"
+                        } else {
+                            var po = "<a target=_blank href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO[0].PO_ID + "/" + data[i].PEMBELIAN_ID + "'>" + data[i].PO[0].PEMBELIAN_NOMOR + "</a>"
+                        }
+                        if (data[i].PD.length === 0) {
+                            var pd = "Tidak Ada Pengiriman"
+                        } else {
+                            var pd = "<a target=_blank href='<?= base_url(); ?>pembelian/pd/form_pd/" + data[i].PD[0].PD_ID + "/" + data[i].PEMBELIAN_ID + "'>" + data[i].PD[0].PEMBELIAN_NOMOR + "</a>"
+                        }
+
+                        var barang = ""
+                        if (data[i].BARANG.length === 0) {
+                            barang += "-"
+                        } else {
+                            for (j = 0; j < data[i].BARANG.length; j++) {
+                                barang += "" + data[i].BARANG[j].MASTER_BARANG_NAMA + " - " + data[i].BARANG[j].PEMBELIAN_BARANG_QUANTITY + "<br>"
+                            }
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].PEMBELIAN_NOMOR + "<br>" + status + "</td>" +
+                            "<td>" + po + "</td>" +
+                            "<td>" + pd + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
+                            "<td>" + barang +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
-                            "<td>" + total + "</td>" +
                             "<td>" + bayar + "</td>" +
+                            "<td>" + total + "</td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>pembelian/pi/form_pi/" + data[i].PI_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
                             "</td>" +
                             "</tr>");

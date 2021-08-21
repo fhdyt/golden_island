@@ -11,6 +11,8 @@ class PdModel extends CI_Model
 
         $hasil = $this->db->query('SELECT * FROM PEMBELIAN WHERE ' . $tanggal . ' PEMBELIAN_JENIS="PD" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  ORDER BY PEMBELIAN_TANGGAL DESC ')->result();
         foreach ($hasil as $row) {
+            $row->PI = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_JENIS="PI" AND PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->PO = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_JENIS="PO" AND PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TANGGAL = tanggal($row->PEMBELIAN_TANGGAL);
             $row->SUPPLIER = $supplier;

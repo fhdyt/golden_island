@@ -145,9 +145,6 @@
                     <table id="example2" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th colspan="4" style="text-align: center;"><?= tanggal(date("Y-m-d")) ?></th>
-                            </tr>
-                            <tr>
                                 <th>No.</th>
                                 <th>Oleh</th>
                                 <th>Tanggal</th>
@@ -432,7 +429,7 @@
                         $("tbody#verifikasi_list").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].USER[0].USER_NAMA + "</td>" +
-                            "<td>" + data[i].VERIFIKASI_PANGGUNG_TANGGAL + "</td>" +
+                            "<td>" + data[i].TANGGAL + " (" + data[i].JAM + ")</td>" +
                             "<td>" + data[i].VERIFIKASI_PANGGUNG_TOTAL + "</td>" +
                             "</tr>");
                     }

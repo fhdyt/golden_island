@@ -17,6 +17,19 @@ class Buku_besarModel extends CI_Model
         // }
 
         $tanggal = 'AND BUKU_BESAR_TANGGAL BETWEEN "' . $tanggal_dari . '" AND "' . $tanggal_sampai . '"';
+
+        if (empty($this->input->post("pengeluaran_pemasukan"))) {
+            $pengeluaran_pemasukan = "";
+        } else if ($this->input->post("pengeluaran_pemasukan") == "pemasukan") {
+            $pengeluaran_pemasukan = "AND BUKU_BESAR_DEBET>0";
+        } else if ($this->input->post("pengeluaran_pemasukan") == "pengeluaran") {
+            $pengeluaran_pemasukan = "AND BUKU_BESAR_KREDIT>0";
+        } else {
+            $pengeluaran_pemasukan = "";
+        }
+
+        $hasil['test'] = $pengeluaran_pemasukan;
+
         $hasil['saldo_awal'] = $this->db->query('SELECT 
             SUM(BUKU_BESAR_KREDIT) AS KREDIT,
             SUM(BUKU_BESAR_DEBET) AS DEBET 
@@ -31,6 +44,7 @@ class Buku_besarModel extends CI_Model
         $hasil['data'] = $this->db->query('SELECT * FROM 
         BUKU_BESAR WHERE 
         AKUN_ID="' . $akun . '" 
+        ' . $pengeluaran_pemasukan . '
         AND NOT (BUKU_BESAR_KREDIT=0 AND BUKU_BESAR_DEBET =0)
         AND RECORD_STATUS="AKTIF" 
         AND PERUSAHAAN_KODE="' . $this->input->post("perusahaan") . '" 

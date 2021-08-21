@@ -285,10 +285,11 @@ class PanggungModel extends CI_Model
     {
         $hasil = $this->db->query('SELECT * 
                                     FROM VERIFIKASI_PANGGUNG 
-                                    WHERE VERIFIKASI_PANGGUNG_TANGGAL LIKE "%' . date("Y-m-d") . '%" 
-                                    AND RECORD_STATUS="AKTIF" 
-                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+                                    WHERE RECORD_STATUS="AKTIF" 
+                                    AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY ENTRI_WAKTU DESC')->result();
         foreach ($hasil as $row) {
+            $row->TANGGAL = tanggal($row->ENTRI_WAKTU);
+            $row->JAM = jam($row->ENTRI_WAKTU);
             $row->USER = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->ENTRI_USER . '" AND RECORD_STATUS="AKTIF"')->result();
         }
         return $hasil;

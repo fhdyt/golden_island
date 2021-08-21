@@ -155,7 +155,7 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-2">
+                        <div class="col-md-2" hidden>
                             <button type="button" class="btn btn-secondary btn_pajak mb-2">Tambah Jaminan</button>
                         </div>
                         <div class="col-md-11">

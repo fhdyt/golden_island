@@ -1,3 +1,8 @@
+<style>
+    .table {
+        font-size: small;
+    }
+</style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -42,6 +47,8 @@
                                 <th>No.</th>
                                 <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th>Nomor Pemesanan</th>
+                                <th>Nomor Pengiriman</th>
+                                <th>Nomor Faktur</th>
                                 <th>Jenis Pembelian</th>
                                 <th><?= $this->lang->line('supplier'); ?></th>
                                 <th></th>
@@ -95,14 +102,26 @@
                             var status = "<span class='float-left badge bg-success'>Open</span>"
                         }
 
+                        if (data[i].PD.length === 0) {
+                            var pd = "Belum ada Pengiriman"
+                        } else {
+                            var pd = "<a target=_blank href='<?= base_url(); ?>pembelian/pd/form_pd/" + data[i].PD[0].PD_ID + "/" + data[i].PEMBELIAN_ID + "'>" + data[i].PD[0].PEMBELIAN_NOMOR + "</a>"
+                        }
+                        if (data[i].PI.length === 0) {
+                            var pi = "Belum Ada Faktur"
+                        } else {
+                            var pi = "<a target=_blank href='<?= base_url(); ?>pembelian/pi/form_pi/" + data[i].PI[0].PI_ID + "/" + data[i].PEMBELIAN_ID + "'>" + data[i].PI[0].PEMBELIAN_NOMOR + "</a>"
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].PEMBELIAN_NOMOR + "<br>" + status + "</td>" +
+                            "<td>" + pd + "</td>" +
+                            "<td>" + pi + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
-                            "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
-                            "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>cetak/cetak_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'> <i class='right fas fa-print'></i> Cetak</a></td>" +
+                            "<td><a class='btn btn-primary btn-xs ' href='<?= base_url(); ?>pembelian/po/form_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
+                            "<a class='btn btn-success btn-xs' href='<?= base_url(); ?>cetak/cetak_po/" + data[i].PO_ID + "/" + data[i].PEMBELIAN_ID + "'> <i class='right fas fa-print'></i> Cetak</a></td>" +
                             "</tr>");
                     }
                 }
