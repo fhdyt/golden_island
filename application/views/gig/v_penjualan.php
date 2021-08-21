@@ -220,6 +220,7 @@
                             var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
                             var selisih = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - parseInt(data[i].TOTAL);
                             var terbayar = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR);
+                            console.log(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN)
                             if (data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN == null) {
                                 var potongan = 0
                             } else {
