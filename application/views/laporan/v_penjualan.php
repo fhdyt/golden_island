@@ -186,11 +186,11 @@
                             var selisih = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - parseInt(data[i].TOTAL);
                             var terbayar = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR);
                             var piutang = parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL) - parseInt(terbayar) - parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN)
-                            if (piutang < 0) {
-                                piutang = 0
-                            } else {
-                                piutang = piutang
-                            }
+                            // if (piutang < 0) {
+                            //     piutang = 0
+                            // } else {
+                            //     piutang = piutang
+                            // }
                             var btn_faktur_cetak = "<a class='btn btn-primary btn-xs' target='_blank' href='<?= base_url(); ?>cetak/faktur_penjualan/" + data[i].TERBAYAR[0].FAKTUR_ID + "'>Lihat Faktur Penjualan</a>"
                         }
 
