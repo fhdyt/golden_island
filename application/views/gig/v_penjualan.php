@@ -214,12 +214,12 @@
 
                         if (data[i].TERBAYAR.length == 0) {
                             var terbayar = 0
-                            var piutang = data[i].TOTAL
+                            var piutang = parseInt(data[i].TOTAL)
                             var btn_faktur_cetak = "<a class='btn btn-danger btn-xs'>Belum Ada Faktur</a>"
                         } else {
                             var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
                             var selisih = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - parseInt(data[i].TOTAL);
-                            var terbayar = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR) - selisih - parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN);
+                            var terbayar = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR);
                             var piutang = parseInt(data[i].TOTAL) - parseInt(terbayar) - parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN)
                             if (piutang < 0) {
                                 piutang = 0
