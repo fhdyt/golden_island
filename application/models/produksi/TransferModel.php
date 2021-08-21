@@ -15,13 +15,19 @@ class TransferModel extends CI_Model
                                     PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                     ORDER BY PRODUKSI_TRANSFER_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
-            $total_dari = $this->db->query('SELECT SUM(PRODUKSI_TRANSFER_BARANG_TOTAL) AS TOTAL
-            FROM PRODUKSI_TRANSFER_BARANG
-            WHERE PRODUKSI_TRANSFER_ID="' . $row->PRODUKSI_ID . '"
+            $total_dari = $this->db->query('SELECT SUM(PRODUKSI_TRANSFER_BARANG_DARI_TOTAL) AS TOTAL
+            FROM PRODUKSI_TRANSFER_BARANG_DARI
+            WHERE PRODUKSI_TRANSFER_ID="' . $row->PRODUKSI_TRANSFER_ID . '"
                                         AND RECORD_STATUS="AKTIF" 
                                         AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TOTAL_DARI = $total_dari[0]->TOTAL;
-            $row->TANGGAL = tanggal($row->PRODUKSI_TANGGAL);
+            $total_jadi = $this->db->query('SELECT SUM(PRODUKSI_TRANSFER_BARANG_DARI_TOTAL) AS TOTAL
+            FROM PRODUKSI_TRANSFER_BARANG_DARI
+            WHERE PRODUKSI_TRANSFER_ID="' . $row->PRODUKSI_TRANSFER_ID . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->TOTAL_JADI = $total_jadi[0]->TOTAL;
+            $row->TANGGAL = tanggal($row->PRODUKSI_TRANSFER_TANGGAL);
         }
         return $hasil;
     }
@@ -229,27 +235,27 @@ class TransferModel extends CI_Model
 
         $this->db->insert('PRODUKSI_TRANSFER', $data);
 
-        $barang = $this->db->query('SELECT * 
-                                        FROM PRODUKSI_BARANG_DARI AS P
+        $barang_dari = $this->db->query('SELECT * 
+                                        FROM PRODUKSI_TRANSFER_BARANG_DARI AS P
                                         LEFT JOIN MASTER_BARANG AS B
                                         ON P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
                                         WHERE 
-                                        P.PRODUKSI_ID="' . $this->input->post('id') . '"
+                                        P.PRODUKSI_TRANSFER_ID="' . $this->input->post('id') . '"
                                         AND (P.RECORD_STATUS="AKTIF" OR P.RECORD_STATUS="DRAFT")
                                         AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                         AND B.RECORD_STATUS="AKTIF" 
                                         AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
-                                        ORDER BY P.PRODUKSI_BARANG_DARI_INDEX DESC ')->result();
-        foreach ($barang as $row) {
+                                        ORDER BY P.PRODUKSI_TRANSFER_BARANG_DARI_INDEX DESC ')->result();
+        foreach ($barang_dari as $row) {
             $data_panggung_mp_out = array(
                 'PANGGUNG_ID' => create_id(),
                 'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
                 'PANGGUNG_TANGGAL' => $this->input->post("tanggal"),
                 'PANGGUNG_STATUS' => "out",
                 'PANGGUNG_STATUS_ISI' => 1,
-                'PANGGUNG_JUMLAH' => $row->PRODUKSI_BARANG_DARI_TOTAL,
-                'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_BARANG_DARI_KEPEMILIKAN,
-                'PANGGUNG_KETERANGAN' => "TRANSFER " . $nomor_transfer_produksi . "",
+                'PANGGUNG_JUMLAH' => $row->PRODUKSI_TRANSFER_BARANG_DARI_TOTAL,
+                'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_TRANSFER_BARANG_DARI_KEPEMILIKAN,
+                'PANGGUNG_KETERANGAN' => "TRANSFER " . $nomor_transfer_produksi . " (DARI)",
                 'PANGGUNG_REF'  => $this->input->post("id"),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
@@ -265,9 +271,58 @@ class TransferModel extends CI_Model
                 'PANGGUNG_TANGGAL' => $this->input->post("tanggal"),
                 'PANGGUNG_STATUS' => "in",
                 'PANGGUNG_STATUS_ISI' => 0,
-                'PANGGUNG_JUMLAH' => $row->PRODUKSI_BARANG_DARI_TOTAL,
-                'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_BARANG_DARI_KEPEMILIKAN,
-                'PANGGUNG_KETERANGAN' => "TRANSFER " . $nomor_transfer_produksi . "",
+                'PANGGUNG_JUMLAH' => $row->PRODUKSI_TRANSFER_BARANG_DARI_TOTAL,
+                'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_TRANSFER_BARANG_DARI_KEPEMILIKAN,
+                'PANGGUNG_KETERANGAN' => "TRANSFER " . $nomor_transfer_produksi . " (DARI)",
+                'PANGGUNG_REF'  => $this->input->post("id"),
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('PANGGUNG', $data_panggung_mp);
+        }
+
+        $barang_jadi = $this->db->query('SELECT * 
+                                        FROM PRODUKSI_TRANSFER_BARANG_JADI AS P
+                                        LEFT JOIN MASTER_BARANG AS B
+                                        ON P.MASTER_BARANG_ID=B.MASTER_BARANG_ID
+                                        WHERE 
+                                        P.PRODUKSI_TRANSFER_ID="' . $this->input->post('id') . '"
+                                        AND (P.RECORD_STATUS="AKTIF" OR P.RECORD_STATUS="DRAFT")
+                                        AND P.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        AND B.RECORD_STATUS="AKTIF" 
+                                        AND B.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
+                                        ORDER BY P.PRODUKSI_TRANSFER_BARANG_JADI_INDEX DESC ')->result();
+        foreach ($barang_jadi as $row) {
+            $data_panggung_mp_out = array(
+                'PANGGUNG_ID' => create_id(),
+                'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
+                'PANGGUNG_TANGGAL' => $this->input->post("tanggal"),
+                'PANGGUNG_STATUS' => "out",
+                'PANGGUNG_STATUS_ISI' => 0,
+                'PANGGUNG_JUMLAH' => $row->PRODUKSI_TRANSFER_BARANG_JADI_TOTAL,
+                'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_TRANSFER_BARANG_JADI_KEPEMILIKAN,
+                'PANGGUNG_KETERANGAN' => "TRANSFER " . $nomor_transfer_produksi . " (JADI)",
+                'PANGGUNG_REF'  => $this->input->post("id"),
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+            $this->db->insert('PANGGUNG', $data_panggung_mp_out);
+
+            $data_panggung_mp = array(
+                'PANGGUNG_ID' => create_id(),
+                'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
+                'PANGGUNG_TANGGAL' => $this->input->post("tanggal"),
+                'PANGGUNG_STATUS' => "in",
+                'PANGGUNG_STATUS_ISI' => 1,
+                'PANGGUNG_JUMLAH' => $row->PRODUKSI_TRANSFER_BARANG_JADI_TOTAL,
+                'PANGGUNG_STATUS_KEPEMILIKAN' => $row->PRODUKSI_TRANSFER_BARANG_JADI_KEPEMILIKAN,
+                'PANGGUNG_KETERANGAN' => "TRANSFER " . $nomor_transfer_produksi . " (JADI)",
                 'PANGGUNG_REF'  => $this->input->post("id"),
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),

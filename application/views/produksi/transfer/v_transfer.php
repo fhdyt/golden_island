@@ -68,6 +68,8 @@
                                 <th>No.</th>
                                 <th>Nomor Produksi Transfer</th>
                                 <th>Tanggal</th>
+                                <th>Total Dari</th>
+                                <th>Total Jadi</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -121,11 +123,12 @@
 
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td>" + data[i].PRODUKSI_NOMOR + "</td>" +
+                            "<td>" + data[i].PRODUKSI_TRANSFER_NOMOR + "</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].MASTER_BARANG_NAMA + "</td>" +
-                            "<td><a class='btn btn-primary btn-block  btn-xs mb-2' href='<?= base_url(); ?>produksi/transfer/form/" + data[i].PRODUKSI_ID + "/'>Lihat</a> " +
-                            "<a class='btn btn-success  btn-block btn-xs ' href='<?= base_url(); ?>cetak/produksi/" + data[i].PRODUKSI_ID + "/'>Cetak</a> " +
+                            "<td>" + data[i].TOTAL_DARI + "</td>" +
+                            "<td>" + data[i].TOTAL_JADI + "</td>" +
+                            "<td><a class='btn btn-primary btn-block  btn-xs mb-2' href='<?= base_url(); ?>produksi/transfer/form/" + data[i].PRODUKSI_TRANSFER_ID + "/'>Lihat</a> " +
+                            // "<a class='btn btn-success  btn-block btn-xs ' href='<?= base_url(); ?>cetak/produksi/" + data[i].PRODUKSI_ID + "/'>Cetak</a> " +
                             "</td>" +
                             "</tr>");
                     }
