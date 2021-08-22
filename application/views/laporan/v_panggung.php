@@ -96,8 +96,8 @@
             <div class="card card-default color-palette-box">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-md-3" hidden>
-                            <button type="button" class="btn btn-secondary balance mb-2">Balance Panggung</button>
+                        <div class="col-md-3">
+                            <!-- <button type="button" class="btn btn-secondary balance mb-2">Balance Panggung</button> -->
                         </div>
                     </div>
 
