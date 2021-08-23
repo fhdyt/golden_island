@@ -534,7 +534,7 @@ if (empty($this->uri->segment('4'))) {
                         $(".surat_jalan option[value='" + data[i].SURAT_JALAN_ID + "']").remove();
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
-                            "<td colspan='4' style='text-align:center'>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
+                            "<td colspan='4' style='text-align:center'><i>" + data[i].TANGGAL + "</i><br>" + data[i].SURAT_JALAN_NOMOR + "<br><b>Keterangan : " + data[i].SURAT_JALAN_KETERANGAN + "</b></td>" +
                             "<td><a class='btn btn-danger btn-sm' onclick='hapus(\"" + data[i].FAKTUR_SURAT_JALAN_ID + "\")'><i class='fas fa-trash'></i></a> " +
                             "</td>" +
                             "</tr>");

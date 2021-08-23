@@ -1,3 +1,8 @@
+<style>
+    .table {
+        font-size: small;
+    }
+</style>
 <div class="modal fade" id="suratjalanModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -85,7 +90,10 @@
                                 <th><?= $this->lang->line('tanggal'); ?></th>
                                 <th>Nomor Invoice</th>
                                 <th><?= $this->lang->line('Relasi'); ?></th>
+                                <th>Pajak</th>
+                                <th>Jaminan</th>
                                 <th>Total</th>
+                                <th>Bayar</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -147,14 +155,32 @@
                     for (i = 0; i < data.length; i++) {
                         if (data[i].TRANSAKSI.length == 0) {
                             var transaksi = "0"
+                            var total = "0"
+                            var pajak = "0"
                         } else {
                             var transaksi = number_format(data[i].TRANSAKSI[0].PEMBELIAN_TRANSAKSI_BAYAR)
+                            var total = number_format(data[i].TRANSAKSI[0].FAKTUR_TRANSAKSI_GRAND_TOTAL)
+                            var pajak = number_format(data[i].TRANSAKSI[0].FAKTUR_TRANSAKSI_PAJAK_RUPIAH)
+                        }
+
+                        if (data[i].JAMINAN.length == 0) {
+                            var jaminan = "0"
+                        } else {
+                            var jaminan = number_format(data[i].JAMINAN[0].FAKTUR_JAMINAN_TOTAL_RUPIAH)
+                        }
+                        if (data[i].AKUN.length == 0) {
+                            var akun = "-"
+                        } else {
+                            var akun = data[i].AKUN[0].AKUN_NAMA
                         }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
-                            "<td>" + data[i].FAKTUR_NOMOR + "</td>" +
+                            "<td>" + data[i].FAKTUR_NOMOR + "<br><b>" + akun + "</b></td>" +
                             "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>Rp. " + pajak + "</td>" +
+                            "<td>Rp. " + jaminan + "</td>" +
+                            "<td>Rp. " + total + "</td>" +
                             "<td>Rp. " + transaksi + "</td>" +
                             "<td><a class='btn btn-primary btn-sm mb-2 ' href='<?= base_url(); ?>penjualan/faktur/form/" + data[i].FAKTUR_ID + "?jenis_sj=penjualan'>Lihat</a> " +
                             // "<a target='_blank' class='btn btn-success btn-sm mb-2' onclick='cetak(\"" + data[i].FAKTUR_ID + "\")'> <i class='right fas fa-print'></i> Cetak Faktur</a> " +

@@ -11,7 +11,9 @@ class FakturModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM FAKTUR WHERE ' . $tanggal . ' RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY FAKTUR_NOMOR DESC ')->result();
         foreach ($hasil as $row) {
             $relasi = $this->db->query('SELECT * FROM MASTER_RELASI WHERE MASTER_RELASI_ID="' . $row->MASTER_RELASI_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->AKUN = $this->db->query('SELECT * FROM AKUN WHERE AKUN_ID="' . $row->AKUN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TRANSAKSI = $this->db->query('SELECT * FROM FAKTUR_TRANSAKSI WHERE FAKTUR_ID="' . $row->FAKTUR_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->JAMINAN = $this->db->query('SELECT * FROM FAKTUR_JAMINAN WHERE FAKTUR_JAMINAN_REF="' . $row->FAKTUR_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
             $row->TANGGAL = tanggal($row->FAKTUR_TANGGAL);
             $row->RELASI = $relasi;
         }
@@ -424,6 +426,9 @@ class FakturModel extends CI_Model
                                      AND FSJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
                                      AND SJ.RECORD_STATUS="AKTIF" 
                                      AND SJ.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+        foreach ($hasil as $row) {
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
+        }
         return $hasil;
     }
     public function barang_list($id, $relasi)

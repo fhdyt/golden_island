@@ -45,7 +45,7 @@ class Buku_besarModel extends CI_Model
 
     public function add($akun, $config)
     {
-        if ($this->input->post('jenis_pengeluaran') == "Uang Jalan") {
+        if ($this->input->post('jenis_pengeluaran') == "Uang Jalan" or $this->input->post('jenis_pengeluaran') == "Potongan") {
             $hasil = $this->db->query('SELECT * FROM 
         SURAT_JALAN
         WHERE 
