@@ -119,6 +119,7 @@
         surat_jalan_baru_list()
     })
     $(function() {
+        $('a.menu-btn').click()
         $('.surat_jalan_nomor').focus()
         po_list();
     });
