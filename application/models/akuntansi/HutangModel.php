@@ -65,6 +65,28 @@ class HutangModel extends CI_Model
         return $hasil;
     }
 
+    public function detail_list_hutang($relasi)
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        HUTANG 
+        WHERE MASTER_SUPPLIER_ID="' . $relasi . '" 
+        AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY HUTANG_TANGGAL ASC')->result();
+
+        $kredit = $this->db->query('SELECT SUM(HUTANG_KREDIT) AS KREDIT
+                                        FROM HUTANG 
+                                        WHERE MASTER_SUPPLIER_ID="' . $relasi . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+        $pembayaran = $kredit[0]->KREDIT;
+        foreach ($hasil as $row) {
+
+            $row->TANGGAL = tanggal($row->HUTANG_TANGGAL);
+            $row->TANGGAL_TEMPO = tanggal($row->HUTANG_TANGGAL_TEMPO);
+        }
+        return $hasil;
+    }
+
     public function list_hutang($supplier)
     {
         $hasil = $this->db->query('SELECT * FROM 

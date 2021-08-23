@@ -40,6 +40,12 @@ class Piutang extends CI_Controller
         $data = $this->PiutangModel->list_hutang($relasi);
         echo json_encode($data);
     }
+    public function detail_list_hutang()
+    {
+        $relasi = $_GET['id'];
+        $data = $this->PiutangModel->detail_list_hutang($relasi);
+        echo json_encode($data);
+    }
     public function list_pembayaran()
     {
         $relasi = $_GET['id'];
@@ -47,6 +53,12 @@ class Piutang extends CI_Controller
         echo json_encode($data);
     }
 
+    public function piutang_detail()
+    {
+        $this->load->view('_template/header');
+        $this->load->view('akuntansi/piutang/v_piutang_detail');
+        $this->load->view('_template/footer');
+    }
     public function hutang()
     {
         $this->load->view('_template/header');

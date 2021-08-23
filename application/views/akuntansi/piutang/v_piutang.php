@@ -95,8 +95,9 @@
                             "<td>" + no++ + "</td>" +
                             "<td>" + data[i].MASTER_RELASI_NAMA + "</td>" +
                             "<td>" + number_format(data[i].SALDO) + "</td>" +
-                            "<td><a class='btn btn-primary btn-sm' href='<?= base_url(); ?>akuntansi/piutang/hutang/" + data[i].MASTER_RELASI_ID + "' >Rincian Piutang</a> " +
-                            "<a class='btn btn-success btn-sm' href='<?= base_url(); ?>akuntansi/piutang/pembayaran/" + data[i].MASTER_RELASI_ID + "' >Rincian Pembayaran</a></td>" +
+                            "<td><a class='btn btn-primary btn-sm mr-2' href='<?= base_url(); ?>akuntansi/piutang/hutang/" + data[i].MASTER_RELASI_ID + "' >Rincian Piutang</a>" +
+                            "<a class='btn btn-success btn-sm mr-2' href='<?= base_url(); ?>akuntansi/piutang/pembayaran/" + data[i].MASTER_RELASI_ID + "' >Rincian Pembayaran</a>" +
+                            "<a class='btn btn-default btn-sm mr-2' href='<?= base_url(); ?>akuntansi/piutang/piutang_detail/" + data[i].MASTER_RELASI_ID + "' ><i class='fas fa-list'></i></a></td>" +
                             "</tr>");
                     }
                     $("tfoot#total_zone_data").append("<tr><td colspan='2' style='text-align:right; vertical-align:middle;'><b>Total</b></td><td>" + number_format(total_saldo) + "</td></tr>")

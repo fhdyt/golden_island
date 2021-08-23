@@ -96,6 +96,28 @@ class PiutangModel extends CI_Model
         }
         return $hasil;
     }
+
+    public function detail_list_hutang($relasi)
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        PIUTANG 
+        WHERE MASTER_RELASI_ID="' . $relasi . '" 
+        AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY PIUTANG_TANGGAL ASC')->result();
+
+        $kredit = $this->db->query('SELECT SUM(PIUTANG_KREDIT) AS KREDIT
+                                        FROM PIUTANG 
+                                        WHERE MASTER_RELASI_ID="' . $relasi . '"
+                                        AND RECORD_STATUS="AKTIF" 
+                                        AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"
+                                        ')->result();
+        $pembayaran = $kredit[0]->KREDIT;
+        foreach ($hasil as $row) {
+
+            $row->TANGGAL = tanggal($row->PIUTANG_TANGGAL);
+            $row->TANGGAL_TEMPO = tanggal($row->PIUTANG_TANGGAL_TEMPO);
+        }
+        return $hasil;
+    }
     public function list_pembayaran($relasi)
     {
         $hasil = $this->db->query('SELECT * FROM 
