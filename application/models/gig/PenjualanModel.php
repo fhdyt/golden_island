@@ -175,6 +175,7 @@ class PenjualanModel extends CI_Model
                                         AND SJB.MASTER_BARANG_ID ="' . $row->MASTER_BARANG_ID . '"
                                         AND ' . $filter_tanggal . '
                                         ' . $filter_relasi . '
+                                        AND NOT SJ.SURAT_JALAN_STATUS="cancel"
                                         AND SJB.RECORD_STATUS="AKTIF" 
                                         AND SJB.PERUSAHAAN_KODE="' . $this->input->post('perusahaan') . '" 
                                         AND SJ.RECORD_STATUS="AKTIF" 

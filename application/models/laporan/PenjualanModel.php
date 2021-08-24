@@ -270,7 +270,7 @@ class PenjualanModel extends CI_Model
                                         AND SJB.MASTER_BARANG_ID ="' . $row->MASTER_BARANG_ID . '"
                                         AND ' . $filter_tanggal . '
                                         ' . $filter_relasi . '
-                                        AND NOT SURAT_JALAN_STATUS="cancel"
+                                        AND NOT SJ.SURAT_JALAN_STATUS="cancel"
                                         AND SJB.RECORD_STATUS="AKTIF" 
                                         AND SJB.PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" 
                                         AND SJ.RECORD_STATUS="AKTIF" 

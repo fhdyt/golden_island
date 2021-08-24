@@ -4,6 +4,43 @@
     }
 </style>
 <!-- Content Wrapper. Contains page content -->
+<div class="modal fade" id="suratjalanModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Surat Jalan Baru</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>No.</td>
+                            <td>Tanggal</td>
+                            <td>Nomor Surat Jalan</td>
+                            <td>Supplier</td>
+                            <td>Dibuat Oleh</td>
+                        </tr>
+                    </thead>
+                    <tbody id="surat_jalan_baru">
+                        <tr>
+                            <td colspan="10">Memuat Surat Jalan Baru ...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -24,6 +61,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-4">
+                            <!-- <a class="btn btn-success mb-2 btn-form surat_jalan_baru">Surat Jalan Pembelian</a> -->
                         </div>
                         <div class="col-md-4">
                             <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
@@ -71,6 +109,10 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
+    $(".surat_jalan_baru").on("click", function() {
+        $("#suratjalanModal").modal("show")
+        surat_jalan_baru_list()
+    })
     $(function() {
         $('a.menu-btn').click()
         pi_list();
@@ -144,6 +186,43 @@
                             "<td>" + total + "</td>" +
                             "<td><a class='btn btn-primary btn-sm ' href='<?= base_url(); ?>pembelian/pi/form_pi/" + data[i].PI_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +
                             "</td>" +
+                            "</tr>");
+                    }
+                }
+            },
+            error: function(x, e) {
+                console.log("Gagal")
+            }
+        });
+    }
+
+    function surat_jalan_baru_list() {
+        $.ajax({
+            type: 'ajax',
+            url: "<?php echo base_url() ?>index.php/pembelian/pi/surat_jalan_baru",
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#surat_jalan_baru").empty();
+                console.log(data)
+                if (data.length === 0) {
+                    $("tbody#surat_jalan_baru").append("<td colspan='10'><?= $this->lang->line('tidak_ada_data'); ?></td>")
+                } else {
+                    var no = 1
+                    console.log()
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].SURAT_JALAN_JAMINAN == 'Yes') {
+                            var jaminan = "<span class='float-left badge bg-success'>Jaminan</span>"
+                        } else {
+                            var jaminan = ""
+                        }
+                        $("tbody#surat_jalan_baru").append("<tr class=''>" +
+                            "<td>" + no++ + ".</td>" +
+                            "<td>" + data[i].TANGGAL + "<br>" + jaminan + "</td>" +
+                            "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small>Keterangan : " + data[i].SURAT_JALAN_KETERANGAN + "</small></td>" +
+                            "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>" + data[i].OLEH[0].USER_NAMA + "</td>" +
+                            // "<td><a class='btn btn-warning btn-sm' onclick='buat_faktur(\"" + data[i].SURAT_JALAN_NOMOR + "\")'>Buat Faktur</td>" +
                             "</tr>");
                     }
                 }
