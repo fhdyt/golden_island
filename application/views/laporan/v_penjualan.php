@@ -194,11 +194,12 @@
                                 var terbayar = 0
                             }
 
+
                             var piutang = parseInt(data[i].TOTAL) - terbayar - potongan
 
-                            // if (piutang < 0) {
-                            //     var piutang = 0
-                            // }
+                            if (piutang < 0) {
+                                var piutang = 0
+                            }
 
                             var btn_faktur_cetak = "<a class='btn btn-primary btn-xs' target='_blank' href='<?= base_url(); ?>cetak/faktur_penjualan/" + data[i].TERBAYAR[0].FAKTUR_ID + "'>Lihat Faktur Penjualan</a>"
                         }
