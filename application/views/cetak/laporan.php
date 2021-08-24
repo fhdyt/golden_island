@@ -97,7 +97,7 @@
                                     $piutang = $penjualan[$j]->TOTAL;
                                 } else {
                                     $grandtotal = $penjualan[$j]->TERBAYAR[0]->FAKTUR_TRANSAKSI_GRAND_TOTAL;
-                                    $selisih = ($penjualan[$j]->TERBAYAR[0]->PEMBELIAN_TRANSAKSI_BAYAR - $penjualan[$j]->TOTAL);
+                                    $selisih = ($penjualan[$j]->TOTAL - $penjualan[$j]->TERBAYAR[0]->PEMBELIAN_TRANSAKSI_BAYAR);
                                     $terbayar = ($penjualan[$j]->TERBAYAR[0]->PEMBELIAN_TRANSAKSI_BAYAR - $selisih) - $penjualan[$j]->TERBAYAR[0]->FAKTUR_TRANSAKSI_POTONGAN;
                                     $piutang = ($penjualan[$j]->TOTAL - $terbayar - $penjualan[$j]->TERBAYAR[0]->FAKTUR_TRANSAKSI_POTONGAN);
                                     if ($piutang < 0) {
@@ -107,26 +107,9 @@
                                     }
                                 }
 
-                                // if (count($penjualan[$j]->AKUN) === 0) {
-                                //     $akun = "-";
-                                // } else {
-                                //     $akun = $penjualan[$j]->AKUN[0]->AKUN_NAMA;
-                                // }
 
                                 $total_terbayar += $terbayar;
                                 $total_piutang += $piutang;
-
-                                // if ($penjualan[$j]->SURAT_JALAN_REALISASI_STATUS != "selesai") {
-                                //     $riwayat_status = "<small class='text-danger'>Belum Realisasi</small>";
-                                // } else {
-                                //     $riwayat_status = "<small class='text-success'>Telah Terealisasi</small>";
-                                // }
-
-                                // if ($penjualan[$j]->SURAT_JALAN_REALISASI_TTBK_STATUS != "selesai") {
-                                //     $riwayat_status_ttbk = "<small class='text-danger'>TTBK Belum Realisasi</small>";
-                                // } else {
-                                //     $riwayat_status_ttbk = "<small class='text-success'>TTBK Telah terealisasi</small>";
-                                // }
 
 
                                 $tableContent .= "<tr>";

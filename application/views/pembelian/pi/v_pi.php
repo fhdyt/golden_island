@@ -61,7 +61,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-4">
-                            <!-- <a class="btn btn-success mb-2 btn-form surat_jalan_baru">Surat Jalan Pembelian</a> -->
+                            <a class="btn btn-success mb-2 btn-form surat_jalan_baru">Surat Jalan Pembelian</a>
                         </div>
                         <div class="col-md-4">
                             <input type="date" class="form-control tanggal_dari" name="tanggal_dari" autocomplete="off" required value="<?= date("Y-m-d"); ?>">
@@ -220,7 +220,7 @@
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "<br>" + jaminan + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_NOMOR + "<br><small>Keterangan : " + data[i].SURAT_JALAN_KETERANGAN + "</small></td>" +
-                            "<td>" + data[i].RELASI[0].MASTER_RELASI_NAMA + "</td>" +
+                            "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "</td>" +
                             "<td>" + data[i].OLEH[0].USER_NAMA + "</td>" +
                             // "<td><a class='btn btn-warning btn-sm' onclick='buat_faktur(\"" + data[i].SURAT_JALAN_NOMOR + "\")'>Buat Faktur</td>" +
                             "</tr>");

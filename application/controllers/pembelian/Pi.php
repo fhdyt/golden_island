@@ -51,6 +51,12 @@ class Pi extends CI_Controller
         echo json_encode($data);
     }
 
+    public function surat_jalan_baru()
+    {
+        $data = $this->PiModel->surat_jalan_baru();
+        echo json_encode($data);
+    }
+
     public function add()
     {
         $data = $this->PiModel->add();
