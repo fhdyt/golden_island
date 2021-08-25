@@ -514,7 +514,7 @@ class PdModel extends CI_Model
 
         $sj_barang = $this->db->query('SELECT * FROM 
         SURAT_JALAN_BARANG
-        WHERE SURAT_JALAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+        WHERE SURAT_JALAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
 
         foreach ($sj_barang as $row) {
             $data = array(
