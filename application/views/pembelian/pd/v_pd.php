@@ -160,7 +160,7 @@
                         if (data[i].SURAT_JALAN.length === 0) {
                             var surat_jalan = "-"
                         } else {
-                            var surat_jalan = data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR
+                            var surat_jalan = "<a target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN[0].SURAT_JALAN_ID + "'>" + data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR + "</a>"
                         }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
