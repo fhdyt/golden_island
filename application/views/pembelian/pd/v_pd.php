@@ -88,6 +88,7 @@
                                 <th>Nomor Pengiriman</th>
                                 <th>Nomor Pemesanan</th>
                                 <th>Nomor Faktur</th>
+                                <th>Surat Jalan</th>
                                 <th>Jenis Pembelian</th>
                                 <th><?= $this->lang->line('supplier'); ?></th>
                                 <th></th>
@@ -112,6 +113,7 @@
         surat_jalan_baru_list()
     })
     $(function() {
+        $('a.menu-btn').click()
         po_list();
     });
 
@@ -155,12 +157,18 @@
                         } else {
                             var pi = "<a target=_blank href='<?= base_url(); ?>pembelian/pi/form_pi/" + data[i].PI[0].PI_ID + "/" + data[i].PEMBELIAN_ID + "'>" + data[i].PI[0].PEMBELIAN_NOMOR + "</a>"
                         }
+                        if (data[i].SURAT_JALAN.length === 0) {
+                            var surat_jalan = "-"
+                        } else {
+                            var surat_jalan = data[i].SURAT_JALAN[0].SURAT_JALAN_NOMOR
+                        }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
                             "<td>" + data[i].TANGGAL + "</td>" +
                             "<td>" + data[i].PEMBELIAN_NOMOR + "<br>" + status + "</td>" +
                             "<td>" + po + "</td>" +
                             "<td>" + pi + "</td>" +
+                            "<td>" + surat_jalan + "</td>" +
                             "<td>" + data[i].PEMBELIAN_BARANG + "</td>" +
                             "<td>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_NAMA + "<br><small class='text-muted'>" + data[i].SUPPLIER[0].MASTER_SUPPLIER_HP + "</small></td>" +
                             "<td><a class='btn btn-primary btn-xs ' href='<?= base_url(); ?>pembelian/pd/form_pd/" + data[i].PD_ID + "/" + data[i].PEMBELIAN_ID + "'>Lihat</a> " +

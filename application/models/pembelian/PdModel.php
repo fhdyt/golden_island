@@ -11,6 +11,7 @@ class PdModel extends CI_Model
 
         $hasil = $this->db->query('SELECT * FROM PEMBELIAN WHERE ' . $tanggal . ' PEMBELIAN_JENIS="PD" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"  ORDER BY PEMBELIAN_TANGGAL DESC ')->result();
         foreach ($hasil as $row) {
+            $row->SURAT_JALAN = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $row->PI = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_JENIS="PI" AND PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $row->PO = $this->db->query('SELECT * FROM PEMBELIAN WHERE PEMBELIAN_JENIS="PO" AND PEMBELIAN_ID="' . $row->PEMBELIAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
             $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
@@ -74,6 +75,7 @@ class PdModel extends CI_Model
             'PEMBELIAN_STATUS' => "open",
             'PEMBELIAN_FILE' => $config['file_name'],
             'MASTER_SUPPLIER_ID' => $this->input->post('supplier'),
+            'SURAT_JALAN_ID' => $this->input->post('surat_jalan'),
 
             'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
             'ENTRI_USER' => $this->session->userdata('USER_ID'),

@@ -56,6 +56,7 @@ if (empty($this->uri->segment('5'))) {
                 <form id="realisasi_liquid">
                     <div class="form-group">
                         <input type="hidden" class="form-control id_realisasi" name="id_realisasi" autocomplete="off">
+
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Lokasi Tangki</label>
@@ -188,6 +189,7 @@ if (empty($this->uri->segment('5'))) {
                             <form id="submit">
                                 <input type="hidden" class="form-control id" name="id" value="<?= $id; ?>" autocomplete="off">
                                 <input type="hidden" class="form-control id_pembelian" name="id_pembelian" value="<?= $id_pembelian; ?>" autocomplete="off">
+                                <input type="hidden" class="form-control surat_jalan" name="surat_jalan" autocomplete="off">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -438,6 +440,7 @@ if (empty($this->uri->segment('5'))) {
                     detail_jenis_barang()
                     barang_list()
                 } else {
+                    $(".surat_jalan").val(data[0].SURAT_JALAN_ID)
                     $(".nomor_pembelian").val(data[0].PEMBELIAN_NOMOR)
                     $(".nomor_surat").val(data[0].PEMBELIAN_NOMOR_SURAT)
                     $(".tanggal").val(data[0].PEMBELIAN_TANGGAL)
