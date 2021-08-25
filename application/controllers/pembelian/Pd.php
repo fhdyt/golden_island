@@ -50,6 +50,11 @@ class Pd extends CI_Controller
         $data = $this->PdModel->list();
         echo json_encode($data);
     }
+    public function surat_jalan_baru()
+    {
+        $data = $this->PdModel->surat_jalan_baru();
+        echo json_encode($data);
+    }
 
     public function add()
     {
@@ -74,6 +79,12 @@ class Pd extends CI_Controller
     {
         $id = $this->uri->segment('4');
         $data = $this->PdModel->hapus($id);
+        echo json_encode($data);
+    }
+    public function buat_pembelian()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->PdModel->buat_pembelian($id);
         echo json_encode($data);
     }
 

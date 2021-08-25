@@ -413,7 +413,20 @@ class PdModel extends CI_Model
         $result = $this->db->update('PEMBELIAN_BARANG', $data_barang);
     }
 
-
+    public function surat_jalan_baru()
+    {
+        $hasil = $this->db->query('SELECT * FROM 
+        SURAT_JALAN
+        WHERE SURAT_JALAN_STATUS="open" AND SURAT_JALAN_JENIS="pembelian" AND SURAT_JALAN_REALISASI_STATUS="selesai" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_TANGGAL DESC, SURAT_JALAN_NOMOR DESC')->result();
+        foreach ($hasil as $row) {
+            $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
+            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
+            $oleh = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+            $row->SUPPLIER = $supplier;
+            $row->OLEH = $oleh;
+        }
+        return $hasil;
+    }
     public function pd_to_pi($id, $id_pembelian)
     {
         $id_pi = create_id();
@@ -479,5 +492,72 @@ class PdModel extends CI_Model
             }
             return $data;
         }
+    }
+
+    public function buat_pembelian($id)
+    {
+        $no_pembelian = create_id();
+        $no_pd = create_id();
+
+        $hasil = $this->db->query('SELECT * FROM 
+        SURAT_JALAN
+        WHERE SURAT_JALAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+
+        $data_surat_jalan = array(
+            'SURAT_JALAN_STATUS' => "close",
+        );
+
+        $this->db->where('SURAT_JALAN_ID', $hasil[0]->SURAT_JALAN_ID);
+        $this->db->update('SURAT_JALAN', $data_surat_jalan);
+
+
+
+        $sj_barang = $this->db->query('SELECT * FROM 
+        SURAT_JALAN_BARANG
+        WHERE SURAT_JALAN_ID="' . $id . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" LIMIT 1')->result();
+
+        foreach ($sj_barang as $row) {
+            $data = array(
+                'PEMBELIAN_BARANG_ID' => create_id(),
+                'PD_ID' => $no_pd,
+                'PEMBELIAN_ID' => $no_pembelian,
+                'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
+                'PEMBELIAN_BARANG_SATUAN' => $row->SURAT_JALAN_BARANG_SATUAN,
+                'PEMBELIAN_BARANG_HARGA' => "0",
+                'PEMBELIAN_BARANG_QUANTITY' => ($row->SURAT_JALAN_BARANG_QUANTITY + $row->SURAT_JALAN_BARANG_QUANTITY_KOSONG),
+                'PEMBELIAN_BARANG_TOTAL' => "0",
+
+                'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+                'ENTRI_USER' => $this->session->userdata('USER_ID'),
+                'RECORD_STATUS' => "AKTIF",
+                'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+            );
+
+            $this->db->insert('PEMBELIAN_BARANG', $data);
+        }
+
+        $data = array(
+            'PEMBELIAN_ID' => $no_pembelian,
+            'PEMBELIAN_JENIS' => "PD",
+            'PEMBELIAN_NOMOR' =>  nomor_pembelian("PD", date("Y-m-d")),
+            'PD_ID' => $no_pd,
+            'AKUN_ID' => "",
+            'PEMBELIAN_BARANG' => $hasil[0]->SURAT_JALAN_STATUS_JENIS,
+            'PEMBELIAN_NOMOR_SURAT' => "",
+            'PEMBELIAN_TANGGAL' => date("Y-m-d"),
+            'PEMBELIAN_KETERANGAN' => "",
+            'PEMBELIAN_STATUS' => "open",
+            'PEMBELIAN_FILE' => "",
+            'MASTER_SUPPLIER_ID' => $hasil[0]->MASTER_SUPPLIER_ID,
+            'SURAT_JALAN_ID' => $hasil[0]->SURAT_JALAN_ID,
+
+            'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
+            'ENTRI_USER' => $this->session->userdata('USER_ID'),
+            'RECORD_STATUS' => "AKTIF",
+            'PERUSAHAAN_KODE' => $this->session->userdata('PERUSAHAAN_KODE'),
+        );
+
+        $result = $this->db->insert('PEMBELIAN', $data);
+        return $result;
     }
 }

@@ -217,25 +217,40 @@
                             var piutang = parseInt(data[i].TOTAL)
                             var btn_faktur_cetak = "<a class='btn btn-danger btn-xs'>Belum Ada Faktur</a>"
                         } else {
-                            var grandtotal = data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL;
-                            var selisih = parseInt(data[i].TOTAL) - parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR);
+                            var grandtotal = parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_GRAND_TOTAL);
+                            var selisih = grandtotal - parseInt(data[i].TOTAL);
+                            var total_sj = parseInt(data[i].TOTAL);
                             var terbayar = parseInt(data[i].TERBAYAR[0].PEMBELIAN_TRANSAKSI_BAYAR);
+
+                            if (terbayar > total_sj) {
+                                terbayar = parseInt(data[i].TOTAL)
+                            }
+
                             if (data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN == null) {
                                 var potongan = 0
                             } else {
                                 var potongan = parseInt(data[i].TERBAYAR[0].FAKTUR_TRANSAKSI_POTONGAN)
                             }
-                            if (terbayar < 0) {
-                                var terbayar = 0
-                            }
 
-                            var piutang = parseInt(data[i].TOTAL) - terbayar - potongan
+                            if (terbayar == 0) {
+                                var piutang = total_sj
+                            } else {
+                                var piutang = grandtotal - total_sj - terbayar - potongan
+                            }
 
                             if (piutang < 0) {
                                 var piutang = 0
                             }
 
                             var btn_faktur_cetak = "<a class='btn btn-primary btn-xs' target='_blank' href='<?= base_url(); ?>cetak/faktur_penjualan/" + data[i].TERBAYAR[0].FAKTUR_ID + "'>Lihat Faktur Penjualan</a>"
+
+                            if (isNaN(piutang)) {
+                                piutang = 0;
+                            }
+
+                            if (isNaN(terbayar)) {
+                                terbayar = 0;
+                            }
                         }
                         var btn_cetak = "<a class='btn btn-success btn-xs' target='_blank' href='<?= base_url(); ?>cetak/cetak_sj/" + data[i].SURAT_JALAN_ID + "'>Lihat Surat Jalan</a>"
 

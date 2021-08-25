@@ -26,20 +26,7 @@ class PiModel extends CI_Model
         }
         return $hasil;
     }
-    public function surat_jalan_baru()
-    {
-        $hasil = $this->db->query('SELECT * FROM 
-        SURAT_JALAN
-        WHERE SURAT_JALAN_STATUS="open" AND SURAT_JALAN_JENIS="pembelian" AND SURAT_JALAN_REALISASI_STATUS="selesai" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY SURAT_JALAN_TANGGAL DESC, SURAT_JALAN_NOMOR DESC')->result();
-        foreach ($hasil as $row) {
-            $supplier = $this->db->query('SELECT * FROM MASTER_SUPPLIER WHERE MASTER_SUPPLIER_ID="' . $row->MASTER_SUPPLIER_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '"')->result();
-            $row->TANGGAL = tanggal($row->SURAT_JALAN_TANGGAL);
-            $oleh = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
-            $row->SUPPLIER = $supplier;
-            $row->OLEH = $oleh;
-        }
-        return $hasil;
-    }
+
     public function add()
     {
         $data_edit_aktif = array(
