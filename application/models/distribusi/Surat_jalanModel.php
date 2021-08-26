@@ -185,6 +185,23 @@ class Surat_jalanModel extends CI_Model
         $hasil = $this->db->query('SELECT * FROM MASTER_BARANG WHERE MASTER_BARANG_JENIS="' . $jenis_barang . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY MASTER_BARANG_PRIORITAS DESC, MASTER_BARANG_NAMA ASC')->result();
         return $hasil;
     }
+    public function riwayat_sj($id)
+    {
+        $hasil = $this->db->query('SELECT * FROM SURAT_JALAN WHERE SURAT_JALAN_ID="' . $id . '" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ORDER BY ENTRI_WAKTU DESC')->result();
+        foreach ($hasil as $row) {
+            $row->TANGGAL_SJ = tanggal($row->ENTRI_WAKTU);
+            $row->JAM_SJ = jam($row->ENTRI_WAKTU);
+            $row->TANGGAL_REALISASI = tanggal($row->SURAT_JALAN_REALISASI_TANGGAL);
+            $row->JAM_REALISASI = jam($row->SURAT_JALAN_REALISASI_TANGGAL);
+            $row->TANGGAL_TTBK = tanggal($row->SURAT_JALAN_REALISASI_TTBK_TANGGAL);
+            $row->JAM_TTBK = jam($row->SURAT_JALAN_REALISASI_TTBK_TANGGAL);
+
+            $row->USER_SJ = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->USER_REALISASI = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->SURAT_JALAN_REALISASI_OLEH . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->USER_TTBK = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->SURAT_JALAN_REALISASI_TTBK_OLEH . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+        }
+        return $hasil;
+    }
 
     public function hapus($id)
     {

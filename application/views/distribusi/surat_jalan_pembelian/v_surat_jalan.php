@@ -4,6 +4,56 @@
     }
 </style>
 <!-- Content Wrapper. Contains page content -->
+<div class="modal fade" id="riwayat_sjModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Riwayat Surat Jalan</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td rowspan="2" style="text-align:center; vertical-align:middle">No.</td>
+                            <td rowspan="2" style="text-align:center; vertical-align:middle">Tanggal</td>
+                            <td colspan="3" style="text-align:center; vertical-align:middle">Dibuat</td>
+                            <td colspan="3" style="text-align:center; vertical-align:middle">Realisasi</td>
+                            <td colspan="3" style="text-align:center; vertical-align:middle">TTBK</td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal</td>
+                            <td>Jam</td>
+                            <td>Oleh</td>
+                            <td>Tanggal</td>
+                            <td>Jam</td>
+                            <td>Oleh</td>
+                            <td>Tanggal</td>
+                            <td>Jam</td>
+                            <td>Oleh</td>
+                        </tr>
+                    </thead>
+                    <tbody id="riwayat_sj">
+                        <tr>
+                            <td colspan="10">Memuat Surat Jalan ...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->lang->line('tutup'); ?></button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -178,6 +228,7 @@
                             "<td>" +
                             "<a class='btn btn-outline-success btn-xs btn-block mr-2 mb-2' href='<?= base_url(); ?>distribusi/realisasi_sj/form/" + data[i].SURAT_JALAN_ID + "'>Realisasi Surat Jalan</a>" +
                             "<a class='btn btn-outline-success btn-xs btn-block mr-2 mb-2' href='<?= base_url(); ?>distribusi/realisasi_ttbk/form/" + data[i].SURAT_JALAN_ID + "'>Realisasi TTBK</a>" +
+                            "<a class='btn btn-success btn-xs btn-block mr-2 mb-2' onclick='riwayat_sj(\"" + data[i].SURAT_JALAN_ID + "\")'>History Surat Jalan</a>" +
                             "</td>" +
                             "</tr>");
                     }
@@ -186,6 +237,68 @@
             error: function(x, e) {
                 console.log("Gagal")
             }
+        });
+    }
+
+    function riwayat_sj(id) {
+        $.ajax({
+            type: 'ajax',
+            url: '<?php echo base_url() ?>index.php/distribusi/surat_jalan/riwayat_sj/' + id,
+            beforeSend: function() {
+                // memuat()
+            },
+            dataType: 'json',
+            success: function(data) {
+                $("tbody#riwayat_sj").empty()
+                console.log(data)
+                $("#riwayat_sjModal").modal("show")
+                var no = 1
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].USER_SJ.length === 0) {
+                        var user_sj = "-"
+                    } else {
+                        var user_sj = data[i].USER_SJ[0].USER_NAMA
+                    }
+
+                    if (data[i].USER_REALISASI.length === 0) {
+                        var user_realisasi = "-"
+                    } else {
+                        var user_realisasi = data[i].USER_REALISASI[0].USER_NAMA
+                    }
+
+                    if (data[i].USER_TTBK.length === 0) {
+                        var user_ttbk = "-"
+                    } else {
+                        var user_ttbk = data[i].USER_TTBK[0].USER_NAMA
+                    }
+
+                    if (data[i].RECORD_STATUS == "AKTIF") {
+                        var tr = "table-success"
+                    } else {
+                        var tr = "table-danger"
+                    }
+                    $("tbody#riwayat_sj").append("<tr class='" + tr + "'>" +
+                        "<td>" + no++ + ".</td>" +
+                        "<td>" + data[i].SURAT_JALAN_NOMOR + "</td>" +
+                        "<td>" + data[i].TANGGAL_SJ + "</td>" +
+                        "<td>" + data[i].JAM_SJ + "</td>" +
+                        "<td>" + user_sj + "</td>" +
+                        "<td>" + data[i].TANGGAL_REALISASI + "</td>" +
+                        "<td>" + data[i].JAM_REALISASI + "</td>" +
+                        "<td>" + user_realisasi + "</td>" +
+                        "<td>" + data[i].TANGGAL_TTBK + "</td>" +
+                        "<td>" + data[i].JAM_TTBK + "</td>" +
+                        "<td>" + user_ttbk + "</td>" +
+                        "</tr>");
+                }
+            },
+            error: function(x, e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Proses Gagal'
+                })
+            } //end error
         });
     }
 </script>
