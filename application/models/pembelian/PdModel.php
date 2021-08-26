@@ -526,7 +526,7 @@ class PdModel extends CI_Model
                 'MASTER_BARANG_ID' => $row->MASTER_BARANG_ID,
                 'PEMBELIAN_BARANG_SATUAN' => $row->SURAT_JALAN_BARANG_SATUAN,
                 'PEMBELIAN_BARANG_HARGA' => "0",
-                'PEMBELIAN_BARANG_QUANTITY' => ($row->SURAT_JALAN_BARANG_QUANTITY + $row->SURAT_JALAN_BARANG_QUANTITY_KOSONG),
+                'PEMBELIAN_BARANG_QUANTITY' => ($row->SURAT_JALAN_BARANG_QUANTITY + $row->SURAT_JALAN_BARANG_QUANTITY_KOSONG) - $row->SURAT_JALAN_BARANG_QUANTITY_KLAIM,
                 'PEMBELIAN_BARANG_TOTAL' => "0",
 
                 'ENTRI_WAKTU' => date("Y-m-d G:i:s"),
