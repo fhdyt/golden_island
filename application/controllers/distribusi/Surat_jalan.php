@@ -65,6 +65,12 @@ class Surat_jalan extends CI_Controller
         echo json_encode($data);
     }
 
+    public function hapus()
+    {
+        $id = $this->uri->segment('4');
+        $data = $this->Surat_jalanModel->hapus($id);
+        echo json_encode($data);
+    }
     public function riwayat_sj()
     {
         $id = $this->uri->segment('4');
