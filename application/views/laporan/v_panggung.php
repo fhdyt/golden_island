@@ -97,7 +97,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-secondary balance mb-2">Balance Panggung</button>
+                            <!-- <button type="button" class="btn btn-secondary balance mb-2">Balance Panggung</button> -->
                         </div>
                     </div>
 
