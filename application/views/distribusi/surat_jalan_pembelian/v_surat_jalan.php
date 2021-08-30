@@ -101,6 +101,8 @@
                                 <th><?= $this->lang->line('Supplier'); ?></th>
                                 <th>Barang</th>
                                 <th>Keterangan</th>
+                                <th>Jumlah Keluar</th>
+                                <th>Jumlah TTBK</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -209,8 +211,19 @@
                             barangsj = "-"
                         } else {
                             for (j = 0; j < data[i].BARANG.length; j++) {
-                                barangsj += "<small class='text-muted'>" + data[i].BARANG[j].MASTER_BARANG_NAMA + " : " + (parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY) + parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KOSONG) - parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM)) + "</small><br>"
+                                barangsj += "<small>" + data[i].BARANG[j].MASTER_BARANG_NAMA + " : " + (parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY) + parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KOSONG) - parseInt(data[i].BARANG[j].SURAT_JALAN_BARANG_QUANTITY_KLAIM)) + "</small><br>"
                             }
+                        }
+
+                        if (data[i].TOTAL_TTBK[0].TOTAL == null) {
+                            var ttbk = 0
+                        } else {
+                            var ttbk = data[i].TOTAL_TTBK[0].TOTAL
+                        }
+                        if (data[i].TOTAL_REALISASI[0].TOTAL == null) {
+                            var keluar = 0
+                        } else {
+                            var keluar = data[i].TOTAL_REALISASI[0].TOTAL
                         }
                         $("tbody#zone_data").append("<tr class=''>" +
                             "<td>" + no++ + ".</td>" +
@@ -220,6 +233,8 @@
                             "<td>" + supplier + "</td>" +
                             "<td>" + barangsj + "</td>" +
                             "<td>" + data[i].SURAT_JALAN_KETERANGAN + "</td>" +
+                            "<td>" + keluar + "</td>" +
+                            "<td>" + ttbk + "</td>" +
                             // "<td>Dibuat : " + data[i].OLEH[0].USER_NAMA + "<br>Realisasi : " + oleh_realisasi + "<br>TTBK : " + oleh_ttbk + "</td>" +
                             "<td><a class='btn btn-primary btn-xs btn-block mb-2' href='<?= base_url(); ?>distribusi/surat_jalan/form/" + data[i].SURAT_JALAN_ID + "?jenis_sj=pembelian'>Lihat</a> " +
                             btn_cetak +

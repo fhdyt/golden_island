@@ -23,9 +23,8 @@ class Surat_jalanModel extends CI_Model
             $row->JAM = jam($row->ENTRI_WAKTU);
             $row->RELASI = $relasi;
             $row->SUPPLIER = $supplier;
-            $row->OLEH = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->ENTRI_USER . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
-            $row->OLEH_REALISASI = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->SURAT_JALAN_REALISASI_OLEH . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
-            $row->OLEH_TTBK = $this->db->query('SELECT * FROM USER WHERE USER_ID="' . $row->SURAT_JALAN_REALISASI_TTBK_OLEH . '" AND RECORD_STATUS="AKTIF" LIMIT 1')->result();
+            $row->TOTAL_REALISASI = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS TOTAL FROM  PANGGUNG WHERE PANGGUNG_STATUS="out" AND PANGGUNG_REF="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
+            $row->TOTAL_TTBK = $this->db->query('SELECT SUM(PANGGUNG_JUMLAH) AS TOTAL FROM  PANGGUNG WHERE PANGGUNG_STATUS="in" AND PANGGUNG_REF="' . $row->SURAT_JALAN_ID . '" AND RECORD_STATUS="AKTIF" AND PERUSAHAAN_KODE="' . $this->session->userdata('PERUSAHAAN_KODE') . '" ')->result();
         }
         return $hasil;
     }
