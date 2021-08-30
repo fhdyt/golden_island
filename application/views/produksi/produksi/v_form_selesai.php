@@ -175,7 +175,7 @@ if (empty($this->uri->segment('4'))) {
                                             </td>
                                             <td>
                                                 <select name="barang" id="barang" class="form-control form-control-sm barang select2" style="width: 100%;">
-
+                                                    <option value="" -></option>
                                                 </select>
                                             </td>
                                             <td>
@@ -376,25 +376,34 @@ if (empty($this->uri->segment('4'))) {
     }
 
     $('.btn-add-barang').on("click", function(e) {
-        $.ajax({
-            type: "POST",
-            url: '<?php echo base_url(); ?>index.php/produksi/produksi/add_barang',
-            dataType: "JSON",
-            beforeSend: function() {
-                memuat()
-            },
-            data: {
-                id: "<?= $id; ?>",
-                barang: $('.barang').val(),
-                total_barang: $('.total_barang').val(),
-                kepemilikan_barang: $('.kepemilikan_barang').val(),
-            },
-            success: function(data) {
-                memuat()
-                barang_list()
+        if ($('.barang').val() == "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Pilih Barang Produksi'
+            })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: '<?php echo base_url(); ?>index.php/produksi/produksi/add_barang',
+                dataType: "JSON",
+                beforeSend: function() {
+                    memuat()
+                },
+                data: {
+                    id: "<?= $id; ?>",
+                    barang: $('.barang').val(),
+                    total_barang: $('.total_barang').val(),
+                    kepemilikan_barang: $('.kepemilikan_barang').val(),
+                },
+                success: function(data) {
+                    memuat()
+                    barang_list()
 
-            }
-        });
+                }
+            });
+        }
+
     })
 
     $('.btn-add-karyawan').on("click", function(e) {
