@@ -126,6 +126,7 @@ class PeralihanModel extends CI_Model
         );
 
         $this->db->where('PANGGUNG_REF', $id);
+        $this->db->where('PERUSAHAAN_KODE', $this->session->userdata('PERUSAHAAN_KODE'));
         $this->db->update('PANGGUNG', $data_panggung);
 
         $data = array(
@@ -136,6 +137,7 @@ class PeralihanModel extends CI_Model
         );
 
         $this->db->where('JURNAL_TABUNG_ID', $id);
+        $this->db->where('PERUSAHAAN_KODE', $this->session->userdata('PERUSAHAAN_KODE'));
         $result = $this->db->update('JURNAL_TABUNG', $data);
         return $result;
     }

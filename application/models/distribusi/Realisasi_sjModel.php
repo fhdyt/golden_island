@@ -134,6 +134,7 @@ class Realisasi_sjModel extends CI_Model
         );
 
         $this->db->where('PANGGUNG_REF', $this->input->post("surat_jalan_id"));
+        $this->db->where('PERUSAHAAN_KODE', $this->session->userdata('PERUSAHAAN_KODE'));
         $this->db->where('PANGGUNG_STATUS', 'out');
         $this->db->update('PANGGUNG', $data_edit_panggung);
 
@@ -145,6 +146,7 @@ class Realisasi_sjModel extends CI_Model
         );
 
         $this->db->where('JURNAL_TABUNG_REF', $this->input->post("surat_jalan_id"));
+        $this->db->where('PERUSAHAAN_KODE', $this->session->userdata('PERUSAHAAN_KODE'));
         $this->db->where('JURNAL_TABUNG_KIRIM >', 0);
         $this->db->update('JURNAL_TABUNG', $data_edit_jurnal);
 
