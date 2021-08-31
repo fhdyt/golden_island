@@ -140,6 +140,7 @@ class ProduksiModel extends CI_Model
         );
 
         $this->db->where('PRODUKSI_ID', $this->input->post('id'));
+        $this->db->where('PERUSAHAAN_KODE', $this->session->userdata('PERUSAHAAN_KODE'));
         $this->db->update('PRODUKSI', $data_edit);
 
         $data_edit_panggung = array(
@@ -150,6 +151,7 @@ class ProduksiModel extends CI_Model
         );
 
         $this->db->where('PANGGUNG_REF', $this->input->post('id'));
+        $this->db->where('PERUSAHAAN_KODE', $this->session->userdata('PERUSAHAAN_KODE'));
         $this->db->update('PANGGUNG', $data_edit_panggung);
 
         $data_edit_barang = array(
