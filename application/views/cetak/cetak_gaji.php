@@ -103,8 +103,15 @@
                             <td><?= number_format($gaji[0]->GAJI_PREMI_PENJUALAN_RUPIAH, 0, ",", "."); ?></td>
                         </tr>
                         <tr>
+                            <td>Hutang</td>
+                            <td><?= number_format($gaji[0]->GAJI_HUTANG, 0, ",", "."); ?></td>
+                        </tr>
+                        <tr>
                             <td><b>Total</b></td>
-                            <td><b><?= number_format($gaji[0]->GAJI_TOTAL, 0, ",", "."); ?></b></td>
+                            <?php
+                            $total_gaji = $gaji[0]->GAJI_TOTAL;
+                            ?>
+                            <td><b><?= number_format($total_gaji, 0, ",", "."); ?></b></td>
                         </tr>
                     </table>
                 </div>

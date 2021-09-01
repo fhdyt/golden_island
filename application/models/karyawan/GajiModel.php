@@ -139,7 +139,7 @@ class GajiModel extends CI_Model
             'BUKU_BESAR_REF' => $id_gaji,
             'AKUN_ID' => $this->input->post('akun'),
             'BUKU_BESAR_TANGGAL' => date("Y-m-d"),
-            'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('total_gaji')),
+            'BUKU_BESAR_KREDIT' => str_replace(".", "", $this->input->post('total_gaji')) + str_replace(".", "", $this->input->post('hutang')),
             'BUKU_BESAR_DEBET' => "0",
             'BUKU_BESAR_SUMBER' => "GAJI",
             'BUKU_BESAR_KETERANGAN' => "GAJI " . $karyawan[0]->MASTER_KARYAWAN_NAMA . "<br>(BULAN " . strtoupper(bulan_id($this->input->post('bulan'))) . " TAHUN " . $this->input->post('tahun') . ")",
